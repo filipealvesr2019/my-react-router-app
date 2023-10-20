@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const fakeDatabase = {
   admin: { email: 'admin@example.com', password: 'admin' },
-  funcionario: { email: 'funcionario@example.com', password: 'funcionario' }
+  funcionarios: []
 };
 
 const Login = () => {
@@ -10,22 +10,45 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [loggedIn, setLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [funcionarios, setFuncionarios] = useState([]);
 
   const handleLogin = () => {
     if (email === fakeDatabase.admin.email && password === fakeDatabase.admin.password) {
       setLoggedIn(true);
       setIsAdmin(true);
-    } else if (email === fakeDatabase.funcionario.email && password === fakeDatabase.funcionario.password) {
-      setLoggedIn(true);
-      setIsAdmin(false);
     } else {
-      alert('Credenciais inválidas');
+      const funcionario = fakeDatabase.funcionarios.find(
+        (funcionario) => funcionario.email === email && funcionario.password === password
+      );
+
+      if (funcionario) {
+        setLoggedIn(true);
+        setIsAdmin(false);
+      } else {
+        alert('Credenciais inválidas');
+      }
     }
+  };
+
+  const handleAddFuncionario = (email, password) => {
+    const newFuncionario = { email, password };
+    setFuncionarios([...funcionarios, newFuncionario]);
+  };
+
+  const handleExcluirFuncionario = (index) => {
+    const updatedFuncionarios = funcionarios.filter((_, i) => i !== index);
+    setFuncionarios(updatedFuncionarios);
   };
 
   if (loggedIn) {
     if (isAdmin) {
-      return <AdminPage />;
+      return (
+        <AdminPage
+          funcionarios={funcionarios}
+          handleAddFuncionario={handleAddFuncionario}
+          handleExcluirFuncionario={handleExcluirFuncionario}
+        />
+      );
     } else {
       return <FuncionarioPage />;
     }
@@ -53,11 +76,42 @@ const Login = () => {
   );
 };
 
-const AdminPage = () => {
+const AdminPage = ({ funcionarios, handleAddFuncionario, handleExcluirFuncionario }) => {
+  const [novoEmail, setNovoEmail] = useState('');
+  const [novaSenha, setNovaSenha] = useState('');
+
+  const adicionarFuncionario = () => {
+    handleAddFuncionario(novoEmail, novaSenha);
+    setNovoEmail('');
+    setNovaSenha('');
+  };
+
   return (
     <div>
       <h2>Página do Admin</h2>
-      {/* Lógica para cadastrar e excluir funcionários */}
+      <div>
+        <input
+          type="text"
+          placeholder="Email do novo Funcionário"
+          value={novoEmail}
+          onChange={(e) => setNovoEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Senha do novo Funcionário"
+          value={novaSenha}
+          onChange={(e) => setNovaSenha(e.target.value)}
+        />
+        <button onClick={adicionarFuncionario}>Adicionar Funcionário</button>
+      </div>
+      <ul>
+        {funcionarios.map((funcionario, index) => (
+          <li key={index}>
+            {funcionario.email}{' '}
+            <button onClick={() => handleExcluirFuncionario(index)}>Excluir</button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
