@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
+import './App.css';
 const fakeDatabase = {
   admin: { email: 'admin@example.com', password: 'admin' },
   funcionarios: []
@@ -11,7 +11,18 @@ const Login = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [funcionarios, setFuncionarios] = useState([]);
+  
+  useEffect(() => {
+    const funcionariosData = JSON.parse(localStorage.getItem('funcionarios'));
+    if (funcionariosData) {
+      setFuncionarios(funcionariosData);
+    }
+  }, []);
 
+  // Atualizar o localStorage sempre que o estado de funcionarios for alterado
+  useEffect(() => {
+    localStorage.setItem('funcionarios', JSON.stringify(funcionarios));
+  }, [funcionarios]);
   const handleLogin = () => {
     if (email === fakeDatabase.admin.email && password === fakeDatabase.admin.password) {
       setLoggedIn(true);
@@ -55,7 +66,8 @@ const Login = () => {
   }
 
   return (
-    <div>
+    <div className="flex">
+    <div className='login'>
       <h1>Página de Login</h1>
       <input
         type="text"
@@ -71,7 +83,8 @@ const Login = () => {
         onChange={(e) => setPassword(e.target.value)}
       />
       <br />
-      <button onClick={handleLogin}>Login</button>
+      <button className='button' onClick={handleLogin}>Login</button>
+    </div>
     </div>
   );
 };
