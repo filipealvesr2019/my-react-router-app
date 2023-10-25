@@ -1,6 +1,11 @@
+import Signup from "./signup";
 const AdminPage = () => {
     // Sua lógica para a página do administrador aqui
-    return <div>Página do Administrador</div>;
+    return (
+      <>
+      <Signup></Signup>
+      </>
+    )
   };
   
   export default AdminPage;
