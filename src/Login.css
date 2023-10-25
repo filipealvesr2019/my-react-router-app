@@ -61,7 +61,7 @@ h2{
 .container{
   display: flex;
   text-align: left;
-  margin-top: 120px;
+  margin-top: 11rem;
   color: #aaa;
 
 }
@@ -70,4 +70,9 @@ h2{
 label{
   display: block;
   margin: 20px 0 10px;
+}
+
+input::placeholder{
+  font-family: 'Quicksand', sans-serif;
+  color: #636262;
 }
