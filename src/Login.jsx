@@ -44,7 +44,8 @@ const Login = () => {
   return (
     <div className="container">
     <div className='loginStyle'>
-      <h1>Página de Login</h1>
+      <h1>Login</h1>
+      <label for="email">Email</label>
       <input
         type="text"
         placeholder="Email"
@@ -52,6 +53,8 @@ const Login = () => {
         onChange={(e) => setEmail(e.target.value)}
       />
       <br />
+      <label for="password">Password</label>
+
       <input
         type="password"
         placeholder="Senha"
