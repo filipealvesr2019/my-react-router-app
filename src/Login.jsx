@@ -42,6 +42,7 @@ const Login = () => {
   }
 
   return (
+    <div className="body">
     <div className="container">
     <div className='loginStyle'>
       <h1>Login</h1>
@@ -63,6 +64,7 @@ const Login = () => {
       />
       <br />
       <button className="loginButton"  onClick={handleLogin}>Login</button>
+    </div>
     </div>
     </div>
   );
