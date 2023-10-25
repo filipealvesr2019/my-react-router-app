@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import AdminPage from './AdminPage';
 import FuncionarioPage from './FuncionarioPage';
+import  './Login.css';
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -40,7 +42,8 @@ const Login = () => {
   }
 
   return (
-    <div>
+    <div className="container">
+    <div className='loginStyle'>
       <h1>Página de Login</h1>
       <input
         type="text"
@@ -57,6 +60,7 @@ const Login = () => {
       />
       <br />
       <button onClick={handleLogin}>Login</button>
+    </div>
     </div>
   );
 };
