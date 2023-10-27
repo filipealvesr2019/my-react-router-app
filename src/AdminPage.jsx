@@ -1,9 +1,10 @@
-import Signup from "./signup";
+import AdminMenu from "./AdminMenu";
+
 const AdminPage = () => {
     // Sua lógica para a página do administrador aqui
     return (
       <>
-      <Signup></Signup>
+      <AdminMenu></AdminMenu>
       </>
     )
   };
