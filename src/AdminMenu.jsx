@@ -36,7 +36,7 @@ const UserForm = ({ closeForm }) => {
       if (role === 'admin' || role === 'employee') {
         toast.success('Usuário criado com sucesso!', {
           position: toast.POSITION.TOP_CENTER,
-          autoClose: 4000,
+          autoClose: 3500,
           hideProgressBar: false,
           closeOnClick: true,
           rtl: false,
@@ -47,7 +47,7 @@ const UserForm = ({ closeForm }) => {
         });
         setTimeout(() => {
           closeForm(); // Fechar o formulário após o sucesso
-        }, 5500);
+        }, 4500);
       }
     } catch (error) {
       console.error('Erro ao criar usuário', error);
@@ -58,7 +58,7 @@ const UserForm = ({ closeForm }) => {
     <div>
       <ToastContainer
         position="top-center"
-        autoClose={4000}
+        autoClose={3500}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
