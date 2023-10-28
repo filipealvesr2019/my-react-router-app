@@ -36,7 +36,7 @@ const UserForm = ({ closeForm }) => {
       if (role === 'admin' || role === 'employee') {
         toast.success('Usuário criado com sucesso!', {
           position: toast.POSITION.TOP_CENTER,
-          autoClose: 3500,
+          autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
           rtl: false,
