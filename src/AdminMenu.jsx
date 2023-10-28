@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import "./Admin.css";
 
 const AdminMenu = () => {
@@ -21,7 +23,6 @@ const UserForm = ({ closeForm }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -33,9 +34,18 @@ const UserForm = ({ closeForm }) => {
       });
       console.log(response.data);
       if (role === 'admin' || role === 'employee') {
-        setShowSuccessMessage(true);
+        toast.success('Usuário criado com sucesso!', {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          rtl: false,
+          pauseOnFocusLoss: true,
+          draggable: true,
+          pauseOnHover: true,
+          theme: "light"
+        });
         setTimeout(() => {
-          setShowSuccessMessage(false);
           closeForm(); // Fechar o formulário após o sucesso
         }, 1000);
       }
@@ -46,7 +56,18 @@ const UserForm = ({ closeForm }) => {
 
   return (
     <div>
-      {showSuccessMessage && <div style={{ color: 'green' }}>Usuário criado com sucesso!</div>}
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <form onSubmit={handleFormSubmit} className="user-form">
         <label htmlFor="email">Email</label>
         <input
