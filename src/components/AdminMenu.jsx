@@ -20,6 +20,7 @@ const AdminMenu = () => {
 };
 
 const UserForm = ({ closeForm }) => {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
@@ -28,12 +29,19 @@ const UserForm = ({ closeForm }) => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:3001/user', {
+        name: name,
         email: email,
         password: password,
         role: role,
       });
       console.log(response.data);
       if (role === 'admin' || role === 'employee') {
+        // Armazenar informações no localStorage
+        localStorage.setItem('name', name);
+        localStorage.setItem('email', email);
+        localStorage.setItem('password', password);
+        localStorage.setItem('role', role);
+
         toast.success('Usuário criado com sucesso!', {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 3000,
@@ -69,6 +77,14 @@ const UserForm = ({ closeForm }) => {
         theme="light"
       />
       <form onSubmit={handleFormSubmit} className="user-form">
+        <label htmlFor="name">Nome</label>
+        <input
+          type="text"
+          name="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
         <label htmlFor="email">Email</label>
         <input
           type="text"
