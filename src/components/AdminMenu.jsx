@@ -124,7 +124,7 @@ const UserForm = ({ closeForm }) => {
               onChange={(e) => setRole(e.target.value)}
               required
             >
-              <option value="">Selecione a função</option>
+              <option value="">Selecione a <strong>função </strong></option>
               <option value="admin">Administrador</option>
               <option value="employee">Funcionário</option>
             </select>
