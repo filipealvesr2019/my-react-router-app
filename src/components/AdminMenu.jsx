@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import "./AdminMenu.css";
+import './AdminMenu.css';
 
 const AdminMenu = () => {
   const [showForm, setShowForm] = useState(false);
@@ -51,7 +51,7 @@ const UserForm = ({ closeForm }) => {
           pauseOnFocusLoss: true,
           draggable: true,
           pauseOnHover: true,
-          theme: "light"
+          theme: 'light',
         });
         setTimeout(() => {
           closeForm(); // Fechar o formulário após o sucesso
@@ -68,7 +68,7 @@ const UserForm = ({ closeForm }) => {
         pauseOnFocusLoss: true,
         draggable: true,
         pauseOnHover: true,
-        theme: "light"
+        theme: 'light',
       });
     }
   };
@@ -76,8 +76,10 @@ const UserForm = ({ closeForm }) => {
   return (
     <div className="modal" onClick={closeForm}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <span className="close" onClick={closeForm}>&times;</span>
-        <div className="modal-form">
+        <span className="close" onClick={closeForm}>
+          &times;
+        </span>
+        <div className="modal-form" >
           <ToastContainer
             position="top-center"
             autoClose={3000}
@@ -122,7 +124,7 @@ const UserForm = ({ closeForm }) => {
               onChange={(e) => setRole(e.target.value)}
               required
             >
-              <option value="">Selecione a <strong>função</strong></option>
+              <option value="">Selecione a função</option>
               <option value="admin">Administrador</option>
               <option value="employee">Funcionário</option>
             </select>
