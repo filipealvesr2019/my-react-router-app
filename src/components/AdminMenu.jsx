@@ -6,7 +6,6 @@ import './AdminMenu.css';
 
 const AdminMenu = () => {
   const [showForm, setShowForm] = useState(false);
-  const [userList, setUserList] = useState([]);
 
   const handleButtonClick = () => {
     setShowForm(!showForm);
@@ -15,30 +14,12 @@ const AdminMenu = () => {
   return (
     <div className="admin-menu">
       <button onClick={handleButtonClick}>Adicionar Usuário</button>
-      {showForm && <UserForm closeForm={() => setShowForm(false)} setUserList={setUserList} />}
-      <div className="table">
-        <div className="h1">
-          <h1>Função</h1>
-          <h1>Nome</h1>
-          <h1>Email</h1>
-          <h1>Senha</h1>
-        </div>
-        <div className="info">
-          {userList.map((user, index) => (
-            <div style={{display:"flex", gap:"2rem"}} key={index}>
-              <p>{user.role}</p>
-              <p>{user.name}</p>
-              <p>{user.email}</p>
-              <p>{user.password}</p>
-            </div>
-          ))}
-        </div>
-      </div>
+      {showForm && <UserForm closeForm={() => setShowForm(false)} />}
     </div>
   );
 };
 
-const UserForm = ({ closeForm, setUserList }) => {
+const UserForm = ({ closeForm }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -55,13 +36,11 @@ const UserForm = ({ closeForm, setUserList }) => {
       });
       console.log(response.data);
       if (role === 'admin' || role === 'employee') {
+        // Armazenar informações no localStorage
         localStorage.setItem('name', name);
         localStorage.setItem('email', email);
         localStorage.setItem('password', password);
         localStorage.setItem('role', role);
-
-        const newUser = { name: name, email: email, password: password, role: role };
-        setUserList((prevList) => [...prevList, newUser]);
 
         toast.success('Usuário criado com sucesso!', {
           position: toast.POSITION.TOP_CENTER,
@@ -74,9 +53,8 @@ const UserForm = ({ closeForm, setUserList }) => {
           pauseOnHover: true,
           theme: 'light',
         });
-
         setTimeout(() => {
-          closeForm();
+          closeForm(); // Fechar o formulário após o sucesso
         }, 4000);
       }
     } catch (error) {
@@ -96,12 +74,13 @@ const UserForm = ({ closeForm, setUserList }) => {
   };
 
   return (
+    <>
     <div className="modal" onClick={closeForm}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <span className="close" onClick={closeForm}>
           &times;
         </span>
-        <div className="modal-form">
+        <div className="modal-form" >
           <ToastContainer
             position="top-center"
             autoClose={3000}
@@ -146,7 +125,7 @@ const UserForm = ({ closeForm, setUserList }) => {
               onChange={(e) => setRole(e.target.value)}
               required
             >
-              <option value="">Selecione a função</option>
+              <option value="">Selecione a <strong>função </strong></option>
               <option value="admin">Administrador</option>
               <option value="employee">Funcionário</option>
             </select>
@@ -155,6 +134,19 @@ const UserForm = ({ closeForm, setUserList }) => {
         </div>
       </div>
     </div>
+    <div className="table">
+      <div className="h1">
+        <h1>fubção</h1>
+        <h1>nome</h1>
+        <h1>email</h1>
+        <h1>senha</h1>
+      </div>
+      <div className="list">
+       
+      </div>
+
+    </div>
+    </>
   );
 };
 
