@@ -90,3 +90,21 @@
    width:100%;
 }
 }
+
+
+.table {
+  display: flex;
+  flex-direction: column;
+}
+
+.h1{
+  display: flex;
+  gap: 1rem;
+}
+
+.info{
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
