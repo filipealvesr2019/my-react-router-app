@@ -1,4 +1,4 @@
-import AdminMenu from "./AdminMenu";
+import AdminMenu from "./components/AdminMenu";
 
 const AdminPage = () => {
     // Sua lógica para a página do administrador aqui

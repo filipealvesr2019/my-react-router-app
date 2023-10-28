@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import AdminPage from './AdminPage';
-import EmployeePage from './EmployeePage';
+import AdminPage from '../AdminPage';
+import EmployeePage from '../EmployeePage';
 import './Login.css';
 
 const Login = () => {
