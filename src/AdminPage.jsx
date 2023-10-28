@@ -1,13 +1,21 @@
+// AdminPage.js
+import React, { useState } from "react";
 import AdminMenu from "./components/AdminMenu";
 import ButtonClose from "./components/ButtonClose";
+
 const AdminPage = () => {
-    // Sua lógica para a página do administrador aqui
-    return (
-      <>
-      <AdminMenu></AdminMenu>
-      <ButtonClose></ButtonClose> 
-      </>
-    )
+  const [showAdmin, setShowAdmin] = useState(true);
+
+  const closeAdmin = () => {
+    setShowAdmin(false);
   };
-  
-  export default AdminPage;
+
+  return (
+    <>
+      {showAdmin && <AdminMenu />}
+      {showAdmin && <ButtonClose onClick={closeAdmin} />}
+    </>
+  );
+};
+
+export default AdminPage;
