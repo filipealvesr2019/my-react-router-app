@@ -2,19 +2,27 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import "./AdminMenu.css";
+import './AdminMenu.css';
 
 const AdminMenu = () => {
   const [showForm, setShowForm] = useState(false);
 
   const handleButtonClick = () => {
-    setShowForm(!showForm);
+    setShowForm(true);
+  };
+
+  const handleCloseForm = () => {
+    setShowForm(false);
   };
 
   return (
     <div className="admin-menu">
       <button onClick={handleButtonClick}>Adicionar Usuário</button>
-      {showForm && <UserForm closeForm={() => setShowForm(false)} />}
+      {showForm && (
+        <div className="modal">
+          <UserForm closeForm={handleCloseForm} />
+        </div>
+      )}
     </div>
   );
 };
@@ -51,10 +59,10 @@ const UserForm = ({ closeForm }) => {
           pauseOnFocusLoss: true,
           draggable: true,
           pauseOnHover: true,
-          theme: "light"
+          theme: 'light',
         });
         setTimeout(() => {
-          closeForm(); // Fechar o formulário após o sucesso
+          closeForm(); // Fechar o modal após o sucesso
         }, 4000);
       }
     } catch (error) {
