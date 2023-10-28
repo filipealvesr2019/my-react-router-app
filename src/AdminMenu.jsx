@@ -47,7 +47,7 @@ const UserForm = ({ closeForm }) => {
         });
         setTimeout(() => {
           closeForm(); // Fechar o formulário após o sucesso
-        }, 4500);
+        }, 4000);
       }
     } catch (error) {
       console.error('Erro ao criar usuário', error);
@@ -58,7 +58,7 @@ const UserForm = ({ closeForm }) => {
     <div>
       <ToastContainer
         position="top-center"
-        autoClose={3500}
+        autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
