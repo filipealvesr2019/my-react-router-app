@@ -12,12 +12,12 @@ const AdminMenu = () => {
   return (
     <div className="admin-menu">
       <button onClick={handleButtonClick}>Adicionar Usuário</button>
-      {showForm && <UserForm />}
+      {showForm && <UserForm closeForm={() => setShowForm(false)} />}
     </div>
   );
 };
 
-const UserForm = () => {
+const UserForm = ({ closeForm }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
@@ -36,7 +36,8 @@ const UserForm = () => {
         setShowSuccessMessage(true);
         setTimeout(() => {
           setShowSuccessMessage(false);
-        }, 3000);
+          closeForm(); // Fechar o formulário após o sucesso
+        }, 1000);
       }
     } catch (error) {
       console.error('Erro ao criar usuário', error);
