@@ -4,6 +4,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './AdminMenu.css';
 
+
+
 const AdminMenu = () => {
   const [showForm, setShowForm] = useState(false);
 
@@ -38,9 +40,6 @@ const UserForm = ({ closeForm }) => {
       if (role === 'admin' || role === 'employee') {
         // Armazenar informações no localStorage
         localStorage.setItem('name', name);
-        localStorage.setItem('email', email);
-        localStorage.setItem('password', password);
-        localStorage.setItem('role', role);
 
         toast.success('Usuário criado com sucesso!', {
           position: toast.POSITION.TOP_CENTER,
@@ -134,18 +133,7 @@ const UserForm = ({ closeForm }) => {
         </div>
       </div>
     </div>
-    <div className="table">
-      <div className="h1">
-        <h1>fubção</h1>
-        <h1>nome</h1>
-        <h1>email</h1>
-        <h1>senha</h1>
-      </div>
-      <div className="list">
-       
-      </div>
-
-    </div>
+  
     </>
   );
 };
