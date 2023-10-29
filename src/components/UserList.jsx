@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../components/UserList.css';
-
+import DeleteIcon from '@mui/icons-material/Delete';
 const UserList = () => {
   const [users, setUsers] = useState([]);
 
@@ -23,6 +23,7 @@ const UserList = () => {
       {users.map((login, index) => (
         <div key={index}>
           <p><strong>Role:</strong> {login.role} | <strong>Email:</strong> {login.email} | <strong>Password:</strong> {login.password} </p>
+          <DeleteIcon></DeleteIcon>
           <hr />
         </div>
       ))}
