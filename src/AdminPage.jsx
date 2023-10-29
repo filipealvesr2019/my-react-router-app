@@ -1,7 +1,7 @@
 import AdminMenu from "./components/AdminMenu";
 import ButtonClose from "./components/ButtonClose";
 import UserList from './components/UserList';
-
+import "./AdminPage.css"
 const AdminPage = () => {
     // Sua lógica para a página do administrador aqui
     return (
