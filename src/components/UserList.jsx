@@ -3,7 +3,7 @@ import axios from 'axios';
 import '../components/UserList.css';
 import DeleteIcon from '@mui/icons-material/Delete';
 import styled from '@emotion/styled';
-
+import EditIcon from '@mui/icons-material/Edit';
 const UserList = () => {
   const [users, setUsers] = useState([]);
 
@@ -25,6 +25,7 @@ const UserList = () => {
       {users.map((login, index) => (
         <div key={index}>
           <p><strong>Role:</strong> {login.role} | <strong>Email:</strong> {login.email} | <strong>Password:</strong> {login.password} </p>
+          <EditIcon></EditIcon>
           <DeleteIcon></DeleteIcon>
           <hr />
         </div>
