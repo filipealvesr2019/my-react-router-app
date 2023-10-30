@@ -10,7 +10,7 @@ const UserList = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/login');
+        const response = await axios.get('http://localhost:3001/users');
         setUsers(response.data);
       } catch (error) {
         console.error('Erro ao buscar usuários:', error);
@@ -20,13 +20,23 @@ const UserList = () => {
     fetchUsers();
   }, []);
 
+  const handleDelete = async (userId) => {
+    try {
+      await axios.delete(`http://localhost:3001/user/${userId}`);
+      // Atualize a lista de usuários após a exclusão bem-sucedida
+      fetchUsers();
+    } catch (error) {
+      console.error('Erro ao deletar usuário:', error);
+    }
+  };
+
   return (
     <div>
-      {users.map((login, index) => (
-        <div key={index}>
-          <p><strong>Role:</strong> {login.role} | <strong>Email:</strong> {login.email} | <strong>Password:</strong> {login.password} </p>
-          <EditIcon></EditIcon>
-          <DeleteIcon></DeleteIcon>
+      {users.map((user) => (
+        <div  key={user._id}>
+          <p><strong>Role:</strong> {user.role} | <strong>Email:</strong> {user.email} | <strong>Password:</strong> {user.password} <EditIcon className='edit'></EditIcon>
+          <DeleteIcon className='delete' onClick={() => handleDelete(user._id)}></DeleteIcon></p>
+
           <hr />
         </div>
       ))}
