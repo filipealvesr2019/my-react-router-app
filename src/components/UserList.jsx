@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../components/UserList.css';
 import DeleteIcon from '@mui/icons-material/Delete';
+import styled from '@emotion/styled';
+
 const UserList = () => {
   const [users, setUsers] = useState([]);
 
