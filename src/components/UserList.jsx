@@ -4,26 +4,26 @@ import '../components/UserList.css';
 import DeleteIcon from '@mui/icons-material/Delete';
 import styled from '@emotion/styled';
 import EditIcon from '@mui/icons-material/Edit';
+
 const UserList = () => {
   const [users, setUsers] = useState([]);
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get('http://localhost:3001/users');
-        setUsers(response.data);
-      } catch (error) {
-        console.error('Erro ao buscar usuários:', error);
-      }
-    };
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/users');
+      setUsers(response.data);
+    } catch (error) {
+      console.error('Erro ao buscar usuários:', error);
+    }
+  };
 
+  useEffect(() => {
     fetchUsers();
   }, []);
 
   const handleDelete = async (userId) => {
     try {
       await axios.delete(`http://localhost:3001/user/${userId}`);
-      // Atualize a lista de usuários após a exclusão bem-sucedida
       fetchUsers();
     } catch (error) {
       console.error('Erro ao deletar usuário:', error);
@@ -33,10 +33,11 @@ const UserList = () => {
   return (
     <div>
       {users.map((user) => (
-        <div  key={user._id}>
-          <p><strong>Role:</strong> {user.role} | <strong>Email:</strong> {user.email} | <strong>Password:</strong> {user.password} <EditIcon className='edit'></EditIcon>
-          <DeleteIcon className='delete' onClick={() => handleDelete(user._id)}></DeleteIcon></p>
-
+        <div key={user._id}>
+          <p>
+            <strong>Role:</strong> {user.role} | <strong>Email:</strong> {user.email} | <strong>Password:</strong> {user.password} <EditIcon className='edit'></EditIcon>
+            <DeleteIcon className='delete' onClick={() => handleDelete(user._id)}></DeleteIcon>
+          </p>
           <hr />
         </div>
       ))}
