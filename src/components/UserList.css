@@ -9,9 +9,10 @@
 }
 
 table {
-    font-family: arial, sans-serif;
+    font-family:'urbanist';
     border-collapse: collapse;
     width: 100%;
+
   }
   
   td, th {
@@ -20,17 +21,20 @@ table {
     padding: 8px;
   }
   
-  tr:nth-child(even) {
-    background-color: #dddddd;
-  }
+ 
 
   .adminstrador {
-    background-color: #F6B152; /* Cor de fundo para administradores */
+    background-color: #11C7A1 !important; 
     color: white;
+    font-weight: 500;
+
+   
+    
+
   }
   
-  /* Adicione estilos para funcionários */
   .funcionario {
-    background-color: #11C7A1; /* Cor de fundo para funcionários */
+    background-color: #F4A32D !important;
     color: white;
+    font-weight: 500;
   }
