@@ -24,9 +24,9 @@ table {
  
 
   .adminstrador {
-    background-color: #11C7A1 !important; 
-    color: white;
-    font-weight: 500;
+    color: #11C7A1 !important; 
+    font-size: 1.3rem;
+    font-weight: 600;
 
    
     
@@ -34,7 +34,7 @@ table {
   }
   
   .funcionario {
-    background-color: #F4A32D !important;
-    color: white;
-    font-weight: 500;
+    color: #F4A32D !important;
+    font-size: 1.3rem;
+    font-weight: 600;
   }
