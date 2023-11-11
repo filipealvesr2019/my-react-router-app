@@ -36,9 +36,10 @@ const UserForm = ({ closeForm }) => {
         password: password,
         role: role,
       });
-      console.log(response.data);
+   
       if (role === 'administrador' || role === 'funcionario') {
         // Armazenar informações no localStorage
+        
         localStorage.setItem('name', name);
 
         toast.success('Usuário criado com sucesso!', {
@@ -54,7 +55,7 @@ const UserForm = ({ closeForm }) => {
         });
         setTimeout(() => {
           closeForm(); // Fechar o formulário após o sucesso
-        }, 4000);
+        }, 2000);
       }
     } catch (error) {
       console.error('Erro ao criar usuário', error);
