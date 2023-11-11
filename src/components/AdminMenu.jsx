@@ -36,7 +36,7 @@ const UserForm = ({ closeForm }) => {
         password: password,
         role: role,
       });
-   
+      console.log(response.data);
       if (role === 'administrador' || role === 'funcionario') {
         // Armazenar informações no localStorage
         
@@ -55,7 +55,7 @@ const UserForm = ({ closeForm }) => {
         });
         setTimeout(() => {
           closeForm(); // Fechar o formulário após o sucesso
-        }, 2000);
+        }, 4000);
       }
     } catch (error) {
       console.error('Erro ao criar usuário', error);
