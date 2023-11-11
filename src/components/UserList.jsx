@@ -31,17 +31,29 @@ const UserList = () => {
   };
 
   return (
-    <div>
+    <table>
+    <thead>
+      <tr>
+        <th>Credencial</th>
+        <th>Email</th>
+        <th>Senha</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
       {users.map((user) => (
-        <div key={user._id}>
-          <p>
-            <strong>Role:</strong> {user.role} | <strong>Email:</strong> {user.email} | <strong>Password:</strong> {user.password} <EditIcon className='edit'></EditIcon>
+        <tr key={user._id} className={user.role.toLowerCase()}>
+          <td>{user.role}</td>
+          <td>{user.email}</td>
+          <td>{user.password}</td>
+          <td>
+            <EditIcon className='edit'></EditIcon>
             <DeleteIcon className='delete' onClick={() => handleDelete(user._id)}></DeleteIcon>
-          </p>
-          <hr />
-        </div>
+          </td>
+        </tr>
       ))}
-    </div>
+    </tbody>
+  </table>
   );
 };
 

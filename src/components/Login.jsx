@@ -18,10 +18,10 @@ const Login = () => {
       });
 
       // Verifique a resposta do backend e defina o estado apropriado com base nela
-      if (response.data.role === 'admin') {
+      if (response.data.role === 'adminstrador') {
         setLoggedIn(true);
         setIsAdmin(true);
-      } else if (response.data.role === 'employee') {
+      } else if (response.data.role === 'funcionario') {
         setLoggedIn(true);
         setIsAdmin(false);
       } else {

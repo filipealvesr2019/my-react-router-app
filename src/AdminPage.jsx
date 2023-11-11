@@ -10,10 +10,7 @@ const AdminPage = () => {
       <ButtonClose></ButtonClose> 
       <div className="table">
       <div className="h1">
-        <h1>função</h1>
-        <h1>nome</h1>
-        <h1>email</h1>
-        <h1>senha</h1>
+        <h1>Cadastro de Usuarios</h1>
       </div>
       <div className="list">
        <UserList></UserList>

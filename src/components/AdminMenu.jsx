@@ -37,7 +37,7 @@ const UserForm = ({ closeForm }) => {
         role: role,
       });
       console.log(response.data);
-      if (role === 'admin' || role === 'employee') {
+      if (role === 'administrador' || role === 'funcionario') {
         // Armazenar informações no localStorage
         localStorage.setItem('name', name);
 
@@ -124,9 +124,9 @@ const UserForm = ({ closeForm }) => {
               onChange={(e) => setRole(e.target.value)}
               required
             >
-              <option value="">Selecione a <strong>função </strong></option>
-              <option value="admin">Administrador</option>
-              <option value="employee">Funcionário</option>
+              <option value="">Selecione a função</option>
+              <option value="administrador">Administrador</option>
+              <option value="funcionario">Funcionário</option>
             </select>
             <button type="submit">Adicionar</button>
           </form>
