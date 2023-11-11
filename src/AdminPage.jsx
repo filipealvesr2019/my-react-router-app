@@ -14,9 +14,9 @@ const AdminPage = () => {
       <div className="list">
        <UserList></UserList>
       </div>
+      <ButtonClose className="closeBtn"></ButtonClose> 
 
     </div>
-    <ButtonClose></ButtonClose> 
 
       </>
     )
