@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../components/UserList.css';
+import './UserList.css';
 import DeleteIcon from '@mui/icons-material/Delete';
-import styled from '@emotion/styled';
 import EditIcon from '@mui/icons-material/Edit';
 
 const UserList = () => {
@@ -34,7 +33,7 @@ const UserList = () => {
     <table>
     <thead>
       <tr>
-        <th>Credencial</th>
+        <th className="credencial">Credenciais</th>
         <th>Email</th>
         <th>Senha</th>
         <th>Ações</th>
