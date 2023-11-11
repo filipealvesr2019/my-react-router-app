@@ -24,6 +24,13 @@ table {
     background-color: #dddddd;
   }
 
-  .administrador{
-    background-color: red;
+  .adminstrador {
+    background-color: #F6B152; /* Cor de fundo para administradores */
+    color: white;
+  }
+  
+  /* Adicione estilos para funcionários */
+  .funcionario {
+    background-color: #11C7A1; /* Cor de fundo para funcionários */
+    color: white;
   }
