@@ -7,7 +7,6 @@ const AdminPage = () => {
     return (
       <>
       <AdminMenu></AdminMenu>
-      <ButtonClose></ButtonClose> 
       <div className="table">
       <div className="h1">
         <h1>Cadastro de Usuarios</h1>
@@ -17,6 +16,8 @@ const AdminPage = () => {
       </div>
 
     </div>
+    <ButtonClose></ButtonClose> 
+
       </>
     )
   };
