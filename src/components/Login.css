@@ -25,6 +25,7 @@ body{
   padding: 10px 16px;
   letter-spacing: 2px;
   color: #053552;
+  cursor: pointer;
 }
 
 input{

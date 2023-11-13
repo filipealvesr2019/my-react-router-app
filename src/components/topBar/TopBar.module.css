@@ -10,3 +10,28 @@
     align-items: center;
     justify-content: space-between;
 }
+
+.logo{
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: darkblue;
+}
+
+.topIconBar{
+    position: relative;
+}
+
+.topIconBag{
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    top: 25px;
+    right: 55px;
+    border-radius: 50%;
+    background-color: red;
+    color: white;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    font-size: .7rem;
+}
