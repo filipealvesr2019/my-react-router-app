@@ -1,5 +1,4 @@
 import AdminMenu from "./components/AdminMenu";
-import ButtonClose from "./components/ButtonClose";
 import UserList from './components/UserList';
 import "./AdminPage.css"
 const AdminPage = () => {
@@ -14,7 +13,6 @@ const AdminPage = () => {
       <div className="list">
        <UserList></UserList>
       </div>
-      <ButtonClose className="closeBtn"></ButtonClose> 
 
     </div>
 
