@@ -1,12 +1,12 @@
 import AdminMenu from "./components/AdminMenu";
 import UserList from './components/UserList';
 import styles from "./AdminPage.module.css"
-import TopBar from "./components/topBar/TopBar"
+import Topbar from "./components/Topbar/Topbar"
 const AdminPage = () => {
     // Sua lógica para a página do administrador aqui
     return (
       <>
-      <TopBar></TopBar>
+      <Topbar></Topbar>
       <AdminMenu></AdminMenu>
       <div className={styles.table}>
       <div className={styles.h1}>
