@@ -11,6 +11,7 @@ import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
+import AddCardIcon from '@mui/icons-material/AddCard';
 export const Sidebar = () => {
   return (
     <div className="sidebar">
@@ -23,7 +24,7 @@ export const Sidebar = () => {
               <span>Home</span>
             </li>
             <li className="sidebarlistItem">
-              <MonetizationOnIcon />
+              <AddCardIcon />
               <span>Produtos</span>
             </li>
             <li className="sidebarlistItem">
@@ -57,7 +58,7 @@ export const Sidebar = () => {
               <span>Balanços</span>
             </li>
             <li className="sidebarlistItem">
-            <TrendingUpIcon /> 
+              <MonetizationOnIcon />
               <span>Vendas</span>
             </li>
             <li className="sidebarlistItem">
