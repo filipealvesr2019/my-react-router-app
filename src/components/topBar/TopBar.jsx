@@ -16,10 +16,8 @@ export default function topbar() {
               </div>
               <div className={styles.topbarIconContainer}>
                 <SettingsIcon></SettingsIcon>
-                <span className={styles.topIconBag}>
-                  2
-                </span>
               </div>
+              <img src="https://i.ibb.co/XJd6rq6/michael-dam-m-EZ3-Po-FGs-k-unsplash.jpg" alt="" className={styles.topAvatar} />
             </div>
         </div>
     </div>

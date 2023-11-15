@@ -6,9 +6,11 @@ import './App.css';
 
 const App = () => {
   return (
-    <>
-      <Login/>    
-    </>
+    <div>
+      
+      
+      <Login/>
+    </div>
   );
 };
 
