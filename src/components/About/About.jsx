@@ -8,7 +8,7 @@ export default function infoHome() {
             <span className="infoTitle">Receita</span>
             <div className="infoMoneyContainer">
                 <span className="infoMoney">R$2,415</span>
-                <span className="infoMoneyRate">-11.4 <ArrowDownwardIcon></ArrowDownwardIcon></span>
+                <span className="infoMoneyRate">-11.4 <ArrowDownwardIcon className='infoIcon nagative'></ArrowDownwardIcon></span>
                 <span className="infoSub">Comparar com o mês anterior</span>
             </div>
         </div>
@@ -17,7 +17,7 @@ export default function infoHome() {
             <span className="infoTitle">Vendas</span>
             <div className="infoMoneyContainer">
                 <span className="infoMoney">R$5,415</span>
-                <span className="infoMoneyRate">-1.4 <ArrowDownwardIcon></ArrowDownwardIcon></span>
+                <span className="infoMoneyRate">-1.4 <ArrowDownwardIcon  className='infoIcon nagative'></ArrowDownwardIcon></span>
                 <span className="infoSub"><br/>Comparar com o mês anterior</span>
             </div>
         </div>
@@ -26,7 +26,7 @@ export default function infoHome() {
             <span className="infoTitle">Despesas</span>
             <div className="infoMoneyContainer">
                 <span className="infoMoney">R$2,225</span>
-                <span className="infoMoneyRate">2.4 <ArrowUpwardIcon/></span>
+                <span className="infoMoneyRate">2.4 <ArrowUpwardIcon className='infoIcon'/></span>
                 <span className="infoSub"><br/>Comparar com o mês anterior</span>
             </div>
         </div>
