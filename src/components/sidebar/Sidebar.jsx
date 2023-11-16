@@ -3,7 +3,6 @@ import React from "react";
 import "./sidebar.css";
 import LineStyleIcon from "@mui/icons-material/LineStyle";
 import TimelineIcon from "@mui/icons-material/Timeline";
-import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import CategoryIcon from '@mui/icons-material/Category';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import DataSaverOffIcon from '@mui/icons-material/DataSaverOff';
@@ -12,8 +11,11 @@ import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
 import AddCardIcon from '@mui/icons-material/AddCard';
+import {Home} from "../../pages/home/Home"
+
 export const Sidebar = () => {
   return (
+     <>
     <div className="sidebar">
       <div className="sidebarWrapper">
         <div className="sidebarMenu">
@@ -73,5 +75,7 @@ export const Sidebar = () => {
         </div>
       </div>
     </div>
+    <Home></Home>
+    </>
   );
 };

@@ -7,12 +7,13 @@ import './App.css';
 const AdminPage = () => {
     // Sua lógica para a página do administrador aqui
     return (
-      <>
+      <div>
       <Topbar></Topbar>
       <div className={styles.container}>
         <Sidebar></Sidebar>
       </div>
       <AdminMenu></AdminMenu>
+
       <div className={styles.table}>
       <div className={styles.h1}>
         <h1>Cadastro de Usuarios</h1>
@@ -22,8 +23,7 @@ const AdminPage = () => {
       </div>
 
     </div>
-
-      </>
+      </div>
     )
   };
   

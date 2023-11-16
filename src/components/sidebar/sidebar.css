@@ -2,6 +2,7 @@
     flex: 1;
     height: 500vh - 50px;
 
+
 }
 
 .sidebarWrapper{
@@ -33,8 +34,6 @@
 
 .sidebarlistItem.active, .sidebarlistItem:hover{
     background-color: rgb(228, 228, 250);
-    width: 23%;
     border-radius: 10px;
-    white-space: nowrap;
 
 }
