@@ -31,11 +31,11 @@ export const Sidebar = () => {
               </li>
               <li className="sidebarlistItem">
                 <AddCardIcon />
-                <Link to="/products">Productos</Link>
+                <Link to="/Produtos">Produtos</Link>
               </li>
               <li className="sidebarlistItem">
                 <CategoryIcon />
-                <Link to="/">
+                <Link to="/Categorias">
                   {" "}
                   <span>Categorias</span>
                 </Link>
@@ -47,14 +47,14 @@ export const Sidebar = () => {
             <ul className="sidebarList">
               <li className="sidebarlistItem">
                 <SupervisorAccountIcon />
-                <Link to="/">
+                <Link to="/Administrador">
                   {" "}
                   <span>Cadastro de Usuários</span>
                 </Link>
               </li>
               <li className="sidebarlistItem">
                 <SettingsIcon />
-                <Link to="/">
+                <Link to="/Configuração">
                   {" "}
                   <span>configuração</span>
                 </Link>
@@ -62,7 +62,7 @@ export const Sidebar = () => {
               <li className="sidebarlistItem">
                 <LocalMallIcon />
 
-                <Link to="/">
+                <Link to="/Clientes">
                   <span>Clientes</span>
                 </Link>
               </li>
@@ -73,28 +73,28 @@ export const Sidebar = () => {
             <ul className="sidebarList">
               <li className="sidebarlistItem">
                 <BarChartIcon />
-                <Link to="/">
+                <Link to="/Balanços">
                   {" "}
                   <span>Balanços</span>
                 </Link>
               </li>
               <li className="sidebarlistItem">
                 <MonetizationOnIcon />
-                <Link to="/">
+                <Link to="/Vendas">
                   {" "}
                   <span>Vendas</span>
                 </Link>
               </li>
               <li className="sidebarlistItem">
                 <TimelineIcon />
-                <Link to="/">
+                <Link to="/Transações">
                   {" "}
                   <span>Transações</span>
                 </Link>
               </li>
               <li className="sidebarlistItem">
                 <DataSaverOffIcon />
-                <Link to="/">
+                <Link to="/Relatórios">
                   {" "}
                   <span>Relatórios</span>
                 </Link>

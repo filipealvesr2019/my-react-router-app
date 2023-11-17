@@ -3,5 +3,14 @@
 }
 
 
-
+/* App.css */
+a {
+    text-decoration: none; /* Remove o sublinhado dos links */
+    color: inherit; /* Mantém a cor original do texto */
+  }
+  
+  a:hover {
+    text-decoration: none; /* Remove o sublinhado dos links quando o mouse está sobre eles */
+  }
+  
 
