@@ -15,6 +15,14 @@ import { Home } from "../../pages/home/Home";
 import { Link } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import Admin from "../../pages/Admin/Admin"
+import Config from "../../pages/Config/Config";
+import Products from "../../pages/Products/Products";
+import Reports from "../../pages/Reports/Reports";
+import Deals from "../../pages/Deals/Deals";
+import Sales from "../../pages/Sales/Sales";
+import Categories from "../../pages/Categories/Category"
+import Clients from "../../pages/Clients/Clients";
+import Transactions from "../../pages/Transactions/Transaction"
 export const Sidebar = () => {
   return (
     <>
@@ -50,7 +58,7 @@ export const Sidebar = () => {
                 <SupervisorAccountIcon />
                 <Link to="/Administrador">
                   {" "}
-                  <span>Cadastro de Usuários</span>
+                  <span>Cadastro</span>
                 </Link>
               </li>
               <li className="sidebarlistItem">
@@ -107,6 +115,14 @@ export const Sidebar = () => {
       <Routes>
       <Route path="/Administrador" element={<Admin />} />
       <Route path="/Home" element={<Home />} />
+      <Route path="/Produtos" element={<Products />} />
+        <Route path="/Categorias" element={<Categories />} />
+        <Route path="/Configuração" element={<Config />} />
+        <Route path="/Clientes" element={<Clients />} />
+        <Route path="/Vendas" element={<Sales />} />
+        <Route path="/Transações" element={<Transactions />} />
+        <Route path="/Relatórios" element={<Reports />} />
+        <Route path="/Balanços" element={<Deals />} />
       </Routes>
       
     </>
