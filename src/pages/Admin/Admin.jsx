@@ -4,7 +4,7 @@ import "./Admin.css";
 import AdminMenu from "../../components/AdminMenu";
 export default function Admin() {
   return (
-    <div>
+    <div className="AdminContainer">
       <AdminMenu></AdminMenu>
       <div className="table"/>
       <div className="h1">

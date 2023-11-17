@@ -13,7 +13,8 @@ import LocalMallIcon from "@mui/icons-material/LocalMall";
 import AddCardIcon from "@mui/icons-material/AddCard";
 import { Home } from "../../pages/home/Home";
 import { Link } from "react-router-dom";
-
+import { Routes, Route } from "react-router-dom";
+import Admin from "../../pages/Admin/Admin"
 export const Sidebar = () => {
   return (
     <>
@@ -103,7 +104,10 @@ export const Sidebar = () => {
           </div>
         </div>
       </div>
-      <Home></Home>
+      <Routes>
+      <Route path="/Administrador" element={<Admin />} />
+      <Route path="/Home" element={<Home />} />
+      </Routes>
       
     </>
   );
