@@ -14,15 +14,15 @@ import AddCardIcon from "@mui/icons-material/AddCard";
 import { Home } from "../../pages/home/Home";
 import { Link } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
-import Admin from "../../pages/Admin/Admin"
+import Admin from "../../pages/Admin/Admin";
 import Config from "../../pages/Config/Config";
 import Products from "../../pages/Products/Products";
 import Reports from "../../pages/Reports/Reports";
 import Deals from "../../pages/Deals/Deals";
 import Sales from "../../pages/Sales/Sales";
-import Categories from "../../pages/Categories/Category"
+import Categories from "../../pages/Categories/Category";
 import Clients from "../../pages/Clients/Clients";
-import Transactions from "../../pages/Transactions/Transaction"
+import Transactions from "../../pages/Transactions/Transaction";
 export const Sidebar = () => {
   return (
     <>
@@ -32,18 +32,27 @@ export const Sidebar = () => {
             <h3 className="sidebarTitle">Dashboard</h3>
             <ul className="sidebarList">
               <li className="sidebarlistItem">
-                <LineStyleIcon />
+                <Link to="/Home">
+                  <LineStyleIcon />
+                </Link>
+
                 <Link to="/Home">
                   {" "}
                   <span>Home</span>
                 </Link>
               </li>
               <li className="sidebarlistItem">
-                <AddCardIcon />
+                <Link to="/Produtos">
+                  <AddCardIcon />
+                </Link>
+
                 <Link to="/Produtos">Produtos</Link>
               </li>
               <li className="sidebarlistItem">
-                <CategoryIcon />
+                <Link to="/Categorias">
+                  <CategoryIcon />
+                </Link>
+
                 <Link to="/Categorias">
                   {" "}
                   <span>Categorias</span>
@@ -55,21 +64,29 @@ export const Sidebar = () => {
             <h3 className="sidebarTitle">Menu Rapido</h3>
             <ul className="sidebarList">
               <li className="sidebarlistItem">
-                <SupervisorAccountIcon />
+                <Link to="/Administrador">
+                  <SupervisorAccountIcon />
+                </Link>
                 <Link to="/Administrador">
                   {" "}
                   <span>Cadastro</span>
                 </Link>
               </li>
               <li className="sidebarlistItem">
-                <SettingsIcon />
+                <Link to="/Configuração">
+                  {" "}
+                  <SettingsIcon />
+                </Link>
+
                 <Link to="/Configuração">
                   {" "}
                   <span>configuração</span>
                 </Link>
               </li>
               <li className="sidebarlistItem">
-                <LocalMallIcon />
+                <Link to="/Clientes">
+                  <LocalMallIcon />
+                </Link>
 
                 <Link to="/Clientes">
                   <span>Clientes</span>
@@ -81,28 +98,43 @@ export const Sidebar = () => {
             <h3 className="sidebarTitle">Financeiro</h3>
             <ul className="sidebarList">
               <li className="sidebarlistItem">
-                <BarChartIcon />
+                <Link to="/Balanços">
+                  {" "}
+                  <BarChartIcon />
+                </Link>
+
                 <Link to="/Balanços">
                   {" "}
                   <span>Balanços</span>
                 </Link>
               </li>
               <li className="sidebarlistItem">
-                <MonetizationOnIcon />
+                <Link to="/Vendas">
+                  {" "}
+                  <MonetizationOnIcon />
+                </Link>
+
                 <Link to="/Vendas">
                   {" "}
                   <span>Vendas</span>
                 </Link>
               </li>
               <li className="sidebarlistItem">
-                <TimelineIcon />
+                <Link to="/Transações">
+                  <TimelineIcon />
+                </Link>
+
                 <Link to="/Transações">
                   {" "}
                   <span>Transações</span>
                 </Link>
               </li>
               <li className="sidebarlistItem">
-                <DataSaverOffIcon />
+                <Link to="/Relatórios">
+                  {" "}
+                  <DataSaverOffIcon />
+                </Link>
+
                 <Link to="/Relatórios">
                   {" "}
                   <span>Relatórios</span>
@@ -113,9 +145,9 @@ export const Sidebar = () => {
         </div>
       </div>
       <Routes>
-      <Route path="/Administrador" element={<Admin />} />
-      <Route path="/Home" element={<Home />} />
-      <Route path="/Produtos" element={<Products />} />
+        <Route path="/Administrador" element={<Admin />} />
+        <Route path="/Home" element={<Home />} />
+        <Route path="/Produtos" element={<Products />} />
         <Route path="/Categorias" element={<Categories />} />
         <Route path="/Configuração" element={<Config />} />
         <Route path="/Clientes" element={<Clients />} />
@@ -124,7 +156,6 @@ export const Sidebar = () => {
         <Route path="/Relatórios" element={<Reports />} />
         <Route path="/Balanços" element={<Deals />} />
       </Routes>
-      
     </>
   );
 };
