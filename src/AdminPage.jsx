@@ -12,18 +12,9 @@ const AdminPage = () => {
       <div className={styles.container}>
         <Sidebar></Sidebar>
       </div>
-      <AdminMenu></AdminMenu>
 
-      <div className={styles.table}>
-      <div className={styles.h1}>
-        <h1>Cadastro de Usuarios</h1>
-      </div>
-      <div className={styles.list}>
-       <UserList></UserList>
-      </div>
-
+    
     </div>
-      </div>
     )
   };
   
