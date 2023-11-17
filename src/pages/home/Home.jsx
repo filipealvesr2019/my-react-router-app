@@ -3,6 +3,10 @@ import './Home.css'
 
 export const Home = () => {
   return (
-    <div className='home'><About/></div>
+    <>
+    <div className='home'>
+      <About/>
+      </div>
+      </>
   )
 }
