@@ -35,7 +35,6 @@ const UserList = () => {
       <tr>
         <th className="credencial">Credenciais</th>
         <th>Email</th>
-        <th>Senha</th>
         <th>Ações</th>
       </tr>
     </thead>
@@ -44,7 +43,6 @@ const UserList = () => {
         <tr key={user._id}>
           <td className={user.role}>{user.role} </td>
           <td>{user.email}</td>
-          <td>{user.password}</td>
           <td>
             <EditIcon className='edit'></EditIcon>
             <DeleteIcon className='delete' onClick={() => handleDelete(user._id)}></DeleteIcon>
