@@ -41,7 +41,7 @@ export const Sidebar = () => {
     <>
       <div className="sidebarMobile">
       <div className="hamburger-menu">
-      <div className="hamburger-icon" onClick={toggleMenu}>
+      <div className="hamburger-icon " onClick={toggleMenu}>
         {menuOpen ? <CloseIcon /> : <MenuIcon />}
       </div>
       {menuOpen && (
@@ -50,11 +50,11 @@ export const Sidebar = () => {
           <div className="sidebar">
         <div className="sidebarWrapper">
           
-          <div className="sidebarMenu">
+          <div className="sidebarMenu ">
             <h3 className="sidebarTitle">Dashboard</h3>
             <ul className="sidebarList">
-              <li className="sidebarlistItem">
-              <CloseIcon className="close-icon" onClick={toggleMenu}></CloseIcon>
+              <li className="sidebarlistItem ">
+              <CloseIcon className="close-icon " onClick={toggleMenu}></CloseIcon>
                 <Link to="/Home"  onClick={toggleMenu}>
                   <LineStyleIcon />
                 </Link>
