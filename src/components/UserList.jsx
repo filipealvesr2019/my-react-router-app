@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './UserList.css';
 import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
 
 const UserList = () => {
@@ -67,9 +66,9 @@ const UserList = () => {
               <tr key={user._id}>
                 <td className={user.role}>{user.role} </td>
                 <td>{user.email}</td>
-                <td>
-                  <EditIcon className='edit'></EditIcon>
+                <td className='deleteContainer'>
                   <DeleteIcon className='delete' onClick={() => handleDeleteIconClick(user._id)}></DeleteIcon>
+
                 </td>
               </tr>
             ))}
