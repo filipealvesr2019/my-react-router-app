@@ -53,9 +53,11 @@ const UserList = () => {
       {loading && <p>Carregando usuários...</p>}
       {error && <p>{error}</p>}
       {!loading && !error && (
-        <table>
+        <>
+       
+        <table className="table-container">
           <thead>
-            <tr >
+            <tr>
               <th className="credencial">Credenciais</th>
               <th>Email</th>
               <th>Ações</th>
@@ -74,6 +76,7 @@ const UserList = () => {
             ))}
           </tbody>
         </table>
+        </>
       )}
 
       {/* Modal de confirmação */}

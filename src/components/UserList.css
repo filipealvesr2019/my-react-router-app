@@ -129,3 +129,29 @@ table {
   cursor: pointer;
 }
 
+@media screen and (width <= 600px) {
+
+  /* src/Table.css */
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+@media (max-width: 600px) {
+  /* Adicione estilos específicos para telas menores aqui */
+  th, td {
+    white-space: nowrap;
+  }
+}
+
+}
