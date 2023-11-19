@@ -84,7 +84,7 @@ const UserList = () => {
       <p>Você tem certeza que deseja excluir o usuário?</p>
       <div className="buttonDeleteStyle">
       <button onClick={() => handleDelete(deleteUserId)}>Sim</button>
-      <button  onClick={handleCancelDelete}>Cancelar</button>
+      <button  onClick={handleCancelDelete}>Não</button>
       </div>
       
     </div>

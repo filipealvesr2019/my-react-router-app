@@ -73,23 +73,28 @@ table {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 50dvh;
+  height: 40dvh;
+  width: 25dvw;
   border-radius: 5px;
   
 }
 
 .delete-modal p {
   margin-bottom: 15px;
+  
 }
 
 .delete-modal button {
   margin-right: 10px;
-  padding: 8px 16px;
+  padding: 10px 30px;
   background-color: #007bff;
   color: #fff;
   border: none;
   cursor: pointer;
   border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 500;
+
 
 }
 
@@ -110,4 +115,7 @@ table {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 10px;
+  gap: 2rem;
+  padding: 2rem;
 }
