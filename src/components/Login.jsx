@@ -23,7 +23,7 @@ const Login = () => {
       });
 
       // Verifique a resposta do backend e defina o estado apropriado com base nela
-      if (response.data.role === 'adminstrador') {
+      if (response.data.role === 'administrador') {
         setLoggedIn(true);
         setIsAdmin(true);
       } else if (response.data.role === 'funcionario') {
@@ -52,7 +52,7 @@ const Login = () => {
   useEffect(() => {
     // Adicionar efeito para verificar o estado de loggedIn ao carregar a página
     setLoggedIn(Boolean(storedToken));
-    setIsAdmin(storedRole === 'adminstrador');
+    setIsAdmin(storedRole === 'administrador');
   }, [storedToken, storedRole]);
 
   // Renderização condicional com base no estado de loggedIn e isAdmin
@@ -69,7 +69,7 @@ const Login = () => {
       return (
         <div>
           <EmployeePage />
-          <div className='button' onClick={handleLogout}> <LogoutIcon ></LogoutIcon>  <span>Sair</span></div>
+          <div className='buttonEmployeePage' onClick={handleLogout}> <LogoutIcon ></LogoutIcon>  <span>Sair</span></div>
           
         </div>
       );
