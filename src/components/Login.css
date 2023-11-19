@@ -64,6 +64,7 @@ h2{
   text-align: left;
   margin-top: 11rem;
   color: #aaa;
+  position: relative;
 
 }
 
@@ -96,7 +97,13 @@ input::placeholder{
 }
 
 @media screen  and (width <= 600px){
+  .button{
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
 
+
+  }
   
 }
 
