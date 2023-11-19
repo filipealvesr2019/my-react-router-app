@@ -54,7 +54,6 @@ export const Sidebar = () => {
             <h3 className="sidebarTitle">Dashboard</h3>
             <ul className="sidebarList">
               <li className="sidebarlistItem">
-                
                 <Link to="/Home">
                   <LineStyleIcon />
                 </Link>
