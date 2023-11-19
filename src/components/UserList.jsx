@@ -53,7 +53,7 @@ const UserList = () => {
       {loading && <p>Carregando usuários...</p>}
       {error && <p>{error}</p>}
       {!loading && !error && (
-        <table>
+        <table >
           <thead>
             <tr>
               <th className="credencial">Credenciais</th>
