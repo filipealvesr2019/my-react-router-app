@@ -25,7 +25,6 @@ import Clients from "../../pages/Clients/Clients";
 import Transactions from "../../pages/Transactions/Transaction";
 
 
-import LogoutIcon from '@mui/icons-material/Logout';
 import { useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
@@ -50,10 +49,12 @@ export const Sidebar = () => {
           {/* Adicione seus itens de menu aqui */}
           <div className="sidebar">
         <div className="sidebarWrapper">
+          
           <div className="sidebarMenu">
             <h3 className="sidebarTitle">Dashboard</h3>
             <ul className="sidebarList">
               <li className="sidebarlistItem">
+                
                 <Link to="/Home">
                   <LineStyleIcon />
                 </Link>
@@ -161,9 +162,6 @@ export const Sidebar = () => {
                   {" "}
                   <span>Relatórios</span>
                 </Link>
-              </li>
-              <li className="sidebarlistItem">
-        <LogoutIcon /> Sair
               </li>
             </ul>
           </div>
