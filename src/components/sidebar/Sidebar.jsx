@@ -54,28 +54,29 @@ export const Sidebar = () => {
             <h3 className="sidebarTitle">Dashboard</h3>
             <ul className="sidebarList">
               <li className="sidebarlistItem">
-                <Link to="/Home">
+              <CloseIcon className="close-icon" onClick={toggleMenu}></CloseIcon>
+                <Link to="/Home"  onClick={toggleMenu}>
                   <LineStyleIcon />
                 </Link>
 
-                <Link to="/Home">
+                <Link to="/Home" onClick={toggleMenu}>
                   {" "}
                   <span>Home</span>
                 </Link>
               </li>
               <li className="sidebarlistItem">
-                <Link to="/Produtos">
+                <Link to="/Produtos" onClick={toggleMenu}>
                   <AddCardIcon />
                 </Link>
 
-                <Link to="/Produtos">Produtos</Link>
+                <Link to="/Produtos" onClick={toggleMenu}>Produtos</Link>
               </li>
               <li className="sidebarlistItem">
-                <Link to="/Categorias">
+                <Link to="/Categorias" onClick={toggleMenu}>
                   <CategoryIcon />
                 </Link>
 
-                <Link to="/Categorias">
+                <Link to="/Categorias" onClick={toggleMenu}>
                   {" "}
                   <span>Categorias</span>
                 </Link>
@@ -86,31 +87,31 @@ export const Sidebar = () => {
             <h3 className="sidebarTitle">Menu Rapido</h3>
             <ul className="sidebarList">
               <li className="sidebarlistItem">
-                <Link to="/Administrador">
+                <Link to="/Administrador" onClick={toggleMenu}>
                   <SupervisorAccountIcon />
                 </Link>
-                <Link to="/Administrador">
+                <Link to="/Administrador" onClick={toggleMenu}>
                   {" "}
                   <span>Cadastro</span>
                 </Link>
               </li>
               <li className="sidebarlistItem">
-                <Link to="/Configuração">
+                <Link to="/Configuração" onClick={toggleMenu}>
                   {" "}
                   <SettingsIcon />
                 </Link>
 
-                <Link to="/Configuração">
+                <Link to="/Configuração" onClick={toggleMenu}>
                   {" "}
                   <span>configuração</span>
                 </Link>
               </li>
               <li className="sidebarlistItem">
-                <Link to="/Clientes">
+                <Link to="/Clientes" onClick={toggleMenu}>
                   <LocalMallIcon />
                 </Link>
 
-                <Link to="/Clientes">
+                <Link to="/Clientes" onClick={toggleMenu}>
                   <span>Clientes</span>
                 </Link>
               </li>
@@ -120,44 +121,44 @@ export const Sidebar = () => {
             <h3 className="sidebarTitle">Financeiro</h3>
             <ul className="sidebarList">
               <li className="sidebarlistItem">
-                <Link to="/Balanços">
+                <Link to="/Balanços" onClick={toggleMenu}>
                   {" "}
                   <BarChartIcon />
                 </Link>
 
-                <Link to="/Balanços">
+                <Link to="/Balanços" onClick={toggleMenu}>
                   {" "}
                   <span>Balanços</span>
                 </Link>
               </li>
               <li className="sidebarlistItem">
-                <Link to="/Vendas">
+                <Link to="/Vendas" onClick={toggleMenu}>
                   {" "}
                   <MonetizationOnIcon />
                 </Link>
 
-                <Link to="/Vendas">
+                <Link to="/Vendas" onClick={toggleMenu}>
                   {" "}
                   <span>Vendas</span>
                 </Link>
               </li>
               <li className="sidebarlistItem">
-                <Link to="/Transações">
+                <Link to="/Transações" onClick={toggleMenu}>
                   <TimelineIcon />
                 </Link>
 
-                <Link to="/Transações">
+                <Link to="/Transações" onClick={toggleMenu}>
                   {" "}
                   <span>Transações</span>
                 </Link>
               </li>
               <li className="sidebarlistItem">
-                <Link to="/Relatórios">
+                <Link to="/Relatórios" onClick={toggleMenu}>
                   {" "}
                   <DataSaverOffIcon />
                 </Link>
 
-                <Link to="/Relatórios">
+                <Link to="/Relatórios" onClick={toggleMenu}>
                   {" "}
                   <span>Relatórios</span>
                 </Link>
