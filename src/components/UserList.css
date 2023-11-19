@@ -70,6 +70,12 @@ table {
   border: 1px solid #ccc;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 50dvh;
+  border-radius: 5px;
+  
 }
 
 .delete-modal p {
@@ -83,6 +89,8 @@ table {
   color: #fff;
   border: none;
   cursor: pointer;
+  border-radius: 5px;
+
 }
 
 .delete-modal button:hover {
@@ -96,4 +104,10 @@ table {
 
 .delete-modal button:last-child:hover {
   background-color: #999;
+}
+
+.delete-modal .buttonDeleteStyle{
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

@@ -82,8 +82,11 @@ const UserList = () => {
     <div className="overlay" onClick={handleCancelDelete}></div>
     <div className="delete-modal">
       <p>Você tem certeza que deseja excluir o usuário?</p>
+      <div className="buttonDeleteStyle">
       <button onClick={() => handleDelete(deleteUserId)}>Sim</button>
-      <button onClick={handleCancelDelete}>Cancelar</button>
+      <button  onClick={handleCancelDelete}>Cancelar</button>
+      </div>
+      
     </div>
   </div>
 )}

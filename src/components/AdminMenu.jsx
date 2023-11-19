@@ -31,7 +31,6 @@ const UserForm = ({ closeForm }) => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:3001/user', {
-        name: name,
         email: email,
         password: password,
         role: role,
@@ -94,14 +93,7 @@ const UserForm = ({ closeForm }) => {
             theme="light"
           />
           <form onSubmit={handleFormSubmit} className="user-form">
-            <label htmlFor="name">Nome</label>
-            <input
-              type="text"
-              name="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
+           
             <label htmlFor="email">Email</label>
             <input
               type="text"

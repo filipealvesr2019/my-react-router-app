@@ -5,7 +5,7 @@ import AdminMenu from "../../components/AdminMenu";
 export default function Admin() {
   return (
     <div className="AdminContainer">
-      <AdminMenu></AdminMenu>
+      <AdminMenu className='AdminMenu'></AdminMenu>
       <div className="table"/>
       <div className="h1">
         <h1>Cadastro de Usuarios</h1>
