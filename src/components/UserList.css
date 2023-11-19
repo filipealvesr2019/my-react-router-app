@@ -129,3 +129,10 @@ table {
   cursor: pointer;
 }
 
+
+
+@media (max-width: 600px) {
+  .tbody{
+    margin: 0;
+  }
+}

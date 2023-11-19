@@ -17,6 +17,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
+      
       const response = await axios.post('http://localhost:3001/login', {
         email: email,
         password: password
@@ -43,23 +44,27 @@ const Login = () => {
 
   const handleLogout = () => {
     // Limpar token e role do localStorage
+
     localStorage.removeItem('token');
     localStorage.removeItem('role');
     setLoggedIn(false);
     setIsAdmin(false);
   };
 
+
+  
   useEffect(() => {
     // Adicionar efeito para verificar o estado de loggedIn ao carregar a página
     setLoggedIn(Boolean(storedToken));
     setIsAdmin(storedRole === 'administrador');
   }, [storedToken, storedRole]);
 
-  // Renderização condicional com base no estado de loggedIn e isAdmin
+
+
   if (loggedIn) {
     if (isAdmin) {
       return (
-        <div>
+        <div className='logout-container'>
           <AdminPage />
           <div className='button' onClick={handleLogout}> <LogoutIcon ></LogoutIcon>  <span>Sair</span></div>
 
@@ -103,5 +108,6 @@ const Login = () => {
     </div>
   );
 };
+
 
 export default Login;

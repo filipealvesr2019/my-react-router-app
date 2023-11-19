@@ -23,10 +23,159 @@ import Sales from "../../pages/Sales/Sales";
 import Categories from "../../pages/Categories/Category";
 import Clients from "../../pages/Clients/Clients";
 import Transactions from "../../pages/Transactions/Transaction";
+
+
+import LogoutIcon from '@mui/icons-material/Logout';
+import { useState } from 'react';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 export const Sidebar = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+ 
+
   return (
     <>
-      <div className="sidebar">
+      <div className="sidebarMobile">
+      <div className="hamburger-menu">
+      <div className="hamburger-icon" onClick={toggleMenu}>
+        {menuOpen ? <CloseIcon /> : <MenuIcon />}
+      </div>
+      {menuOpen && (
+        <div className="menu">
+          {/* Adicione seus itens de menu aqui */}
+          <div className="sidebar">
+        <div className="sidebarWrapper">
+          <div className="sidebarMenu">
+            <h3 className="sidebarTitle">Dashboard</h3>
+            <ul className="sidebarList">
+              <li className="sidebarlistItem">
+                <Link to="/Home">
+                  <LineStyleIcon />
+                </Link>
+
+                <Link to="/Home">
+                  {" "}
+                  <span>Home</span>
+                </Link>
+              </li>
+              <li className="sidebarlistItem">
+                <Link to="/Produtos">
+                  <AddCardIcon />
+                </Link>
+
+                <Link to="/Produtos">Produtos</Link>
+              </li>
+              <li className="sidebarlistItem">
+                <Link to="/Categorias">
+                  <CategoryIcon />
+                </Link>
+
+                <Link to="/Categorias">
+                  {" "}
+                  <span>Categorias</span>
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div className="sidebarMenu">
+            <h3 className="sidebarTitle">Menu Rapido</h3>
+            <ul className="sidebarList">
+              <li className="sidebarlistItem">
+                <Link to="/Administrador">
+                  <SupervisorAccountIcon />
+                </Link>
+                <Link to="/Administrador">
+                  {" "}
+                  <span>Cadastro</span>
+                </Link>
+              </li>
+              <li className="sidebarlistItem">
+                <Link to="/Configuração">
+                  {" "}
+                  <SettingsIcon />
+                </Link>
+
+                <Link to="/Configuração">
+                  {" "}
+                  <span>configuração</span>
+                </Link>
+              </li>
+              <li className="sidebarlistItem">
+                <Link to="/Clientes">
+                  <LocalMallIcon />
+                </Link>
+
+                <Link to="/Clientes">
+                  <span>Clientes</span>
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div className="sidebarMenu">
+            <h3 className="sidebarTitle">Financeiro</h3>
+            <ul className="sidebarList">
+              <li className="sidebarlistItem">
+                <Link to="/Balanços">
+                  {" "}
+                  <BarChartIcon />
+                </Link>
+
+                <Link to="/Balanços">
+                  {" "}
+                  <span>Balanços</span>
+                </Link>
+              </li>
+              <li className="sidebarlistItem">
+                <Link to="/Vendas">
+                  {" "}
+                  <MonetizationOnIcon />
+                </Link>
+
+                <Link to="/Vendas">
+                  {" "}
+                  <span>Vendas</span>
+                </Link>
+              </li>
+              <li className="sidebarlistItem">
+                <Link to="/Transações">
+                  <TimelineIcon />
+                </Link>
+
+                <Link to="/Transações">
+                  {" "}
+                  <span>Transações</span>
+                </Link>
+              </li>
+              <li className="sidebarlistItem">
+                <Link to="/Relatórios">
+                  {" "}
+                  <DataSaverOffIcon />
+                </Link>
+
+                <Link to="/Relatórios">
+                  {" "}
+                  <span>Relatórios</span>
+                </Link>
+              </li>
+              <li className="sidebarlistItem">
+        <LogoutIcon /> Sair
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+        </div>
+      )}
+    </div>
+      </div>
+
+
+      <div className="sidebar desktop">
         <div className="sidebarWrapper">
           <div className="sidebarMenu">
             <h3 className="sidebarTitle">Dashboard</h3>

@@ -61,7 +61,7 @@ const UserList = () => {
               <th>Ações</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className='tbody'>
             {users.map((user) => (
               <tr key={user._id}>
                 <td className={user.role}>{user.role} </td>
