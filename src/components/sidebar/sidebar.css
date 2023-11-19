@@ -83,20 +83,26 @@
     left:  0;
     border: 1px solid #ddd;
     height: 100dvh;
+    z-index: 1000; 
+
   }
   
-  
-.shadow{
-   
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Cor de fundo preta semi-transparente */
-  z-index: 999; /* Coloque o overlay acima do modal */
-}
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Ajuste o valor alpha para a transparência desejada */
+    z-index: 1000; 
+  }
+
   @media screen and (width <= 600px) {
     .desktop{
         display: none;
     }
+
+    
     
   }
 

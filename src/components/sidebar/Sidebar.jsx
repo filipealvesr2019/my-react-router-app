@@ -45,6 +45,10 @@ export const Sidebar = () => {
         {menuOpen ? <CloseIcon /> : <MenuIcon />}
       </div>
       {menuOpen && (
+        
+        <>
+        <div className="overlay" onClick={toggleMenu}></div>
+
         <div className="menu">
           {/* Adicione seus itens de menu aqui */}
           <div className="sidebar">
@@ -168,6 +172,8 @@ export const Sidebar = () => {
         </div>
       </div>
         </div>
+            </>
+
       )}
     </div>
       </div>
