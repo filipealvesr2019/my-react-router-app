@@ -3,6 +3,7 @@ import axios from 'axios';
 import './UserList.css';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import CloseIcon from '@mui/icons-material/Close';
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
@@ -81,6 +82,8 @@ const UserList = () => {
   <div>
     <div className="overlay" onClick={handleCancelDelete}></div>
     <div className="delete-modal">
+    <CloseIcon className="close-icon" onClick={handleCancelDelete} />
+
       <p>Você tem certeza que deseja excluir o usuário?</p>
       <div className="buttonDeleteStyle">
       <button onClick={() => handleDelete(deleteUserId)}>Sim</button>
