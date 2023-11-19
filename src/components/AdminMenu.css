@@ -67,7 +67,7 @@
   background-color: white;
   padding: 20px;
   border: 1px solid #888;
-  width: 22%;
+  width: 50%;
   align-items: center;
   position: relative;
 }
@@ -94,7 +94,7 @@
 /* Para telas menores, ajuste o layout */
 @media screen and (width < 700px) {
   .modal-content{
-    width: 80%;
+    width: 100%;
   }
 
 .user-form {
