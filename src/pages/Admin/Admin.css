@@ -17,10 +17,15 @@
     margin-top: 1rem;
   }
 
-  .list{
-    margin-left: -4rem;
-  }
+ 
 
-  .h1{
-    margin-left: -4rem;
+  @media screen and (width <= 600px) {
+    .list{
+      margin-left: -4rem;
     }
+  
+    .h1{
+      margin-left: -4rem;
+      font-size: 1rem;
+      }
+  }
