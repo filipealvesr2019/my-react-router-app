@@ -23,7 +23,6 @@ const Login = () => {
         password: password
       });
 
-
       // Verifique a resposta do backend e defina o estado apropriado com base nela
       if (response.data.role === 'administrador') {
         setLoggedIn(true);

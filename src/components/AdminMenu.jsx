@@ -34,10 +34,12 @@ const UserForm = ({ closeForm }) => {
         password: password,
         role: role,
       });
-      const { email, password , role } = response.data;
+      console.log('Sucesso ao criar usuário:', response.data);
       if (role === 'administrador' || role === 'funcionario') {
         // Armazenar informações no localStorage
         
+        localStorage.setItem('name', name);
+
         toast.success('Usuário criado com sucesso!', {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 3000,
