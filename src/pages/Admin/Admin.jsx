@@ -3,6 +3,8 @@ import UserList from "../../components/UserList";
 import "./Admin.css";
 import AdminMenu from "../../components/AdminMenu";
 export default function Admin() {
+
+  
   return (
     <div className="AdminContainer">
       <AdminMenu className='AdminMenu'></AdminMenu>
@@ -10,7 +12,10 @@ export default function Admin() {
       <div className="h1">
         <h1>Cadastro de Usuarios</h1>
       </div>
+      
       <div className="list">
+        
+        
         <UserList></UserList>
       </div>
     </div>
