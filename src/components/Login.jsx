@@ -41,9 +41,6 @@ const Login = () => {
     } catch (error) {
       console.error('Erro na solicitação de login', error);
     }
-
-    const data =  await response.json();
-
   };
 
   const handleLogout = () => {
