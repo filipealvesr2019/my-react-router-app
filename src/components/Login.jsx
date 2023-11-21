@@ -23,6 +23,7 @@ const Login = () => {
         password: password
       });
 
+
       // Verifique a resposta do backend e defina o estado apropriado com base nela
       if (response.data.role === 'administrador') {
         setLoggedIn(true);
@@ -40,6 +41,9 @@ const Login = () => {
     } catch (error) {
       console.error('Erro na solicitação de login', error);
     }
+
+    const data =  await response.json();
+
   };
 
   const handleLogout = () => {
