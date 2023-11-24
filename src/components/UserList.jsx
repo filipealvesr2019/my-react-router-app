@@ -85,8 +85,8 @@ const UserList = () => {
     <div className="overlay" onClick={handleCancelDelete}></div>
     <div className="delete-modal">
     <CloseIcon className="close-icon" onClick={handleCancelDelete} />
-
-      <p>Você tem certeza que deseja excluir o usuário?</p>
+      <i className='alert'><img src="https://res.cloudinary.com/dcodt2el6/image/upload/v1700856775/warning_apucds.png" alt="" /></i>
+      <p>Você tem certeza que deseja  <span className='spanName'>excluir</span> o usuário?</p>
       <div className="buttonDeleteStyle">
       <button onClick={() => handleDelete(deleteUserId)}>Sim</button>
       <button  onClick={handleCancelDelete}>Não</button>
