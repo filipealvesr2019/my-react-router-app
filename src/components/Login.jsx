@@ -30,7 +30,7 @@ const Login = () => {
         setLoggedIn(true);
         setIsAdmin(false);
       } else {
-        alert('Credenciais inválidas');
+        alert('Email ou senha invlaidos.');
       }
   
       // Restante do código...
