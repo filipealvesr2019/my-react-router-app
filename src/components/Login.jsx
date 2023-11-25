@@ -1,29 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie'; // Importe a biblioteca js-cookie
 import AdminPage from '../AdminPage';
 import EmployeePage from '../EmployeePage';
 import LogoutIcon from '@mui/icons-material/Logout';
 import './Login.css';
 
 const Login = () => {
-
-  const storedToken = localStorage.getItem('token');
-  const storedRole = localStorage.getItem('role');
+  const storedToken = Cookies.get('token');
+  const storedRole = Cookies.get('role');
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loggedIn, setLoggedIn] = useState(Boolean(storedToken));
-  const [isAdmin, setIsAdmin] = useState(storedRole === 'adminstrador');
+  const [isAdmin, setIsAdmin] = useState(storedRole === 'administrador');
 
   const handleLogin = async () => {
     try {
-      
       const response = await axios.get('http://localhost:3001/user', {
         email: email,
         password: password
       });
 
-      // Verifique a resposta do backend e defina o estado apropriado com base nela
       if (response.data.role === 'administrador') {
         setLoggedIn(true);
         setIsAdmin(true);
@@ -34,48 +32,47 @@ const Login = () => {
         alert('Credenciais inválidas');
       }
 
-      // Armazenar token e role no localStorage
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('role', response.data.role);
+      // Armazenar token e role nos cookies
+      Cookies.set('token', response.data.token);
+      Cookies.set('role', response.data.role);
     } catch (error) {
       console.error('Erro na solicitação de login', error);
     }
   };
 
   const handleLogout = () => {
-    // Limpar token e role do localStorage
-
-    localStorage.removeItem('token');
-    localStorage.removeItem('role');
+    // Limpar token e role dos cookies
+    Cookies.remove('token');
+    Cookies.remove('role');
     setLoggedIn(false);
     setIsAdmin(false);
   };
 
-
-  
   useEffect(() => {
     // Adicionar efeito para verificar o estado de loggedIn ao carregar a página
     setLoggedIn(Boolean(storedToken));
     setIsAdmin(storedRole === 'administrador');
   }, [storedToken, storedRole]);
 
-
-
   if (loggedIn) {
     if (isAdmin) {
       return (
         <div className='logout-container'>
           <AdminPage />
-          <div className='button' onClick={handleLogout}> <LogoutIcon ></LogoutIcon>  <span>Sair</span></div>
-
+          <div className='button' onClick={handleLogout}>
+            <LogoutIcon />
+            <span>Sair</span>
+          </div>
         </div>
       );
     } else {
       return (
         <div>
           <EmployeePage />
-          <div className='buttonEmployeePage' onClick={handleLogout}> <LogoutIcon ></LogoutIcon>  <span>Sair</span></div>
-          
+          <div className='buttonEmployeePage' onClick={handleLogout}>
+            <LogoutIcon />
+            <span>Sair</span>
+          </div>
         </div>
       );
     }
@@ -102,12 +99,13 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <br />
-          <button className="loginButton" onClick={handleLogin}>Login</button>
+          <button className="loginButton" onClick={handleLogin}>
+            Login
+          </button>
         </div>
       </div>
     </div>
   );
 };
-
 
 export default Login;
