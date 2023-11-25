@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Cookies from 'js-cookie';
+import Cookies from 'js-cookie'; // Importe a biblioteca js-cookie
 import AdminPage from '../AdminPage';
 import EmployeePage from '../EmployeePage';
 import LogoutIcon from '@mui/icons-material/Logout';
-
 import './Login.css';
 
 const Login = () => {
@@ -22,7 +21,7 @@ const Login = () => {
         email: email,
         password: password
       });
-  
+      
       if (response.data.role === 'administrador') {
         setLoggedIn(true);
         setIsAdmin(true);
@@ -30,17 +29,19 @@ const Login = () => {
         setLoggedIn(true);
         setIsAdmin(false);
       } else {
-        alert('Email ou senha invlaidos.');
+        alert('Credenciais inválidas');
       }
-  
-      // Restante do código...
+
+      // Armazenar token e role nos cookies
+      Cookies.set('token', response.data.token);
+      Cookies.set('role', response.data.role);
     } catch (error) {
       console.error('Erro na solicitação de login', error);
     }
   };
-  
 
   const handleLogout = () => {
+    // Limpar token e role dos cookies
     Cookies.remove('token');
     Cookies.remove('role');
     setLoggedIn(false);
@@ -48,6 +49,7 @@ const Login = () => {
   };
 
   useEffect(() => {
+    // Adicionar efeito para verificar o estado de loggedIn ao carregar a página
     setLoggedIn(Boolean(storedToken));
     setIsAdmin(storedRole === 'administrador');
   }, [storedToken, storedRole]);
