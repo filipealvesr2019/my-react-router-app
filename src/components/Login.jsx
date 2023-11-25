@@ -21,7 +21,6 @@ const Login = () => {
         email: email,
         password: password
       });
-
       if (response.data.role === 'administrador') {
         setLoggedIn(true);
         setIsAdmin(true);
