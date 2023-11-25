@@ -3,10 +3,10 @@ import axios from 'axios';
 import AdminPage from '../AdminPage';
 import EmployeePage from '../EmployeePage';
 import LogoutIcon from '@mui/icons-material/Logout';
-
 import './Login.css';
 
 const Login = () => {
+
   const storedToken = localStorage.getItem('token');
   const storedRole = localStorage.getItem('role');
 
@@ -18,7 +18,7 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       
-      const response = await axios.post('http://localhost:3001/login', {
+      const response = await axios.get('http://localhost:3001/user', {
         email: email,
         password: password
       });

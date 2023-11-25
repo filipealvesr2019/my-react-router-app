@@ -94,6 +94,7 @@ table {
   border-radius: 5px;
   font-size: 1rem;
   font-weight: 500;
+  margin-top: -2rem;
 
 
 }
@@ -154,4 +155,16 @@ th, td {
   }
 }
 
+}
+
+
+.alert{
+  display: flex;
+  margin: 0 auto;
+}
+
+
+.spanName{
+  color: black;
+  font-weight: 600;
 }
