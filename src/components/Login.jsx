@@ -5,6 +5,7 @@ import AdminPage from '../AdminPage';
 import EmployeePage from '../EmployeePage';
 import LogoutIcon from '@mui/icons-material/Logout';
 import './Login.css';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const storedToken = Cookies.get('token');
@@ -17,7 +18,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/user', {
+      const response = await axios.post('http://localhost:3001/login', {
         email: email,
         password: password
       });

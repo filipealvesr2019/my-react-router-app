@@ -217,7 +217,7 @@ export const Sidebar = () => {
             <h3 className="sidebarTitle">Menu Rapido</h3>
             <ul className="sidebarList">
               <li className="sidebarlistItem">
-                <Link to="/Administrador">
+                <Link to="/Admin">
                   <SupervisorAccountIcon />
                 </Link>
                 <Link to="/Administrador">
@@ -298,7 +298,7 @@ export const Sidebar = () => {
         </div>
       </div>
       <Routes>
-        <Route path="/Administrador" element={<Admin />} />
+        <Route path="/Admin" element={<Admin />} />
         <Route path="/Home" element={<Home />} />
         <Route path="/Produtos" element={<Products />} />
         <Route path="/Categorias" element={<Categories />} />
