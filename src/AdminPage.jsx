@@ -3,6 +3,7 @@ import UserList from './components/UserList';
 import styles from "./AdminPage.module.css"
 import Topbar from "./components/Topbar/Topbar"
 import { Sidebar } from "./components/sidebar/Sidebar";
+
 import './App.css';
 const AdminPage = () => {
     // Sua lógica para a página do administrador aqui

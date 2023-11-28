@@ -11,18 +11,9 @@ import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import AddCardIcon from "@mui/icons-material/AddCard";
-import { Home } from "../../pages/home/Home";
+
 import { Link } from "react-router-dom";
-import { Routes, Route } from "react-router-dom";
-import Admin from "../../pages/Admin/Admin";
-import Config from "../../pages/Config/Config";
-import Products from "../../pages/Products/Products";
-import Reports from "../../pages/Reports/Reports";
-import Deals from "../../pages/Deals/Deals";
-import Sales from "../../pages/Sales/Sales";
-import Categories from "../../pages/Categories/Category";
-import Clients from "../../pages/Clients/Clients";
-import Transactions from "../../pages/Transactions/Transaction";
+
 
 
 import { useState } from 'react';
@@ -185,11 +176,11 @@ export const Sidebar = () => {
             <h3 className="sidebarTitle">Dashboard</h3>
             <ul className="sidebarList">
               <li className="sidebarlistItem">
-                <Link to="/Home">
+                <Link to="/home">
                   <LineStyleIcon />
                 </Link>
 
-                <Link to="/Home">
+                <Link to="/home">
                   {" "}
                   <span>Home</span>
                 </Link>

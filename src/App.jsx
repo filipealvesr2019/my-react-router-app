@@ -16,7 +16,7 @@ import Reports from "./pages/Reports/Reports";
 import Deals from "./pages/Deals/Deals";
 import Categories from "./pages/Categories/Category";
 import Transactions from "./pages/Transactions/Transaction";
-
+import {Sidebar} from "./components/sidebar/Sidebar";
 
 const App = () => {
   return (
