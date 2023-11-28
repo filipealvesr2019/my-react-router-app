@@ -37,6 +37,7 @@ export const Sidebar = () => {
 
     setLoggedIn(false);
     setIsAdmin(false);
+    
 
   };
 
