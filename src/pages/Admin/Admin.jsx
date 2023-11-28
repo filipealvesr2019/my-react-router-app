@@ -20,8 +20,6 @@ export default function Admin() {
       </div>
       
       <div className="list">
-        
-        
         <UserList></UserList>
       </div>
         </div>

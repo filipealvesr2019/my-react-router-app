@@ -1,7 +1,11 @@
 import React from 'react'
+import { Sidebar } from '../../components/sidebar/Sidebar'
 
 export default function Config() {
   return (
-    <div>Config</div>
+    <div className="sidebar">  
+    <Sidebar/>
+
+    </div>
   )
 }

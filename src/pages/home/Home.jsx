@@ -5,11 +5,16 @@ import Topbar from "../../components/topBar/Topbar"
 
 export const Home = () => {
   return (
-    <div>
+    <>
     <Topbar></Topbar>
-    <div className="container">
+    <div className="containerHome">
+    
+    <div>
       <Sidebar></Sidebar>
     </div>
+    <About></About>
+
   </div>
+  </>
   )
 }

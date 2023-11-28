@@ -1,7 +1,13 @@
 import React from 'react'
+import { Sidebar } from '../../components/sidebar/Sidebar'
 
 export default function Category() {
   return (
-    <div>Category</div>
+    <div>
+        <div className="sidebar">  
+           <Sidebar/>
+
+           </div>
+    </div>
   )
 }
