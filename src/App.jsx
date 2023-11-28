@@ -1,19 +1,21 @@
 // src/App.jsx
 import React from "react";
 import Login from "./components/Login";
-import { Routes } from "react-router-dom";
-
+import AdminPage from "./AdminPage"
+import EmployeePage from "./EmployeePage"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import "./App.css";
 const App = () => {
   return (
     <>
-      <div>
-        <Login />
-      </div>
-      
+    <Router>
       <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/employee" element={<EmployeePage />} />
       </Routes>
+    </Router>
     </>
   );
 };

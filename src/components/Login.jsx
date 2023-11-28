@@ -5,7 +5,7 @@ import AdminPage from '../AdminPage';
 import EmployeePage from '../EmployeePage';
 import LogoutIcon from '@mui/icons-material/Logout';
 import './Login.css';
-import { useNavigate } from 'react-router-dom';
+
 
 const Login = () => {
   const storedToken = Cookies.get('token');
@@ -22,19 +22,19 @@ const Login = () => {
         email: email,
         password: password
       });
-
-      if (response.data.role === 'administrador') {
+      console.log(response)
+      if (response.data.user.role === 'administrador') {
         setLoggedIn(true);
         setIsAdmin(true);
-      } else if (response.data.role === 'funcionario') {
+      } else if (response.data.user.role === 'funcionario') {
         setLoggedIn(true);
         setIsAdmin(false);
       } else {
         alert('Credenciais inválidas');
       }
 
-      Cookies.set('token', response.data.token);
-      Cookies.set('role', response.data.role);
+      Cookies.set('token', response.data.user.token);
+      Cookies.set('role', response.data.user.role);
     } catch (error) {
       console.error('Erro na solicitação de login', error);
     }

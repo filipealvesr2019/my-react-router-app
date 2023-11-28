@@ -297,18 +297,7 @@ export const Sidebar = () => {
           </div>
         </div>
       </div>
-      <Routes>
-        <Route path="/Admin" element={<Admin />} />
-        <Route path="/Home" element={<Home />} />
-        <Route path="/Produtos" element={<Products />} />
-        <Route path="/Categorias" element={<Categories />} />
-        <Route path="/Configuração" element={<Config />} />
-        <Route path="/Clientes" element={<Clients />} />
-        <Route path="/Vendas" element={<Sales />} />
-        <Route path="/Transações" element={<Transactions />} />
-        <Route path="/Relatórios" element={<Reports />} />
-        <Route path="/Balanços" element={<Deals />} />
-      </Routes>
+    
     </>
   );
 };
