@@ -257,7 +257,7 @@ export const Sidebar = () => {
                   <MonetizationOnIcon />
                 </Link>
 
-                <Link to="/tendas">
+                <Link to="/vendas">
                   {" "}
                   <span>Vendas</span>
                 </Link>
