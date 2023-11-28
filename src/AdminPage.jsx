@@ -1,7 +1,7 @@
 import AdminMenu from "./components/AdminMenu";
 import UserList from './components/UserList';
 import styles from "./AdminPage.module.css"
-import Topbar from "./components/Topbar/Topbar"
+import Topbar from "./components/topBar/Topbar"
 import { Sidebar } from "./components/sidebar/Sidebar";
 
 import './App.css';
@@ -13,8 +13,6 @@ const AdminPage = () => {
       <div className={styles.container}>
         <Sidebar></Sidebar>
       </div>
-
-    
     </div>
     )
   };

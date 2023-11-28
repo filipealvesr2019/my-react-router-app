@@ -26,7 +26,6 @@ export const Sidebar = () => {
     setMenuOpen(!menuOpen);
   };
 
- 
 
   return (
     <>
@@ -91,22 +90,22 @@ export const Sidebar = () => {
                 </Link>
               </li>
               <li className="sidebarlistItem">
-                <Link to="/Configuração" onClick={toggleMenu}>
+                <Link to="/Configuracao" onClick={toggleMenu}>
                   {" "}
                   <SettingsIcon />
                 </Link>
 
-                <Link to="/Configuração" onClick={toggleMenu}>
+                <Link to="/Configuraco" onClick={toggleMenu}>
                   {" "}
                   <span>configuração</span>
                 </Link>
               </li>
               <li className="sidebarlistItem">
-                <Link to="/Clientes" onClick={toggleMenu}>
+                <Link to="/clientes" onClick={toggleMenu}>
                   <LocalMallIcon />
                 </Link>
 
-                <Link to="/Clientes" onClick={toggleMenu}>
+                <Link to="/clientes" onClick={toggleMenu}>
                   <span>Clientes</span>
                 </Link>
               </li>
@@ -116,7 +115,7 @@ export const Sidebar = () => {
             <h3 className="sidebarTitle">Financeiro</h3>
             <ul className="sidebarList">
               <li className="sidebarlistItem">
-                <Link to="/Balanços" onClick={toggleMenu}>
+                <Link to="/balanços" onClick={toggleMenu}>
                   {" "}
                   <BarChartIcon />
                 </Link>
@@ -127,33 +126,33 @@ export const Sidebar = () => {
                 </Link>
               </li>
               <li className="sidebarlistItem">
-                <Link to="/Vendas" onClick={toggleMenu}>
+                <Link to="/vendas" onClick={toggleMenu}>
                   {" "}
                   <MonetizationOnIcon />
                 </Link>
 
-                <Link to="/Vendas" onClick={toggleMenu}>
+                <Link to="/vendas" onClick={toggleMenu}>
                   {" "}
                   <span>Vendas</span>
                 </Link>
               </li>
               <li className="sidebarlistItem">
-                <Link to="/Transações" onClick={toggleMenu}>
+                <Link to="/Transacoes" onClick={toggleMenu}>
                   <TimelineIcon />
                 </Link>
 
-                <Link to="/Transações" onClick={toggleMenu}>
+                <Link to="/Transacoes" onClick={toggleMenu}>
                   {" "}
                   <span>Transações</span>
                 </Link>
               </li>
               <li className="sidebarlistItem">
-                <Link to="/Relatórios" onClick={toggleMenu}>
+                <Link to="/relatorios" onClick={toggleMenu}>
                   {" "}
                   <DataSaverOffIcon />
                 </Link>
 
-                <Link to="/Relatórios" onClick={toggleMenu}>
+                <Link to="/relatorios" onClick={toggleMenu}>
                   {" "}
                   <span>Relatórios</span>
                 </Link>
@@ -186,18 +185,18 @@ export const Sidebar = () => {
                 </Link>
               </li>
               <li className="sidebarlistItem">
-                <Link to="/Produtos">
+                <Link to="/produtos">
                   <AddCardIcon />
                 </Link>
 
-                <Link to="/Produtos">Produtos</Link>
+                <Link to="/produtos">Produtos</Link>
               </li>
               <li className="sidebarlistItem">
-                <Link to="/Categorias">
+                <Link to="/categorias">
                   <CategoryIcon />
                 </Link>
 
-                <Link to="/Categorias">
+                <Link to="/categorias">
                   {" "}
                   <span>Categorias</span>
                 </Link>
@@ -242,12 +241,12 @@ export const Sidebar = () => {
             <h3 className="sidebarTitle">Financeiro</h3>
             <ul className="sidebarList">
               <li className="sidebarlistItem">
-                <Link to="/balanços">
+                <Link to="/balancos">
                   {" "}
                   <BarChartIcon />
                 </Link>
 
-                <Link to="/balanços">
+                <Link to="/balancos">
                   {" "}
                   <span>Balanços</span>
                 </Link>
@@ -283,6 +282,7 @@ export const Sidebar = () => {
                   {" "}
                   <span>Relatórios</span>
                 </Link>
+
               </li>
             </ul>
           </div>

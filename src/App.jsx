@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import "./App.css";
 import Admin from "./pages/Admin/Admin";
-import { Home } from "@mui/icons-material";
+import  {Home}  from "./pages/home/Home";
 import Products from "./pages/Products/Products";
 import Config from "./pages/Config/Config";
 import Clients from "./pages/Clients/Clients";
@@ -32,12 +32,12 @@ const App = () => {
         <Route path="/home" element={<Home />} />
         <Route path="/produtos" element={<Products />} />
         <Route path="/categorias" element={<Categories />} />
-        <Route path="/configuração" element={<Config />} />
+        <Route path="/configuracao" element={<Config />} />
         <Route path="/clientes" element={<Clients />} />
         <Route path="/vendas" element={<Sales />} />
         <Route path="/transacoes" element={<Transactions />} />
         <Route path="/relatorios" element={<Reports />} />
-        <Route path="/balanços" element={<Deals />} />
+        <Route path="/balancos" element={<Deals />} />
       </Routes>
     </Router>
     </>
