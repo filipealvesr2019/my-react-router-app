@@ -11,7 +11,8 @@
   }
 
   .AdminContainer{
-    flex: 3;
+
+    display: flex;
   }
   .AdminMenu{
     margin-top: 1rem;
