@@ -11,7 +11,6 @@ import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import AddCardIcon from "@mui/icons-material/AddCard";
-import Cookies from 'js-cookie';
 
 import { Link } from "react-router-dom";
 
@@ -20,26 +19,15 @@ import { Link } from "react-router-dom";
 import { useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
-import   LogoutButton  from "../LogoutButton";
 export const Sidebar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(true); // Replace with your actual state
-  const [isAdmin, setIsAdmin] = useState(true); // Replace with your actual state
+
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
 
-  const handleLogout = () => {
-    Cookies.remove('token');
-    Cookies.remove('role');
-
-    setLoggedIn(false);
-    setIsAdmin(false);
-    
-
-  };
 
 
   return (
@@ -300,12 +288,7 @@ export const Sidebar = () => {
               
 
               </li>
-              <li className="sidebarlistItem buttonStyleLogout">
-              {loggedIn && <LogoutButton onLogout={handleLogout} />}
-
-
-
-              </li>
+           
             </ul>
             
           </div>
