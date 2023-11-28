@@ -1,5 +1,5 @@
 import "./sidebar.css";
-import React from "react";
+
 import "./sidebar.css";
 import LineStyleIcon from "@mui/icons-material/LineStyle";
 import TimelineIcon from "@mui/icons-material/Timeline";
@@ -11,6 +11,7 @@ import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import AddCardIcon from "@mui/icons-material/AddCard";
+import Cookies from 'js-cookie';
 
 import { Link } from "react-router-dom";
 
@@ -19,11 +20,24 @@ import { Link } from "react-router-dom";
 import { useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
+import   LogoutButton  from "../LogoutButton";
 export const Sidebar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true); // Replace with your actual state
+  const [isAdmin, setIsAdmin] = useState(true); // Replace with your actual state
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
+  };
+
+
+  const handleLogout = () => {
+    Cookies.remove('token');
+    Cookies.remove('role');
+
+    setLoggedIn(false);
+    setIsAdmin(false);
+
   };
 
 
@@ -137,11 +151,11 @@ export const Sidebar = () => {
                 </Link>
               </li>
               <li className="sidebarlistItem">
-                <Link to="/Transacoes" onClick={toggleMenu}>
+                <Link to="/transacoes" onClick={toggleMenu}>
                   <TimelineIcon />
                 </Link>
 
-                <Link to="/Transacoes" onClick={toggleMenu}>
+                <Link to="/transacoes" onClick={toggleMenu}>
                   {" "}
                   <span>Transações</span>
                 </Link>
@@ -282,9 +296,17 @@ export const Sidebar = () => {
                   {" "}
                   <span>Relatórios</span>
                 </Link>
+              
+
+              </li>
+              <li className="sidebarlistItem buttonStyleLogout">
+              {loggedIn && <LogoutButton onLogout={handleLogout} />}
+
+
 
               </li>
             </ul>
+            
           </div>
         </div>
       </div>

@@ -7,7 +7,7 @@ const LogoutButton = ({ onLogout }) => {
   const handleLogout = () => {
     Cookies.remove('token');
     Cookies.remove('role');
-    onLogout(); // Chama a função de logout fornecida pelo componente pai
+    onLogout(); // Call the onLogout prop to update the state in the parent component
   };
 
   return (
