@@ -4,7 +4,7 @@ import "./Admin.css";
 import AdminMenu from "../../components/AdminMenu";
 import {Sidebar} from "../../components/sidebar/Sidebar"
 import LogoutIcon from '@mui/icons-material/Logout';
-import { logoutFunction } from '../../components/Login';
+import LogoutButton from "../../components/LogoutButton";
 
 export default function Admin() {
  
@@ -15,6 +15,7 @@ export default function Admin() {
            <Sidebar/>
            <LogoutIcon></LogoutIcon>
            <span >Sair</span>
+
            </div>
         <div className="cadastro">
         <AdminMenu className='AdminMenu'></AdminMenu>

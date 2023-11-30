@@ -7,7 +7,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import './Login.css';
 
 
-const Login = () => {
+const Login = (logout) => {
   const storedToken = Cookies.get('token');
   const storedRole = Cookies.get('role');
 
@@ -105,5 +105,4 @@ const Login = () => {
     </div>
   );
 };
-
 export default Login;
