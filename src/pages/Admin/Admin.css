@@ -21,6 +21,10 @@
     margin-top: 1rem;
   }
 
+  .sidebar{
+    display: flex;
+    align-items: center;
+  }
  
 
   @media screen and (width <= 600px) {
