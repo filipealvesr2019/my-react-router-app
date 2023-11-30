@@ -1,21 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import UserList from "../../components/UserList";
 import "./Admin.css";
 import AdminMenu from "../../components/AdminMenu";
 import {Sidebar} from "../../components/sidebar/Sidebar"
 import LogoutIcon from '@mui/icons-material/Logout';
-import LogoutButton from "../../components/LogoutButton";
+import { logoutFunction } from '../../components/Login';
 
 export default function Admin() {
+ 
 
   return (
     <div className="AdminContainer">
            <div className="sidebar">  
            <Sidebar/>
            <LogoutIcon></LogoutIcon>
-           <LogoutButton />
-
-           <span>Sair</span>
+           <span >Sair</span>
            </div>
         <div className="cadastro">
         <AdminMenu className='AdminMenu'></AdminMenu>
