@@ -5,17 +5,21 @@ import AdminMenu from "../../components/AdminMenu";
 import { Sidebar } from "../../components/sidebar/Sidebar";
 import LogoutIcon from '@mui/icons-material/Logout';
 
+import { useAuth } from '../../context/AuthContext';
 
 
 
 
 export default function Admin() {
+  
+  const { loggedIn, isAdmin, login, logout } = useAuth();
+
 
   return (
     <div className="AdminContainer">
       <div className="sidebar">  
         <Sidebar />
-        <div className='button'>
+        <div className='button' onClick={logout }>
           <LogoutIcon />
           <span> Sair</span>
         </div>
