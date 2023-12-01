@@ -11,6 +11,15 @@ import { atom } from 'jotai';
 export const loggedInAtom = atom(false);
 export const isAdminAtom = atom(false);
 
+export const logoutAtom = atom(null, (get, set) => {
+  return () => {
+    // Lógica de logout
+    Cookies.remove('token');
+    Cookies.remove('role');
+    set(loggedInAtom, false);
+    set(isAdminAtom, false);
+  };
+});
 
 
 export const AuthProvider = ({ children }) => {
