@@ -14,7 +14,10 @@ export default function Admin() {
     <div className="AdminContainer">
       <div className="sidebar">  
         <Sidebar />
-    
+        <div className='button' onClick={logout}>
+          <LogoutIcon />
+          <span> Sair</span>
+        </div>
       </div>
       <div className="cadastro">
         <AdminMenu className='AdminMenu'></AdminMenu>
@@ -26,10 +29,7 @@ export default function Admin() {
           <UserList></UserList>
         </div>
       </div>
-      <div className='button' onClick={logout}>
-          <LogoutIcon />
-          <span>Sair</span>
-        </div>
+
 
     </div>
   );
