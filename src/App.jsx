@@ -25,7 +25,7 @@ function App() {
       <ErrorBoundary>
 
       <AuthProvider>
-        <div>
+        <div className='containerLogin'>
           <nav>
             <ul>
               <li>
