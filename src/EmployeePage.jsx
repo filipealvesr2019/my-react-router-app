@@ -1,11 +1,16 @@
+// src/EmployeePage.js
 import React from 'react';
+import { useAuth } from './context/AuthContext';
 
-
-
-// Página do funcionário
 const EmployeePage = () => {
-  // Sua lógica para a página do funcionário aqui
-  return <div>Página do Funcionário</div>;
+  const { logout } = useAuth();
+
+  return (
+    <div>
+      <h1>Welcome to Employee Page</h1>
+      <button onClick={logout}>Logout</button>
+    </div>
+  );
 };
 
 export default EmployeePage;

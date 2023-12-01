@@ -1,79 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Cookies from 'js-cookie';
+// Login.js
+import React, { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
 import AdminPage from '../AdminPage';
 import EmployeePage from '../EmployeePage';
 import LogoutIcon from '@mui/icons-material/Logout';
 import './Login.css';
 
-
 const Login = () => {
-  const storedToken = Cookies.get('token');
-  const storedRole = Cookies.get('role');
-
+  const { loggedIn, isAdmin, login, logout } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loggedIn, setLoggedIn] = useState(Boolean(storedToken));
-  const [isAdmin, setIsAdmin] = useState(storedRole === 'administrador');
 
-  const handleLogin = async () => {
-    try {
-      const response = await axios.post('http://localhost:3001/login', {
-        email: email,
-        password: password
-      });
-      console.log(response)
-      if (response.data.user.role === 'administrador') {
-        setLoggedIn(true);
-        setIsAdmin(true);
-      } else if (response.data.user.role === 'funcionario') {
-        setLoggedIn(true);
-        setIsAdmin(false);
-      } else {
-        alert('Credenciais inválidas');
-      }
-
-      Cookies.set('token', response.data.user.token);
-      Cookies.set('role', response.data.user.role);
-    } catch (error) {
-      console.error('Erro na solicitação de login', error);
-    }
+  const handleLogin = () => {
+    login(email, password);
   };
-
-  const handleLogout = () => {
-    Cookies.remove('token');
-    Cookies.remove('role');
-    setLoggedIn(false);
-    setIsAdmin(false);
-  };
-
-  useEffect(() => {
-    setLoggedIn(Boolean(storedToken));
-    setIsAdmin(storedRole === 'administrador');
-  }, [storedToken, storedRole]);
 
   if (loggedIn) {
-    if (isAdmin) {
-      return (
-        <div className='logout-container'>
-          <AdminPage />
-          <div className='button' onClick={handleLogout}>
-            <LogoutIcon />
-            <span>Sair</span>
-          </div>
+    return (
+      <div className='logout-container'>
+        {isAdmin ? <AdminPage /> : <EmployeePage />}
+        <div className='button' onClick={logout}>
+          <LogoutIcon />
+          <span>Sair</span>
         </div>
-      );
-    } else {
-      return (
-        <div>
-          <EmployeePage />
-          <div className='buttonEmployeePage' onClick={handleLogout}>
-            <LogoutIcon />
-            <span>Sair</span>
-          </div>
-        </div>
-      );
-    }
+      </div>
+    );
   }
 
   return (
@@ -105,4 +56,5 @@ const Login = () => {
     </div>
   );
 };
+
 export default Login;

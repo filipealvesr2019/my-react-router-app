@@ -13,164 +13,163 @@ import LocalMallIcon from "@mui/icons-material/LocalMall";
 import AddCardIcon from "@mui/icons-material/AddCard";
 
 import { Link } from "react-router-dom";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { useAuth } from "../../context/AuthContext";
 
-
-
-import { useState } from 'react';
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
+import { useState } from "react";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
 export const Sidebar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-
+  const { logout } = useAuth();
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
-
-
-
   return (
     <>
       <div className="sidebarMobile">
-      <div className="hamburger-menu">
-      <div className="hamburger-icon " onClick={toggleMenu}>
-        {menuOpen ? <CloseIcon /> : <MenuIcon />}
-      </div>
-      {menuOpen && (
-        
-        <>
-        <div className="overlay" onClick={toggleMenu}></div>
-
-        <div className="menu">
-          {/* Adicione seus itens de menu aqui */}
-          <div className="sidebar">
-        <div className="sidebarWrapper">
-          
-          <div className="sidebarMenu ">
-            <h3 className="sidebarTitle">Dashboard</h3>
-            <ul className="sidebarList">
-              <li className="sidebarlistItem ">
-              <CloseIcon className="close-icon " onClick={toggleMenu}></CloseIcon>
-                <Link to="/home"  onClick={toggleMenu}>
-                  <LineStyleIcon />
-                </Link>
-
-                <Link to="/home" onClick={toggleMenu}>
-                  {" "}
-                  <span>Home</span>
-                </Link>
-              </li>
-              <li className="sidebarlistItem">
-                <Link to="/produtos" onClick={toggleMenu}>
-                  <AddCardIcon />
-                </Link>
-
-                <Link to="/produtos" onClick={toggleMenu}>Produtos</Link>
-              </li>
-              <li className="sidebarlistItem">
-                <Link to="/categorias" onClick={toggleMenu}>
-                  <CategoryIcon />
-                </Link>
-
-                <Link to="/categorias" onClick={toggleMenu}>
-                  {" "}
-                  <span>Categorias</span>
-                </Link>
-              </li>
-            </ul>
+        <div className="hamburger-menu">
+          <div className="hamburger-icon " onClick={toggleMenu}>
+            {menuOpen ? <CloseIcon /> : <MenuIcon />}
           </div>
-          <div className="sidebarMenu">
-            <h3 className="sidebarTitle">Menu Rapido</h3>
-            <ul className="sidebarList">
-              <li className="sidebarlistItem">
-                <Link to="/administrador" onClick={toggleMenu}>
-                  <SupervisorAccountIcon />
-                </Link>
-                <Link to="/administrador" onClick={toggleMenu}>
-                  {" "}
-                  <span>Cadastro</span>
-                </Link>
-              </li>
-              <li className="sidebarlistItem">
-                <Link to="/Configuracao" onClick={toggleMenu}>
-                  {" "}
-                  <SettingsIcon />
-                </Link>
+          {menuOpen && (
+            <>
+              <div className="overlay" onClick={toggleMenu}></div>
 
-                <Link to="/Configuraco" onClick={toggleMenu}>
-                  {" "}
-                  <span>configuração</span>
-                </Link>
-              </li>
-              <li className="sidebarlistItem">
-                <Link to="/clientes" onClick={toggleMenu}>
-                  <LocalMallIcon />
-                </Link>
+              <div className="menu">
+                {/* Adicione seus itens de menu aqui */}
+                <div className="sidebar">
+                  <div className="sidebarWrapper">
+                    <div className="sidebarMenu ">
+                      <h3 className="sidebarTitle">Dashboard</h3>
+                      <ul className="sidebarList">
+                        <li className="sidebarlistItem ">
+                          <CloseIcon
+                            className="close-icon "
+                            onClick={toggleMenu}
+                          ></CloseIcon>
+                          <Link to="/home" onClick={toggleMenu}>
+                            <LineStyleIcon />
+                          </Link>
 
-                <Link to="/clientes" onClick={toggleMenu}>
-                  <span>Clientes</span>
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div className="sidebarMenu">
-            <h3 className="sidebarTitle">Financeiro</h3>
-            <ul className="sidebarList">
-              <li className="sidebarlistItem">
-                <Link to="/balanços" onClick={toggleMenu}>
-                  {" "}
-                  <BarChartIcon />
-                </Link>
+                          <Link to="/home" onClick={toggleMenu}>
+                            {" "}
+                            <span>Home</span>
+                          </Link>
+                        </li>
+                        <li className="sidebarlistItem">
+                          <Link to="/produtos" onClick={toggleMenu}>
+                            <AddCardIcon />
+                          </Link>
 
-                <Link to="/Balanços" onClick={toggleMenu}>
-                  {" "}
-                  <span>Balanços</span>
-                </Link>
-              </li>
-              <li className="sidebarlistItem">
-                <Link to="/vendas" onClick={toggleMenu}>
-                  {" "}
-                  <MonetizationOnIcon />
-                </Link>
+                          <Link to="/produtos" onClick={toggleMenu}>
+                            Produtos
+                          </Link>
+                        </li>
+                        <li className="sidebarlistItem">
+                          <Link to="/categorias" onClick={toggleMenu}>
+                            <CategoryIcon />
+                          </Link>
 
-                <Link to="/vendas" onClick={toggleMenu}>
-                  {" "}
-                  <span>Vendas</span>
-                </Link>
-              </li>
-              <li className="sidebarlistItem">
-                <Link to="/transacoes" onClick={toggleMenu}>
-                  <TimelineIcon />
-                </Link>
+                          <Link to="/categorias" onClick={toggleMenu}>
+                            {" "}
+                            <span>Categorias</span>
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="sidebarMenu">
+                      <h3 className="sidebarTitle">Menu Rapido</h3>
+                      <ul className="sidebarList">
+                        <li className="sidebarlistItem">
+                          <Link to="/administrador" onClick={toggleMenu}>
+                            <SupervisorAccountIcon />
+                          </Link>
+                          <Link to="/administrador" onClick={toggleMenu}>
+                            {" "}
+                            <span>Cadastro</span>
+                          </Link>
+                        </li>
+                        <li className="sidebarlistItem">
+                          <Link to="/Configuracao" onClick={toggleMenu}>
+                            {" "}
+                            <SettingsIcon />
+                          </Link>
 
-                <Link to="/transacoes" onClick={toggleMenu}>
-                  {" "}
-                  <span>Transações</span>
-                </Link>
-              </li>
-              <li className="sidebarlistItem">
-                <Link to="/relatorios" onClick={toggleMenu}>
-                  {" "}
-                  <DataSaverOffIcon />
-                </Link>
+                          <Link to="/Configuraco" onClick={toggleMenu}>
+                            {" "}
+                            <span>configuração</span>
+                          </Link>
+                        </li>
+                        <li className="sidebarlistItem">
+                          <Link to="/clientes" onClick={toggleMenu}>
+                            <LocalMallIcon />
+                          </Link>
 
-                <Link to="/relatorios" onClick={toggleMenu}>
-                  {" "}
-                  <span>Relatórios</span>
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-        </div>
+                          <Link to="/clientes" onClick={toggleMenu}>
+                            <span>Clientes</span>
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="sidebarMenu">
+                      <h3 className="sidebarTitle">Financeiro</h3>
+                      <ul className="sidebarList">
+                        <li className="sidebarlistItem">
+                          <Link to="/balanços" onClick={toggleMenu}>
+                            {" "}
+                            <BarChartIcon />
+                          </Link>
+
+                          <Link to="/Balanços" onClick={toggleMenu}>
+                            {" "}
+                            <span>Balanços</span>
+                          </Link>
+                        </li>
+                        <li className="sidebarlistItem">
+                          <Link to="/vendas" onClick={toggleMenu}>
+                            {" "}
+                            <MonetizationOnIcon />
+                          </Link>
+
+                          <Link to="/vendas" onClick={toggleMenu}>
+                            {" "}
+                            <span>Vendas</span>
+                          </Link>
+                        </li>
+                        <li className="sidebarlistItem">
+                          <Link to="/transacoes" onClick={toggleMenu}>
+                            <TimelineIcon />
+                          </Link>
+
+                          <Link to="/transacoes" onClick={toggleMenu}>
+                            {" "}
+                            <span>Transações</span>
+                          </Link>
+                        </li>
+                        <li className="sidebarlistItem">
+                          <Link to="/relatorios" onClick={toggleMenu}>
+                            {" "}
+                            <DataSaverOffIcon />
+                          </Link>
+
+                          <Link to="/relatorios" onClick={toggleMenu}>
+                            {" "}
+                            <span>Relatórios</span>
+                          </Link>
+                        
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </>
-
-      )}
-    </div>
+          )}
+        </div>
       </div>
-
 
       <div className="sidebar desktop">
         <div className="sidebarWrapper">
@@ -285,16 +284,12 @@ export const Sidebar = () => {
                   {" "}
                   <span>Relatórios</span>
                 </Link>
-              
-
               </li>
            
             </ul>
-            
           </div>
         </div>
       </div>
-     
     </>
   );
 };

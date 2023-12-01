@@ -1,11 +1,10 @@
-// src/App.jsx
-import React from "react";
-import Login from "./components/Login";
-import AdminPage from "./AdminPage"
-import EmployeePage from "./EmployeePage"
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+// src/App.js
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
 
-import "./App.css";
+
+import Login from './components/Login';
 import Admin from "./pages/Admin/Admin";
 import  {Home}  from "./pages/home/Home";
 import Products from "./pages/Products/Products";
@@ -17,17 +16,33 @@ import Deals from "./pages/Deals/Deals";
 import Categories from "./pages/Categories/Category";
 import Transactions from "./pages/Transactions/Transaction";
 import {Sidebar} from "./components/sidebar/Sidebar";
-
-const App = () => {
+import AdminPage from './AdminPage';
+import EmployeePage from './EmployeePage';
+import ErrorBoundary from "./errors/ErrorBoundary"
+function App() {
   return (
-    <>
     <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/admin" element={<AdminPage />} />
-        <Route path="/employee" element={<EmployeePage />} />
-      </Routes>
-      <Routes>
+      <ErrorBoundary>
+
+      <AuthProvider>
+        <div>
+          <nav>
+            <ul>
+              <li>
+                <Link to="/"></Link>
+              </li>
+             
+            </ul>
+          </nav>
+
+          <Routes>
+          <Route path="/" element={<Login />} />
+            <Route path="/admin" element={<AdminPage />} />
+            <Route path="/employee" element={<EmployeePage />} />
+           
+            
+          </Routes>
+          <Routes>
         <Route path="/cadastro" element={<Admin />} />
         <Route path="/home" element={<Home />} />
         <Route path="/produtos" element={<Products />} />
@@ -39,9 +54,13 @@ const App = () => {
         <Route path="/relatorios" element={<Reports />} />
         <Route path="/balancos" element={<Deals />} />
       </Routes>
+
+        </div>
+      </AuthProvider>
+      </ErrorBoundary>
+
     </Router>
-    </>
   );
-};
+}
 
 export default App;
