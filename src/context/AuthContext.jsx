@@ -5,6 +5,14 @@ import Cookies from 'js-cookie';
 
 const AuthContext = createContext();
 
+// AuthContext.js
+import { atom } from 'jotai';
+
+export const loggedInAtom = atom(false);
+export const isAdminAtom = atom(false);
+
+
+
 export const AuthProvider = ({ children }) => {
   const storedToken = Cookies.get('token');
   const storedRole = Cookies.get('role');
