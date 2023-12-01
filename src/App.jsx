@@ -41,8 +41,7 @@ function App() {
             <Route path="/employee" element={<EmployeePage />} />
            
             
-          </Routes>
-          <Routes>
+      
         <Route path="/cadastro" element={<Admin />} />
         <Route path="/home" element={<Home />} />
         <Route path="/produtos" element={<Products />} />
