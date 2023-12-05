@@ -2,32 +2,20 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { useAtom } from 'jotai';
+import { isAdminAtom, loggedInAtom } from '../store/store';
 
 const AuthContext = createContext();
 
-// AuthContext.js
-import { atom } from 'jotai';
 
-export const loggedInAtom = atom(false);
-export const isAdminAtom = atom(false);
-
-export const logoutAtom = atom(null, (get, set) => {
-  return () => {
-    // Lógica de logout
-    Cookies.remove('token');
-    Cookies.remove('role');
-    set(loggedInAtom, false);
-    set(isAdminAtom, false);
-  };
-});
 
 
 export const AuthProvider = ({ children }) => {
   const storedToken = Cookies.get('token');
   const storedRole = Cookies.get('role');
-
-  const [loggedIn, setLoggedIn] = useState(Boolean(storedToken));
-  const [isAdmin, setIsAdmin] = useState(storedRole === 'administrador');
+  
+  const [loggedIn, setLoggedIn] = useAtom(loggedInAtom);
+  const [isAdmin, setIsAdmin] = useAtom(isAdminAtom);
 
   useEffect(() => {
     setLoggedIn(Boolean(storedToken));

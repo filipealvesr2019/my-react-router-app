@@ -12,7 +12,7 @@ const AdminPage = () => {
     // Sua lógica para a página do administrador aqui
     return (
       <div>
-           <button onClick={logout}>Logout</button>
+           <button onClick={logout}>Logout2</button>
       <Topbar></Topbar>
       <div className={styles.container}>
         <Sidebar></Sidebar>

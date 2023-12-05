@@ -4,22 +4,30 @@ import "./Admin.css";
 import AdminMenu from "../../components/AdminMenu";
 import { Sidebar } from "../../components/sidebar/Sidebar";
 import LogoutIcon from '@mui/icons-material/Logout';
-
 import { useAuth } from '../../context/AuthContext';
 
-
-
+import Cookies from 'js-cookie'
+import { isAdminAtom, loggedInAtom } from '../../store/store';
+import { useAtom } from 'jotai';
 
 export default function Admin() {
   
-  const { loggedIn, isAdmin, login, logout } = useAuth();
 
+  const [loggedIn, setLoggedIn] = useAtom(loggedInAtom);
+  const [isAdmin, setIsAdmin] = useAtom(isAdminAtom);
+
+   const handleLogout = () => {
+    Cookies.remove('token');
+    Cookies.remove('role');
+    setLoggedIn(false);
+    setIsAdmin(false);
+  };
 
   return (
     <div className="AdminContainer">
       <div className="sidebar">  
         <Sidebar />
-        <div className='button' onClick={logout }>
+        <div className='button' onClick={() => {handleLogout()} }>
           <LogoutIcon />
           <span> Sair</span>
         </div>
