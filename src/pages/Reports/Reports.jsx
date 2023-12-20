@@ -6,6 +6,7 @@ export default function Reports() {
   return (
     <div className="sidebar">  
     <LogoutIcon></LogoutIcon>
+  
     </div>
   )
 }

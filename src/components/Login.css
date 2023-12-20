@@ -1,14 +1,13 @@
 /* google fonts */
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
 body{
-  margin: 20px 40px;
+ 
   font-size: 1.2rem;
   letter-spacing: 1px;
   background: #fafafa;
 }
 .loginStyle h1, h2, h3, h4, ul, li, a, p, input, label, button, div, footer{
-  margin: 0;
-  padding: 0;
+
   font-family: 'Quicksand', sans-serif;
   color: #444;
 }
@@ -84,8 +83,8 @@ input::placeholder{
   display: flex;
   align-items: center;
   gap: .3rem;
-  margin-top: -1.5rem;
   cursor: pointer;
+  margin-top: 10rem;
 }
 
 .buttonEmployeePage{
