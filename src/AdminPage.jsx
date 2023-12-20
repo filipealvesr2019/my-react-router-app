@@ -7,13 +7,13 @@ const Navbar = ({ changePage }) => {
     <nav>
       <ul>
         <li>
-          <button onClick={() => changePage('home')}>Home</button>
+          <button>Home</button>
         </li>
         <li>
-          <button onClick={() => changePage('about')}>About</button>
+          <button >About</button>
         </li>
         <li>
-          <button onClick={() => changePage('financial')}>Contact</button>
+          <button ></button>
         </li>
       </ul>
     </nav>
@@ -36,7 +36,7 @@ const HomePage = () => {
 };
 
 const RegisterPage  = () => {
-  return <div style={{color:'white'}}>About Page</div>;
+  return <div style={{color:'white'}}>Register Page</div>;
 };
 
 const FinancialPage = () => {
