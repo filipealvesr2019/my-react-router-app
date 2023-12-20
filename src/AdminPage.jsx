@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import "./AdminPage.css";
 import { useAuth } from "./context/AuthContext";
-
+import Admin from "./pages/Admin/Admin"
 const Navbar = ({ changePage }) => {
   return (
     <nav>
