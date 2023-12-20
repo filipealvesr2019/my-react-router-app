@@ -21,7 +21,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 export const Sidebar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { logout } = useAuth();
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);

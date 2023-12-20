@@ -5,7 +5,6 @@ import LogoutIcon from '@mui/icons-material/Logout';
 export default function Reports() {
   return (
     <div className="sidebar">  
-    <Sidebar/>
     <LogoutIcon></LogoutIcon>
     </div>
   )
