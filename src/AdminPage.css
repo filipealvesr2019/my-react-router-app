@@ -23,12 +23,76 @@ header{
   width: 100%;
   background-color: #2196f3;
   padding: 10px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1;
 }
 
+header .logo{
+  position: relative;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+header nav{
+  display: flex;
+  gap: 1rem;
+}
+header nav a{
+  position: relative;
+  text-decoration: none;
+  padding: 12px 20px;
+  color: #fff;
+  letter-spacing: 0.1em;
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+header nav #indicator{
+  position: absolute;
+  background:var(--clr);
+  width: 85px;
+  height: 9vh;
+  border-top-right-radius: 25px;
+  border-top-left-radius: 20px;
+  transition: 0.5s;
+
+}
+header nav #indicator::before{
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  bottom: 0;
+  left: -30px;
+  background: transparent;
+  border-bottom-right-radius: 20px;
+  box-shadow: 5px 5px 0 5px var(--clr);
+
+
+}
+
+header nav #indicator::after{
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  bottom: 0;
+  right: -30px;
+  background: transparent;
+  border-bottom-left-radius: 20px;
+  box-shadow: -5px 5px 0 5px var(--clr);
+
+
+}
 ul li {
   list-style: none;
 }
 
-.button{
-  margin-top: 5rem;
+:root{
+  --clr:#2c363f;
+
 }
