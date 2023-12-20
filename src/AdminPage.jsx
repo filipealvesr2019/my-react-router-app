@@ -7,10 +7,10 @@ const Navbar = ({ changePage }) => {
     <nav>
       <ul>
         <li>
-          <button>Home</button>
+          <button></button>
         </li>
         <li>
-          <button>About</button>
+          <button></button>
         </li>
         <li>
           <button></button>
