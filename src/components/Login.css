@@ -85,6 +85,7 @@ input::placeholder{
   gap: .3rem;
   cursor: pointer;
   margin-top: 34rem;
+  color: #fff;
 }
 
 .buttonEmployeePage{
