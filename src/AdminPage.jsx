@@ -2,23 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import "./AdminPage.css";
 import { useAuth } from "./context/AuthContext";
 import Admin from "./pages/Admin/Admin"
-const Navbar = ({ changePage }) => {
-  return (
-    <nav>
-      <ul>
-        <li>
-          <button></button>
-        </li>
-        <li>
-          <button></button>
-        </li>
-        <li>
-          <button></button>
-        </li>
-      </ul>
-    </nav>
-  );
-};
+
 
 const Content = ({ currentPage }) => {
   switch (currentPage) {
@@ -39,7 +23,7 @@ const Content = ({ currentPage }) => {
 };
 
 const HomePage = () => {
-  return <div style={{ color: "white" }}>Home Page</div>;
+  return <div style={{ color: "white", marginTop:"5rem" }}>Home Page</div>;
 };
 
 const RegisterPage = () => {
@@ -99,7 +83,7 @@ const AdminPage = () => {
         <a href="#" className="logo">
           Logo
         </a>
-        <nav>
+        <nav className="nav">
           {/* Ref para a div do indicador */}
           <div ref={indicatorRef} id="indicator"></div>
           <a href="#" onClick={() => changePage("home")}>
@@ -122,7 +106,6 @@ const AdminPage = () => {
           </a>
         </nav>
       </header>
-      <Navbar changePage={changePage} />
       <Content currentPage={currentPage} />
     </div>
   );
