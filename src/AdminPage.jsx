@@ -24,7 +24,7 @@ const Content = ({ currentPage }) => {
 };
 
 const HomePage = () => {
-  return <div style={{ marginTop:"5rem" }}><Home/></div>;
+  return <div style={{ marginTop:"5rem" }}>Home Page</div>;
 };
 
 const RegisterPage = () => {
@@ -81,7 +81,7 @@ const AdminPage = () => {
   return (
     <div>
       <header>
-        <a href="#" className="logo">
+        <a href="#" className="logo"  onClick={() => changePage("home")}>
         Painel Administrativo
         </a>
         <nav className="nav">
