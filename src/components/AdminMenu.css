@@ -15,7 +15,9 @@
   font-size: 1rem;
   font-family: "urbanist";
   font-weight: 600;
-  margin-bottom: 1rem;
+
+  margin-left: 40rem;
+  margin-bottom: -2rem;
 }
 .user-form {
   display: flex;

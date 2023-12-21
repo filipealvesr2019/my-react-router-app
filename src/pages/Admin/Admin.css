@@ -1,42 +1,38 @@
 .table {
-    display: flex;
-    flex-direction: column;
-  }
-  .cadastro{
-    width: 70vw;
-  }
+  display: flex;
+  flex-direction: column;
+}
+.cadastro {
+  width: 70vw;
+}
 
-  .h1{
-    display: flex;
-    gap: 1rem;
+.h1 {
+  display: flex;
+  gap: 1rem;
   color: #14337c;
-  padding-block: .5rem;
+  font-size: .9rem;
+  padding-block: 0.5rem;
+}
+
+.AdminContainer {
+  display: flex;
+}
+.AdminMenu {
+  margin-top: 1rem;
+}
+
+.sidebar {
+  display: flex;
+  align-items: center;
+}
+
+@media screen and (width <= 600px) {
+  .list {
+    margin-left: -4rem;
   }
 
-  .AdminContainer{
-
-    display: flex;
+  .h1 {
+    margin-left: -4rem;
+    font-size: 1rem;
   }
-  .AdminMenu{
-    margin-top: 1rem;
-  }
-
-  .sidebar{
-    display: flex;
-    align-items: center;
-  }
- 
-
-  @media screen and (width <= 600px) {
-    .list{
-      margin-left: -4rem;
-    }
-  
-    .h1{
-      margin-left: -4rem;
-      font-size: 1rem;
-      }
-  }
-
-
-  
+}

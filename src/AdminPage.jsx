@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import "./AdminPage.css";
 import { useAuth } from "./context/AuthContext";
 import Admin from "./pages/Admin/Admin"
+import { Home } from "./pages/home/Home";
 
 
 const Content = ({ currentPage }) => {
@@ -23,25 +24,25 @@ const Content = ({ currentPage }) => {
 };
 
 const HomePage = () => {
-  return <div style={{ color: "white", marginTop:"5rem" }}>Home Page</div>;
+  return <div style={{ marginTop:"5rem" }}><Home/></div>;
 };
 
 const RegisterPage = () => {
-  return <div style={{ color: "white" }}>Register Page</div>;
+  return <div style={{  marginTop:"5rem", marginLeft:"4rem"  }}><Admin/></div>;
 };
 
 const FinancialPage = () => {
-  return <div style={{ color: "white" }}>financial page</div>;
+  return <div style={{ }}>financial page</div>;
 };
 const StockPage = () => {
-  return <div style={{ color: "white" }}>Stock Page</div>;
+  return <div style={{}}>Stock Page</div>;
 };
 
 const FiscalPage = () => {
-  return <div style={{ color: "white" }}>Fiscal Page</div>;
+  return <div style={{  }}>Fiscal Page</div>;
 };
 const ReportsPage = () => {
-  return <div style={{ color: "white" }}>Reports Page </div>;
+  return <div style={{ }}>Reports Page </div>;
 };
 
 const AdminPage = () => {
@@ -81,7 +82,7 @@ const AdminPage = () => {
     <div>
       <header>
         <a href="#" className="logo">
-          Logo
+        Painel Administrativo
         </a>
         <nav className="nav">
           {/* Ref para a div do indicador */}
