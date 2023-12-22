@@ -49,7 +49,7 @@ const UserList = () => {
   };
 
   return (
-    <div>
+    <div className='containerTable'>
       {loading && <p>Carregando usuários...</p>}
       {error && <p>{error}</p>}
       {!loading && !error && (

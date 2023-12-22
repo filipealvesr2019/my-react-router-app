@@ -45,7 +45,7 @@ header nav a{
   position: relative;
   text-decoration: none;
   padding: 12px 20px;
-  color:black;
+  color:var(--clr);
   letter-spacing: 0.1em;
   font-weight: 600;
   font-size: 1rem;
@@ -98,3 +98,8 @@ ul li {
 
 }
 
+
+.active {
+  color: #2c363f; /* ou qualquer outra cor desejada para o link ativo */
+  font-weight: bold; /* opcional: para dar destaque ao link ativo */
+}

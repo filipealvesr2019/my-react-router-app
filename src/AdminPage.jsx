@@ -1,9 +1,8 @@
 import React, { useRef, useEffect, useState } from "react";
 import "./AdminPage.css";
 import { useAuth } from "./context/AuthContext";
-import Admin from "./pages/Admin/Admin"
+import Admin from "./pages/Admin/Admin";
 import { Home } from "./pages/home/Home";
-
 
 const Content = ({ currentPage }) => {
   switch (currentPage) {
@@ -24,25 +23,31 @@ const Content = ({ currentPage }) => {
 };
 
 const HomePage = () => {
-  return <div style={{ marginTop:"5rem" }}>Home Page</div>;
+  return <div style={{ marginTop: "5rem" }}>Home Page</div>;
 };
 
 const RegisterPage = () => {
-  return <div style={{  marginTop:"5rem", marginLeft:"4rem"  }}><Admin/></div>;
+  return (
+    <div
+      style={{ marginTop: "5rem", display: "flex", justifyContent: "center" }}
+    >
+      <Admin />
+    </div>
+  );
 };
 
 const FinancialPage = () => {
-  return <div style={{ }}>financial page</div>;
+  return <div style={{}}>financial page</div>;
 };
 const StockPage = () => {
   return <div style={{}}>Stock Page</div>;
 };
 
 const FiscalPage = () => {
-  return <div style={{  }}>Fiscal Page</div>;
+  return <div style={{}}>Fiscal Page</div>;
 };
 const ReportsPage = () => {
-  return <div style={{ }}>Reports Page </div>;
+  return <div style={{}}>Reports Page </div>;
 };
 
 const AdminPage = () => {
@@ -78,31 +83,73 @@ const AdminPage = () => {
   const changePage = (page) => {
     setCurrentPage(page);
   };
+
+  const [activeLink, setActiveLink] = useState("home");
+
+  const handleLinkClick = (link) => {
+    setActiveLink(link);
+  };
   return (
     <div>
       <header>
-        <a href="#" className="logo"  onClick={() => changePage("home")}>
-        Painel Administrativo
+        <a href="#" className="logo" onClick={() => changePage("home")}>
+          Painel Administrativo
         </a>
         <nav className="nav">
           {/* Ref para a div do indicador */}
           <div ref={indicatorRef} id="indicator"></div>
-          <a href="#" onClick={() => changePage("home")}>
+          <a
+            href="#"
+            onClick={() => {
+              changePage("home");
+              handleLinkClick("home");
+              // Adicione mais lógica, se necessário
+            }}
+            className={activeLink === "home" ? "active" : ""}
+          >
             Home
           </a>
-          <a href="#" onClick={() => changePage("register")}>
+          <a
+            href="#"
+            onClick={() => {
+              changePage("register");
+              handleLinkClick("register");
+              // Adicione mais lógica, se necessário
+            }}
+            className={activeLink === "register" ? "active" : ""}
+          >
             Cadastros
           </a>
-          <a href="#" onClick={() => changePage("financial")}>
+          <a href="#"  onClick={() => {
+              changePage("financial");
+              handleLinkClick("financial");
+              // Adicione mais lógica, se necessário
+            }}
+            className={activeLink === "financial" ? "active" : ""}>
             Financeiro
           </a>
-          <a href="#" onClick={() => changePage("stock")}>
+          <a href="#" onClick={() => {
+              changePage("stock");
+              handleLinkClick("stock");
+              // Adicione mais lógica, se necessário
+            }}
+            className={activeLink === "stock" ? "active" : ""}>
             Estoque
           </a>
-          <a href="#" onClick={() => changePage("fiscal")}>
+          <a href="#" onClick={() => {
+              changePage("fiscal");
+              handleLinkClick("fiscal");
+              // Adicione mais lógica, se necessário
+            }}
+            className={activeLink === "fiscal" ? "active" : ""}>
             Fiscal
           </a>
-          <a href="#" onClick={() => changePage("reports")}>
+          <a href="#" onClick={() => {
+              changePage("reports");
+              handleLinkClick("reports");
+              // Adicione mais lógica, se necessário
+            }}
+            className={activeLink === "reports" ? "active" : ""}>
             Relatórios
           </a>
         </nav>
