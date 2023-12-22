@@ -76,22 +76,22 @@ header nav a.active:hover {
   color: white; /* ou qualquer outra cor desejada para o hover do link ativo */
   font-weight: bold; 
 }
-
-a{
+a {
   position: relative;
 }
-a::after{
+
+a::after {
   content: "";
   position: absolute;
   background-color: #fff;
   height: 3px;
   width: 0;
-  left: 0;
-  bottom: 5px;
+  left: 50%;
+  bottom: 1px;
   transition: 0.5s;
-
+  transform: translateX(-50%); /* Para centralizar a barra em relação ao texto */
 }
-a:hover::after{
-  width: 100%;
 
+a:hover::after {
+  width: calc(70% + 10px); /* Ajuste o valor conforme necessário */
 }
