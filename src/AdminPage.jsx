@@ -92,12 +92,12 @@ const AdminPage = () => {
   return (
     <div>
       <header>
-        <a href="#" className="logo" onClick={() => changePage("home")}>
+        <h1 href="#" className="logo" onClick={() => changePage("home")}>
           Painel Administrativo
-        </a>
+        </h1>
         <nav className="nav">
           {/* Ref para a div do indicador */}
-          <div ref={indicatorRef} id="indicator"></div>
+          <div ref={indicatorRef} ></div>
           <a
             href="#"
             onClick={() => {

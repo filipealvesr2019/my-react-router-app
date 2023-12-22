@@ -1,5 +1,4 @@
 
-
   
   .info{
     display: flex;
@@ -47,59 +46,52 @@ header nav a{
   padding: 12px 20px;
   color:var(--clr);
   letter-spacing: 0.1em;
-  font-weight: 600;
-  font-size: 1rem;
-  font-family: "urbanist";
+  font-weight: 700;
+  font-size: .9rem;
+  font-family: "poppins", sans-serif;
 }
 
-header nav #indicator{
-  position: absolute;
-  background:var(--clr);
-  width: 85px;
-  height: 9vh;
-  border-top-right-radius: 25px;
-  border-top-left-radius: 20px;
-  transition: 0.5s;
-
-}
-header nav #indicator::before{
-  content: '';
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  bottom: 0;
-  left: -30px;
-  background: transparent;
-  border-bottom-right-radius: 20px;
-  box-shadow: 5px 5px 0 5px var(--clr);
-
-
-}
-
-header nav #indicator::after{
-  content: '';
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  bottom: 0;
-  right: -30px;
-  background: transparent;
-  border-bottom-left-radius: 20px;
-  box-shadow: -5px 5px 0 5px var(--clr);
-
-
-}
 ul li {
   list-style: none;
 }
 
 :root{
-  --clr:white;
+  --clr:#1c448e;
 
 }
 
 
 .active {
-  color: #2c363f; /* ou qualquer outra cor desejada para o link ativo */
+  color: white; /* ou qualquer outra cor desejada para o link ativo */
   font-weight: bold; /* opcional: para dar destaque ao link ativo */
+}
+
+header nav a:hover {
+  color: white; /* ou qualquer outra cor desejada para o hover */
+  font-weight: bold; 
+}
+
+/* Estilo para o link ativo ao passar o mouse sobre ele */
+header nav a.active:hover {
+  color: white; /* ou qualquer outra cor desejada para o hover do link ativo */
+  font-weight: bold; 
+}
+
+a{
+  position: relative;
+}
+a::after{
+  content: "";
+  position: absolute;
+  background-color: #fff;
+  height: 3px;
+  width: 0;
+  left: 0;
+  bottom: 5px;
+  transition: 0.5s;
+
+}
+a:hover::after{
+  width: 100%;
+
 }
