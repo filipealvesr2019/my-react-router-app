@@ -95,6 +95,10 @@ const AdminPage = () => {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  const closeMenu = () => {
+    setIsMenuOpen(false)
+  }
   return (
     <div>
       <header>
@@ -163,7 +167,7 @@ const AdminPage = () => {
         <div className="navbar">
       <div className="menu-icon" onClick={toggleMenu}>
         {isMenuOpen ? (
-          <div><CloseIcon style={{color:"white",marginLeft:"7rem"}}/></div> // Ícone de fechar menu
+          <div><CloseIcon style={{color:"white",marginLeft:"auto"}}/></div> // Ícone de fechar menu
         ) : (
           <div><MenuIcon style={{color:"white"}}/></div> // Ícone de três linhas
         )}
@@ -178,6 +182,7 @@ const AdminPage = () => {
             onClick={() => {
               changePage("home");
               handleLinkClick("home");
+              closeMenu();
               // Adicione mais lógica, se necessário
             }}
             className={activeLink === "home" ? "active" : ""}
@@ -189,6 +194,7 @@ const AdminPage = () => {
             onClick={() => {
               changePage("register");
               handleLinkClick("register");
+              closeMenu();
               // Adicione mais lógica, se necessário
             }}
             className={activeLink === "register" ? "active" : ""}
@@ -198,6 +204,7 @@ const AdminPage = () => {
           <a href="#"  onClick={() => {
               changePage("financial");
               handleLinkClick("financial");
+              closeMenu();
               // Adicione mais lógica, se necessário
             }}
             className={activeLink === "financial" ? "active" : ""}>
@@ -214,6 +221,7 @@ const AdminPage = () => {
           <a href="#" onClick={() => {
               changePage("fiscal");
               handleLinkClick("fiscal");
+              closeMenu();
               // Adicione mais lógica, se necessário
             }}
             className={activeLink === "fiscal" ? "active" : ""}>
@@ -222,6 +230,7 @@ const AdminPage = () => {
           <a href="#" onClick={() => {
               changePage("reports");
               handleLinkClick("reports");
+              closeMenu();
               // Adicione mais lógica, se necessário
             }}
             className={activeLink === "reports" ? "active" : ""}>

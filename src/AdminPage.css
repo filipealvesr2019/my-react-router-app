@@ -103,7 +103,25 @@ a:hover::after {
   .mobileMenu a{
     color: white;
     text-decoration: none;
-    margin-left: 5rem;
+    margin-right: auto;
+    display: flex;
   }
+  .logo{
+    display: none;
+  }
+  
+a::after {
+  display: none;
+}
 
+a:hover::after {
+  display: none;
+}
+
+}
+
+@media screen  and ( 700px <= width){
+  .navbar{
+    display: none;
+  }
 }
