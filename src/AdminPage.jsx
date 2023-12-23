@@ -102,74 +102,12 @@ const AdminPage = () => {
   return (
     <div>
       <header>
-    
-        <h1 href="#" className="logo" onClick={() => changePage("home")}>
-          Painel Administrativo
-        </h1>
-        <nav className="nav">
-          {/* Ref para a div do indicador */}
-          <div ref={indicatorRef} ></div>
-          <a
-            href="#"
-            onClick={() => {
-              changePage("home");
-              handleLinkClick("home");
-              // Adicione mais lógica, se necessário
-            }}
-            className={activeLink === "home" ? "active" : ""}
-          >
-            Home
-          </a>
-          <a
-            href="#"
-            onClick={() => {
-              changePage("register");
-              handleLinkClick("register");
-              // Adicione mais lógica, se necessário
-            }}
-            className={activeLink === "register" ? "active" : ""}
-          >
-            Cadastros
-          </a>
-          <a href="#"  onClick={() => {
-              changePage("financial");
-              handleLinkClick("financial");
-              // Adicione mais lógica, se necessário
-            }}
-            className={activeLink === "financial" ? "active" : ""}>
-            Financeiro
-          </a>
-          <a href="#" onClick={() => {
-              changePage("stock");
-              handleLinkClick("stock");
-              // Adicione mais lógica, se necessário
-            }}
-            className={activeLink === "stock" ? "active" : ""}>
-            Estoque
-          </a>
-          <a href="#" onClick={() => {
-              changePage("fiscal");
-              handleLinkClick("fiscal");
-              // Adicione mais lógica, se necessário
-            }}
-            className={activeLink === "fiscal" ? "active" : ""}>
-            Fiscal
-          </a>
-          <a href="#" onClick={() => {
-              changePage("reports");
-              handleLinkClick("reports");
-              // Adicione mais lógica, se necessário
-            }}
-            className={activeLink === "reports" ? "active" : ""}>
-            Relatórios
-          </a>
-        </nav>
-        <div className="navbar">
+      <div className="navbar">
       <div className="menu-icon" onClick={toggleMenu}>
         {isMenuOpen ? (
-          <div><CloseIcon style={{color:"white",marginLeft:"auto"}}/></div> // Ícone de fechar menu
+          <div><CloseIcon style={{color:"white",marginRight:"auto", fontSize:"2rem" }}/></div> // Ícone de fechar menu
         ) : (
-          <div><MenuIcon style={{color:"white"}}/></div> // Ícone de três linhas
+          <div><MenuIcon style={{color:"white", fontSize:"2rem"}}/></div> // Ícone de três linhas
         )}
       </div>
 
@@ -240,6 +178,68 @@ const AdminPage = () => {
         </div>
       )}
     </div>
+        <h1 href="#" className="logo" onClick={() => changePage("home")}>
+          Painel Administrativo
+        </h1>
+        <nav className="nav">
+          {/* Ref para a div do indicador */}
+          <div ref={indicatorRef} ></div>
+          <a
+            href="#"
+            onClick={() => {
+              changePage("home");
+              handleLinkClick("home");
+              // Adicione mais lógica, se necessário
+            }}
+            className={activeLink === "home" ? "active" : ""}
+          >
+            Home
+          </a>
+          <a
+            href="#"
+            onClick={() => {
+              changePage("register");
+              handleLinkClick("register");
+              // Adicione mais lógica, se necessário
+            }}
+            className={activeLink === "register" ? "active" : ""}
+          >
+            Cadastros
+          </a>
+          <a href="#"  onClick={() => {
+              changePage("financial");
+              handleLinkClick("financial");
+              // Adicione mais lógica, se necessário
+            }}
+            className={activeLink === "financial" ? "active" : ""}>
+            Financeiro
+          </a>
+          <a href="#" onClick={() => {
+              changePage("stock");
+              handleLinkClick("stock");
+              // Adicione mais lógica, se necessário
+            }}
+            className={activeLink === "stock" ? "active" : ""}>
+            Estoque
+          </a>
+          <a href="#" onClick={() => {
+              changePage("fiscal");
+              handleLinkClick("fiscal");
+              // Adicione mais lógica, se necessário
+            }}
+            className={activeLink === "fiscal" ? "active" : ""}>
+            Fiscal
+          </a>
+          <a href="#" onClick={() => {
+              changePage("reports");
+              handleLinkClick("reports");
+              // Adicione mais lógica, se necessário
+            }}
+            className={activeLink === "reports" ? "active" : ""}>
+            Relatórios
+          </a>
+        </nav>
+       
       </header>
       <Content currentPage={currentPage} />
     </div>
