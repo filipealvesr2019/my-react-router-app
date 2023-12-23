@@ -35,7 +35,7 @@ const UserForm = ({ closeForm }) => {
         role: role,
       });
       console.log('Sucesso ao criar usuário:', response.data);
-      if (role === 'administrador' || role === 'funcionario') {
+      if (role === 'administrador' || role === 'funcionario' || role === "Gerente") {
         // Armazenar informações no localStorage
         
         localStorage.setItem('name', name);
@@ -116,8 +116,9 @@ const UserForm = ({ closeForm }) => {
               onChange={(e) => setRole(e.target.value)}
               required
             >
-              <option value="">Selecione a função</option>
+              <option value="">Selecione a Credencial</option>
               <option value="administrador">Administrador</option>
+              <option value="Gerente">Gerente</option>
               <option value="funcionario">Funcionário</option>
             </select>
             <button type="submit">Adicionar</button>

@@ -16,6 +16,7 @@ export const AuthProvider = ({ children }) => {
   
   const [loggedIn, setLoggedIn] = useAtom(loggedInAtom);
   const [isAdmin, setIsAdmin] = useAtom(isAdminAtom);
+  const [isManager, setIsManager] = useState(false); // Assumindo que inicialmente o usuário não é um gerente
 
   useEffect(() => {
     setLoggedIn(Boolean(storedToken));
@@ -28,24 +29,30 @@ export const AuthProvider = ({ children }) => {
         email: email,
         password: password
       });
-
+  
       if (response.data.user.role === 'administrador') {
         setLoggedIn(true);
         setIsAdmin(true);
+        setIsManager(false); // Certifique-se de definir isManager como false para administradores
       } else if (response.data.user.role === 'funcionario') {
         setLoggedIn(true);
         setIsAdmin(false);
+        setIsManager(false); // Certifique-se de definir isManager como false para funcionários
+      } else if (response.data.user.role === 'Gerente') {
+        setLoggedIn(true);
+        setIsAdmin(false);
+        setIsManager(true);
       } else {
         alert('Credenciais inválidas');
       }
-
+  
       Cookies.set('token', response.data.user.token);
       Cookies.set('role', response.data.user.role);
     } catch (error) {
       console.error('Erro na solicitação de login', error);
     }
   };
-
+  
   const logout = () => {
     Cookies.remove('token');
     Cookies.remove('role');
@@ -56,6 +63,7 @@ export const AuthProvider = ({ children }) => {
   const values = {
     loggedIn,
     isAdmin,
+    isManager,
     login,
     logout
   };

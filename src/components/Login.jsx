@@ -3,11 +3,13 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import AdminPage from '../AdminPage';
 import EmployeePage from '../EmployeePage';
+
 import LogoutIcon from '@mui/icons-material/Logout';
 import './Login.css';
+import ManagerPage from '../ManagerPage';
 
 const Login = () => {
-  const { loggedIn, isAdmin, login, logout } = useAuth();
+  const { loggedIn, isAdmin, login,isManager, logout } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -18,7 +20,7 @@ const Login = () => {
   if (loggedIn) {
     return (
       <div className='logout-container'>
-        {isAdmin ? <AdminPage /> : <EmployeePage />}
+        {isAdmin ? <AdminPage /> : (isManager ? <ManagerPage /> : <EmployeePage />)}
         <div className='button' onClick={logout}>
           <LogoutIcon />
           <span>Sair</span>
@@ -26,7 +28,7 @@ const Login = () => {
       </div>
     );
   }
-
+  
   return (
     <div className="body">
       <div className="container">
