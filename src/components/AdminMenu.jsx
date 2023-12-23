@@ -15,7 +15,7 @@ const AdminMenu = () => {
 
   return (
     <div className="admin-menu">
-      <button onClick={handleButtonClick}>Adicionar Usuário</button>
+      <button className='formButtonStyle' onClick={handleButtonClick}>Adicionar Usuário</button>
       {showForm && <UserForm closeForm={() => setShowForm(false)} />}
     </div>
   );

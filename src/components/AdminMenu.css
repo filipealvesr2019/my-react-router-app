@@ -5,7 +5,7 @@
   margin-top: 20px;
   
 }
-.admin-menu button{
+.admin-menu .formButtonStyle{
   background-color:#14337c;
   color: white;
   padding: .8rem;
