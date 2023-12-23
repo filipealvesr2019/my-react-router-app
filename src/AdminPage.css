@@ -95,3 +95,15 @@ a::after {
 a:hover::after {
   width: calc(70% + 10px); /* Ajuste o valor conforme necessário */
 }
+
+@media screen  and (280px <= width <= 600px) {
+  nav a{
+    display: none;
+  }
+  .mobileMenu a{
+    color: white;
+    text-decoration: none;
+    margin-left: 5rem;
+  }
+
+}

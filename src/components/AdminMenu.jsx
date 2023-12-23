@@ -70,7 +70,7 @@ const UserForm = ({ closeForm }) => {
       });
     }
   };
-
+ 
   return (
     <>
     <div className="modal" onClick={closeForm}>

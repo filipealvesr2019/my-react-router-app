@@ -2,8 +2,8 @@ import React, { useRef, useEffect, useState } from "react";
 import "./AdminPage.css";
 import { useAuth } from "./context/AuthContext";
 import Admin from "./pages/Admin/Admin";
-import { Home } from "./pages/home/Home";
-
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 const Content = ({ currentPage }) => {
   switch (currentPage) {
     case "register":
@@ -89,9 +89,16 @@ const AdminPage = () => {
   const handleLinkClick = (link) => {
     setActiveLink(link);
   };
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
   return (
     <div>
       <header>
+    
         <h1 href="#" className="logo" onClick={() => changePage("home")}>
           Painel Administrativo
         </h1>
@@ -153,6 +160,77 @@ const AdminPage = () => {
             Relatórios
           </a>
         </nav>
+        <div className="navbar">
+      <div className="menu-icon" onClick={toggleMenu}>
+        {isMenuOpen ? (
+          <div><CloseIcon style={{color:"white",marginLeft:"7rem"}}/></div> // Ícone de fechar menu
+        ) : (
+          <div><MenuIcon style={{color:"white"}}/></div> // Ícone de três linhas
+        )}
+      </div>
+
+      {/* Menu Navbar */}
+      {isMenuOpen && (
+        <div className="menu-items">
+          <div className="mobileMenu">
+         <a
+            href="#"
+            onClick={() => {
+              changePage("home");
+              handleLinkClick("home");
+              // Adicione mais lógica, se necessário
+            }}
+            className={activeLink === "home" ? "active" : ""}
+          >
+            Home
+          </a>
+          <a
+            href="#"
+            onClick={() => {
+              changePage("register");
+              handleLinkClick("register");
+              // Adicione mais lógica, se necessário
+            }}
+            className={activeLink === "register" ? "active" : ""}
+          >
+            Cadastros
+          </a>
+          <a href="#"  onClick={() => {
+              changePage("financial");
+              handleLinkClick("financial");
+              // Adicione mais lógica, se necessário
+            }}
+            className={activeLink === "financial" ? "active" : ""}>
+            Financeiro
+          </a>
+          <a href="#" onClick={() => {
+              changePage("stock");
+              handleLinkClick("stock");
+              // Adicione mais lógica, se necessário
+            }}
+            className={activeLink === "stock" ? "active" : ""}>
+            Estoque
+          </a>
+          <a href="#" onClick={() => {
+              changePage("fiscal");
+              handleLinkClick("fiscal");
+              // Adicione mais lógica, se necessário
+            }}
+            className={activeLink === "fiscal" ? "active" : ""}>
+            Fiscal
+          </a>
+          <a href="#" onClick={() => {
+              changePage("reports");
+              handleLinkClick("reports");
+              // Adicione mais lógica, se necessário
+            }}
+            className={activeLink === "reports" ? "active" : ""}>
+            Relatórios
+          </a>
+          </div>
+        </div>
+      )}
+    </div>
       </header>
       <Content currentPage={currentPage} />
     </div>
