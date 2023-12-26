@@ -204,3 +204,28 @@ nav ul li::after {
 nav ul li:hover::after {
   width: calc(70% + 40px); /* Ajuste o valor conforme necessário */
 }
+
+
+.maintenance-container {
+  text-align: center;
+}
+
+.maintenance-text {
+  font-size: 24px;
+  color: #333;
+}
+
+.back-button {
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-top: 20px;
+  display: inline-block;
+  transition: background-color 0.3s;
+}
+
+.back-button:hover {
+  background-color: #2980b9;
+}

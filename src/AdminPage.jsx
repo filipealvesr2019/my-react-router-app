@@ -2,8 +2,8 @@ import React, { useRef, useEffect, useState } from "react";
 import "./AdminPage.css";
 import { useAuth } from "./context/AuthContext";
 import Admin from "./pages/Admin/Admin";
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
 import Cadastros from "./components/Cadastros";
 import { Link } from "react-router-dom";
 const Content = ({ currentPage }) => {
@@ -41,25 +41,33 @@ const RegisterPage = () => {
         <nav>
           <ul>
             <li
-              className={`cadastros ${activeNavItem === 0 ? "active-item" : ""}`}
+              className={`cadastros ${
+                activeNavItem === 0 ? "active-item" : ""
+              }`}
               onClick={() => handleClickOtherNavbar(0)}
             >
               Usuarios
             </li>
             <li
-              className={`cadastros ${activeNavItem === 1 ? "active-item" : ""}`}
+              className={`cadastros ${
+                activeNavItem === 1 ? "active-item" : ""
+              }`}
               onClick={() => handleClickOtherNavbar(1)}
             >
               Produtos
             </li>
             <li
-              className={`cadastros ${activeNavItem === 2 ? "active-item" : ""}`}
+              className={`cadastros ${
+                activeNavItem === 2 ? "active-item" : ""
+              }`}
               onClick={() => handleClickOtherNavbar(2)}
             >
               Categorias
             </li>
             <li
-              className={`cadastros ${activeNavItem === 3 ? "active-item" : ""}`}
+              className={`cadastros ${
+                activeNavItem === 3 ? "active-item" : ""
+              }`}
               onClick={() => handleClickOtherNavbar(3)}
             >
               Configurações
@@ -72,17 +80,45 @@ const RegisterPage = () => {
 };
 
 const FinancialPage = () => {
-  return <div style={{ marginTop: "5rem" }}>financial page</div>;
+  return (
+    <div style={{ marginTop: "5rem" }}>
+      <div className="maintenance-container">
+        <p className="maintenance-text">Ops. Página em construção!</p>
+      
+      </div>
+    </div>
+  );
 };
 const StockPage = () => {
-  return <div  style={{ marginTop: "5rem" }}>Stock Page</div>;
+  return (
+    <div style={{ marginTop: "5rem" }}>
+      <div className="maintenance-container">
+        <p className="maintenance-text">Ops. Página em construção!</p>
+       
+      </div>
+    </div>
+  );
 };
 
 const FiscalPage = () => {
-  return <div  style={{ marginTop: "5rem" }}>Fiscal Page</div>;
+  return (
+    <div style={{ marginTop: "5rem" }}>
+      <div className="maintenance-container">
+        <p className="maintenance-text">Ops. Página em construção!</p>
+     
+      </div>
+    </div>
+  );
 };
 const ReportsPage = () => {
-  return <div style={{ marginTop: "5rem" }}>Reports Page </div>;
+  return (
+    <div style={{ marginTop: "5rem" }}>
+      <div className="maintenance-container">
+        <p className="maintenance-text">Ops. Página em construção!</p>
+      
+      </div>{" "}
+    </div>
+  );
 };
 
 const AdminPage = () => {
@@ -132,93 +168,115 @@ const AdminPage = () => {
   };
 
   const closeMenu = () => {
-    setIsMenuOpen(false)
-  }
+    setIsMenuOpen(false);
+  };
   return (
     <div>
       <header>
-      <div className="navbar">
-      <div className="menu-icon" onClick={toggleMenu}>
-        {isMenuOpen ? (
-          <div><CloseIcon style={{color:"white",marginRight:"auto", fontSize:"2rem" }}/></div> // Ícone de fechar menu
-        ) : (
-          <div><MenuIcon style={{color:"white", fontSize:"2rem"}}/></div> // Ícone de três linhas
-        )}
-      </div>
-
-      {/* Menu Navbar */}
-      {isMenuOpen && (
-        <div className="menu-items">
-          <div className="mobileMenu">
-         <a
-            href="#"
-            onClick={() => {
-              changePage("home");
-              handleLinkClick("home");
-              closeMenu();
-              // Adicione mais lógica, se necessário
-            }}
-            className={activeLink === "home" ? "active" : ""}
-          >
-            Home
-          </a>
-          <a
-            href="#"
-            onClick={() => {
-              changePage("register");
-              handleLinkClick("register");
-              closeMenu();
-              // Adicione mais lógica, se necessário
-            }}
-            className={activeLink === "register" ? "active" : ""}
-          >
-            Cadastros
-          </a>
-          <a href="#"  onClick={() => {
-              changePage("financial");
-              handleLinkClick("financial");
-              closeMenu();
-              // Adicione mais lógica, se necessário
-            }}
-            className={activeLink === "produtos" ? "active" : ""}>
-            Financeiro
-          </a>
-          <a href="#" onClick={() => {
-              changePage("stock");
-              handleLinkClick("stock");
-              // Adicione mais lógica, se necessário
-            }}
-            className={activeLink === "stock" ? "active" : ""}>
-            Estoque
-          </a>
-          <a href="#" onClick={() => {
-              changePage("fiscal");
-              handleLinkClick("fiscal");
-              closeMenu();
-              // Adicione mais lógica, se necessário
-            }}
-            className={activeLink === "fiscal" ? "active" : ""}>
-            Fiscal
-          </a>
-          <a href="#" onClick={() => {
-              changePage("reports");
-              handleLinkClick("reports");
-              closeMenu();
-              // Adicione mais lógica, se necessário
-            }}
-            className={activeLink === "reports" ? "active" : ""}>
-            Relatórios
-          </a>
+        <div className="navbar">
+          <div className="menu-icon" onClick={toggleMenu}>
+            {isMenuOpen ? (
+              <div>
+                <CloseIcon
+                  style={{
+                    color: "white",
+                    marginRight: "auto",
+                    fontSize: "2rem",
+                  }}
+                />
+              </div> // Ícone de fechar menu
+            ) : (
+              <div>
+                <MenuIcon style={{ color: "white", fontSize: "2rem" }} />
+              </div> // Ícone de três linhas
+            )}
           </div>
+
+          {/* Menu Navbar */}
+          {isMenuOpen && (
+            <div className="menu-items">
+              <div className="mobileMenu">
+                <a
+                  href="#"
+                  onClick={() => {
+                    changePage("home");
+                    handleLinkClick("home");
+                    closeMenu();
+                    // Adicione mais lógica, se necessário
+                  }}
+                  className={activeLink === "home" ? "active" : ""}
+                >
+                  Home
+                </a>
+                <a
+                  href="#"
+                  onClick={() => {
+                    changePage("register");
+                    handleLinkClick("register");
+                    closeMenu();
+                    // Adicione mais lógica, se necessário
+                  }}
+                  className={activeLink === "register" ? "active" : ""}
+                >
+                  Cadastros
+                </a>
+                <a
+                  href="#"
+                  onClick={() => {
+                    changePage("financial");
+                    handleLinkClick("financial");
+                    closeMenu();
+                    // Adicione mais lógica, se necessário
+                  }}
+                  className={activeLink === "produtos" ? "active" : ""}
+                >
+                  Financeiro
+                </a>
+                <a
+                  href="#"
+                  onClick={() => {
+                    changePage("stock");
+                    handleLinkClick("stock");
+                    // Adicione mais lógica, se necessário
+                  }}
+                  className={activeLink === "stock" ? "active" : ""}
+                >
+                  Estoque
+                </a>
+                <a
+                  href="#"
+                  onClick={() => {
+                    changePage("fiscal");
+                    handleLinkClick("fiscal");
+                    closeMenu();
+                    // Adicione mais lógica, se necessário
+                  }}
+                  className={activeLink === "fiscal" ? "active" : ""}
+                >
+                  Fiscal
+                </a>
+                <a
+                  href="#"
+                  onClick={() => {
+                    changePage("reports");
+                    handleLinkClick("reports");
+                    closeMenu();
+                    // Adicione mais lógica, se necessário
+                  }}
+                  className={activeLink === "reports" ? "active" : ""}
+                >
+                  Relatórios
+                </a>
+              </div>
+            </div>
+          )}
         </div>
-      )}
-    </div>
         <h1 href="#" className="logo" onClick={() => changePage("home")}>
           Painel Administrativo
         </h1>
         <nav className="nav">
           {/* Ref para a div do indicador */}
-          <div ref={indicatorRef} ></div>
+          <div ref={indicatorRef}></div>
           <a
             href="#"
             onClick={() => {
@@ -241,40 +299,51 @@ const AdminPage = () => {
           >
             Cadastros
           </a>
-          <a href="#"  onClick={() => {
+          <a
+            href="#"
+            onClick={() => {
               changePage("financial");
               handleLinkClick("financial");
               // Adicione mais lógica, se necessário
             }}
-            className={activeLink === "financial" ? "active" : ""}>
+            className={activeLink === "financial" ? "active" : ""}
+          >
             Financeiro
           </a>
-          <a href="#" onClick={() => {
+          <a
+            href="#"
+            onClick={() => {
               changePage("stock");
               handleLinkClick("stock");
               // Adicione mais lógica, se necessário
             }}
-            className={activeLink === "stock" ? "active" : ""}>
+            className={activeLink === "stock" ? "active" : ""}
+          >
             Estoque
           </a>
-          <a href="#" onClick={() => {
+          <a
+            href="#"
+            onClick={() => {
               changePage("fiscal");
               handleLinkClick("fiscal");
               // Adicione mais lógica, se necessário
             }}
-            className={activeLink === "fiscal" ? "active" : ""}>
+            className={activeLink === "fiscal" ? "active" : ""}
+          >
             Fiscal
           </a>
-          <a href="#" onClick={() => {
+          <a
+            href="#"
+            onClick={() => {
               changePage("reports");
               handleLinkClick("reports");
               // Adicione mais lógica, se necessário
             }}
-            className={activeLink === "reports" ? "active" : ""}>
+            className={activeLink === "reports" ? "active" : ""}
+          >
             Relatórios
           </a>
         </nav>
-       
       </header>
       <Content currentPage={currentPage} />
     </div>
