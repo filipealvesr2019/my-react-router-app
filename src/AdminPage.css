@@ -196,7 +196,7 @@ nav ul li::after {
   height: 4px;
   width: 0;
   left: 50%;
-  bottom: -10px;
+  bottom: -8px;
   transition: 0.5s;
   transform: translateX(-50%); /* Para centralizar a barra em relação ao texto */
 }
