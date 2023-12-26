@@ -30,23 +30,21 @@ const HomePage = () => {
 
 const RegisterPage = () => {
   return (
-    <div
-      style={{ marginTop: "5rem", display: "flex", justifyContent: "center" }}
-    >
+    <div className="page-container">
       <div className="navContainer">
-      <nav>
-            <ul>
-                <li>Usuarios</li>
-                <li>Produtos</li>
-                <li>Categorias</li>
-                <li>Configurações</li>
-            </ul>
+        <nav>
+          <ul>
+            <li>Usuarios</li>
+            <li>Produtos</li>
+            <li>Categorias</li>
+            <li>Configurações</li>
+          </ul>
         </nav>
       </div>
-     
     </div>
   );
 };
+
 
 const FinancialPage = () => {
   return <div style={{ marginTop: "5rem" }}>financial page</div>;
