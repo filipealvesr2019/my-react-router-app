@@ -29,22 +29,47 @@ const HomePage = () => {
 };
 
 const RegisterPage = () => {
+  const [activeNavItem, setActiveNavItem] = useState(null);
+
+  const handleClickOtherNavbar = (index) => {
+    setActiveNavItem(index);
+  };
+
   return (
     <div className="page-container">
       <div className="navContainer">
         <nav>
           <ul>
-            <li>Usuarios</li>
-            <li>Produtos</li>
-            <li>Categorias</li>
-            <li>Configurações</li>
+            <li
+              className={`cadastros ${activeNavItem === 0 ? "active-item" : ""}`}
+              onClick={() => handleClickOtherNavbar(0)}
+            >
+              Usuarios
+            </li>
+            <li
+              className={`cadastros ${activeNavItem === 1 ? "active-item" : ""}`}
+              onClick={() => handleClickOtherNavbar(1)}
+            >
+              Produtos
+            </li>
+            <li
+              className={`cadastros ${activeNavItem === 2 ? "active-item" : ""}`}
+              onClick={() => handleClickOtherNavbar(2)}
+            >
+              Categorias
+            </li>
+            <li
+              className={`cadastros ${activeNavItem === 3 ? "active-item" : ""}`}
+              onClick={() => handleClickOtherNavbar(3)}
+            >
+              Configurações
+            </li>
           </ul>
         </nav>
       </div>
     </div>
   );
 };
-
 
 const FinancialPage = () => {
   return <div style={{ marginTop: "5rem" }}>financial page</div>;
