@@ -125,3 +125,10 @@ a:hover::after {
     display: none;
   }
 }
+
+
+
+.navContainer nav a{
+  display: flex;
+  flex-direction: column;
+}

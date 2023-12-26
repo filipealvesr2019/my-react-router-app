@@ -4,6 +4,8 @@ import { useAuth } from "./context/AuthContext";
 import Admin from "./pages/Admin/Admin";
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
+import Cadastros from "./components/Cadastros";
+import { Link } from "react-router-dom";
 const Content = ({ currentPage }) => {
   switch (currentPage) {
     case "register":
@@ -31,23 +33,33 @@ const RegisterPage = () => {
     <div
       style={{ marginTop: "5rem", display: "flex", justifyContent: "center" }}
     >
-      <Admin />
+      <div className="navContainer">
+      <nav>
+            <ul>
+                <li>Usuarios</li>
+                <li>Produtos</li>
+                <li>Categorias</li>
+                <li>Configurações</li>
+            </ul>
+        </nav>
+      </div>
+     
     </div>
   );
 };
 
 const FinancialPage = () => {
-  return <div style={{}}>financial page</div>;
+  return <div style={{ marginTop: "5rem" }}>financial page</div>;
 };
 const StockPage = () => {
-  return <div style={{}}>Stock Page</div>;
+  return <div  style={{ marginTop: "5rem" }}>Stock Page</div>;
 };
 
 const FiscalPage = () => {
-  return <div style={{}}>Fiscal Page</div>;
+  return <div  style={{ marginTop: "5rem" }}>Fiscal Page</div>;
 };
 const ReportsPage = () => {
-  return <div style={{}}>Reports Page </div>;
+  return <div style={{ marginTop: "5rem" }}>Reports Page </div>;
 };
 
 const AdminPage = () => {
@@ -145,7 +157,7 @@ const AdminPage = () => {
               closeMenu();
               // Adicione mais lógica, se necessário
             }}
-            className={activeLink === "financial" ? "active" : ""}>
+            className={activeLink === "produtos" ? "active" : ""}>
             Financeiro
           </a>
           <a href="#" onClick={() => {
