@@ -184,3 +184,23 @@ nav ul li {
   color: #2196f3; /* Cor do texto quando hover */
   /* Outros estilos ao passar o mouse por cima */
 }
+
+nav ul li {
+  position: relative;
+}
+
+nav ul li::after {
+  content: "";
+  position: absolute;
+  background-color: #2196f3;
+  height: 4px;
+  width: 0;
+  left: 50%;
+  bottom: -10px;
+  transition: 0.5s;
+  transform: translateX(-50%); /* Para centralizar a barra em relação ao texto */
+}
+
+nav ul li:hover::after {
+  width: calc(70% + 40px); /* Ajuste o valor conforme necessário */
+}
