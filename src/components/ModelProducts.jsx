@@ -1,21 +1,152 @@
-import * as React from "react";
-import Button from "@mui/joy/Button";
-import Modal from "@mui/joy/Modal";
-import ModalClose from "@mui/joy/ModalClose";
-import Typography from "@mui/joy/Typography";
-import Sheet from "@mui/joy/Sheet";
-import Select from "@mui/joy/Select";
-import Option from "@mui/joy/Option";
+import React, { useState } from 'react';
+import Button from '@mui/joy/Button';
+import Modal from '@mui/joy/Modal';
+import ModalClose from '@mui/joy/ModalClose';
+import Typography from '@mui/joy/Typography';
+import Sheet from '@mui/joy/Sheet';
+import axios from 'axios';
+
+const CreateProductForm = ({ onClose }) => {
+  const [productInfo, setProductInfo] = useState({
+    name: '',
+    price: 0.0,
+    description: '',
+    size: '',
+    category: '',
+    subcategories: [], // Adicionado campo para subcategorias
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setProductInfo((prevProductInfo) => ({
+      ...prevProductInfo,
+      [name]: value,
+    }));
+  };
+
+  const handleSubcategoriesChange = (e) => {
+    // Tratar as subcategorias como uma lista separada por vírgulas
+    const subcategories = e.target.value.split(',').map((subcat) => subcat.trim());
+    setProductInfo((prevProductInfo) => ({
+      ...prevProductInfo,
+      subcategories,
+    }));
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    try {
+      // Enviar dados para o backend usando Axios
+      const response = await axios.post('http://localhost:3001/api/admin/product/new', productInfo);
+  
+      // Verificar se a requisição foi bem-sucedida
+      if (response.status === 201) {
+        console.log('Produto criado com sucesso');
+        // Resetar o estado ou redirecionar após o envio do formulário, conforme necessário
+        setProductInfo({
+          name: '',
+          price: 0.0,
+          description: '',
+          size: '',
+          category: '',
+          subcategories: [],
+        });
+        onClose();
+      } else {
+        // Lidar com casos de erro
+        console.error('Erro ao criar o produto:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Erro ao criar o produto:', error.message);
+    }
+  };
+
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+        Nome do Produto:
+        <input
+          type="text"
+          name="name"
+          value={productInfo.name}
+          onChange={handleInputChange}
+        />
+      </label>
+
+      <label>
+        Preço:
+        <input
+          type="number"
+          name="price"
+          value={productInfo.price}
+          onChange={handleInputChange}
+        />
+      </label>
+
+      <label>
+        Descrição:
+        <textarea
+          name="description"
+          value={productInfo.description}
+          onChange={handleInputChange}
+        />
+      </label>
+
+      <label>
+        Tamanho:
+        <input
+          type="text"
+          name="size"
+          value={productInfo.size}
+          onChange={handleInputChange}
+        />
+      </label>
+
+      <label>
+        Categoria:
+        <input
+          type="text"
+          name="category"
+          value={productInfo.category}
+          onChange={handleInputChange}
+        />
+      </label>
+
+      {/* Novo campo para subcategorias */}
+      <label>
+        Subcategorias (separadas por vírgula):
+        <input
+          type="text"
+          name="subcategories"
+          value={productInfo.subcategories.join(', ')} // Exibir subcategorias como uma string separada por vírgulas
+          onChange={handleSubcategoriesChange}
+        />
+      </label>
+
+      <button type="submit">Criar Produto</button>
+    </form>
+  );
+};
 
 export default function BasicModal() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
   return (
     <React.Fragment>
       <Button
         variant="outlined"
         color="neutral"
-        onClick={() => setOpen(true)}
-        sx={{ backgroundColor: "#14337C", color: "#FFFFFF" }}
+        onClick={handleOpen}
+        sx={{ backgroundColor: '#14337C', color: '#FFFFFF' }}
       >
         Criar Produto
       </Button>
@@ -23,16 +154,16 @@ export default function BasicModal() {
         aria-labelledby="modal-title"
         aria-describedby="modal-desc"
         open={open}
-        onClose={() => setOpen(false)}
-        sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+        onClose={handleClose}
+        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
       >
         <Sheet
           variant="outlined"
           sx={{
             maxWidth: 500,
-            borderRadius: "md",
+            borderRadius: 'md',
             p: 3,
-            boxShadow: "lg",
+            boxShadow: 'lg',
           }}
         >
           <ModalClose variant="plain" sx={{ m: 1 }} />
@@ -44,15 +175,11 @@ export default function BasicModal() {
             fontWeight="lg"
             mb={1}
           >
-            This is the modal title
+            Criar Novo Produto
           </Typography>
-          <Typography id="modal-desc" textColor="text.tertiary">
-            Make sure to use <code>aria-labelledby</code> on the modal dialog
-            with an optional <code>aria-describedby</code> attribute.
-          </Typography>
-          <Select placeholder="Choose one…">
-            <Option>...</Option>
-          </Select>
+
+          {/* Incluindo o formulário dentro do modal */}
+          <CreateProductForm onClose={handleClose} />
         </Sheet>
       </Modal>
     </React.Fragment>
