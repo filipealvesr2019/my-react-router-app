@@ -226,14 +226,23 @@ export default function BasicModal() {
 
   return (
     <React.Fragment>
-      <Button
-        variant="outlined"
-        color="neutral"
-        onClick={handleOpen}
-        sx={{ backgroundColor: "#14337C", color: "#FFFFFF" }}
-      >
-        Criar Produto
-      </Button>
+  <Button
+  variant="outlined"
+  color="neutral"
+  onClick={handleOpen}
+  sx={{
+    backgroundColor: "#14337C",
+    color: "#FFFFFF",
+    "&:hover": {
+      backgroundColor: "#14337C", // Mantém a cor de fundo ao passar o mouse
+      opacity: 0.9, // Define a opacidade desejada
+    },
+  }}
+>
+  Criar Produto
+</Button>
+
+
       <Modal
         aria-labelledby="modal-title"
         aria-describedby="modal-desc"
