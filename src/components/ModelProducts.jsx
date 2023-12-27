@@ -43,8 +43,7 @@ const CreateProductForm = ({ onClose }) => {
     }
   };
  // ... outros códigos ...
-
-const handleCategoryChange = async (event) => {
+ const handleCategoryChange = async (event) => {
     const categoryName = event.target.value;
     setProductInfo((prevProductInfo) => ({
       ...prevProductInfo,
@@ -54,7 +53,7 @@ const handleCategoryChange = async (event) => {
   
     try {
       // Obter subcategorias com base no nome da categoria selecionada
-      const subcategoryResponse = await axios.get(`http://localhost:3001/api/admin/subcategories?category=${categoryName}`);
+      const subcategoryResponse = await axios.get(`http://localhost:3001/api/admin/subcategories?categoryName=${encodeURIComponent(categoryName)}`);
       const subcategoryData = subcategoryResponse.data;
   
       if (subcategoryData && Array.isArray(subcategoryData.subcategories)) {
@@ -167,13 +166,14 @@ const handleCategoryChange = async (event) => {
       <label>
         Categoria:
         <select name="category" value={productInfo.category} onChange={handleCategoryChange}>
-          <option value="" disabled>Escolha uma categoria</option>
-          {categories.map((category) => (
-            <option key={category._id} value={category._id}>
-              {category.name}
-            </option>
-          ))}
-        </select>
+  <option value="" disabled>Escolha uma categoria</option>
+  {categories.map((category) => (
+    <option key={category._id} value={category.name}>
+      {category.name}
+    </option>
+  ))}
+</select>
+
       </label>
 
       <label>
