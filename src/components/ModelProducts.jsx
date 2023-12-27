@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@mui/joy/Button';
 import Modal from '@mui/joy/Modal';
 import ModalClose from '@mui/joy/ModalClose';
@@ -7,38 +7,82 @@ import Sheet from '@mui/joy/Sheet';
 import axios from 'axios';
 
 const CreateProductForm = ({ onClose }) => {
+  const [categories, setCategories] = useState([]);
+  const [subcategories, setSubcategories] = useState([]);
   const [productInfo, setProductInfo] = useState({
     name: '',
     price: 0.0,
     description: '',
     size: '',
     category: '',
-    subcategories: [], // Adicionado campo para subcategorias
+    subcategory: '',
   });
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  useEffect(() => {
+    // Carregar categorias ao montar o componente
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/api/categories');
+      const { success, categories } = response.data;
+  
+  
+      if (success) {
+        if (Array.isArray(categories)) {
+          setCategories(categories);
+        } else {
+          console.error('Os dados recebidos não são uma matriz:', categories);
+        }
+      } else {
+        console.error('A solicitação para obter categorias não foi bem-sucedida.');
+      }
+    } catch (error) {
+      console.error('Erro ao buscar categorias:', error.message);
+    }
+  };
+  const handleCategoryChange = async (event) => {
+    const categoryId = event.target.value;
+    setProductInfo((prevProductInfo) => ({
+      ...prevProductInfo,
+      category: categoryId,
+      subcategory: '', // Resetar a subcategoria quando a categoria for alterada
+    }));
+  
+    // Carregar subcategorias com base na categoria selecionada
+    try {
+      const response = await axios.get(`http://localhost:3001/api/admin/subcategories`);
+      const data = response.data;
+  
+      if (data && typeof data === 'object' && data.subcategories) {
+        const subcategoriesArray = data.subcategories; // Substitua 'subcategories' pelo nome correto no seu objeto
+        console.log('Subcategorias recebidas:', subcategoriesArray);
+        setSubcategories(subcategoriesArray);
+      } else {
+        console.error('Os dados recebidos não são uma matriz:', data);
+      }
+    } catch (error) {
+      console.error('Erro ao buscar subcategorias:', error);
+    }
+  };
+  
+  
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
     setProductInfo((prevProductInfo) => ({
       ...prevProductInfo,
       [name]: value,
     }));
   };
 
-  const handleSubcategoriesChange = (e) => {
-    // Tratar as subcategorias como uma lista separada por vírgulas
-    const subcategories = e.target.value.split(',').map((subcat) => subcat.trim());
-    setProductInfo((prevProductInfo) => ({
-      ...prevProductInfo,
-      subcategories,
-    }));
-  };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-  
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
     try {
       // Enviar dados para o backend usando Axios
       const response = await axios.post('http://localhost:3001/api/admin/product/new', productInfo);
-  
+
       // Verificar se a requisição foi bem-sucedida
       if (response.status === 201) {
         console.log('Produto criado com sucesso');
@@ -49,7 +93,7 @@ const CreateProductForm = ({ onClose }) => {
           description: '',
           size: '',
           category: '',
-          subcategories: [],
+          subcategory: '',
         });
         onClose();
       } else {
@@ -60,7 +104,6 @@ const CreateProductForm = ({ onClose }) => {
       console.error('Erro ao criar o produto:', error.message);
     }
   };
-
 
   return (
     <form onSubmit={handleSubmit}>
@@ -105,23 +148,26 @@ const CreateProductForm = ({ onClose }) => {
 
       <label>
         Categoria:
-        <input
-          type="text"
-          name="category"
-          value={productInfo.category}
-          onChange={handleInputChange}
-        />
+        <select name="category" value={productInfo.category} onChange={handleCategoryChange}>
+          <option value="" disabled>Escolha uma categoria</option>
+          {categories.map((category) => (
+            <option key={category._id} value={category._id}>
+              {category.name}
+            </option>
+          ))}
+        </select>
       </label>
 
-      {/* Novo campo para subcategorias */}
       <label>
-        Subcategorias (separadas por vírgula):
-        <input
-          type="text"
-          name="subcategories"
-          value={productInfo.subcategories.join(', ')} // Exibir subcategorias como uma string separada por vírgulas
-          onChange={handleSubcategoriesChange}
-        />
+        Subcategoria:
+        <select name="subcategory" value={productInfo.subcategory} onChange={handleInputChange}>
+          <option value="" disabled>Escolha uma subcategoria</option>
+          {subcategories.map((subcategory) => (
+            <option key={subcategory._id} value={subcategory._id}>
+              {subcategory.name}
+            </option>
+          ))}
+        </select>
       </label>
 
       <button type="submit">Criar Produto</button>
