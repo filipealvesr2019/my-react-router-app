@@ -1,0 +1,23 @@
+/* YourComponent.css */
+
+.custom-select {
+    /* Adicione seus estilos personalizados aqui */
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 5px;
+  }
+  
+  /* Estilo para options seletos */
+  .custom-select option {
+    background-color: #f7f7f7;
+    color: #333;
+  }
+  
+  /* Estilo para options desabilitados */
+  .custom-select option:disabled {
+    color: #888;
+  }
+  

@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import Button from '@mui/joy/Button';
-import Modal from '@mui/joy/Modal';
-import ModalClose from '@mui/joy/ModalClose';
-import Typography from '@mui/joy/Typography';
-import Sheet from '@mui/joy/Sheet';
-import axios from 'axios';
-
+import React, { useState, useEffect } from "react";
+import Button from "@mui/joy/Button";
+import Modal from "@mui/joy/Modal";
+import ModalClose from "@mui/joy/ModalClose";
+import Typography from "@mui/joy/Typography";
+import Sheet from "@mui/joy/Sheet";
+import axios from "axios";
+import "./ModalProducts.css"
 const CreateProductForm = ({ onClose }) => {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
   const [productInfo, setProductInfo] = useState({
-    name: '',
+    name: "",
     price: 0.0,
-    description: '',
-    size: '',
-    category: '',
-    subcategory: '',
+    description: "",
+    size: "",
+    category: "",
+    subcategory: "",
   });
 
   useEffect(() => {
@@ -25,85 +25,95 @@ const CreateProductForm = ({ onClose }) => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/api/categories');
+      const response = await axios.get("http://localhost:3001/api/categories");
       const { success, categories } = response.data;
-  
-  
+
       if (success) {
         if (Array.isArray(categories)) {
           setCategories(categories);
         } else {
-          console.error('Os dados recebidos não são uma matriz:', categories);
+          console.error("Os dados recebidos não são uma matriz:", categories);
         }
       } else {
-        console.error('A solicitação para obter categorias não foi bem-sucedida.');
+        console.error(
+          "A solicitação para obter categorias não foi bem-sucedida."
+        );
       }
     } catch (error) {
-      console.error('Erro ao buscar categorias:', error.message);
+      console.error("Erro ao buscar categorias:", error.message);
     }
   };
- // ... outros códigos ...
- const handleCategoryChange = async (event) => {
+  // ... outros códigos ...
+  const handleCategoryChange = async (event) => {
     const categoryName = event.target.value;
     setProductInfo((prevProductInfo) => ({
       ...prevProductInfo,
       category: categoryName,
-      subcategory: '', // Resetar a subcategoria quando a categoria for alterada
+      subcategory: "", // Resetar a subcategoria quando a categoria for alterada
     }));
-  
+
     try {
       // Obter subcategorias com base no nome da categoria selecionada
-      const subcategoryResponse = await axios.get(`http://localhost:3001/api/admin/subcategories?categoryName=${encodeURIComponent(categoryName)}`);
+      const subcategoryResponse = await axios.get(
+        `http://localhost:3001/api/admin/subcategories?categoryName=${encodeURIComponent(
+          categoryName
+        )}`
+      );
       const subcategoryData = subcategoryResponse.data;
-  
+
       if (subcategoryData && Array.isArray(subcategoryData.subcategories)) {
         const subcategoriesArray = subcategoryData.subcategories;
-        console.log('Subcategorias recebidas:', subcategoriesArray);
+        console.log("Subcategorias recebidas:", subcategoriesArray);
         setSubcategories(subcategoriesArray);
       } else {
-        console.error('Os dados recebidos não são uma matriz:', subcategoryData);
+        console.error(
+          "Os dados recebidos não são uma matriz:",
+          subcategoryData
+        );
       }
     } catch (error) {
-      console.error('Erro ao buscar subcategorias:', error);
+      console.error("Erro ao buscar subcategorias:", error);
     }
   };
-  
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     try {
       // Enviar dados para o backend usando Axios
-      const response = await axios.post('http://localhost:3001/api/admin/product/new', {
-        ...productInfo,
-        category: productInfo.category, // Manter o nome da categoria
-        subcategory: productInfo.subcategory, // Manter o nome da subcategoria
-      });
-  
+      const response = await axios.post(
+        "http://localhost:3001/api/admin/product/new",
+        {
+          ...productInfo,
+          category: productInfo.category, // Manter o nome da categoria
+          subcategory: productInfo.subcategory, // Manter o nome da subcategoria
+        }
+      );
+
       // Verificar se a requisição foi bem-sucedida
       if (response.status === 201) {
-        console.log('Produto criado com sucesso');
+        console.log("Produto criado com sucesso");
         // Resetar o estado ou redirecionar após o envio do formulário, conforme necessário
         setProductInfo({
-          name: '',
+          name: "",
           price: 0.0,
-          description: '',
-          size: '',
-          category: '',
-          subcategory: '',
+          description: "",
+          size: "",
+          category: "",
+          subcategory: "",
         });
         onClose();
       } else {
         // Lidar com casos de erro
-        console.error('Erro ao criar o produto:', response.statusText);
+        console.error("Erro ao criar o produto:", response.statusText);
       }
     } catch (error) {
-      console.error('Erro ao criar o produto:', error.message);
+      console.error("Erro ao criar o produto:", error.message);
     }
   };
-  
+
   // ... outros códigos ...
-  
-  
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setProductInfo((prevProductInfo) => ({
@@ -112,8 +122,6 @@ const CreateProductForm = ({ onClose }) => {
     }));
   };
 
- 
-
   const handleSubcategoryChange = (event) => {
     const subcategoryName = event.target.value;
     setProductInfo((prevProductInfo) => ({
@@ -121,7 +129,7 @@ const CreateProductForm = ({ onClose }) => {
       subcategory: subcategoryName,
     }));
   };
-  
+
   return (
     <form onSubmit={handleSubmit}>
       <label>
@@ -164,30 +172,42 @@ const CreateProductForm = ({ onClose }) => {
       </label>
 
       <label>
-        Categoria:
-        <select name="category" value={productInfo.category} onChange={handleCategoryChange}>
-  <option value="" disabled>Escolha uma categoria</option>
-  {categories.map((category) => (
-    <option key={category._id} value={category.name}>
-      {category.name}
-    </option>
-  ))}
-</select>
+      Categoria:
+      <select
+        className="custom-select" // Adicione uma classe para aplicar estilos
+        name="category"
+        value={productInfo.category}
+        onChange={handleCategoryChange}
+      >
+        <option value="" disabled>
+          Escolha uma categoria
+        </option>
+        {categories.map((category) => (
+          <option key={category._id} value={category.name}>
+            {category.name}
+          </option>
+        ))}
+      </select>
+    </label>
 
-      </label>
-
-      <label>
-  Subcategoria:
-  <select name="subcategory" value={productInfo.subcategory} onChange={handleSubcategoryChange}>
-    <option value="" disabled>Escolha uma subcategoria</option>
-    {subcategories.map((subcategory) => (
-      <option key={subcategory._id} value={subcategory.name}>
-        {subcategory.name}
-      </option>
-    ))}
-  </select>
-</label>
-
+    <label>
+      Subcategoria:
+      <select
+        className="custom-select" // Adicione uma classe para aplicar estilos
+        name="subcategory"
+        value={productInfo.subcategory}
+        onChange={handleSubcategoryChange}
+      >
+        <option value="" disabled>
+          Escolha uma subcategoria
+        </option>
+        {subcategories.map((subcategory) => (
+          <option key={subcategory._id} value={subcategory.name}>
+            {subcategory.name}
+          </option>
+        ))}
+      </select>
+    </label>
       <button type="submit">Criar Produto</button>
     </form>
   );
@@ -210,7 +230,7 @@ export default function BasicModal() {
         variant="outlined"
         color="neutral"
         onClick={handleOpen}
-        sx={{ backgroundColor: '#14337C', color: '#FFFFFF' }}
+        sx={{ backgroundColor: "#14337C", color: "#FFFFFF" }}
       >
         Criar Produto
       </Button>
@@ -219,15 +239,15 @@ export default function BasicModal() {
         aria-describedby="modal-desc"
         open={open}
         onClose={handleClose}
-        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+        sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
       >
         <Sheet
           variant="outlined"
           sx={{
             maxWidth: 500,
-            borderRadius: 'md',
+            borderRadius: "md",
             p: 3,
-            boxShadow: 'lg',
+            boxShadow: "lg",
           }}
         >
           <ModalClose variant="plain" sx={{ m: 1 }} />
