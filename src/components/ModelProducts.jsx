@@ -42,7 +42,9 @@ const CreateProductForm = ({ onClose }) => {
       console.error('Erro ao buscar categorias:', error.message);
     }
   };
-  const handleCategoryChange = async (event) => {
+ // ... outros códigos ...
+
+const handleCategoryChange = async (event) => {
     const categoryName = event.target.value;
     setProductInfo((prevProductInfo) => ({
       ...prevProductInfo,
@@ -51,11 +53,11 @@ const CreateProductForm = ({ onClose }) => {
     }));
   
     try {
-      // Obter subcategorias com base na categoria selecionada
-      const subcategoryResponse = await axios.get(`http://localhost:3001/api/admin/subcategories`);
+      // Obter subcategorias com base no nome da categoria selecionada
+      const subcategoryResponse = await axios.get(`http://localhost:3001/api/admin/subcategories?category=${categoryName}`);
       const subcategoryData = subcategoryResponse.data;
   
-      if (subcategoryData && typeof subcategoryData === 'object' && subcategoryData.subcategories) {
+      if (subcategoryData && Array.isArray(subcategoryData.subcategories)) {
         const subcategoriesArray = subcategoryData.subcategories;
         console.log('Subcategorias recebidas:', subcategoriesArray);
         setSubcategories(subcategoriesArray);
@@ -67,21 +69,17 @@ const CreateProductForm = ({ onClose }) => {
     }
   };
   
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setProductInfo((prevProductInfo) => ({
-      ...prevProductInfo,
-      [name]: value,
-    }));
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
     try {
       // Enviar dados para o backend usando Axios
-      const response = await axios.post('http://localhost:3001/api/admin/product/new', productInfo);
-
+      const response = await axios.post('http://localhost:3001/api/admin/product/new', {
+        ...productInfo,
+        category: productInfo.category, // Manter o nome da categoria
+        subcategory: productInfo.subcategory, // Manter o nome da subcategoria
+      });
+  
       // Verificar se a requisição foi bem-sucedida
       if (response.status === 201) {
         console.log('Produto criado com sucesso');
@@ -103,7 +101,28 @@ const CreateProductForm = ({ onClose }) => {
       console.error('Erro ao criar o produto:', error.message);
     }
   };
+  
+  // ... outros códigos ...
+  
+  
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setProductInfo((prevProductInfo) => ({
+      ...prevProductInfo,
+      [name]: value,
+    }));
+  };
 
+ 
+
+  const handleSubcategoryChange = (event) => {
+    const subcategoryName = event.target.value;
+    setProductInfo((prevProductInfo) => ({
+      ...prevProductInfo,
+      subcategory: subcategoryName,
+    }));
+  };
+  
   return (
     <form onSubmit={handleSubmit}>
       <label>
@@ -158,16 +177,16 @@ const CreateProductForm = ({ onClose }) => {
       </label>
 
       <label>
-        Subcategoria:
-        <select name="subcategory" value={productInfo.subcategory} onChange={handleInputChange}>
-          <option value="" disabled>Escolha uma subcategoria</option>
-          {subcategories.map((subcategory) => (
-            <option key={subcategory._id} value={subcategory._id}>
-              {subcategory.name}
-            </option>
-          ))}
-        </select>
-      </label>
+  Subcategoria:
+  <select name="subcategory" value={productInfo.subcategory} onChange={handleSubcategoryChange}>
+    <option value="" disabled>Escolha uma subcategoria</option>
+    {subcategories.map((subcategory) => (
+      <option key={subcategory._id} value={subcategory.name}>
+        {subcategory.name}
+      </option>
+    ))}
+  </select>
+</label>
 
       <button type="submit">Criar Produto</button>
     </form>
