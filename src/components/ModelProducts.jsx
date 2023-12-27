@@ -156,12 +156,13 @@ const CreateProductForm = ({ onClose }) => {
         />
       </label>
 
-      <label>
+      <label style={{display:"flex", flexDirection:"column"}}>
         Descrição:
         <textarea
           name="description"
           value={productInfo.description}
           onChange={handleInputChange}
+          
         />
       </label>
 
@@ -212,7 +213,8 @@ const CreateProductForm = ({ onClose }) => {
         ))}
       </select>
     </label>
-      <button type="submit">Criar Produto</button>
+      <button style={{backgroundColor: "#14337C", color:"white", border:"none",
+    padding:".5rem",borderRadius:"1rem",width:"8dvw",fontFamily:"poppins", fontWeight:500, cursor:"pointer", fontSize:".8rem"}} type="submit">Criar Produto</button>
     </form>
   );
 };
