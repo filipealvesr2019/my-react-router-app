@@ -43,30 +43,29 @@ const CreateProductForm = ({ onClose }) => {
     }
   };
   const handleCategoryChange = async (event) => {
-    const categoryId = event.target.value;
+    const categoryName = event.target.value;
     setProductInfo((prevProductInfo) => ({
       ...prevProductInfo,
-      category: categoryId,
+      category: categoryName,
       subcategory: '', // Resetar a subcategoria quando a categoria for alterada
     }));
   
-    // Carregar subcategorias com base na categoria selecionada
     try {
-      const response = await axios.get(`http://localhost:3001/api/admin/subcategories`);
-      const data = response.data;
+      // Obter subcategorias com base na categoria selecionada
+      const subcategoryResponse = await axios.get(`http://localhost:3001/api/admin/subcategories`);
+      const subcategoryData = subcategoryResponse.data;
   
-      if (data && typeof data === 'object' && data.subcategories) {
-        const subcategoriesArray = data.subcategories; // Substitua 'subcategories' pelo nome correto no seu objeto
+      if (subcategoryData && typeof subcategoryData === 'object' && subcategoryData.subcategories) {
+        const subcategoriesArray = subcategoryData.subcategories;
         console.log('Subcategorias recebidas:', subcategoriesArray);
         setSubcategories(subcategoriesArray);
       } else {
-        console.error('Os dados recebidos não são uma matriz:', data);
+        console.error('Os dados recebidos não são uma matriz:', subcategoryData);
       }
     } catch (error) {
       console.error('Erro ao buscar subcategorias:', error);
     }
   };
-  
   
   const handleInputChange = (event) => {
     const { name, value } = event.target;
