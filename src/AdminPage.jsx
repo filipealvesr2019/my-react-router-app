@@ -33,7 +33,6 @@ const HomePage = () => {
 
 
 const RegisterPage = () => {
-  const { logout } = useAuth();
   const [activeNavItem, setActiveNavItem] = useState(null);
 
   const handleClickOtherNavbar = (index) => {
@@ -95,10 +94,6 @@ const RegisterPage = () => {
 
         </nav>
         <div className="content-container">{renderPage()}</div>
-        <div className='button' onClick={logout}>
-          <LogoutIcon />
-          <span>Sair</span>
-        </div>
       </div>
 
     </div>

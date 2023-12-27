@@ -133,13 +133,14 @@ a:hover::after {
 }
 
 .navContainer {
-  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   background-color: #FAFAFA;
   padding: 1rem;
   margin-top: 4rem;
+  overflow-y: auto; /* Adicione esta linha para permitir rolar quando necessário */
+
 
 }
 
