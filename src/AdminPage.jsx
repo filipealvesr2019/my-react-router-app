@@ -148,6 +148,8 @@ const AdminPage = () => {
     const marker = (e) => {
       indicatorRef.current.style.left = e.offsetLeft + "px";
       indicatorRef.current.style.width = e.offsetWidth + "px";
+      setTimeout(() => indicatorRef.current.style.transition = 'left 0.5s ease', 100);
+
     };
 
     // Adicionando um event listener para cada âncora
