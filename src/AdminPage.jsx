@@ -7,6 +7,8 @@ import User from "./pages/Cadastros/User";
 import Products from "./pages/Cadastros/Products";
 import Categories from "./pages/Cadastros/Categories";
 import Config from "./pages/Config/Config"
+import LogoutIcon from '@mui/icons-material/Logout';
+
 const Content = ({ currentPage }) => {
   switch (currentPage) {
     case "register":
@@ -31,6 +33,7 @@ const HomePage = () => {
 
 
 const RegisterPage = () => {
+  const { logout } = useAuth();
   const [activeNavItem, setActiveNavItem] = useState(null);
 
   const handleClickOtherNavbar = (index) => {
@@ -91,8 +94,13 @@ const RegisterPage = () => {
           </ul>
 
         </nav>
-
+        <div className="content-container">{renderPage()}</div>
+        <div className='button' onClick={logout}>
+          <LogoutIcon />
+          <span>Sair</span>
+        </div>
       </div>
+
     </div>
   );
 };
@@ -360,8 +368,6 @@ const AdminPage = () => {
         </nav>
       </header>
       <Content currentPage={currentPage} />
-      <div className="content-container">{renderPage()}</div>
-
     </div>
   );
 };
