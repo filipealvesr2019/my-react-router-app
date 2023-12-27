@@ -6,9 +6,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import User from "./pages/Cadastros/User";
 import Products from "./pages/Cadastros/Products";
 import Categories from "./pages/Cadastros/Categories";
-import Config from "./pages/Config/Config"
-import LogoutIcon from '@mui/icons-material/Logout';
-
+import Config from "./pages/Cadastros/config";
 const Content = ({ currentPage }) => {
   switch (currentPage) {
     case "register":

@@ -140,6 +140,7 @@ a:hover::after {
   padding: 1rem;
   margin-top: 4rem;
   overflow-y: auto; /* Adicione esta linha para permitir rolar quando necessário */
+  z-index: 1000; /* Certifique-se de que o z-index seja maior que o do conteúdo */
 
 
 }
