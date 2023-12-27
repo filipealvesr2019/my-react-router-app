@@ -1,11 +1,12 @@
 import React, { useRef, useEffect, useState } from "react";
 import "./AdminPage.css";
 import { useAuth } from "./context/AuthContext";
-import Admin from "./pages/Admin/Admin";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
-import Cadastros from "./components/Cadastros";
-import { Link } from "react-router-dom";
+import User from "./pages/Cadastros/User";
+import Products from "./pages/Cadastros/Products";
+import Categories from "./pages/Cadastros/Categories";
+import Config from "./pages/Config/Config"
 const Content = ({ currentPage }) => {
   switch (currentPage) {
     case "register":
@@ -28,13 +29,28 @@ const HomePage = () => {
   return <div style={{ marginTop: "5rem" }}>Home Page</div>;
 };
 
+
 const RegisterPage = () => {
   const [activeNavItem, setActiveNavItem] = useState(null);
 
   const handleClickOtherNavbar = (index) => {
     setActiveNavItem(index);
   };
-
+  
+  const renderPage = () => {
+    switch (activeNavItem) {
+      case 0:
+        return <User/>;
+      case 1:
+        return <Products />;
+      case 2:
+        return <Categories />;
+      case 3:
+        return <Config />;
+      default:
+        return null;
+    }
+  };
   return (
     <div className="page-container">
       <div className="navContainer">
@@ -73,7 +89,9 @@ const RegisterPage = () => {
               Configurações
             </li>
           </ul>
+
         </nav>
+
       </div>
     </div>
   );
@@ -84,7 +102,6 @@ const FinancialPage = () => {
     <div style={{ marginTop: "5rem" }}>
       <div className="maintenance-container">
         <p className="maintenance-text">Ops. Página em construção!</p>
-      
       </div>
     </div>
   );
@@ -94,7 +111,6 @@ const StockPage = () => {
     <div style={{ marginTop: "5rem" }}>
       <div className="maintenance-container">
         <p className="maintenance-text">Ops. Página em construção!</p>
-       
       </div>
     </div>
   );
@@ -105,7 +121,6 @@ const FiscalPage = () => {
     <div style={{ marginTop: "5rem" }}>
       <div className="maintenance-container">
         <p className="maintenance-text">Ops. Página em construção!</p>
-     
       </div>
     </div>
   );
@@ -115,7 +130,6 @@ const ReportsPage = () => {
     <div style={{ marginTop: "5rem" }}>
       <div className="maintenance-container">
         <p className="maintenance-text">Ops. Página em construção!</p>
-      
       </div>{" "}
     </div>
   );
@@ -346,6 +360,8 @@ const AdminPage = () => {
         </nav>
       </header>
       <Content currentPage={currentPage} />
+      <div className="content-container">{renderPage()}</div>
+
     </div>
   );
 };
