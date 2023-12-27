@@ -112,6 +112,10 @@ const CreateProductForm = ({ onClose }) => {
     }
   };
 
+
+
+
+   
   // ... outros códigos ...
 
   const handleInputChange = (event) => {
