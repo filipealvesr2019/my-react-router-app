@@ -31,15 +31,15 @@ const CreateProductForm = ({ onClose }) => {
   });
 
   const [colorPickerOpen, setColorPickerOpen] = useState(false);
-
-  const handleColorPickerOpen = () => {
+  const handleColorPickerOpen = (event) => {
+    // Impedir que o evento se propague para evitar o fechamento automático
+    event.stopPropagation();
     setColorPickerOpen(true);
   };
 
   const handleColorPickerClose = () => {
     setColorPickerOpen(false);
   };
-
   const handleColorChangeComplete = (color) => {
     setProductInfo((prevProductInfo) => ({
       ...prevProductInfo,
@@ -346,10 +346,14 @@ const CreateProductForm = ({ onClose }) => {
             onClick={handleColorPickerOpen}
           />
           {colorPickerOpen && (
-            <div style={{ position: "absolute", zIndex: 2,top:"3rem" }}>
+            <div
+              style={{ position: "absolute", zIndex: 2, top: "1rem" }}
+              onClick={(event) => event.stopPropagation()}
+            >
               <SketchPicker
                 color={productInfo.color}
                 onChangeComplete={handleColorChangeComplete}
+                onClick={(event) => event.stopPropagation()}
               />
             </div>
           )}
