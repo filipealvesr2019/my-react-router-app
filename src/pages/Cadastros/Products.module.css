@@ -4,6 +4,9 @@
     margin-left: 52rem;
 }
 
-.span{
-   
+.spanContainer{
+    display: flex;
+    gap: .4rem;
+    cursor: pointer;
+    margin-left: 1rem;
 }

@@ -20,8 +20,9 @@ export default function LayoutModalDialog() {
           onClick={() => {
             setLayout('fullscreen');
           }}
+          style={{gap:".5rem", fontSize:"1rem"}}
         >
-          editar
+         <img src="https://i.ibb.co/NscSwW4/edit.png" alt="" />  <span>Editar</span>
         </Button>
       </Stack>
       <Modal open={!!layout} onClose={() => setLayout(undefined)}>

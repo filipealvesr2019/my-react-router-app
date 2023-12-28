@@ -78,6 +78,7 @@ const Products = () => {
                   <tr className={styles.td} key={product._id}>
                     <td className={styles.td}>{product.name}</td>
                     <td >
+                      <div className={styles.spanContainer}>
                       <span className={styles.span} onClick={() => {}}>
                         <ModelUpdate />
                       </span>
@@ -88,6 +89,7 @@ const Products = () => {
                       <DeleteModal
                         onDelete={() => handleDeleteProduct(product._id)}
                       />
+                      </div>
                     </td>
                   </tr>
                 ))}
