@@ -2,18 +2,19 @@ import React, { useEffect, useState } from "react";
 import styles from "./Products.module.css";
 import EditIcon from "@mui/icons-material/Edit";
 import axios from "axios";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 import ModelProducts from "../../components/ModelProducts";
+
 const Products = () => {
   const [products, setProducts] = useState([]);
 
-  // get products  from api
+  // get products from api
   useEffect(() => {
     const getProducts = async () => {
       try {
         const response = await axios.get("http://localhost:3001/api/products");
         setProducts(response.data.products);
-        console.log("data", response.data.products)
+        console.log("data", response.data.products);
       } catch (error) {
         console.log("Erro ao obter produtos", error);
       }
@@ -21,6 +22,28 @@ const Products = () => {
 
     getProducts();
   }, []);
+
+  const handleDeleteProduct = async (productId) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:3001/api/admin/product/${productId}`
+      );
+  
+      if (response.data.success) {
+        // Atualizar a lista de produtos após a exclusão bem-sucedida
+        const updatedProducts = products.filter(
+          (product) => product._id !== productId
+        );
+        setProducts(updatedProducts);
+        console.log("Produto excluído com sucesso");
+      } else {
+        console.error("Erro ao excluir produto. Mensagem do servidor:", response.data.error);
+      }
+    } catch (error) {
+      console.error("Erro ao excluir produto. Detalhes do erro:", error);
+    }
+  };
+  
 
   return (
     <div className={styles.container}>
@@ -52,7 +75,17 @@ const Products = () => {
                 {products.map((product) => (
                   <tr className="tr" key={product._id}>
                     <td className="td">{product.name}</td>
-                    <td>Editar<EditIcon/> Excluir<DeleteIcon/></td>
+                    <td>
+                      <span onClick={() => {}}>
+                        Editar <EditIcon />
+                      </span>
+                      <span
+                        onClick={() => handleDeleteProduct(product._id)}
+                        style={{ marginLeft: "10px", cursor: "pointer" }}
+                      >
+                        Excluir <DeleteIcon />
+                      </span>
+                    </td>
                   </tr>
                 ))}
               </tbody>
