@@ -25,8 +25,8 @@ const CreateProductForm = ({ onClose }) => {
     category: "",
     subcategory: "",
     quantity: 0,
-    color: "",
-    imageFile: null, // Novo campo para o arquivo de imagem
+    variations: [], // Array de variações (cores e imagens)
+    imageFiles: [], // Novo campo para arquivos de imagem
   });
 
   useEffect(() => {
@@ -88,55 +88,64 @@ const CreateProductForm = ({ onClose }) => {
   };
 
   const handleFileChange = (event) => {
-    const file = event.target.files[0];
+    const files = Array.from(event.target.files);
     setProductInfo((prevProductInfo) => ({
       ...prevProductInfo,
-      imageFile: file,
+      imageFiles: [...prevProductInfo.imageFiles, ...files],
     }));
+  };
+
+  const handleRemoveImage = (index) => {
+    setProductInfo((prevProductInfo) => {
+      const updatedImageFiles = [...prevProductInfo.imageFiles];
+      updatedImageFiles.splice(index, 1);
+      return {
+        ...prevProductInfo,
+        imageFiles: updatedImageFiles,
+      };
+    });
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const { color, imageFile, ...productData } = productInfo;
+      const { variations, imageFiles, ...productData } = productInfo;
 
-      // Criar um FormData para enviar a imagem como um arquivo
-      const formData = new FormData();
-      formData.append("image", imageFile);
-      formData.append("color", productData.color); // Certifique-se de que o campo color esteja definido
-
-      console.log("Dados a serem enviados para o ImgBB:", formData);
-
-      // Fazer upload da imagem para o ImgBB
-      const imgBbResponse = await axios.post(
-        "https://api.imgbb.com/1/upload",
-        formData,
-        {
+      // Criar um array de Promises para upload de todas as imagens
+      const uploadPromises = imageFiles.map((file) => {
+        const formData = new FormData();
+        formData.append("image", file);
+        return axios.post("https://api.imgbb.com/1/upload", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
           params: {
-            key: "",
+            key: "20af19809d6e8fa90a1d7aaab396c2e6",
           },
-        }
+        });
+      });
+
+      // Executar todas as Promises de upload
+      const imgBbResponses = await Promise.all(uploadPromises);
+
+      // Extrair URLs das respostas do ImgBB
+      const imageUrls = imgBbResponses.map(
+        (response) => response.data.data.url
       );
 
-      const imgBbData = imgBbResponse.data.data;
-
-      // Montar a estrutura de dados para o backend com a URL da imagem do ImgBB
+      // Montar a estrutura de dados para o backend com URLs das imagens
+      // Montar a estrutura de dados para o backend com URLs das imagens
       const requestData = {
         ...productData,
         category: productInfo.category,
         subcategory: productInfo.subcategory,
         images: [
           {
-            colors: [
-              {
-                color: productInfo.color, // Certifique-se de que color seja definido corretamente
-                url: imgBbData.url,
-              },
-            ],
+            colors: productInfo.variations.map((variation, index) => ({
+              color: variation.color,
+              url: imageUrls[index], // Alterado para usar a URL da imagem correta
+            })),
           },
         ],
       };
@@ -163,8 +172,8 @@ const CreateProductForm = ({ onClose }) => {
           category: "",
           subcategory: "",
           quantity: 0,
-          color: "",
-          imageFile: null,
+          variations: [],
+          imageFiles: [],
         });
         onClose();
       } else {
@@ -189,6 +198,29 @@ const CreateProductForm = ({ onClose }) => {
       ...prevProductInfo,
       subcategory: subcategoryName,
     }));
+  };
+
+  const handleColorChange = (event, index) => {
+    const color = event.target.value;
+    setProductInfo((prevProductInfo) => {
+      const updatedVariations = [...prevProductInfo.variations];
+      updatedVariations[index].color = color;
+      return {
+        ...prevProductInfo,
+        variations: updatedVariations,
+      };
+    });
+  };
+
+  const handleAddVariation = () => {
+    const { color } = productInfo;
+    if (color) {
+      setProductInfo((prevProductInfo) => ({
+        ...prevProductInfo,
+        color: "",
+        variations: [...prevProductInfo.variations, { color }],
+      }));
+    }
   };
 
   return (
@@ -296,6 +328,37 @@ const CreateProductForm = ({ onClose }) => {
             onChange={handleInputChange}
           />
         </Grid>
+        <Grid item xs={12} sm={6}>
+          <Button
+            onClick={handleAddVariation}
+            style={{
+              backgroundColor: "#14337C",
+              color: "white",
+              border: "none",
+              padding: ".5rem",
+              borderRadius: "1rem",
+              width: "8dvw",
+              fontFamily: "poppins",
+              fontWeight: 500,
+              cursor: "pointer",
+              fontSize: ".8rem",
+            }}
+          >
+            Adicionar Variação
+          </Button>
+        </Grid>
+        {productInfo.variations.map((variation, index) => (
+          <Grid item xs={12} sm={6} key={index}>
+            <TextField
+              label={`Cor ${index + 1}`}
+              variant="outlined"
+              fullWidth
+              name={`color-${index}`}
+              value={variation.color}
+              onChange={(event) => handleColorChange(event, index)}
+            />
+          </Grid>
+        ))}
 
         <Grid item xs={12}>
           <input type="file" accept="image/*" onChange={handleFileChange} />
