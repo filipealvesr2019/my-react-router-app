@@ -346,7 +346,7 @@ const CreateProductForm = ({ onClose }) => {
             onClick={handleColorPickerOpen}
           />
           {colorPickerOpen && (
-            <div style={{ position: "absolute", zIndex: 2, marginTop:"-20rem"}}>
+            <div style={{ position: "absolute", zIndex: 2,top:"3rem" }}>
               <SketchPicker
                 color={productInfo.color}
                 onChangeComplete={handleColorChangeComplete}

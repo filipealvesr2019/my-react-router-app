@@ -77,15 +77,16 @@ const Products = () => {
                     <td className="td">{product.name}</td>
                     <td>
                       <span onClick={() => {}}>
-                        Editar <EditIcon />
+                      <ModelUpdate /> <EditIcon />
                       </span>
                       <span
                         onClick={() => handleDeleteProduct(product._id)}
                         style={{ marginLeft: "10px", cursor: "pointer" }}
                       >
                         Excluir <DeleteIcon />
+                   
                       </span>
-                      <ModelUpdate />
+                 
 
                     </td>
                   </tr>
