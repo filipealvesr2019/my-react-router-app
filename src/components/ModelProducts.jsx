@@ -31,22 +31,34 @@ const CreateProductForm = ({ onClose }) => {
   });
 
   const [colorPickerOpen, setColorPickerOpen] = useState(false);
-  const handleColorPickerOpen = (event) => {
-    // Impedir que o evento se propague para evitar o fechamento automático
-    event.stopPropagation();
-    setColorPickerOpen(true);
-  };
+  
+const handleColorPickerOpen = (event) => {
+  // Impedir que o evento se propague para evitar o fechamento automático
+  event.stopPropagation();
+  setColorPickerOpen(true);
+};
 
-  const handleColorPickerClose = () => {
-    setColorPickerOpen(false);
-  };
-  const handleColorChangeComplete = (color) => {
-    setProductInfo((prevProductInfo) => ({
-      ...prevProductInfo,
-      color: color.hex,
-    }));
-    handleColorPickerClose();
-  };
+const handleColorPickerClose = () => {
+  setColorPickerOpen(false);
+};
+
+const handleColorChangeComplete = (color) => {
+  setProductInfo((prevProductInfo) => ({
+    ...prevProductInfo,
+    color: color.hex,
+  }));
+  handleColorPickerClose();
+};
+
+// Adicione um novo evento para impedir a propagação quando a barra de cores é movida
+const handleColorChange = (color, event) => {
+  event.stopPropagation();
+  setProductInfo((prevProductInfo) => ({
+    ...prevProductInfo,
+    color: color.hex,
+  }));
+};
+
 
   useEffect(() => {
     // Carregar categorias ao montar o componente
@@ -218,17 +230,7 @@ const CreateProductForm = ({ onClose }) => {
     }));
   };
 
-  const handleColorChange = (event, index) => {
-    const color = event.target.value;
-    setProductInfo((prevProductInfo) => {
-      const updatedVariations = [...prevProductInfo.variations];
-      updatedVariations[index].color = color;
-      return {
-        ...prevProductInfo,
-        variations: updatedVariations,
-      };
-    });
-  };
+  
 
   const handleAddVariation = () => {
     const { color } = productInfo;
@@ -336,28 +338,26 @@ const CreateProductForm = ({ onClose }) => {
             onChange={handleInputChange}
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            label="Cor"
-            variant="outlined"
-            fullWidth
-            name="color"
-            value={productInfo.color}
-            onClick={handleColorPickerOpen}
-          />
-          {colorPickerOpen && (
-            <div
-              style={{ position: "absolute", zIndex: 2, top: "1rem" }}
-              onClick={(event) => event.stopPropagation()}
-            >
-              <SketchPicker
-                color={productInfo.color}
-                onChangeComplete={handleColorChangeComplete}
-                onClick={(event) => event.stopPropagation()}
-              />
-            </div>
-          )}
-        </Grid>
+        <TextField
+  label="Cor"
+  variant="outlined"
+  fullWidth
+  name="color"
+  value={productInfo.color}
+  onClick={handleColorPickerOpen}
+/>
+{colorPickerOpen && (
+  <div
+    style={{ position: "absolute", zIndex: 2, top: "1rem" }}
+    onClick={(event) => event.stopPropagation()}
+  >
+    <SketchPicker
+      color={productInfo.color}
+      onChangeComplete={handleColorChangeComplete}
+      onChange={(color, event) => handleColorChange(color, event)}
+    />
+  </div>
+)}
         <Grid item xs={12} sm={6}>
           <Button
             onClick={handleAddVariation}
