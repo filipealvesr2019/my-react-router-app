@@ -26,7 +26,7 @@ const CreateProductForm = ({ onClose }) => {
     subcategory: "",
     quantity: 0,
     color: "",
-    imageUrl: "",
+    imageFile: null, // Novo campo para o arquivo de imagem
   });
 
   useEffect(() => {
@@ -86,42 +86,76 @@ const CreateProductForm = ({ onClose }) => {
       console.error("Erro ao buscar subcategorias:", error);
     }
   };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setProductInfo((prevProductInfo) => ({
+      ...prevProductInfo,
+      imageFile: file,
+    }));
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     try {
-      // Extrair as informações de cor e URL da imagem
-      const { color, imageUrl, ...productData } = productInfo;
-  
-      // Montar a estrutura de dados para o backend
+      const { color, imageFile, ...productData } = productInfo;
+
+      // Criar um FormData para enviar a imagem como um arquivo
+      const formData = new FormData();
+formData.append("image", imageFile);
+formData.append("color", productData.color); // Certifique-se de que o campo color esteja definido
+
+      
+      console.log("Dados a serem enviados para o ImgBB:", formData);
+
+      // Fazer upload da imagem para o ImgBB
+      const imgBbResponse = await axios.post(
+        "https://api.imgbb.com/1/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          params: {
+            key: "20af19809d6e8fa90a1d7aaab396c2e6",
+          },
+        }
+      );
+
+      const imgBbData = imgBbResponse.data.data;
+
+      // Montar a estrutura de dados para o backend com a URL da imagem do ImgBB
       const requestData = {
         ...productData,
-        category: productData.category,
-        subcategory: productData.subcategory,
+        category: productInfo.category,
+        subcategory: productInfo.subcategory,
         images: [
           {
-            color,
-            url: imageUrl,
+            colors: [
+              {
+                color: productInfo.color, // Certifique-se de que color seja definido corretamente
+                url: imgBbData.url,
+              },
+            ],
           },
         ],
       };
-  
+      
       console.log("Dados do Produto:", requestData);
-  
+
       // Enviar dados para o backend usando Axios
       const response = await axios.post(
         "http://localhost:3001/api/admin/product/new",
         requestData
       );
-  
-      // Verificar se a requisição foi bem-sucedida
+
       if (response.status === 201) {
         console.log("Produto criado com sucesso");
 
         // Log do novo estado do produto
         console.log("Novo Estado do Produto:", productInfo);
-  
-        // Resetar o estado ou redirecionar após o envio do formulário, conforme necessário
+
         setProductInfo({
           name: "",
           price: 0.0,
@@ -131,18 +165,17 @@ const CreateProductForm = ({ onClose }) => {
           subcategory: "",
           quantity: 0,
           color: "",
-          imageUrl: "",
+          imageFile: null,
         });
         onClose();
       } else {
-        // Lidar com casos de erro
         console.error("Erro ao criar o produto:", response.statusText);
       }
     } catch (error) {
       console.error("Erro ao criar o produto:", error.message);
     }
   };
-  
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setProductInfo((prevProductInfo) => ({
@@ -150,6 +183,8 @@ const CreateProductForm = ({ onClose }) => {
       [name]: value,
     }));
   };
+  
+  
 
   const handleSubcategoryChange = (event) => {
     const subcategoryName = event.target.value;
@@ -255,23 +290,21 @@ const CreateProductForm = ({ onClose }) => {
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <TextField
-            label="Cor"
-            variant="outlined"
-            fullWidth
-            name="color"
-            value={productInfo.color}
-            onChange={handleInputChange}
-          />
-        </Grid>
+  <TextField
+    label="Cor"
+    variant="outlined"
+    fullWidth
+    name="color"
+    value={productInfo.color}
+    onChange={handleInputChange}
+  />
+</Grid>
+
         <Grid item xs={12}>
-          <TextField
-            label="URL da Imagem"
-            variant="outlined"
-            fullWidth
-            name="imageUrl"
-            value={productInfo.imageUrl}
-            onChange={handleInputChange}
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
           />
         </Grid>
       </Grid>
