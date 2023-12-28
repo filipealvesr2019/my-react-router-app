@@ -41,7 +41,6 @@ const CreateProductForm = ({ onClose }) => {
 
   const handleColorPickerClose = () => {
     setColorPickerOpen(false);
-
   };
 
   const handleColorChangeComplete = (color) => {
@@ -122,118 +121,118 @@ const CreateProductForm = ({ onClose }) => {
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
     const imageFile = files[0]; // Assumindo que estamos lidando com apenas uma imagem
-  
+
     // Defina parte do nome do arquivo (por exemplo, os primeiros 10 caracteres)
     const partialFileName = imageFile.name.substring(0, 10);
-  
+
     setProductInfo((prevProductInfo) => ({
       ...prevProductInfo,
       imageFiles: [...prevProductInfo.imageFiles, imageFile],
     }));
-  
+
     setImageFileName(partialFileName);
   };
-  
-// ... restante do código ...
 
-const handleAddVariation = () => {
-  const { color, imageFiles } = productInfo;
-  if (color && imageFiles.length > 0) {
-    setProductInfo((prevProductInfo) => ({
-      ...prevProductInfo,
-      color: "", // Limpar a cor após adicionar
-      variations: [
-        ...prevProductInfo.variations,
-        {
-          color,
-          images: imageFiles.map((file) => ({
-            url: URL.createObjectURL(file),
-            fileName: imageFileName, // Adicionar parte do nome do arquivo
-          })),
-        },
-      ],
-    }));
-  }
-};
+  // ... restante do código ...
 
-const handleSubmit = async (event) => {
-  event.preventDefault();
-
-  try {
-    const { variations, imageFiles, ...productData } = productInfo;
-
-    // Criar um array de Promises para upload de todas as imagens
-    const uploadPromises = imageFiles.map((file) => {
-      const formData = new FormData();
-      formData.append("image", file);
-      return axios.post("https://api.imgbb.com/1/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        params: {
-          key: "20af19809d6e8fa90a1d7aaab396c2e6",
-        },
-      });
-    });
-
-    // Executar todas as Promises de upload
-    const imgBbResponses = await Promise.all(uploadPromises);
-
-    // Extrair URLs das respostas do ImgBB
-    const imageUrls = imgBbResponses.map(
-      (response) => response.data.data.url
-    );
-
-    // Montar a estrutura de dados para o backend com URLs das imagens
-    const requestData = {
-      ...productData,
-      category: productInfo.category,
-      subcategory: productInfo.subcategory,
-      images: variations.map((variation) => ({
-        colors: variation.images.map((image, index) => ({
-          color: variation.color,
-          url: imageUrls[index], // Associar a URL correta
-        })),
-      })),
-    };
-
-    console.log("Dados do Produto:", requestData);
-
-    // Enviar dados para o backend usando Axios
-    const response = await axios.post(
-      "http://localhost:3001/api/admin/product/new",
-      requestData
-    );
-
-    if (response.status === 201) {
-      console.log("Produto criado com sucesso");
-
-      // Log do novo estado do produto
-      console.log("Novo Estado do Produto:", productInfo);
-
-      setProductInfo({
-        name: "",
-        price: 0.0,
-        description: "",
-        size: "",
-        category: "",
-        subcategory: "",
-        quantity: 0,
-        variations: [],
-        imageFiles: [],
-      });
-      onClose();
-    } else {
-      console.error("Erro ao criar o produto:", response.statusText);
+  const handleAddVariation = () => {
+    const { color, imageFiles } = productInfo;
+    if (color && imageFiles.length > 0) {
+      setProductInfo((prevProductInfo) => ({
+        ...prevProductInfo,
+        color: "", // Limpar a cor após adicionar
+        variations: [
+          ...prevProductInfo.variations,
+          {
+            color,
+            images: imageFiles.map((file) => ({
+              url: URL.createObjectURL(file),
+              fileName: imageFileName, // Adicionar parte do nome do arquivo
+            })),
+          },
+        ],
+      }));
     }
-  } catch (error) {
-    console.error("Erro ao criar o produto:", error.message);
-  }
-};
+  };
 
-// ... restante do código ...
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-// ... restante do código ...
+    try {
+      const { variations, imageFiles, ...productData } = productInfo;
+
+      // Criar um array de Promises para upload de todas as imagens
+      const uploadPromises = imageFiles.map((file) => {
+        const formData = new FormData();
+        formData.append("image", file);
+        return axios.post("https://api.imgbb.com/1/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          params: {
+            key: "",
+          },
+        });
+      });
+
+      // Executar todas as Promises de upload
+      const imgBbResponses = await Promise.all(uploadPromises);
+
+      // Extrair URLs das respostas do ImgBB
+      const imageUrls = imgBbResponses.map(
+        (response) => response.data.data.url
+      );
+
+      // Montar a estrutura de dados para o backend com URLs das imagens
+      const requestData = {
+        ...productData,
+        category: productInfo.category,
+        subcategory: productInfo.subcategory,
+        images: variations.map((variation) => ({
+          colors: variation.images.map((image, index) => ({
+            color: variation.color,
+            url: imageUrls[index], // Associar a URL correta
+          })),
+        })),
+      };
+
+      console.log("Dados do Produto:", requestData);
+
+      // Enviar dados para o backend usando Axios
+      const response = await axios.post(
+        "http://localhost:3001/api/admin/product/new",
+        requestData
+      );
+
+      if (response.status === 201) {
+        console.log("Produto criado com sucesso");
+
+        // Log do novo estado do produto
+        console.log("Novo Estado do Produto:", productInfo);
+
+        setProductInfo({
+          name: "",
+          price: 0.0,
+          description: "",
+          size: "",
+          category: "",
+          subcategory: "",
+          quantity: 0,
+          variations: [],
+          imageFiles: [],
+        });
+        onClose();
+      } else {
+        console.error("Erro ao criar o produto:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Erro ao criar o produto:", error.message);
+    }
+  };
+
+  // ... restante do código ...
+
+  // ... restante do código ...
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -250,8 +249,6 @@ const handleSubmit = async (event) => {
       subcategory: subcategoryName,
     }));
   };
-
- 
 
   return (
     <form onSubmit={handleSubmit}>
@@ -349,68 +346,70 @@ const handleSubmit = async (event) => {
           />
         </Grid>
         // ... (código anterior)
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label="Cor"
+            variant="outlined"
+            fullWidth
+            name="color"
+            value={productInfo.color}
+            onClick={handleColorPickerOpen}
+          />
+          {colorPickerOpen && (
+            <div
+              style={{ position: "absolute", zIndex: 2, top: "1rem" }}
+              onClick={(event) => event.stopPropagation()}
+            >
+              <SketchPicker
+                color={productInfo.color}
+                onChangeComplete={handleColorChangeComplete}
+                onChange={(color, event) => handleColorChange(color, event)}
+              />
+            </div>
+          )}
 
-<Grid item xs={12} sm={6}>
-  <TextField
-    label="Cor"
-    variant="outlined"
-    fullWidth
-    name="color"
-    value={productInfo.color}
-    onClick={handleColorPickerOpen}
-  />
-  {colorPickerOpen && (
-    <div
-      style={{ position: "absolute", zIndex: 2, top: "1rem" }}
-      onClick={(event) => event.stopPropagation()}
-    >
-      <SketchPicker
-        color={productInfo.color}
-        onChangeComplete={handleColorChangeComplete}
-        onChange={(color, event) => handleColorChange(color, event)}
-      />
-    </div>
-  )}
-
-  {/* Trecho a ser adicionado */}
-  {productInfo.color && (
-    <div style={{ marginTop: '0.5rem', display: 'flex', alignItems: 'center' }}>
-      <span style={{ marginRight: '0.5rem' }}>Cor Adicionada:</span>
-      <div
-        style={{
-          width: '20px',
-          height: '20px',
-          backgroundColor: productInfo.color,
-          border: '1px solid #000',
-          marginRight: '0.5rem',
-        }}
-      ></div>
-      <span>Imagem: {imageFileName}</span>
-    </div>
-  )}
-</Grid>
-
-<Grid item xs={12} sm={6}>
-  <Button
-    onClick={handleAddVariation}
-    style={{
-      backgroundColor: "#14337C",
-      color: "white",
-      border: "none",
-      padding: ".5rem",
-      borderRadius: "1rem",
-      width: "8dvw",
-      fontFamily: "poppins",
-      fontWeight: 500,
-      cursor: "pointer",
-      fontSize: ".8rem",
-    }}
-  >
-    Adicionar Variação
-  </Button>
-</Grid>
-
-
+          {/* Trecho a ser adicionado */}
+          {productInfo.color && (
+            <div
+              style={{
+                marginTop: "0.5rem",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <span style={{ marginRight: "0.5rem" }}>Cor Adicionada:</span>
+              <div
+                style={{
+                  width: "20px",
+                  height: "20px",
+                  backgroundColor: productInfo.color,
+                  border: "1px solid #000",
+                  marginRight: "0.5rem",
+                }}
+              ></div>
+              <span>Imagem: {imageFileName}</span>
+            </div>
+          )}
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Button
+            onClick={handleAddVariation}
+            style={{
+              backgroundColor: "#14337C",
+              color: "white",
+              border: "none",
+              padding: ".5rem",
+              borderRadius: "1rem",
+              width: "8dvw",
+              fontFamily: "poppins",
+              fontWeight: 500,
+              cursor: "pointer",
+              fontSize: ".8rem",
+            }}
+          >
+            Adicionar Variação
+          </Button>
+        </Grid>
         <Grid item xs={12}>
           <input type="file" accept="image/*" onChange={handleFileChange} />
         </Grid>
