@@ -5,7 +5,15 @@ import ModalClose from "@mui/joy/ModalClose";
 import Typography from "@mui/joy/Typography";
 import Sheet from "@mui/joy/Sheet";
 import axios from "axios";
-import "./ModalProducts.css"
+import "./ModalProducts.css";
+import TextField from "@mui/material/TextField";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+
 const CreateProductForm = ({ onClose }) => {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
@@ -16,6 +24,9 @@ const CreateProductForm = ({ onClose }) => {
     size: "",
     category: "",
     subcategory: "",
+    quantity: 0,
+    color: "",
+    imageUrl: "",
   });
 
   useEffect(() => {
@@ -43,7 +54,7 @@ const CreateProductForm = ({ onClose }) => {
       console.error("Erro ao buscar categorias:", error.message);
     }
   };
-  // ... outros códigos ...
+
   const handleCategoryChange = async (event) => {
     const categoryName = event.target.value;
     setProductInfo((prevProductInfo) => ({
@@ -101,6 +112,9 @@ const CreateProductForm = ({ onClose }) => {
           size: "",
           category: "",
           subcategory: "",
+          quantity: 0,
+          color: "",
+          imageUrl: "",
         });
         onClose();
       } else {
@@ -111,12 +125,6 @@ const CreateProductForm = ({ onClose }) => {
       console.error("Erro ao criar o produto:", error.message);
     }
   };
-
-
-
-
-   
-  // ... outros códigos ...
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -136,85 +144,137 @@ const CreateProductForm = ({ onClose }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label>
-        Nome do Produto:
-        <input
-          type="text"
-          name="name"
-          value={productInfo.name}
-          onChange={handleInputChange}
-        />
-      </label>
-
-      <label>
-        Preço:
-        <input
-          type="number"
-          name="price"
-          value={productInfo.price}
-          onChange={handleInputChange}
-        />
-      </label>
-
-      <label style={{display:"flex", flexDirection:"column"}}>
-        Descrição:
-        <textarea
-          name="description"
-          value={productInfo.description}
-          onChange={handleInputChange}
-          
-        />
-      </label>
-
-      <label>
-        Tamanho:
-        <input
-          type="text"
-          name="size"
-          value={productInfo.size}
-          onChange={handleInputChange}
-        />
-      </label>
-
-      <label>
-      Categoria:
-      <select
-        className="custom-select" // Adicione uma classe para aplicar estilos
-        name="category"
-        value={productInfo.category}
-        onChange={handleCategoryChange}
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label="Nome do Produto"
+            variant="outlined"
+            fullWidth
+            name="name"
+            value={productInfo.name}
+            onChange={handleInputChange}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label="Preço"
+            variant="outlined"
+            fullWidth
+            type="number"
+            name="price"
+            value={productInfo.price}
+            onChange={handleInputChange}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            label="Descrição"
+            variant="outlined"
+            fullWidth
+            multiline
+            rows={3}
+            name="description"
+            value={productInfo.description}
+            onChange={handleInputChange}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label="Tamanho"
+            variant="outlined"
+            fullWidth
+            name="size"
+            value={productInfo.size}
+            onChange={handleInputChange}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth variant="outlined">
+            <InputLabel>Categoria</InputLabel>
+            <Select
+              label="Categoria"
+              value={productInfo.category}
+              onChange={handleCategoryChange}
+            >
+              <MenuItem value="" disabled>
+                Escolha uma categoria
+              </MenuItem>
+              {categories.map((category) => (
+                <MenuItem key={category._id} value={category.name}>
+                  {category.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth variant="outlined">
+            <InputLabel>Subcategoria</InputLabel>
+            <Select
+              label="Subcategoria"
+              value={productInfo.subcategory}
+              onChange={handleSubcategoryChange}
+            >
+              <MenuItem value="" disabled>
+                Escolha uma subcategoria
+              </MenuItem>
+              {subcategories.map((subcategory) => (
+                <MenuItem key={subcategory._id} value={subcategory.name}>
+                  {subcategory.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label="Quantidade"
+            variant="outlined"
+            fullWidth
+            type="number"
+            name="quantity"
+            value={productInfo.quantity}
+            onChange={handleInputChange}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label="Cor"
+            variant="outlined"
+            fullWidth
+            name="color"
+            value={productInfo.color}
+            onChange={handleInputChange}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            label="URL da Imagem"
+            variant="outlined"
+            fullWidth
+            name="imageUrl"
+            value={productInfo.imageUrl}
+            onChange={handleInputChange}
+          />
+        </Grid>
+      </Grid>
+      <Button
+        style={{
+          backgroundColor: "#14337C",
+          color: "white",
+          border: "none",
+          padding: ".5rem",
+          borderRadius: "1rem",
+          width: "8dvw",
+          fontFamily: "poppins",
+          fontWeight: 500,
+          cursor: "pointer",
+          fontSize: ".8rem",
+        }}
+        type="submit"
       >
-        <option value="" disabled>
-          Escolha uma categoria
-        </option>
-        {categories.map((category) => (
-          <option key={category._id} value={category.name}>
-            {category.name}
-          </option>
-        ))}
-      </select>
-    </label>
-
-    <label>
-      Subcategoria:
-      <select
-        className="custom-select" // Adicione uma classe para aplicar estilos
-        name="subcategory"
-        value={productInfo.subcategory}
-        onChange={handleSubcategoryChange}
-      >
-        <option value="" disabled>
-          Escolha uma subcategoria
-        </option>
-        {subcategories.map((subcategory) => (
-          <option key={subcategory._id} value={subcategory.name}>
-            {subcategory.name}
-          </option>
-        ))}
-      </select>
-    </label>
-      <button style={{backgroundColor: "#14337C", color:"white", border:"none",
-    padding:".5rem",borderRadius:"1rem",width:"8dvw",fontFamily:"poppins", fontWeight:500, cursor:"pointer", fontSize:".8rem"}} type="submit">Criar Produto</button>
+        Criar Produto
+      </Button>
     </form>
   );
 };
@@ -232,22 +292,21 @@ export default function BasicModal() {
 
   return (
     <React.Fragment>
-  <Button
-  variant="outlined"
-  color="neutral"
-  onClick={handleOpen}
-  sx={{
-    backgroundColor: "#14337C",
-    color: "#FFFFFF",
-    "&:hover": {
-      backgroundColor: "#14337C", // Mantém a cor de fundo ao passar o mouse
-      opacity: 0.9, // Define a opacidade desejada
-    },
-  }}
->
-  Criar Produto
-</Button>
-
+      <Button
+        variant="outlined"
+        color="neutral"
+        onClick={handleOpen}
+        sx={{
+          backgroundColor: "#14337C",
+          color: "#FFFFFF",
+          "&:hover": {
+            backgroundColor: "#14337C",
+            opacity: 0.9,
+          },
+        }}
+      >
+        Criar Produto
+      </Button>
 
       <Modal
         aria-labelledby="modal-title"
@@ -277,7 +336,6 @@ export default function BasicModal() {
             Criar Novo Produto
           </Typography>
 
-          {/* Incluindo o formulário dentro do modal */}
           <CreateProductForm onClose={handleClose} />
         </Sheet>
       </Modal>
