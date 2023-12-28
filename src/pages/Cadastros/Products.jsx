@@ -4,7 +4,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import axios from "axios";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModelProducts from "../../components/ModelProducts";
-
+import ModelUpdate from "../../components/ModelUpdate"
 const Products = () => {
   const [products, setProducts] = useState([]);
 
@@ -85,6 +85,8 @@ const Products = () => {
                       >
                         Excluir <DeleteIcon />
                       </span>
+                      <ModelUpdate />
+
                     </td>
                   </tr>
                 ))}
