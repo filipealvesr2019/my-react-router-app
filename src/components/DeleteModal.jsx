@@ -27,11 +27,9 @@ export default function DeleteModal({ onDelete }) {
           aria-describedby="nested-modal-description"
         >
           <Typography id="nested-modal-title" level="h2">
-            Are you absolutely sure?
-          </Typography>
+          Você tem certeza de que quer <b style={{color:"red"}}>excluir</b> esse produto?          </Typography>
           <Typography id="nested-modal-description" textColor="text.tertiary">
-            This action cannot be undone. This will permanently delete your account
-            and remove your data from our servers.
+          Essa ação não pode ser desfeita. Isso excluirá permanentemente o produto.
           </Typography>
           <Box
             sx={{
@@ -41,7 +39,7 @@ export default function DeleteModal({ onDelete }) {
               flexDirection: { xs: 'column', sm: 'row-reverse' },
             }}
           >
-            <Button variant="solid" color="primary" onClick={handleContinue}>
+            <Button variant="solid"  color="warning" onClick={handleContinue}>
               Continue
             </Button>
             <Button

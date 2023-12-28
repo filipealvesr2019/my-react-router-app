@@ -75,15 +75,15 @@ const Products = () => {
               </thead>
               <tbody>
                 {products.map((product) => (
-                  <tr className="tr" key={product._id}>
-                    <td className="td">{product.name}</td>
-                    <td>
-                      <span onClick={() => {}}>
+                  <tr className={styles.td} key={product._id}>
+                    <td className={styles.td}>{product.name}</td>
+                    <td >
+                      <span className={styles.span} onClick={() => {}}>
                         <ModelUpdate />
                       </span>
                       <span
                         onClick={() => handleDeleteProduct(product._id)}
-                        style={{ marginLeft: "10px", cursor: "pointer" }}
+                        className={styles.span} 
                       ></span>
                       <DeleteModal
                         onDelete={() => handleDeleteProduct(product._id)}

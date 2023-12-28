@@ -6,7 +6,7 @@ import ModalClose from '@mui/joy/ModalClose';
 import ModalDialog from '@mui/joy/ModalDialog';
 import DialogTitle from '@mui/joy/DialogTitle';
 import DialogContent from '@mui/joy/DialogContent';
-import EditIcon from "@mui/icons-material/Edit";
+
 
 export default function LayoutModalDialog() {
   const [layout, setLayout] = React.useState(undefined);
@@ -21,7 +21,7 @@ export default function LayoutModalDialog() {
             setLayout('fullscreen');
           }}
         >
-          editar<EditIcon />
+          editar
         </Button>
       </Stack>
       <Modal open={!!layout} onClose={() => setLayout(undefined)}>
