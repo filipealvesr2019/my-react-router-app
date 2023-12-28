@@ -31,6 +31,7 @@ const CreateProductForm = ({ onClose }) => {
   });
 
   const [colorPickerOpen, setColorPickerOpen] = useState(false);
+  const [imageFileName, setImageFileName] = useState("");
 
   const handleColorPickerOpen = (event) => {
     // Impedir que o evento se propague para evitar o fechamento automático
@@ -120,12 +121,19 @@ const CreateProductForm = ({ onClose }) => {
 
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
+    const imageFile = files[0]; // Assumindo que estamos lidando com apenas uma imagem
+  
+    // Defina parte do nome do arquivo (por exemplo, os primeiros 10 caracteres)
+    const partialFileName = imageFile.name.substring(0, 10);
+  
     setProductInfo((prevProductInfo) => ({
       ...prevProductInfo,
-      imageFiles: [...prevProductInfo.imageFiles, ...files],
+      imageFiles: [...prevProductInfo.imageFiles, imageFile],
     }));
+  
+    setImageFileName(partialFileName);
   };
-
+  
 // ... restante do código ...
 
 const handleAddVariation = () => {
@@ -136,7 +144,13 @@ const handleAddVariation = () => {
       color: "", // Limpar a cor após adicionar
       variations: [
         ...prevProductInfo.variations,
-        { color, images: imageFiles.map((file) => ({ url: URL.createObjectURL(file) })) },
+        {
+          color,
+          images: imageFiles.map((file) => ({
+            url: URL.createObjectURL(file),
+            fileName: imageFileName, // Adicionar parte do nome do arquivo
+          })),
+        },
       ],
     }));
   }
@@ -334,45 +348,69 @@ const handleSubmit = async (event) => {
             onChange={handleInputChange}
           />
         </Grid>
-        <TextField
-          label="Cor"
-          variant="outlined"
-          fullWidth
-          name="color"
-          value={productInfo.color}
-          onClick={handleColorPickerOpen}
-        />
-        {colorPickerOpen && (
-          <div
-            style={{ position: "absolute", zIndex: 2, top: "1rem" }}
-            onClick={(event) => event.stopPropagation()}
-          >
-            <SketchPicker
-              color={productInfo.color}
-              onChangeComplete={handleColorChangeComplete}
-              onChange={(color, event) => handleColorChange(color, event)}
-            />
-          </div>
-        )}
-        <Grid item xs={12} sm={6}>
-          <Button
-            onClick={handleAddVariation}
-            style={{
-              backgroundColor: "#14337C",
-              color: "white",
-              border: "none",
-              padding: ".5rem",
-              borderRadius: "1rem",
-              width: "8dvw",
-              fontFamily: "poppins",
-              fontWeight: 500,
-              cursor: "pointer",
-              fontSize: ".8rem",
-            }}
-          >
-            Adicionar Variação
-          </Button>
-        </Grid>
+        // ... (código anterior)
+
+<Grid item xs={12} sm={6}>
+  <TextField
+    label="Cor"
+    variant="outlined"
+    fullWidth
+    name="color"
+    value={productInfo.color}
+    onClick={handleColorPickerOpen}
+  />
+  {colorPickerOpen && (
+    <div
+      style={{ position: "absolute", zIndex: 2, top: "1rem" }}
+      onClick={(event) => event.stopPropagation()}
+    >
+      <SketchPicker
+        color={productInfo.color}
+        onChangeComplete={handleColorChangeComplete}
+        onChange={(color, event) => handleColorChange(color, event)}
+      />
+    </div>
+  )}
+
+  {/* Trecho a ser adicionado */}
+  {productInfo.color && (
+    <div style={{ marginTop: '0.5rem', display: 'flex', alignItems: 'center' }}>
+      <span style={{ marginRight: '0.5rem' }}>Cor Adicionada:</span>
+      <div
+        style={{
+          width: '20px',
+          height: '20px',
+          backgroundColor: productInfo.color,
+          border: '1px solid #000',
+          marginRight: '0.5rem',
+        }}
+      ></div>
+      <span>Imagem: {imageFileName}</span>
+    </div>
+  )}
+</Grid>
+
+<Grid item xs={12} sm={6}>
+  <Button
+    onClick={handleAddVariation}
+    style={{
+      backgroundColor: "#14337C",
+      color: "white",
+      border: "none",
+      padding: ".5rem",
+      borderRadius: "1rem",
+      width: "8dvw",
+      fontFamily: "poppins",
+      fontWeight: 500,
+      cursor: "pointer",
+      fontSize: ".8rem",
+    }}
+  >
+    Adicionar Variação
+  </Button>
+</Grid>
+
+
         <Grid item xs={12}>
           <input type="file" accept="image/*" onChange={handleFileChange} />
         </Grid>

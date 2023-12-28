@@ -18,7 +18,7 @@ export default function DeleteModal({ onDelete }) {
 
   return (
     <React.Fragment>
-      <Button variant="outlined" color="neutral" onClick={() => setOpen(true)}  style={{gap:".5rem", fontSize:"1rem", backgroundColor:"#FFC2C5", color:"red", border:0}}>
+      <Button variant="outlined" color="neutral" onClick={() => setOpen(true)}  style={{gap:".5rem", fontSize:"1rem", backgroundColor:"#FFC2C5", color:"red", border:0, fontWeight:"bold"}}>
       <img src="https://i.ibb.co/SsZjWVS/bin.png" alt=""/> Excluir
       </Button>
       <Modal open={open} onClose={() => setOpen(false)}>
