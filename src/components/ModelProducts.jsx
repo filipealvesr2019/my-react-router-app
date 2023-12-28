@@ -140,7 +140,7 @@ const CreateProductForm = ({ onClose }) => {
             "Content-Type": "multipart/form-data",
           },
           params: {
-            key: "20af19809d6e8fa90a1d7aaab396c2e6",
+            key: "",
           },
         });
       });

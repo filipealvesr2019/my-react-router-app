@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./Products.module.css";
 import EditIcon from "@mui/icons-material/Edit";
 import axios from "axios";
-
+import DeleteIcon from '@mui/icons-material/Delete';
 import ModelProducts from "../../components/ModelProducts";
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -52,7 +52,7 @@ const Products = () => {
                 {products.map((product) => (
                   <tr className="tr" key={product._id}>
                     <td className="td">{product.name}</td>
-                    <td>Editar Excluir</td>
+                    <td>Editar<EditIcon/> Excluir<DeleteIcon/></td>
                   </tr>
                 ))}
               </tbody>
