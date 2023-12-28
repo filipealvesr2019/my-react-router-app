@@ -86,24 +86,41 @@ const CreateProductForm = ({ onClose }) => {
       console.error("Erro ao buscar subcategorias:", error);
     }
   };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
     try {
+      // Extrair as informações de cor e URL da imagem
+      const { color, imageUrl, ...productData } = productInfo;
+  
+      // Montar a estrutura de dados para o backend
+      const requestData = {
+        ...productData,
+        category: productData.category,
+        subcategory: productData.subcategory,
+        images: [
+          {
+            color,
+            url: imageUrl,
+          },
+        ],
+      };
+  
+      console.log("Dados do Produto:", requestData);
+  
       // Enviar dados para o backend usando Axios
       const response = await axios.post(
         "http://localhost:3001/api/admin/product/new",
-        {
-          ...productInfo,
-          category: productInfo.category, // Manter o nome da categoria
-          subcategory: productInfo.subcategory, // Manter o nome da subcategoria
-        }
+        requestData
       );
-
+  
       // Verificar se a requisição foi bem-sucedida
       if (response.status === 201) {
         console.log("Produto criado com sucesso");
+
+        // Log do novo estado do produto
+        console.log("Novo Estado do Produto:", productInfo);
+  
         // Resetar o estado ou redirecionar após o envio do formulário, conforme necessário
         setProductInfo({
           name: "",
@@ -125,7 +142,7 @@ const CreateProductForm = ({ onClose }) => {
       console.error("Erro ao criar o produto:", error.message);
     }
   };
-
+  
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setProductInfo((prevProductInfo) => ({
