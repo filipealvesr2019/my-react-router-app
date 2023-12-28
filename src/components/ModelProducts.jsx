@@ -31,34 +31,34 @@ const CreateProductForm = ({ onClose }) => {
   });
 
   const [colorPickerOpen, setColorPickerOpen] = useState(false);
-  
-const handleColorPickerOpen = (event) => {
-  // Impedir que o evento se propague para evitar o fechamento automático
-  event.stopPropagation();
-  setColorPickerOpen(true);
-};
 
-const handleColorPickerClose = () => {
-  setColorPickerOpen(false);
-};
+  const handleColorPickerOpen = (event) => {
+    // Impedir que o evento se propague para evitar o fechamento automático
+    event.stopPropagation();
+    setColorPickerOpen(true);
+  };
 
-const handleColorChangeComplete = (color) => {
-  setProductInfo((prevProductInfo) => ({
-    ...prevProductInfo,
-    color: color.hex,
-  }));
-  handleColorPickerClose();
-};
+  const handleColorPickerClose = () => {
+    setColorPickerOpen(false);
 
-// Adicione um novo evento para impedir a propagação quando a barra de cores é movida
-const handleColorChange = (color, event) => {
-  event.stopPropagation();
-  setProductInfo((prevProductInfo) => ({
-    ...prevProductInfo,
-    color: color.hex,
-  }));
-};
+  };
 
+  const handleColorChangeComplete = (color) => {
+    setProductInfo((prevProductInfo) => ({
+      ...prevProductInfo,
+      color: color.hex,
+    }));
+    handleColorPickerClose();
+  };
+
+  // Adicione um novo evento para impedir a propagação quando a barra de cores é movida
+  const handleColorChange = (color, event) => {
+    event.stopPropagation();
+    setProductInfo((prevProductInfo) => ({
+      ...prevProductInfo,
+      color: color.hex,
+    }));
+  };
 
   useEffect(() => {
     // Carregar categorias ao montar o componente
@@ -126,93 +126,100 @@ const handleColorChange = (color, event) => {
     }));
   };
 
-  const handleRemoveImage = (index) => {
-    setProductInfo((prevProductInfo) => {
-      const updatedImageFiles = [...prevProductInfo.imageFiles];
-      updatedImageFiles.splice(index, 1);
-      return {
-        ...prevProductInfo,
-        imageFiles: updatedImageFiles,
-      };
-    });
-  };
+// ... restante do código ...
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+const handleAddVariation = () => {
+  const { color, imageFiles } = productInfo;
+  if (color && imageFiles.length > 0) {
+    setProductInfo((prevProductInfo) => ({
+      ...prevProductInfo,
+      color: "", // Limpar a cor após adicionar
+      variations: [
+        ...prevProductInfo.variations,
+        { color, images: imageFiles.map((file) => ({ url: URL.createObjectURL(file) })) },
+      ],
+    }));
+  }
+};
 
-    try {
-      const { variations, imageFiles, ...productData } = productInfo;
+const handleSubmit = async (event) => {
+  event.preventDefault();
 
-      // Criar um array de Promises para upload de todas as imagens
-      const uploadPromises = imageFiles.map((file) => {
-        const formData = new FormData();
-        formData.append("image", file);
-        return axios.post("https://api.imgbb.com/1/upload", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          params: {
-            key: "20af19809d6e8fa90a1d7aaab396c2e6",
-          },
-        });
+  try {
+    const { variations, imageFiles, ...productData } = productInfo;
+
+    // Criar um array de Promises para upload de todas as imagens
+    const uploadPromises = imageFiles.map((file) => {
+      const formData = new FormData();
+      formData.append("image", file);
+      return axios.post("https://api.imgbb.com/1/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        params: {
+          key: "20af19809d6e8fa90a1d7aaab396c2e6",
+        },
       });
+    });
 
-      // Executar todas as Promises de upload
-      const imgBbResponses = await Promise.all(uploadPromises);
+    // Executar todas as Promises de upload
+    const imgBbResponses = await Promise.all(uploadPromises);
 
-      // Extrair URLs das respostas do ImgBB
-      const imageUrls = imgBbResponses.map(
-        (response) => response.data.data.url
-      );
+    // Extrair URLs das respostas do ImgBB
+    const imageUrls = imgBbResponses.map(
+      (response) => response.data.data.url
+    );
 
-      // Montar a estrutura de dados para o backend com URLs das imagens
-      const requestData = {
-        ...productData,
-        category: productInfo.category,
-        subcategory: productInfo.subcategory,
-        images: [
-          {
-            colors: productInfo.variations.map((variation, index) => ({
-              color: variation.color,
-              url: imageUrls[index], // Alterado para usar a URL da imagem correta
-            })),
-          },
-        ],
-      };
+    // Montar a estrutura de dados para o backend com URLs das imagens
+    const requestData = {
+      ...productData,
+      category: productInfo.category,
+      subcategory: productInfo.subcategory,
+      images: variations.map((variation) => ({
+        colors: variation.images.map((image, index) => ({
+          color: variation.color,
+          url: imageUrls[index], // Associar a URL correta
+        })),
+      })),
+    };
 
-      console.log("Dados do Produto:", requestData);
+    console.log("Dados do Produto:", requestData);
 
-      // Enviar dados para o backend usando Axios
-      const response = await axios.post(
-        "http://localhost:3001/api/admin/product/new",
-        requestData
-      );
+    // Enviar dados para o backend usando Axios
+    const response = await axios.post(
+      "http://localhost:3001/api/admin/product/new",
+      requestData
+    );
 
-      if (response.status === 201) {
-        console.log("Produto criado com sucesso");
+    if (response.status === 201) {
+      console.log("Produto criado com sucesso");
 
-        // Log do novo estado do produto
-        console.log("Novo Estado do Produto:", productInfo);
+      // Log do novo estado do produto
+      console.log("Novo Estado do Produto:", productInfo);
 
-        setProductInfo({
-          name: "",
-          price: 0.0,
-          description: "",
-          size: "",
-          category: "",
-          subcategory: "",
-          quantity: 0,
-          variations: [],
-          imageFiles: [],
-        });
-        onClose();
-      } else {
-        console.error("Erro ao criar o produto:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Erro ao criar o produto:", error.message);
+      setProductInfo({
+        name: "",
+        price: 0.0,
+        description: "",
+        size: "",
+        category: "",
+        subcategory: "",
+        quantity: 0,
+        variations: [],
+        imageFiles: [],
+      });
+      onClose();
+    } else {
+      console.error("Erro ao criar o produto:", response.statusText);
     }
-  };
+  } catch (error) {
+    console.error("Erro ao criar o produto:", error.message);
+  }
+};
+
+// ... restante do código ...
+
+// ... restante do código ...
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -230,18 +237,7 @@ const handleColorChange = (color, event) => {
     }));
   };
 
-  
-
-  const handleAddVariation = () => {
-    const { color } = productInfo;
-    if (color) {
-      setProductInfo((prevProductInfo) => ({
-        ...prevProductInfo,
-        color: "",
-        variations: [...prevProductInfo.variations, { color }],
-      }));
-    }
-  };
+ 
 
   return (
     <form onSubmit={handleSubmit}>
@@ -339,25 +335,25 @@ const handleColorChange = (color, event) => {
           />
         </Grid>
         <TextField
-  label="Cor"
-  variant="outlined"
-  fullWidth
-  name="color"
-  value={productInfo.color}
-  onClick={handleColorPickerOpen}
-/>
-{colorPickerOpen && (
-  <div
-    style={{ position: "absolute", zIndex: 2, top: "1rem" }}
-    onClick={(event) => event.stopPropagation()}
-  >
-    <SketchPicker
-      color={productInfo.color}
-      onChangeComplete={handleColorChangeComplete}
-      onChange={(color, event) => handleColorChange(color, event)}
-    />
-  </div>
-)}
+          label="Cor"
+          variant="outlined"
+          fullWidth
+          name="color"
+          value={productInfo.color}
+          onClick={handleColorPickerOpen}
+        />
+        {colorPickerOpen && (
+          <div
+            style={{ position: "absolute", zIndex: 2, top: "1rem" }}
+            onClick={(event) => event.stopPropagation()}
+          >
+            <SketchPicker
+              color={productInfo.color}
+              onChangeComplete={handleColorChangeComplete}
+              onChange={(color, event) => handleColorChange(color, event)}
+            />
+          </div>
+        )}
         <Grid item xs={12} sm={6}>
           <Button
             onClick={handleAddVariation}
