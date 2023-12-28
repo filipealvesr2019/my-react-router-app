@@ -103,10 +103,9 @@ const CreateProductForm = ({ onClose }) => {
 
       // Criar um FormData para enviar a imagem como um arquivo
       const formData = new FormData();
-formData.append("image", imageFile);
-formData.append("color", productData.color); // Certifique-se de que o campo color esteja definido
+      formData.append("image", imageFile);
+      formData.append("color", productData.color); // Certifique-se de que o campo color esteja definido
 
-      
       console.log("Dados a serem enviados para o ImgBB:", formData);
 
       // Fazer upload da imagem para o ImgBB
@@ -118,7 +117,7 @@ formData.append("color", productData.color); // Certifique-se de que o campo col
             "Content-Type": "multipart/form-data",
           },
           params: {
-            key: "20af19809d6e8fa90a1d7aaab396c2e6",
+            key: "",
           },
         }
       );
@@ -141,7 +140,7 @@ formData.append("color", productData.color); // Certifique-se de que o campo col
           },
         ],
       };
-      
+
       console.log("Dados do Produto:", requestData);
 
       // Enviar dados para o backend usando Axios
@@ -183,8 +182,6 @@ formData.append("color", productData.color); // Certifique-se de que o campo col
       [name]: value,
     }));
   };
-  
-  
 
   const handleSubcategoryChange = (event) => {
     const subcategoryName = event.target.value;
@@ -290,22 +287,18 @@ formData.append("color", productData.color); // Certifique-se de que o campo col
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-  <TextField
-    label="Cor"
-    variant="outlined"
-    fullWidth
-    name="color"
-    value={productInfo.color}
-    onChange={handleInputChange}
-  />
-</Grid>
+          <TextField
+            label="Cor"
+            variant="outlined"
+            fullWidth
+            name="color"
+            value={productInfo.color}
+            onChange={handleInputChange}
+          />
+        </Grid>
 
         <Grid item xs={12}>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleFileChange}
-          />
+          <input type="file" accept="image/*" onChange={handleFileChange} />
         </Grid>
       </Grid>
       <Button
