@@ -13,6 +13,7 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
+import { SketchPicker } from "react-color"; // Importando o SketchPicker
 
 const CreateProductForm = ({ onClose }) => {
   const [categories, setCategories] = useState([]);
@@ -28,6 +29,24 @@ const CreateProductForm = ({ onClose }) => {
     variations: [], // Array de variações (cores e imagens)
     imageFiles: [], // Novo campo para arquivos de imagem
   });
+
+  const [colorPickerOpen, setColorPickerOpen] = useState(false);
+
+  const handleColorPickerOpen = () => {
+    setColorPickerOpen(true);
+  };
+
+  const handleColorPickerClose = () => {
+    setColorPickerOpen(false);
+  };
+
+  const handleColorChangeComplete = (color) => {
+    setProductInfo((prevProductInfo) => ({
+      ...prevProductInfo,
+      color: color.hex,
+    }));
+    handleColorPickerClose();
+  };
 
   useEffect(() => {
     // Carregar categorias ao montar o componente
@@ -134,7 +153,6 @@ const CreateProductForm = ({ onClose }) => {
         (response) => response.data.data.url
       );
 
-      // Montar a estrutura de dados para o backend com URLs das imagens
       // Montar a estrutura de dados para o backend com URLs das imagens
       const requestData = {
         ...productData,
@@ -325,8 +343,16 @@ const CreateProductForm = ({ onClose }) => {
             fullWidth
             name="color"
             value={productInfo.color}
-            onChange={handleInputChange}
+            onClick={handleColorPickerOpen}
           />
+          {colorPickerOpen && (
+            <div style={{ position: "absolute", zIndex: 2 }}>
+              <SketchPicker
+                color={productInfo.color}
+                onChangeComplete={handleColorChangeComplete}
+              />
+            </div>
+          )}
         </Grid>
         <Grid item xs={12} sm={6}>
           <Button
@@ -347,19 +373,6 @@ const CreateProductForm = ({ onClose }) => {
             Adicionar Variação
           </Button>
         </Grid>
-        {productInfo.variations.map((variation, index) => (
-          <Grid item xs={12} sm={6} key={index}>
-            <TextField
-              label={`Cor ${index + 1}`}
-              variant="outlined"
-              fullWidth
-              name={`color-${index}`}
-              value={variation.color}
-              onChange={(event) => handleColorChange(event, index)}
-            />
-          </Grid>
-        ))}
-
         <Grid item xs={12}>
           <input type="file" accept="image/*" onChange={handleFileChange} />
         </Grid>
