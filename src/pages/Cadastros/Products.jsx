@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import axios from "axios";
 import ModelProducts from "../../components/ModelProducts";
-import ModelUpdate from "../../components/ModelUpdate";
 import DeleteModal from "../../components/DeleteModal";
 // ... (imports)
 
@@ -13,20 +12,27 @@ const Products = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const getProducts = async () => {
-      try {
-        const response = await axios.get("http://localhost:3001/api/products");
-        setProducts(response.data.products);
-        console.log("data", response.data.products);
-      } catch (error) {
-        console.log("Erro ao obter produtos", error);
-      }
-    };
+  
+useEffect(() => {
+  const getProducts = async () => {
+    try {
+      const response = await axios.get("http://localhost:3001/api/products");
+      setProducts(response.data.products);
+      console.log("Products after fetching:", response.data.products);
+    } catch (error) {
+      console.error("Erro ao obter produtos", error);
+      setError("Erro ao obter produtos. Por favor, tente novamente.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    getProducts();
-  }, []);
+  getProducts();
+}, []);
+
 
   const handleDeleteProduct = async (productId) => {
     try {
@@ -51,16 +57,8 @@ const Products = () => {
     }
   };
 
-  const handleUpdateProduct = (productId) => {
-    const productToUpdate = products.find((product) => product._id === productId);
-    setSelectedProduct(productToUpdate);
-    setIsUpdateModalOpen(true);
-  };
 
-  const handleCloseForm = () => {
-    setSelectedProduct(null);
-    setIsUpdateModalOpen(false);
-  };
+
   useEffect(() => {
     const getProducts = async () => {
       try {
@@ -74,41 +72,23 @@ const Products = () => {
   
     getProducts();
   }, []);
-  
   const handleUpdateProductApi = async (updatedProduct) => {
     try {
-      // Log the data before making the update
-      console.log('Updating product with ID', updatedProduct._id, 'to', updatedProduct.name);
+      setLoading(true);
   
-      const response = await axios.put(
-        `http://localhost:3001/api/admin/product/${updatedProduct._id}`,
-        updatedProduct
-      );
-  
-      if (response.data.success) {
-        // Update the product list with the updated product
-        setProducts((prevProducts) => {
-          const updatedProducts = prevProducts.map((product) =>
-            product._id === updatedProduct._id ? updatedProduct : product
-          );
-  
-          // Log the state after updating
-          console.log('Updated Products State:', updatedProducts);
-  
-          return updatedProducts;
-        });
-  
-        console.log('Produto atualizado com sucesso');
-        setIsUpdateModalOpen(false);
-      } else {
-        console.error('Erro ao atualizar produto. Mensagem do servidor:', response.data.error);
+      if (!updatedProduct || !updatedProduct._id) {
+        console.error('Dados inválidos para atualização do produto.');
+        return;
       }
+  
+      // Restante do código...
     } catch (error) {
-      console.error('Erro ao atualizar produto. Detalhes do erro:', error);
+      console.error('Erro ao atualizar produto:', error);
+    } finally {
+      setLoading(false);
     }
   };
   
-
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -144,6 +124,8 @@ const Products = () => {
         }}
       >
         <main>
+        {error && <div style={{ color: 'red' }}>{error}</div>}
+
           <h1 style={{ fontSize: "1.5rem", color: "#2A337C" }}>
             Cadastro de produtos
           </h1>
@@ -156,38 +138,31 @@ const Products = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredProducts.map((product) => (
-                  <tr className={styles.td} key={product._id}>
-                    <td className={styles.td}>{product.name}</td>
-                    <td>
-                      <div className={styles.spanContainer}>
-                        <span
-                          onClick={() => handleDeleteProduct(product._id)}
-                          className={styles.span}
-                        ></span>
-                        <DeleteModal
-                          onDelete={() => handleDeleteProduct(product._id)}
-                        />
-                        <button onClick={() => handleUpdateProduct(product._id)}>
-                          Update
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+               
+{filteredProducts.map((product) => (
+  <tr className={styles.td} key={product._id}>
+    <td className={styles.td}>{product.name}</td>
+    <td>
+      <div className={styles.spanContainer}>
+        <span
+          onClick={() => handleDeleteProduct(product._id)}
+          className={styles.span}
+        ></span>
+        <DeleteModal
+          onDelete={() => handleDeleteProduct(product._id)}
+        />
+
+      </div>
+    </td>
+  </tr>
+))}
               </tbody>
             </table>
           </div>
         </main>
       </div>
 
-      {isUpdateModalOpen && (
-        <ModelUpdate
-          selectedProduct={selectedProduct}
-          onUpdate={handleUpdateProductApi}
-          onCancel={handleCloseForm}
-        />
-      )}
+      
     </div>
   );
 };
