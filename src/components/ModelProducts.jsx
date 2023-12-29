@@ -14,6 +14,10 @@ import InputLabel from "@mui/material/InputLabel";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { SketchPicker } from "react-color"; // Importando o SketchPicker
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 const CreateProductForm = ({ onClose }) => {
   const [categories, setCategories] = useState([]);
@@ -170,7 +174,7 @@ const CreateProductForm = ({ onClose }) => {
             "Content-Type": "multipart/form-data",
           },
           params: {
-            key: "",
+            key: "20af19809d6e8fa90a1d7aaab396c2e6",
           },
         });
       });
@@ -205,11 +209,12 @@ const CreateProductForm = ({ onClose }) => {
       );
 
       if (response.status === 201) {
-        console.log("Produto criado com sucesso");
+        
+    
 
         // Log do novo estado do produto
         console.log("Novo Estado do Produto:", productInfo);
-
+    
         setProductInfo({
           name: "",
           price: 0.0,
@@ -221,6 +226,24 @@ const CreateProductForm = ({ onClose }) => {
           variations: [],
           imageFiles: [],
         });
+
+
+        toast.success('Usuário criado com sucesso!', {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          rtl: false,
+          pauseOnFocusLoss: true,
+          draggable: true,
+          pauseOnHover: true,
+          theme: 'light',
+        });
+        setTimeout(() => {
+          onClose();
+        }, 4000);
+        console.log("Produto criado com sucesso");
+    
         onClose();
       } else {
         console.error("Erro ao criar o produto:", response.statusText);
@@ -345,7 +368,7 @@ const CreateProductForm = ({ onClose }) => {
             onChange={handleInputChange}
           />
         </Grid>
-  
+ 
         <Grid item xs={12} sm={6}>
           <TextField
             label="Cor"
@@ -491,7 +514,18 @@ export default function BasicModal() {
           >
             Criar Novo Produto
           </Typography>
-
+          <ToastContainer
+            position="top-center"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
           <CreateProductForm onClose={handleClose} />
         </Sheet>
       </Modal>
