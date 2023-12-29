@@ -521,8 +521,8 @@ const CreateProductForm = ({ onClose }) => {
                   width: '50px',
                   height: '20px',
                   backgroundColor: productInfo.color,
-                  border: '1px solid #000',
-                  marginRight: '0.5rem',
+                  border: '1px solid red',
+             
                 }}
               ></div>
               <span style={{ whiteSpace:"nowrap", marginLeft:"5rem" }}>Imagem: {imageFileName}</span>
