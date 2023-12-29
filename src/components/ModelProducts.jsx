@@ -37,6 +37,37 @@ const CreateProductForm = ({ onClose }) => {
   const [colorPickerOpen, setColorPickerOpen] = useState(false);
   const [imageFileName, setImageFileName] = useState("");
 
+  // Novo estado para rastrear os erros
+  const [formErrors, setFormErrors] = useState({});
+
+  // Função para verificar se há campos obrigatórios não preenchidos
+  const validateForm = () => {
+    const errors = {};
+
+    // Adicione validações para outros campos conforme necessário
+    if (!productInfo.name.trim()) {
+      errors.name = "Digite o nome do produto";
+    }
+    if (productInfo.price <= 0) {
+      errors.price = "Digite um preço válido";
+    }
+    if (!productInfo.description.trim()) {
+      errors.description = "Digite a descrição do produto";
+    }
+    // Adicione validações para outros campos conforme necessário
+
+    // Verificar se há variações adicionadas
+    if (productInfo.variations.length === 0) {
+      errors.variations = "Adicione pelo menos uma variação";
+    }
+
+    setFormErrors(errors);
+
+    // Retorna verdadeiro se não houver erros
+    return Object.keys(errors).length === 0;
+  };
+
+
   const handleColorPickerOpen = (event) => {
     // Impedir que o evento se propague para evitar o fechamento automático
     event.stopPropagation();
@@ -157,11 +188,43 @@ const CreateProductForm = ({ onClose }) => {
         ],
       }));
     }
+    setFormErrors({});
+
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    // Validar o formulário antes de prosseguir
+    if (!validateForm()) {
+      toast.error('Corrija os erros no formulário antes de enviar', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnFocusLoss: true,
+        draggable: true,
+        pauseOnHover: true,
+        theme: 'light',
+      });
+      return;
+    }
 
+
+    toast.success('Usuário criado com sucesso!', {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      rtl: false,
+      pauseOnFocusLoss: true,
+      draggable: true,
+      pauseOnHover: true,
+      theme: 'light',
+    });
+    setTimeout(() => {
+      onClose();
+    }, 4000);
     try {
       const { variations, imageFiles, ...productData } = productInfo;
 
@@ -228,20 +291,7 @@ const CreateProductForm = ({ onClose }) => {
         });
 
 
-        toast.success('Usuário criado com sucesso!', {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          rtl: false,
-          pauseOnFocusLoss: true,
-          draggable: true,
-          pauseOnHover: true,
-          theme: 'light',
-        });
-        setTimeout(() => {
-          onClose();
-        }, 4000);
+       
         console.log("Produto criado com sucesso");
     
         onClose();
@@ -273,8 +323,17 @@ const CreateProductForm = ({ onClose }) => {
     }));
   };
 
+  
+  
   return (
     <form onSubmit={handleSubmit}>
+        <Grid item xs={12} sm={6}>
+          {formErrors.variations && (
+            <Typography variant="caption" color="error">
+              {formErrors.variations}
+            </Typography>
+          )}
+        </Grid>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <TextField
@@ -284,6 +343,8 @@ const CreateProductForm = ({ onClose }) => {
             name="name"
             value={productInfo.name}
             onChange={handleInputChange}
+            error={formErrors.name !== undefined}
+            helperText={formErrors.name}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -295,6 +356,8 @@ const CreateProductForm = ({ onClose }) => {
             name="price"
             value={productInfo.price}
             onChange={handleInputChange}
+            error={formErrors.price !== undefined}
+            helperText={formErrors.price}
           />
         </Grid>
         <Grid item xs={12}>
@@ -307,6 +370,8 @@ const CreateProductForm = ({ onClose }) => {
             name="description"
             value={productInfo.description}
             onChange={handleInputChange}
+            error={formErrors.description !== undefined}
+            helperText={formErrors.description}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -317,6 +382,8 @@ const CreateProductForm = ({ onClose }) => {
             name="size"
             value={productInfo.size}
             onChange={handleInputChange}
+            error={formErrors.size !== undefined}
+            helperText={formErrors.size}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -366,6 +433,8 @@ const CreateProductForm = ({ onClose }) => {
             name="quantity"
             value={productInfo.quantity}
             onChange={handleInputChange}
+            error={formErrors.quantity !== undefined}
+            helperText={formErrors.quantity}
           />
         </Grid>
  
@@ -378,6 +447,7 @@ const CreateProductForm = ({ onClose }) => {
             value={productInfo.color}
             onClick={handleColorPickerOpen}
           />
+          
           {colorPickerOpen && (
             <div
               style={{ position: "absolute", zIndex: 2, top: "1rem" }}
