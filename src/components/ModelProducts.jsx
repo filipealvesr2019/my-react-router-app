@@ -55,10 +55,26 @@ const CreateProductForm = ({ onClose }) => {
       errors.description = "Digite a descrição do produto";
     }
     // Adicione validações para outros campos conforme necessário
+    if (!(productInfo.quantity > 0)) {
+      errors.quantity = "Digite uma quantidade válida";
+    }
+    if (productInfo.size === '') {
+      errors.size = "Digite um tamanho válida";
+    }
 
+    if (!(productInfo.color === '')) {
+      errors.color = "Digite uma cor válida";
+    }
     // Verificar se há variações adicionadas
     if (productInfo.variations.length === 0) {
-      errors.variations = "Adicione pelo menos uma variação";
+      errors.variations = "Todos os campos devem ser prenchidos!";
+    }
+    if (!productInfo.category) {
+      errors.category = "Selecione uma categoria";
+    }
+  
+    if (!productInfo.subcategory) {
+      errors.subcategory = "Selecione uma subcategoria";
     }
 
     setFormErrors(errors);
@@ -198,7 +214,7 @@ const CreateProductForm = ({ onClose }) => {
     if (!validateForm()) {
       toast.error('Corrija os erros no formulário antes de enviar', {
         position: toast.POSITION.TOP_CENTER,
-        autoClose: 3000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         rtl: false,
@@ -393,6 +409,8 @@ const CreateProductForm = ({ onClose }) => {
               label="Categoria"
               value={productInfo.category}
               onChange={handleCategoryChange}
+              error={formErrors.category !== undefined}
+              helperText={formErrors.category}
             >
               <MenuItem value="" disabled>
                 Escolha uma categoria
@@ -412,6 +430,8 @@ const CreateProductForm = ({ onClose }) => {
               label="Subcategoria"
               value={productInfo.subcategory}
               onChange={handleSubcategoryChange}
+              error={formErrors.subcategory !== undefined}
+              helperText={formErrors.subcategory}
             >
               <MenuItem value="" disabled>
                 Escolha uma subcategoria
@@ -446,6 +466,8 @@ const CreateProductForm = ({ onClose }) => {
             name="color"
             value={productInfo.color}
             onClick={handleColorPickerOpen}
+            error={formErrors.color !== undefined}
+            helperText={formErrors.color}
           />
           
           {colorPickerOpen && (
