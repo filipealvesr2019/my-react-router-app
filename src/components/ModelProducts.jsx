@@ -524,7 +524,7 @@ const CreateProductForm = ({ onClose }) => {
               fontSize: ".8rem",
             }}
           >
-            Adicionar Variação
+            Adicionar cor e foto
           </Button>
         </Grid>
         <Grid item xs={12}>
