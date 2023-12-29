@@ -227,7 +227,7 @@ const CreateProductForm = ({ onClose }) => {
     }
 
 
-    toast.success('Usuário criado com sucesso!', {
+    toast.success('Produto criado com sucesso!', {
       position: toast.POSITION.TOP_CENTER,
       autoClose: 3000,
       hideProgressBar: false,
