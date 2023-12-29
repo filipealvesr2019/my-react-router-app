@@ -344,7 +344,7 @@ const CreateProductForm = ({ onClose }) => {
   
   
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} >
         <Grid item xs={12} sm={6}>
           {formErrors.variations && (
             <Typography variant="caption" color="error">
@@ -363,9 +363,17 @@ const CreateProductForm = ({ onClose }) => {
             onChange={handleInputChange}
             error={formErrors.name !== undefined}
             helperText={formErrors.name}
+            InputProps={{
+              style: { marginTop: '10px' }, // Ajuste o valor conforme necessário
+            }}
+            sx={{
+              marginBottom: '-80px', // Adicione esta linha para configurar a margem inferior
+            }}
+          
           />
+          
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={6}  sx={{}}>
           <TextField
             label="Preço"
             variant="outlined"
@@ -376,6 +384,9 @@ const CreateProductForm = ({ onClose }) => {
             onChange={handleInputChange}
             error={formErrors.price !== undefined}
             helperText={formErrors.price}
+            InputProps={{
+              style: { marginTop: '10px' }, // Ajuste o valor conforme necessário
+            }}
           />
         </Grid>
         <Grid item xs={12}>
@@ -390,9 +401,14 @@ const CreateProductForm = ({ onClose }) => {
             onChange={handleInputChange}
             error={formErrors.description !== undefined}
             helperText={formErrors.description}
+            InputProps={{
+              style: { marginTop: '10px' }, // Ajuste o valor conforme necessário
+            }}
+            
+          
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={6} >
           <TextField
             label="Tamanho"
             variant="outlined"
@@ -402,6 +418,10 @@ const CreateProductForm = ({ onClose }) => {
             onChange={handleInputChange}
             error={formErrors.size !== undefined}
             helperText={formErrors.size}
+            InputProps={{
+              style: { marginTop: '10px' }, // Ajuste o valor conforme necessário
+            }}
+            
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -413,6 +433,9 @@ const CreateProductForm = ({ onClose }) => {
               onChange={handleCategoryChange}
               error={formErrors.category !== undefined}
               helperText={formErrors.category}
+              InputProps={{
+                style: { marginTop: '10px' }, // Ajuste o valor conforme necessário
+              }}
             >
               <MenuItem value="" disabled>
                 Escolha uma categoria
@@ -434,6 +457,9 @@ const CreateProductForm = ({ onClose }) => {
               onChange={handleSubcategoryChange}
               error={formErrors.subcategory !== undefined}
               helperText={formErrors.subcategory}
+              InputProps={{
+                style: { marginTop: '10px' }, // Ajuste o valor conforme necessário
+              }}
             >
               <MenuItem value="" disabled>
                 Escolha uma subcategoria
@@ -457,6 +483,9 @@ const CreateProductForm = ({ onClose }) => {
             onChange={handleInputChange}
             error={formErrors.quantity !== undefined}
             helperText={formErrors.quantity}
+            InputProps={{
+              style: { marginTop: '10px' }, // Ajuste o valor conforme necessário
+            }}
           />
         </Grid>
  
@@ -470,6 +499,11 @@ const CreateProductForm = ({ onClose }) => {
             onClick={handleColorPickerOpen}
             error={formErrors.color !== undefined}
             helperText={formErrors.color}
+            InputProps={{
+              style: { marginTop: '10px' }, // Ajuste o valor conforme necessário
+            }}
+          
+            
           />
           
           {colorPickerOpen && (
@@ -605,6 +639,7 @@ export default function BasicModal() {
             textColor="inherit"
             fontWeight="lg"
             mb={1}
+            
           >
             Criar Novo Produto
           </Typography>
