@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Products.module.css";
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
 import axios from "axios";
 import ModelProducts from "../../components/ModelProducts";
 import ModelUpdate from "../../components/ModelUpdate";
 import DeleteModal from "../../components/DeleteModal";
+
 const Products = () => {
   const [products, setProducts] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
   // get products from api
   useEffect(() => {
@@ -48,11 +51,22 @@ const Products = () => {
     }
   };
 
-  
+  const handleUpdateProduct = (productId) => {
+    // Defina o produto selecionado com base no ID
+    const productToUpdate = products.find((product) => product._id === productId);
+    setSelectedProduct(productToUpdate);
+    setIsUpdateModalOpen(true);
+  };
+
+  // Função para lidar com o fechamento do formulário de atualização
+  const handleCloseForm = () => {
+    setSelectedProduct(null);
+    setIsUpdateModalOpen(false);
+  };
 
   return (
     <div className={styles.container}>
-              <TextField id="outlined-search" label="Search field" type="search" />
+      <TextField id="outlined-search" label="Search field" type="search" />
 
       <div className={styles.Model}>
         <ModelProducts />
@@ -82,18 +96,18 @@ const Products = () => {
                 {products.map((product) => (
                   <tr className={styles.td} key={product._id}>
                     <td className={styles.td}>{product.name}</td>
-                    <td >
+                    <td>
                       <div className={styles.spanContainer}>
-                      <span className={styles.span} onClick={() => {}}>
-                        <ModelUpdate />
-                      </span>
-                      <span
-                        onClick={() => handleDeleteProduct(product._id)}
-                        className={styles.span} 
-                      ></span>
-                      <DeleteModal
-                        onDelete={() => handleDeleteProduct(product._id)}
-                      />
+                        <span
+                          onClick={() => handleDeleteProduct(product._id)}
+                          className={styles.span}
+                        ></span>
+                        <DeleteModal
+                          onDelete={() => handleDeleteProduct(product._id)}
+                        />
+                        <button onClick={() => handleUpdateProduct(product._id)}>
+                          Update
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -103,6 +117,14 @@ const Products = () => {
           </div>
         </main>
       </div>
+
+      {/* Modal for updating product */}
+      {isUpdateModalOpen && (
+        <ModelUpdate
+          selectedProduct={selectedProduct}
+          onCloseForm={handleCloseForm}
+        />
+      )}
     </div>
   );
 };
