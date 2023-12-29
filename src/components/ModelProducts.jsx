@@ -16,8 +16,6 @@ import Grid from "@mui/material/Grid";
 import { SketchPicker } from "react-color"; // Importando o SketchPicker
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ColorSquare from "./ColorSquare";
-
 
 
 
@@ -32,8 +30,8 @@ const CreateProductForm = ({ onClose }) => {
     category: "",
     subcategory: "",
     quantity: 0,
-    color: "", // Remova as variações e use apenas a cor
-    imageFiles: [],
+    variations: [], // Array de variações (cores e imagens)
+    imageFiles: [], // Novo campo para arquivos de imagem
   });
 
   const [colorPickerOpen, setColorPickerOpen] = useState(false);
@@ -85,6 +83,7 @@ const CreateProductForm = ({ onClose }) => {
 
 
   const handleColorPickerOpen = (event) => {
+    // Impedir que o evento se propague para evitar o fechamento automático
     event.stopPropagation();
     setColorPickerOpen(true);
   };
@@ -101,6 +100,7 @@ const CreateProductForm = ({ onClose }) => {
     handleColorPickerClose();
   };
 
+  // Adicione um novo evento para impedir a propagação quando a barra de cores é movida
   const handleColorChange = (color, event) => {
     event.stopPropagation();
     setProductInfo((prevProductInfo) => ({
@@ -110,6 +110,7 @@ const CreateProductForm = ({ onClose }) => {
   };
 
   useEffect(() => {
+    // Carregar categorias ao montar o componente
     fetchCategories();
   }, []);
 
@@ -168,7 +169,9 @@ const CreateProductForm = ({ onClose }) => {
 
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
-    const imageFile = files[0];
+    const imageFile = files[0]; // Assumindo que estamos lidando com apenas uma imagem
+
+    // Defina parte do nome do arquivo (por exemplo, os primeiros 10 caracteres)
     const partialFileName = imageFile.name.substring(0, 10);
 
     setProductInfo((prevProductInfo) => ({
@@ -178,6 +181,7 @@ const CreateProductForm = ({ onClose }) => {
 
     setImageFileName(partialFileName);
   };
+
   // ... restante do código ...
 
   const handleAddVariation = () => {
@@ -199,36 +203,11 @@ const CreateProductForm = ({ onClose }) => {
       }));
     }
     setFormErrors({});
-  };
-  
-  const handleColorAdd = () => {
-    const { color, imageFiles } = productInfo;
-    if (color && imageFiles.length > 0) {
-      toast.success('Cor e foto adicionadas com sucesso!', {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        rtl: false,
-        pauseOnFocusLoss: true,
-        draggable: true,
-        pauseOnHover: true,
-        theme: 'light',
-      });
-      setProductInfo((prevProductInfo) => ({
-        ...prevProductInfo,
-        color: "", // Limpar a cor após adicionar
-        imageFiles: [], // Limpar os arquivos após adicionar
-      }));
-      setImageFileName("");
-    }
-  };
 
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    handleColorAdd();
-
     // Validar o formulário antes de prosseguir
     if (!validateForm()) {
       toast.error('Todos os campos devem ser prenchidos!', {
@@ -343,6 +322,7 @@ const CreateProductForm = ({ onClose }) => {
   // ... restante do código ...
 
   // ... restante do código ...
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setProductInfo((prevProductInfo) => ({
@@ -350,6 +330,7 @@ const CreateProductForm = ({ onClose }) => {
       [name]: value,
     }));
   };
+
   const handleSubcategoryChange = (event) => {
     const subcategoryName = event.target.value;
     setProductInfo((prevProductInfo) => ({
@@ -506,6 +487,11 @@ const CreateProductForm = ({ onClose }) => {
             name="color"
             value={productInfo.color}
             onClick={handleColorPickerOpen}
+            error={formErrors.color !== undefined}
+            helperText={formErrors.color}
+            InputProps={{
+              style: { marginTop: '10px' },
+            }}
           />
 
           {colorPickerOpen && (
@@ -522,17 +508,30 @@ const CreateProductForm = ({ onClose }) => {
           )}
 
           {productInfo.color && (
-            <div style={{ marginTop: '0.5rem' }}>
-              <ColorSquare color={productInfo.color} />
-              <span style={{ marginLeft: '5rem' }}>
-                Imagem: {imageFileName}
-              </span>
+            <div
+              style={{
+                marginTop: '0.5rem',
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <span style={{ marginRight: '0.5rem', whiteSpace:"nowrap", marginBottom:"-.5rem" }}>Cor Adicionada:</span>
+              <div
+                style={{
+                  width: '50px',
+                  height: '20px',
+                  backgroundColor: productInfo.color,
+                  border: '1px solid #000',
+                  marginRight: '0.5rem',
+                }}
+              ></div>
+              <span style={{ whiteSpace:"nowrap", marginLeft:"5rem" }}>Imagem: {imageFileName}</span>
             </div>
           )}
         </Grid>
         <Grid item xs={12} sm={6}>
           <Button
-            onClick={handleColorAdd}
+            onClick={handleAddVariation}
             style={{
               backgroundColor: '#14337C',
               color: 'white',
@@ -544,19 +543,18 @@ const CreateProductForm = ({ onClose }) => {
               fontWeight: 500,
               cursor: 'pointer',
               fontSize: '.8rem',
-              whiteSpace: "nowrap",
-
+              whiteSpace:"nowrap",
+              marginTop:"1.3rem"
             }}
           >
             Adicionar cor e foto
           </Button>
         </Grid>
         <Grid item xs={12}>
-          <input type="file" accept="image/*" onChange={handleFileChange} style={{ marginTop: "-1rem" }} />
+          <input type="file" accept="image/*" onChange={handleFileChange} style={{marginTop:"-1rem"}} />
         </Grid>
       </Grid>
       <Button
-        type="submit"
         style={{
           backgroundColor: '#14337C',
           color: 'white',
@@ -568,8 +566,9 @@ const CreateProductForm = ({ onClose }) => {
           fontWeight: 500,
           cursor: 'pointer',
           fontSize: '.8rem',
-          marginTop: ".4rem"
+          marginTop:".4rem"
         }}
+        type="submit"
       >
         Criar Produto
       </Button>
@@ -630,6 +629,7 @@ export default function BasicModal() {
             textColor="inherit"
             fontWeight="lg"
             mb={1}
+            marginTop={"-rem"}
             
           >
             Criar Novo Produto
