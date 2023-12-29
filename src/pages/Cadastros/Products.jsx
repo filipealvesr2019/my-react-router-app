@@ -6,13 +6,14 @@ import axios from "axios";
 import ModelProducts from "../../components/ModelProducts";
 import ModelUpdate from "../../components/ModelUpdate";
 import DeleteModal from "../../components/DeleteModal";
+// ... (imports)
 
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
-  // get products from api
   useEffect(() => {
     const getProducts = async () => {
       try {
@@ -34,7 +35,6 @@ const Products = () => {
       );
 
       if (response.data.success) {
-        // Atualizar a lista de produtos após a exclusão bem-sucedida
         const updatedProducts = products.filter(
           (product) => product._id !== productId
         );
@@ -52,25 +52,88 @@ const Products = () => {
   };
 
   const handleUpdateProduct = (productId) => {
-    // Defina o produto selecionado com base no ID
     const productToUpdate = products.find((product) => product._id === productId);
     setSelectedProduct(productToUpdate);
     setIsUpdateModalOpen(true);
   };
 
-  // Função para lidar com o fechamento do formulário de atualização
   const handleCloseForm = () => {
     setSelectedProduct(null);
     setIsUpdateModalOpen(false);
   };
+  useEffect(() => {
+    const getProducts = async () => {
+      try {
+        const response = await axios.get("http://localhost:3001/api/products");
+        setProducts(response.data.products);
+        console.log("Products after fetching:", response.data.products);
+      } catch (error) {
+        console.log("Erro ao obter produtos", error);
+      }
+    };
+  
+    getProducts();
+  }, []);
+  
+  const handleUpdateProductApi = async (updatedProduct) => {
+    try {
+      // Log the data before making the update
+      console.log('Updating product with ID', updatedProduct._id, 'to', updatedProduct.name);
+  
+      const response = await axios.put(
+        `http://localhost:3001/api/admin/product/${updatedProduct._id}`,
+        updatedProduct
+      );
+  
+      if (response.data.success) {
+        // Update the product list with the updated product
+        setProducts((prevProducts) => {
+          const updatedProducts = prevProducts.map((product) =>
+            product._id === updatedProduct._id ? updatedProduct : product
+          );
+  
+          // Log the state after updating
+          console.log('Updated Products State:', updatedProducts);
+  
+          return updatedProducts;
+        });
+  
+        console.log('Produto atualizado com sucesso');
+        setIsUpdateModalOpen(false);
+      } else {
+        console.error('Erro ao atualizar produto. Mensagem do servidor:', response.data.error);
+      }
+    } catch (error) {
+      console.error('Erro ao atualizar produto. Detalhes do erro:', error);
+    }
+  };
+  
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className={styles.container}>
-      <TextField id="outlined-search" label="Search field" type="search" />
+      <TextField
+        id="outlined-search"
+        label="Search field"
+        type="search"
+        value={searchTerm}
+        onChange={handleSearchChange}
+      />
+
+      {/* ... (other components) */}
 
       <div className={styles.Model}>
         <ModelProducts />
       </div>
+
+      {/* ... (other components) */}
 
       <div
         style={{
@@ -85,7 +148,7 @@ const Products = () => {
             Cadastro de produtos
           </h1>
           <div>
-            <table style={{ margin: "0 auto", width: "50dvw" }}>
+            <table style={{ margin: "0 auto", width: "50vw" }}>
               <thead>
                 <tr>
                   <th>Produtos</th>
@@ -93,7 +156,7 @@ const Products = () => {
                 </tr>
               </thead>
               <tbody>
-                {products.map((product) => (
+                {filteredProducts.map((product) => (
                   <tr className={styles.td} key={product._id}>
                     <td className={styles.td}>{product.name}</td>
                     <td>
@@ -118,11 +181,11 @@ const Products = () => {
         </main>
       </div>
 
-      {/* Modal for updating product */}
       {isUpdateModalOpen && (
         <ModelUpdate
           selectedProduct={selectedProduct}
-          onCloseForm={handleCloseForm}
+          onUpdate={handleUpdateProductApi}
+          onCancel={handleCloseForm}
         />
       )}
     </div>
