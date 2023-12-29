@@ -345,7 +345,7 @@ const CreateProductForm = ({ onClose }) => {
             onChange={handleInputChange}
           />
         </Grid>
-        // ... (código anterior)
+  
         <Grid item xs={12} sm={6}>
           <TextField
             label="Cor"
