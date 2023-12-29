@@ -66,9 +66,7 @@ const CreateProductForm = ({ onClose }) => {
       errors.color = "Digite uma cor válida";
     }
     // Verificar se há variações adicionadas
-    if (productInfo.variations.length === 0) {
-      errors.variations = "Todos os campos devem ser prenchidos!";
-    }
+   
     if (!productInfo.category) {
       errors.category = "Selecione uma categoria";
     }
@@ -212,7 +210,7 @@ const CreateProductForm = ({ onClose }) => {
     event.preventDefault();
     // Validar o formulário antes de prosseguir
     if (!validateForm()) {
-      toast.error('Corrija os erros no formulário antes de enviar', {
+      toast.error('Todos os campos devem ser prenchidos!', {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 2000,
         hideProgressBar: false,
@@ -344,14 +342,13 @@ const CreateProductForm = ({ onClose }) => {
   
   
   return (
-    <form onSubmit={handleSubmit} >
-        <Grid item xs={12} sm={6}>
-          {formErrors.variations && (
-            <Typography variant="caption" color="error">
-              {formErrors.variations}
-            </Typography>
-          )}
-        </Grid>
+     <form onSubmit={handleSubmit}>
+      {formErrors.variations && (
+        <Typography variant="caption" color="error">
+          {formErrors.variations}
+        </Typography>
+      )}
+
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <TextField
@@ -361,19 +358,16 @@ const CreateProductForm = ({ onClose }) => {
             name="name"
             value={productInfo.name}
             onChange={handleInputChange}
-            error={formErrors.name !== undefined}
-            helperText={formErrors.name}
+          
             InputProps={{
-              style: { marginTop: '10px' }, // Ajuste o valor conforme necessário
+              style: { marginTop: '10px' },
             }}
             sx={{
-              marginBottom: '-80px', // Adicione esta linha para configurar a margem inferior
+              marginBottom: '-80px',
             }}
-          
           />
-          
         </Grid>
-        <Grid item xs={12} sm={6}  sx={{}}>
+        <Grid item xs={12} sm={6}>
           <TextField
             label="Preço"
             variant="outlined"
@@ -382,10 +376,9 @@ const CreateProductForm = ({ onClose }) => {
             name="price"
             value={productInfo.price}
             onChange={handleInputChange}
-            error={formErrors.price !== undefined}
-            helperText={formErrors.price}
+           
             InputProps={{
-              style: { marginTop: '10px' }, // Ajuste o valor conforme necessário
+              style: { marginTop: '10px' },
             }}
           />
         </Grid>
@@ -399,16 +392,13 @@ const CreateProductForm = ({ onClose }) => {
             name="description"
             value={productInfo.description}
             onChange={handleInputChange}
-            error={formErrors.description !== undefined}
-            helperText={formErrors.description}
+        
             InputProps={{
-              style: { marginTop: '10px' }, // Ajuste o valor conforme necessário
+              style: { marginTop: '10px' },
             }}
-            
-          
           />
         </Grid>
-        <Grid item xs={12} sm={6} >
+        <Grid item xs={12} sm={6}>
           <TextField
             label="Tamanho"
             variant="outlined"
@@ -416,12 +406,10 @@ const CreateProductForm = ({ onClose }) => {
             name="size"
             value={productInfo.size}
             onChange={handleInputChange}
-            error={formErrors.size !== undefined}
-            helperText={formErrors.size}
+          
             InputProps={{
-              style: { marginTop: '10px' }, // Ajuste o valor conforme necessário
+              style: { marginTop: '10px' },
             }}
-            
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -431,10 +419,9 @@ const CreateProductForm = ({ onClose }) => {
               label="Categoria"
               value={productInfo.category}
               onChange={handleCategoryChange}
-              error={formErrors.category !== undefined}
-              helperText={formErrors.category}
+           
               InputProps={{
-                style: { marginTop: '10px' }, // Ajuste o valor conforme necessário
+                style: { marginTop: '10px' },
               }}
             >
               <MenuItem value="" disabled>
@@ -455,10 +442,9 @@ const CreateProductForm = ({ onClose }) => {
               label="Subcategoria"
               value={productInfo.subcategory}
               onChange={handleSubcategoryChange}
-              error={formErrors.subcategory !== undefined}
-              helperText={formErrors.subcategory}
+            
               InputProps={{
-                style: { marginTop: '10px' }, // Ajuste o valor conforme necessário
+                style: { marginTop: '10px' },
               }}
             >
               <MenuItem value="" disabled>
@@ -481,14 +467,12 @@ const CreateProductForm = ({ onClose }) => {
             name="quantity"
             value={productInfo.quantity}
             onChange={handleInputChange}
-            error={formErrors.quantity !== undefined}
-            helperText={formErrors.quantity}
+        
             InputProps={{
-              style: { marginTop: '10px' }, // Ajuste o valor conforme necessário
+              style: { marginTop: '10px' },
             }}
           />
         </Grid>
- 
         <Grid item xs={12} sm={6}>
           <TextField
             label="Cor"
@@ -497,18 +481,15 @@ const CreateProductForm = ({ onClose }) => {
             name="color"
             value={productInfo.color}
             onClick={handleColorPickerOpen}
-            error={formErrors.color !== undefined}
-            helperText={formErrors.color}
+          
             InputProps={{
-              style: { marginTop: '10px' }, // Ajuste o valor conforme necessário
+              style: { marginTop: '10px' },
             }}
-          
-            
           />
-          
+
           {colorPickerOpen && (
             <div
-              style={{ position: "absolute", zIndex: 2, top: "1rem" }}
+              style={{ position: 'absolute', zIndex: 2, top: '1rem' }}
               onClick={(event) => event.stopPropagation()}
             >
               <SketchPicker
@@ -519,23 +500,22 @@ const CreateProductForm = ({ onClose }) => {
             </div>
           )}
 
-          {/* Trecho a ser adicionado */}
           {productInfo.color && (
             <div
               style={{
-                marginTop: "0.5rem",
-                display: "flex",
-                alignItems: "center",
+                marginTop: '0.5rem',
+                display: 'flex',
+                alignItems: 'center',
               }}
             >
-              <span style={{ marginRight: "0.5rem" }}>Cor Adicionada:</span>
+              <span style={{ marginRight: '0.5rem' }}>Cor Adicionada:</span>
               <div
                 style={{
-                  width: "20px",
-                  height: "20px",
+                  width: '20px',
+                  height: '20px',
                   backgroundColor: productInfo.color,
-                  border: "1px solid #000",
-                  marginRight: "0.5rem",
+                  border: '1px solid #000',
+                  marginRight: '0.5rem',
                 }}
               ></div>
               <span>Imagem: {imageFileName}</span>
@@ -546,16 +526,16 @@ const CreateProductForm = ({ onClose }) => {
           <Button
             onClick={handleAddVariation}
             style={{
-              backgroundColor: "#14337C",
-              color: "white",
-              border: "none",
-              padding: ".5rem",
-              borderRadius: "1rem",
-              width: "8dvw",
-              fontFamily: "poppins",
+              backgroundColor: '#14337C',
+              color: 'white',
+              border: 'none',
+              padding: '.5rem',
+              borderRadius: '1rem',
+              width: '8dvw',
+              fontFamily: 'poppins',
               fontWeight: 500,
-              cursor: "pointer",
-              fontSize: ".8rem",
+              cursor: 'pointer',
+              fontSize: '.8rem',
             }}
           >
             Adicionar cor e foto
@@ -567,16 +547,16 @@ const CreateProductForm = ({ onClose }) => {
       </Grid>
       <Button
         style={{
-          backgroundColor: "#14337C",
-          color: "white",
-          border: "none",
-          padding: ".5rem",
-          borderRadius: "1rem",
-          width: "8dvw",
-          fontFamily: "poppins",
+          backgroundColor: '#14337C',
+          color: 'white',
+          border: 'none',
+          padding: '.5rem',
+          borderRadius: '1rem',
+          width: '8dvw',
+          fontFamily: 'poppins',
           fontWeight: 500,
-          cursor: "pointer",
-          fontSize: ".8rem",
+          cursor: 'pointer',
+          fontSize: '.8rem',
         }}
         type="submit"
       >
