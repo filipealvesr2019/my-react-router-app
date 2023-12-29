@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Products.module.css";
-
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 import axios from "axios";
 import ModelProducts from "../../components/ModelProducts";
 import ModelUpdate from "../../components/ModelUpdate";
@@ -47,8 +48,12 @@ const Products = () => {
     }
   };
 
+  
+
   return (
     <div className={styles.container}>
+              <TextField id="outlined-search" label="Search field" type="search" />
+
       <div className={styles.Model}>
         <ModelProducts />
       </div>
