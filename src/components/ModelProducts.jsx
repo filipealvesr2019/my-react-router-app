@@ -310,7 +310,9 @@ const CreateProductForm = ({ onClose }) => {
        
         console.log("Produto criado com sucesso");
     
-        onClose();
+        setTimeout(() => {
+          onClose();
+        }, 4000);
       } else {
         console.error("Erro ao criar o produto:", response.statusText);
       }
