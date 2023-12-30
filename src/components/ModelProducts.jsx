@@ -13,11 +13,9 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import { SketchPicker } from "react-color"; // Importando o SketchPicker
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
-
+import { SketchPicker } from "react-color";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CreateProductForm = ({ onClose }) => {
   const [categories, setCategories] = useState([]);
@@ -58,19 +56,19 @@ const CreateProductForm = ({ onClose }) => {
     if (!(productInfo.quantity > 0)) {
       errors.quantity = "Digite uma quantidade válida";
     }
-    if (productInfo.size === '') {
+    if (productInfo.size === "") {
       errors.size = "Digite um tamanho válida";
     }
 
-    if (!(productInfo.color === '')) {
+    if (!(productInfo.color === "")) {
       errors.color = "Digite uma cor válida";
     }
     // Verificar se há variações adicionadas
-   
+
     if (!productInfo.category) {
       errors.category = "Selecione uma categoria";
     }
-  
+
     if (!productInfo.subcategory) {
       errors.subcategory = "Selecione uma subcategoria";
     }
@@ -80,7 +78,6 @@ const CreateProductForm = ({ onClose }) => {
     // Retorna verdadeiro se não houver erros
     return Object.keys(errors).length === 0;
   };
-
 
   const handleColorPickerOpen = (event) => {
     // Impedir que o evento se propague para evitar o fechamento automático
@@ -166,48 +163,51 @@ const CreateProductForm = ({ onClose }) => {
       console.error("Erro ao buscar subcategorias:", error);
     }
   };
-
- 
-
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
-    const imageFile = files[0];
+    
+    // Check if files array is not empty
+    if (files.length > 0) {
+      const imageFile = files[0];
   
-    console.log("Partial File Name:", imageFile.name.substring(0, 10));
+      // Check if imageFile is not undefined
+      if (imageFile) {
+        console.log("Partial File Name:", imageFile.name.substring(0, 10));
   
-    const partialFileName = imageFile.name.substring(0, 10);
+        const partialFileName = imageFile.name.substring(0, 10);
   
-    setProductInfo((prevProductInfo) => ({
-      ...prevProductInfo,
-      imageFiles: [...prevProductInfo.imageFiles, imageFile],
-    }));
+        setProductInfo((prevProductInfo) => ({
+          ...prevProductInfo,
+          imageFiles: [...prevProductInfo.imageFiles, imageFile],
+        }));
   
-    setImageFileName(partialFileName);
-  };const handleAddVariation = () => {
+        setImageFileName(partialFileName);
+      } else {
+        console.error("No file selected");
+      }
+    } else {
+      console.error("No files selected");
+    }
+  };
+  
+  const handleAddVariation = () => {
     const { color, imageFiles } = productInfo;
-  
+
     // Check if a variation with the same color already exists
-    const existingVariation = productInfo.variations.find(
+    const existingVariationIndex = productInfo.variations.findIndex(
       (variation) => variation.color === color
     );
-  
-    if (existingVariation) {
+
+    if (existingVariationIndex !== -1) {
       // If the color already exists, update the images
-      const updatedVariations = productInfo.variations.map((variation) =>
-        variation.color === color
-          ? {
-              ...variation,
-              images: [
-                ...variation.images,
-                ...imageFiles.map((file) => ({
-                  url: URL.createObjectURL(file),
-                  fileName: imageFileName,
-                })),
-              ],
-            }
-          : variation
+      const updatedVariations = [...productInfo.variations];
+      updatedVariations[existingVariationIndex].images.push(
+        ...imageFiles.map((file) => ({
+          url: URL.createObjectURL(file),
+          fileName: imageFileName,
+        }))
       );
-  
+
       setProductInfo((prevProductInfo) => ({
         ...prevProductInfo,
         color: "",
@@ -230,92 +230,38 @@ const CreateProductForm = ({ onClose }) => {
         ],
       }));
     }
-  
+
     setFormErrors({});
   };
-  
-  
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // Validar o formulário antes de prosseguir
+
+    // Validate the form before proceeding
     if (!validateForm()) {
-      toast.error('Todos os campos devem ser prenchidos!', {
+      toast.error('All fields must be filled!', {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        rtl: false,
-        pauseOnFocusLoss: true,
-        draggable: true,
-        pauseOnHover: true,
-        theme: 'light',
       });
       return;
     }
 
-
-    toast.success('Produto criado com sucesso!', {
+    // Display success message
+    toast.success('Product created successfully!', {
       position: toast.POSITION.TOP_CENTER,
       autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      rtl: false,
-      pauseOnFocusLoss: true,
-      draggable: true,
-      pauseOnHover: true,
-      theme: 'light',
     });
-    setTimeout(() => {
-      onClose();
-    }, 4000);
+
     try {
-      const { variations, imageFiles, ...productData } = productInfo;
+      const { imageFiles, ...productData } = productInfo;
 
-      // Criar um array de Promises para upload de todas as imagens
-      const uploadPromises = imageFiles.map((file) => {
-        const formData = new FormData();
-        formData.append("image", file);
-        return axios.post("https://api.imgbb.com/1/upload", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          params: {
-            key: "20af19809d6e8fa90a1d7aaab396c2e6",
-          },
-        });
-      });
-
-      // Executar todas as Promises de upload
-      const imgBbResponses = await Promise.all(uploadPromises);
-
-      // Extrair URLs das respostas do ImgBB
-      const imageUrls = imgBbResponses.map(
-        (response) => response.data.data.url
-      );
-
-      const requestData = {
-        ...productData,
-        category: productInfo.category,
-        subcategory: productInfo.subcategory,
-        colors: productInfo.variations.map((variation) => ({
-          color: variation.color,
-          urls: variation.images.map((image) => image.url),
-        })),
-      };
-      console.log("Product Info before API call:", productInfo);
+      // Send product data to the server for further processing
       const response = await axios.post(
         "http://localhost:3001/api/admin/product/new",
-        requestData
+        productData
       );
-      
 
       if (response.status === 201) {
-        
-    
-
-        // Log do novo estado do produto
-        console.log("Novo Estado do Produto:", productInfo);
-    
         setProductInfo({
           name: "",
           price: 0.0,
@@ -328,37 +274,32 @@ const CreateProductForm = ({ onClose }) => {
           imageFiles: [],
         });
 
+        console.log("Product created successfully");
 
-       
-        console.log("Produto criado com sucesso");
-    
         setTimeout(() => {
           onClose();
         }, 4000);
       } else {
-        console.error("Erro ao criar o produto:", response.statusText);
+        console.error("Error creating product:", response.statusText);
       }
     } catch (error) {
-      console.error("Erro ao criar o produto:", error.message);
+      console.error("Error creating product:", error.message);
     }
   };
 
-  // ... restante do código ...
-
-  // ... restante do código ...
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setProductInfo((prevProductInfo) => ({
       ...prevProductInfo,
       [name]: value,
     }));
-  
+
     // Handle color input separately
     if (name === "color") {
       handleColorChange(value, event);
     }
   };
-  
+
   const handleSubcategoryChange = (event) => {
     const subcategoryName = event.target.value;
     setProductInfo((prevProductInfo) => ({
@@ -366,18 +307,15 @@ const CreateProductForm = ({ onClose }) => {
       subcategory: subcategoryName,
     }));
   };
-
-  
-  
   return (
-     <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       {formErrors.variations && (
         <Typography variant="caption" color="error">
           {formErrors.variations}
         </Typography>
       )}
 
-      <Grid container spacing={2} style={{marginTop:"-2rem"}}>
+      <Grid container spacing={2} style={{ marginTop: "-2rem" }}>
         <Grid item xs={12} sm={6}>
           <TextField
             label="Nome do Produto"
@@ -389,9 +327,8 @@ const CreateProductForm = ({ onClose }) => {
             error={formErrors.name !== undefined}
             helperText={formErrors.name}
             InputProps={{
-              style: { marginTop: '10px' },
+              style: { marginTop: "10px" },
             }}
-        
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -406,11 +343,11 @@ const CreateProductForm = ({ onClose }) => {
             error={formErrors.price !== undefined}
             helperText={formErrors.price}
             InputProps={{
-              style: { marginTop: '10px' },
+              style: { marginTop: "10px" },
             }}
           />
         </Grid>
-        <Grid item xs={12} style={{marginTop:"-1rem"}}>
+        <Grid item xs={12} style={{ marginTop: "-1rem" }}>
           <TextField
             label="Descrição"
             variant="outlined"
@@ -423,11 +360,11 @@ const CreateProductForm = ({ onClose }) => {
             error={formErrors.description !== undefined}
             helperText={formErrors.description}
             InputProps={{
-              style: { marginTop: '10px' },
+              style: { marginTop: "10px" },
             }}
           />
         </Grid>
-        <Grid item xs={12} sm={6} style={{marginTop:"-1rem"}}>
+        <Grid item xs={12} sm={6} style={{ marginTop: "-1rem" }}>
           <TextField
             label="Tamanho"
             variant="outlined"
@@ -438,11 +375,11 @@ const CreateProductForm = ({ onClose }) => {
             error={formErrors.size !== undefined}
             helperText={formErrors.size}
             InputProps={{
-              style: { marginTop: '10px' },
+              style: { marginTop: "10px" },
             }}
           />
         </Grid>
-        <Grid item xs={12} sm={6} style={{marginTop:"-1rem"}}>
+        <Grid item xs={12} sm={6} style={{ marginTop: "-1rem" }}>
           <TextField
             label="Quantidade"
             variant="outlined"
@@ -454,7 +391,7 @@ const CreateProductForm = ({ onClose }) => {
             error={formErrors.quantity !== undefined}
             helperText={formErrors.quantity}
             InputProps={{
-              style: { marginTop: '10px' },
+              style: { marginTop: "10px" },
             }}
           />
         </Grid>
@@ -468,7 +405,7 @@ const CreateProductForm = ({ onClose }) => {
               error={formErrors.category !== undefined}
               helperText={formErrors.category}
               InputProps={{
-                style: { marginTop: '10px' },
+                style: { marginTop: "10px" },
               }}
             >
               <MenuItem value="" disabled>
@@ -492,7 +429,7 @@ const CreateProductForm = ({ onClose }) => {
               error={formErrors.subcategory !== undefined}
               helperText={formErrors.subcategory}
               InputProps={{
-                style: { marginTop: '10px' },
+                style: { marginTop: "10px" },
               }}
             >
               <MenuItem value="" disabled>
@@ -506,27 +443,26 @@ const CreateProductForm = ({ onClose }) => {
             </Select>
           </FormControl>
         </Grid>
-       
-        <Grid item xs={12} sm={6}>
-        <TextField
-  label="Cor"
-  variant="outlined"
-  fullWidth
-  name="color"
-  value={productInfo.color}
-  onClick={handleColorPickerOpen}
-  onChange={handleInputChange}  // Use handleInputChange for color changes
-  error={formErrors.color !== undefined}
-  helperText={formErrors.color}
-  InputProps={{
-    style: { marginTop: '10px' },
-  }}
-/>
 
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label="Cor"
+            variant="outlined"
+            fullWidth
+            name="color"
+            value={productInfo.color}
+            onClick={handleColorPickerOpen}
+            onChange={handleInputChange} // Use handleInputChange for color changes
+            error={formErrors.color !== undefined}
+            helperText={formErrors.color}
+            InputProps={{
+              style: { marginTop: "10px" },
+            }}
+          />
 
           {colorPickerOpen && (
             <div
-              style={{ position: 'absolute', zIndex: 2, top: '1rem' }}
+              style={{ position: "absolute", zIndex: 2, top: "1rem" }}
               onClick={(event) => event.stopPropagation()}
             >
               <SketchPicker
@@ -540,22 +476,31 @@ const CreateProductForm = ({ onClose }) => {
           {productInfo.color && (
             <div
               style={{
-                marginTop: '0.5rem',
-                display: 'flex',
-                alignItems: 'center',
+                marginTop: "0.5rem",
+                display: "flex",
+                alignItems: "center",
               }}
             >
-              <span style={{ marginRight: '0.5rem', whiteSpace:"nowrap", marginBottom:"-.5rem" }}>Cor Adicionada:</span>
+              <span
+                style={{
+                  marginRight: "0.5rem",
+                  whiteSpace: "nowrap",
+                  marginBottom: "-.5rem",
+                }}
+              >
+                Cor Adicionada:
+              </span>
               <div
                 style={{
-                  width: '50px',
-                  height: '20px',
+                  width: "50px",
+                  height: "20px",
                   backgroundColor: productInfo.color,
-                  border: '1px solid red',
-             
+                  border: "1px solid red",
                 }}
               ></div>
-              <span style={{ whiteSpace:"nowrap", marginLeft:"5rem" }}>Imagem: {imageFileName}</span>
+              <span style={{ whiteSpace: "nowrap", marginLeft: "5rem" }}>
+                Imagem: {imageFileName}
+              </span>
             </div>
           )}
         </Grid>
@@ -563,40 +508,45 @@ const CreateProductForm = ({ onClose }) => {
           <Button
             onClick={handleAddVariation}
             style={{
-              backgroundColor: '#14337C',
-              color: 'white',
-              border: 'none',
-              padding: '.5rem',
-              borderRadius: '1rem',
-              width: '15dvw',
-              fontFamily: 'poppins',
+              backgroundColor: "#14337C",
+              color: "white",
+              border: "none",
+              padding: ".5rem",
+              borderRadius: "1rem",
+              width: "15dvw",
+              fontFamily: "poppins",
               fontWeight: 500,
-              cursor: 'pointer',
-              fontSize: '.8rem',
-              whiteSpace:"nowrap",
-              marginTop:"1.3rem"
+              cursor: "pointer",
+              fontSize: ".8rem",
+              whiteSpace: "nowrap",
+              marginTop: "1.3rem",
             }}
           >
             Adicionar cor e foto
           </Button>
         </Grid>
         <Grid item xs={12}>
-          <input type="file" accept="image/*" onChange={handleFileChange} style={{marginTop:"-1rem"}} />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            style={{ marginTop: "-1rem" }}
+          />
         </Grid>
       </Grid>
       <Button
         style={{
-          backgroundColor: '#14337C',
-          color: 'white',
-          border: 'none',
-          padding: '.5rem',
-          borderRadius: '1rem',
-          width: '8dvw',
-          fontFamily: 'poppins',
+          backgroundColor: "#14337C",
+          color: "white",
+          border: "none",
+          padding: ".5rem",
+          borderRadius: "1rem",
+          width: "8dvw",
+          fontFamily: "poppins",
           fontWeight: 500,
-          cursor: 'pointer',
-          fontSize: '.8rem',
-          marginTop:".4rem"
+          cursor: "pointer",
+          fontSize: ".8rem",
+          marginTop: ".4rem",
         }}
         type="submit"
       >
@@ -660,7 +610,6 @@ export default function BasicModal() {
             fontWeight="lg"
             mb={1}
             marginTop={"-rem"}
-            
           >
             Criar Novo Produto
           </Typography>
