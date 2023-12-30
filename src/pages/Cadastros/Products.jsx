@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import axios from "axios";
 import ModelProducts from "../../components/ModelProducts";
 import DeleteModal from "../../components/DeleteModal";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -13,6 +13,11 @@ const Products = () => {
   const [formData, setFormData] = useState({
     name: "",
     price: 0,
+    quantity: 0,
+    description: "",
+    size: "",
+    category: "",
+    subcategory: "",
     // Add other fields as needed
   });
 
@@ -196,14 +201,13 @@ const Products = () => {
                             >
                               <div className={styles.modalOverlay}>
                                 <div className={styles.modalContent}>
-                                 
-                                <button
-                                    className={styles.closeButton }
+                                  <button
+                                    className={styles.closeButton}
                                     onClick={() => setIsModalOpen(false)}
                                   >
-                                   <CloseIcon  />
-                                   </button>                                
-                               
+                                    <CloseIcon />
+                                  </button>
+
                                   <label>
                                     Name:
                                     <input
@@ -213,7 +217,7 @@ const Products = () => {
                                       onChange={handleFormChange}
                                     />
                                   </label>
-                                  <br />
+
                                   <label>
                                     Price:
                                     <input
@@ -223,8 +227,54 @@ const Products = () => {
                                       onChange={handleFormChange}
                                     />
                                   </label>
-                                  <br />
-                                  {/* Add other form fields as needed */}
+
+                                  <label>
+                                    Quantity:
+                                    <input
+                                      type="number"
+                                      name="price"
+                                      value={formData.quantity}
+                                      onChange={handleFormChange}
+                                    />
+                                  </label>
+
+                                  <label>
+                                    description:
+                                    <input
+                                      type="number"
+                                      name="price"
+                                      value={formData.description}
+                                      onChange={handleFormChange}
+                                    />
+                                  </label>
+                                  <label>
+                                    size:
+                                    <input
+                                      type="number"
+                                      name="price"
+                                      value={formData.size}
+                                      onChange={handleFormChange}
+                                    />
+                                  </label>
+                                  <label>
+                                    category:
+                                    <input
+                                      type="number"
+                                      name="price"
+                                      value={formData.category}
+                                      onChange={handleFormChange}
+                                    />
+                                  </label>
+                                  <label>
+                                    subcategory:
+                                    <input
+                                      type="number"
+                                      name="price"
+                                      value={formData.subcategory}
+                                      onChange={handleFormChange}
+                                    />
+                                  </label>
+
                                   <button type="submit">Update Product</button>
                                 </div>
                               </div>

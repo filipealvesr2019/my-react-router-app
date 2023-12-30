@@ -30,6 +30,8 @@
   position: relative;
   width: 500px;
   z-index: 9999; /* ou qualquer valor que seja suficientemente alto para garantir que esteja acima de outros elementos na página */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
 }
 
 
