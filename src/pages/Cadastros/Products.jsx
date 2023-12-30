@@ -196,6 +196,12 @@ const Products = () => {
                             >
                               <div className={styles.modalOverlay}>
                                 <div className={styles.modalContent}>
+                                  <button
+                                    className={styles.closeButton}
+                                    onClick={() => setIsModalOpen(false)}
+                                  >
+                                    X
+                                  </button>
                                   <label>
                                     Name:
                                     <input
