@@ -113,14 +113,6 @@ const Products = () => {
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const DeleteModal = ({ onDelete, isVisible }) => {
-    return isVisible ? (
-      <span onClick={onDelete} className={styles.span}>
-        {/* Ícone ou texto de exclusão */}
-      </span>
-    ) : null;
-  };
-
   return (
     <div className={styles.container}>
       <TextField
@@ -167,16 +159,21 @@ const Products = () => {
                     <td className={styles.td}>{product.name}</td>
                     <td>
                       <div className={styles.spanContainer}>
-                        <span
-                          onClick={() => handleDeleteProduct(product._id)}
-                          className={styles.span}
-                        ></span>
-                        <DeleteModal
-                          onDelete={() => handleDeleteProduct(product._id)}
-                          isVisible={
-                            !formData._id || formData._id !== product._id
-                          }
-                        />
+                        <div className={styles.deleteBtn}>
+                          {isModalOpen ? null : (
+                            <>
+                              <span
+                                onClick={() => handleDeleteProduct(product._id)}
+                                className={styles.span}
+                              ></span>
+                              <DeleteModal
+                                onDelete={() =>
+                                  handleDeleteProduct(product._id)
+                                }
+                              />
+                            </>
+                          )}
+                        </div>
                         <button onClick={() => setFormData(product)}>
                           Update
                         </button>
