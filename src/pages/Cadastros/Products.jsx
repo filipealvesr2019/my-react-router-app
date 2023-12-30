@@ -5,34 +5,32 @@ import TextField from "@mui/material/TextField";
 import axios from "axios";
 import ModelProducts from "../../components/ModelProducts";
 import DeleteModal from "../../components/DeleteModal";
-// ... (imports)
 
 const Products = () => {
   const [products, setProducts] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
   const [error, setError] = useState(null);
+  const [formData, setFormData] = useState({
+    name: "",
+    price: 0,
+    // Add other fields as needed
+  });
+  useEffect(() => {
+    const getProducts = async () => {
+      try {
+        const response = await axios.get("http://localhost:3001/api/products");
+        setProducts(response.data.products);
+        console.log("Products after fetching:", response.data.products);
+      } catch (error) {
+        console.error("Erro ao obter produtos", error);
+        setError("Erro ao obter produtos. Por favor, tente novamente.");
+      } finally {
+        // setLoading(false); // Assuming you have a loading state that you want to set to false
+      }
+    };
 
-  
-useEffect(() => {
-  const getProducts = async () => {
-    try {
-      const response = await axios.get("http://localhost:3001/api/products");
-      setProducts(response.data.products);
-      console.log("Products after fetching:", response.data.products);
-    } catch (error) {
-      console.error("Erro ao obter produtos", error);
-      setError("Erro ao obter produtos. Por favor, tente novamente.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  getProducts();
-}, []);
-
+    getProducts();
+  }, []);
 
   const handleDeleteProduct = async (productId) => {
     try {
@@ -57,8 +55,6 @@ useEffect(() => {
     }
   };
 
-
-
   useEffect(() => {
     const getProducts = async () => {
       try {
@@ -69,33 +65,55 @@ useEffect(() => {
         console.log("Erro ao obter produtos", error);
       }
     };
-  
+
     getProducts();
   }, []);
-  const handleUpdateProductApi = async (updatedProduct) => {
-    try {
-      setLoading(true);
-  
-      if (!updatedProduct || !updatedProduct._id) {
-        console.error('Dados inválidos para atualização do produto.');
-        return;
-      }
-  
-      // Restante do código...
-    } catch (error) {
-      console.error('Erro ao atualizar produto:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+
+
+
   
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
+  const handleFormChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleUpdateProduct = async (productId) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:3001/products/${productId}`,
+        formData
+      );
+
+      if (response.data.success) {
+        // Handle success, update products or perform any other actions
+        console.log("Product updated successfully");
+        // Optionally, fetch and set the updated product list
+        const updatedProducts = await axios.get("http://localhost:3001/api/products");
+        setProducts(updatedProducts.data.products);
+      } else {
+        console.error(
+          "Error updating product. Server message:",
+          response.data.error
+        );
+      }
+    } catch (error) {
+      console.error("Error updating product. Error details:", error);
+    }
+  };
+
   const filteredProducts = products.filter((product) =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+
+
 
   return (
     <div className={styles.container}>
@@ -124,7 +142,7 @@ useEffect(() => {
         }}
       >
         <main>
-        {error && <div style={{ color: 'red' }}>{error}</div>}
+          {error && <div style={{ color: "red" }}>{error}</div>}
 
           <h1 style={{ fontSize: "1.5rem", color: "#2A337C" }}>
             Cadastro de produtos
@@ -138,31 +156,66 @@ useEffect(() => {
                 </tr>
               </thead>
               <tbody>
-               
-{filteredProducts.map((product) => (
-  <tr className={styles.td} key={product._id}>
-    <td className={styles.td}>{product.name}</td>
-    <td>
-      <div className={styles.spanContainer}>
-        <span
-          onClick={() => handleDeleteProduct(product._id)}
-          className={styles.span}
-        ></span>
-        <DeleteModal
-          onDelete={() => handleDeleteProduct(product._id)}
-        />
+                {filteredProducts.map((product) => (
+                  <tr className={styles.td} key={product._id}>
+                    <td className={styles.td}>{product.name}</td>
+                    <td>
+                      <div className={styles.spanContainer}>
+                        <span
+                          onClick={() => handleDeleteProduct(product._id)}
+                          className={styles.span}
+                        ></span>
+                        <DeleteModal
+                          onDelete={() => handleDeleteProduct(product._id)}
+                        />
+                                          <button onClick={() => setFormData(product)}>Update</button>
 
-      </div>
-    </td>
-  </tr>
-))}
+                         {formData._id === product._id && (
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        handleUpdateProduct(product._id);
+                        // Clear the form after submission
+                        setFormData({
+                          name: "",
+                          price: 0,
+                          // Add other fields as needed
+                        });
+                      }}
+                    >
+                      <label>
+                        Name:
+                        <input
+                          type="text"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleFormChange}
+                        />
+                      </label>
+                      <br />
+                      <label>
+                        Price:
+                        <input
+                          type="number"
+                          name="price"
+                          value={formData.price}
+                          onChange={handleFormChange}
+                        />
+                      </label>
+                      <br />
+                      {/* Add other form fields as needed */}
+                      <button type="submit">Update Product</button>
+                    </form>
+                  )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
         </main>
       </div>
-
-      
     </div>
   );
 };
