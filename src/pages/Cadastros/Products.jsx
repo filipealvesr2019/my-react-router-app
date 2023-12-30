@@ -15,6 +15,9 @@ const Products = () => {
     price: 0,
     // Add other fields as needed
   });
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   useEffect(() => {
     const getProducts = async () => {
       try {
@@ -69,9 +72,6 @@ const Products = () => {
     getProducts();
   }, []);
 
-
-
-  
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -83,37 +83,32 @@ const Products = () => {
       [name]: value,
     }));
   };
+// Update the handleUpdateProduct function to close the modal after updating
+const handleUpdateProduct = async (productId) => {
+  try {
+    const response = await axios.put(
+      `http://localhost:3001/products/${productId}`,
+      formData
+    );
 
-  const handleUpdateProduct = async (productId) => {
-    try {
-      const response = await axios.put(
-        `http://localhost:3001/products/${productId}`,
-        formData
+    if (response.data.success) {
+      console.log("Product updated successfully");
+      const updatedProducts = await axios.get(
+        "http://localhost:3001/api/products"
       );
-
-      if (response.data.success) {
-        // Handle success, update products or perform any other actions
-        console.log("Product updated successfully");
-        // Optionally, fetch and set the updated product list
-        const updatedProducts = await axios.get("http://localhost:3001/api/products");
-        setProducts(updatedProducts.data.products);
-      } else {
-        console.error(
-          "Error updating product. Server message:",
-          response.data.error
-        );
-      }
-    } catch (error) {
-      console.error("Error updating product. Error details:", error);
+      setProducts(updatedProducts.data.products);
+    } else {
+      console.error("Error updating product. Server message:", response.data.error);
     }
-  };
-
+  } catch (error) {
+    console.error("Error updating product. Error details:", error);
+  } finally {
+    setIsModalOpen(false);
+  }
+};
   const filteredProducts = products.filter((product) =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-
-
 
   return (
     <div className={styles.container}>
@@ -141,6 +136,7 @@ const Products = () => {
           height: "55vh",
         }}
       >
+        
         <main>
           {error && <div style={{ color: "red" }}>{error}</div>}
 
@@ -168,45 +164,59 @@ const Products = () => {
                         <DeleteModal
                           onDelete={() => handleDeleteProduct(product._id)}
                         />
-                                          <button onClick={() => setFormData(product)}>Update</button>
+                        <button onClick={() => setFormData(product)}>
+                          Update
+                        </button>
+                        <div
+                          className={`${styles.container} ${styles.modalContainer}`}
+                        >
+                          {formData._id === product._id && (
+                            <form
+                              onSubmit={(e) => {
+                                e.preventDefault();
+                                handleUpdateProduct(product._id);
+                                // Clear the form after submission
+                                setFormData({
+                                  name: "",
+                                  price: 0,
+                                  // Add other fields as needed
+                                });
+                              }}
 
-                         {formData._id === product._id && (
-                    <form
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        handleUpdateProduct(product._id);
-                        // Clear the form after submission
-                        setFormData({
-                          name: "",
-                          price: 0,
-                          // Add other fields as needed
-                        });
-                      }}
-                    >
-                      <label>
-                        Name:
-                        <input
-                          type="text"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleFormChange}
-                        />
-                      </label>
-                      <br />
-                      <label>
-                        Price:
-                        <input
-                          type="number"
-                          name="price"
-                          value={formData.price}
-                          onChange={handleFormChange}
-                        />
-                      </label>
-                      <br />
-                      {/* Add other form fields as needed */}
-                      <button type="submit">Update Product</button>
-                    </form>
-                  )}
+                              
+                            >
+
+                              <div className={styles.modalOverlay}>
+                                <div className={styles.modalContent}>
+                                <label>
+                                Name:
+                                <input
+                                  type="text"
+                                  name="name"
+                                  value={formData.name}
+                                  onChange={handleFormChange}
+                                />
+                              </label>
+                              <br />
+                              <label>
+                                Price:
+                                <input
+                                  type="number"
+                                  name="price"
+                                  value={formData.price}
+                                  onChange={handleFormChange}
+                                />
+                              </label>
+                              <br />
+                              {/* Add other form fields as needed */}
+                              <button type="submit">Update Product</button>
+                                </div>
+                              </div>
+                              
+                            </form>
+                          )}
+                          
+                        </div>
                       </div>
                     </td>
                   </tr>
