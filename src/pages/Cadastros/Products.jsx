@@ -214,7 +214,7 @@ const Products = () => {
                                     />
                                   </label>
 
-                                  <label>
+                                  <label className={styles.label}>
                                     Descrição:
                                     <input
                                       type="text"
