@@ -167,45 +167,74 @@ const CreateProductForm = ({ onClose }) => {
     }
   };
 
+ 
+
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
-    const imageFile = files[0]; // Assumindo que estamos lidando com apenas uma imagem
-
-    // Defina parte do nome do arquivo (por exemplo, os primeiros 10 caracteres)
+    const imageFile = files[0];
+  
+    console.log("Partial File Name:", imageFile.name.substring(0, 10));
+  
     const partialFileName = imageFile.name.substring(0, 10);
-
+  
     setProductInfo((prevProductInfo) => ({
       ...prevProductInfo,
       imageFiles: [...prevProductInfo.imageFiles, imageFile],
     }));
-
+  
     setImageFileName(partialFileName);
-  };
-
-  // ... restante do código ...
-
-  const handleAddVariation = () => {
+  };const handleAddVariation = () => {
     const { color, imageFiles } = productInfo;
-    if (color && imageFiles.length > 0) {
+  
+    // Check if a variation with the same color already exists
+    const existingVariation = productInfo.variations.find(
+      (variation) => variation.color === color
+    );
+  
+    if (existingVariation) {
+      // If the color already exists, update the images
+      const updatedVariations = productInfo.variations.map((variation) =>
+        variation.color === color
+          ? {
+              ...variation,
+              images: [
+                ...variation.images,
+                ...imageFiles.map((file) => ({
+                  url: URL.createObjectURL(file),
+                  fileName: imageFileName,
+                })),
+              ],
+            }
+          : variation
+      );
+  
       setProductInfo((prevProductInfo) => ({
         ...prevProductInfo,
-        color: "", // Limpar a cor após adicionar
+        color: "",
+        variations: updatedVariations,
+      }));
+    } else {
+      // If the color doesn't exist, add a new variation
+      setProductInfo((prevProductInfo) => ({
+        ...prevProductInfo,
+        color: "",
         variations: [
           ...prevProductInfo.variations,
           {
             color,
             images: imageFiles.map((file) => ({
               url: URL.createObjectURL(file),
-              fileName: imageFileName, // Adicionar parte do nome do arquivo
+              fileName: imageFileName,
             })),
           },
         ],
       }));
     }
+  
     setFormErrors({});
-
   };
-
+  
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
     // Validar o formulário antes de prosseguir
@@ -264,26 +293,21 @@ const CreateProductForm = ({ onClose }) => {
         (response) => response.data.data.url
       );
 
-      // Montar a estrutura de dados para o backend com URLs das imagens
       const requestData = {
         ...productData,
         category: productInfo.category,
         subcategory: productInfo.subcategory,
-        images: variations.map((variation) => ({
-          colors: variation.images.map((image, index) => ({
-            color: variation.color,
-            url: imageUrls[index], // Associar a URL correta
-          })),
+        colors: productInfo.variations.map((variation) => ({
+          color: variation.color,
+          urls: variation.images.map((image) => image.url),
         })),
       };
-
-      console.log("Dados do Produto:", requestData);
-
-      // Enviar dados para o backend usando Axios
+      console.log("Product Info before API call:", productInfo);
       const response = await axios.post(
         "http://localhost:3001/api/admin/product/new",
         requestData
       );
+      
 
       if (response.status === 201) {
         
@@ -322,15 +346,19 @@ const CreateProductForm = ({ onClose }) => {
   // ... restante do código ...
 
   // ... restante do código ...
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setProductInfo((prevProductInfo) => ({
       ...prevProductInfo,
       [name]: value,
     }));
+  
+    // Handle color input separately
+    if (name === "color") {
+      handleColorChange(value, event);
+    }
   };
-
+  
   const handleSubcategoryChange = (event) => {
     const subcategoryName = event.target.value;
     setProductInfo((prevProductInfo) => ({
@@ -480,19 +508,21 @@ const CreateProductForm = ({ onClose }) => {
         </Grid>
        
         <Grid item xs={12} sm={6}>
-          <TextField
-            label="Cor"
-            variant="outlined"
-            fullWidth
-            name="color"
-            value={productInfo.color}
-            onClick={handleColorPickerOpen}
-            error={formErrors.color !== undefined}
-            helperText={formErrors.color}
-            InputProps={{
-              style: { marginTop: '10px' },
-            }}
-          />
+        <TextField
+  label="Cor"
+  variant="outlined"
+  fullWidth
+  name="color"
+  value={productInfo.color}
+  onClick={handleColorPickerOpen}
+  onChange={handleInputChange}  // Use handleInputChange for color changes
+  error={formErrors.color !== undefined}
+  helperText={formErrors.color}
+  InputProps={{
+    style: { marginTop: '10px' },
+  }}
+/>
+
 
           {colorPickerOpen && (
             <div

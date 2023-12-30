@@ -302,130 +302,99 @@ const Products = () => {
                                     />
                                   </label>
                                   {formData.images.map((image, imageIndex) => (
-                                    <div key={imageIndex} className={styles.colorContainer}>
-                                      {image.colors.map((color, colorIndex) => (
-                                        <div key={colorIndex}>
-                                          
-                                          <label>
-                                            Cor:
-                                            <div
-                                              style={{
-                                                display: "flex",
-                                                alignItems: "center",
-                                              }}
-                                            >
-                                              <div
-                                                className={
-                                                  styles.colorPickerPreview
-                                                }
-                                                style={{
-                                                  backgroundColor: color.color,
-                                                }}
-                                                onClick={() => {
-                                                  setSelectedImageIndex(
-                                                    imageIndex
-                                                  );
-                                                  setSelectedColorIndex(
-                                                    colorIndex
-                                                  );
-                                                }}
-                                              ></div>
-                                              {selectedImageIndex ===
-                                                imageIndex &&
-                                                selectedColorIndex ===
-                                                  colorIndex && (
-                                                  <ChromePicker
-                                                    color={color.color}
-                                                    onChange={(newColor) => {
-                                                      setFormData(
-                                                        (prevData) => ({
-                                                          ...prevData,
-                                                          images:
-                                                            prevData.images.map(
-                                                              (img, iIndex) =>
-                                                                iIndex ===
-                                                                imageIndex
-                                                                  ? {
-                                                                      ...img,
-                                                                      colors:
-                                                                        img.colors.map(
-                                                                          (
-                                                                            c,
-                                                                            cIndex
-                                                                          ) =>
-                                                                            cIndex ===
-                                                                            colorIndex
-                                                                              ? {
-                                                                                  ...c,
-                                                                                  color:
-                                                                                    newColor.hex,
-                                                                                }
-                                                                              : c
-                                                                        ),
-                                                                    }
-                                                                  : img
-                                                            ),
-                                                        })
-                                                      );
-                                                    }}
-                                                  />
-                                                )}
-                                            </div>
-                                          </label>
-                                          <label>
-                                            URL:
-                                            <Link
-                                              to={`/${color.color.toLowerCase()}/foto${
-                                                colorIndex + 1
-                                              }`}
-                                            >
-                                              {`foto${
-                                                colorIndex + 1
-                                              }_${color.color.toLowerCase()}.png`}
-                                            </Link>
-                                          </label>
-                                        </div>
-                                      ))}
-                                      <button
-                                        type="button"
-                                        onClick={() => {
-                                          setFormData((prevData) => ({
-                                            ...prevData,
-                                            images: [
-                                              ...prevData.images,
-                                              {
-                                                colors: [
-                                                  {
-                                                    color: "",
-                                                    url: "",
-                                                  },
-                                                ],
-                                              },
-                                            ],
-                                          }));
-                                        }}
-                                      >
-                                        Adicionar Cor
-                                      </button>
-                                      <button
-                                        type="button"
-                                        onClick={() => {
-                                          setFormData((prevData) => {
-                                            const updatedImages = [
-                                              ...prevData.images,
-                                            ];
-                                            updatedImages.splice(imageIndex, 1);
-                                            return {
-                                              ...prevData,
-                                              images: updatedImages,
-                                            };
-                                          });
-                                        }}
-                                      >
-                                        Remover Imagem
-                                      </button>
-                                    </div>
-                                  ))}
+  <div key={imageIndex} className={styles.colorContainer}>
+    {image.colors.map((color, colorIndex) => (
+      <div key={colorIndex}>
+        <label>
+          Cor:
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <div
+              className={styles.colorPickerPreview}
+              style={{
+                backgroundColor: color.color,
+              }}
+              onClick={() => {
+                setSelectedImageIndex(imageIndex);
+                setSelectedColorIndex(colorIndex);
+              }}
+            ></div>
+            {selectedImageIndex === imageIndex &&
+              selectedColorIndex === colorIndex && (
+                <ChromePicker
+                  color={color.color}
+                  onChange={(newColor) => {
+                    setFormData((prevData) => ({
+                      ...prevData,
+                      images: prevData.images.map((img, iIndex) =>
+                        iIndex === imageIndex
+                          ? {
+                              ...img,
+                              colors: img.colors.map((c, cIndex) =>
+                                cIndex === colorIndex
+                                  ? { ...c, color: newColor.hex }
+                                  : c
+                              ),
+                            }
+                          : img
+                      ),
+                    }));
+                  }}
+                />
+              )}
+          </div>
+        </label>
+        <label>
+          URL:
+          <Link to={color.url}>
+            {`foto${colorIndex + 1}_${color.color.toLowerCase()}.png`}
+          </Link>
+        </label>
+      </div>
+    ))}
+    <button
+      type="button"
+      onClick={() => {
+        setFormData((prevData) => ({
+          ...prevData,
+          images: [
+            ...prevData.images,
+            {
+              colors: [
+                {
+                  color: "",
+                  url: "",
+                },
+              ],
+            },
+          ],
+        }));
+      }}
+    >
+      Adicionar Cor
+    </button>
+    <button
+      type="button"
+      onClick={() => {
+        setFormData((prevData) => {
+          const updatedImages = [...prevData.images];
+          updatedImages.splice(imageIndex, 1);
+          return {
+            ...prevData,
+            images: updatedImages,
+          };
+        });
+      }}
+    >
+      Remover Imagem
+    </button>
+  </div>
+))}
+
 
                                   <label>
                                     Categoria:
