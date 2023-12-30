@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Products.module.css";
-import Box from "@mui/material/Box";
+import { SketchPicker, ChromePicker } from "react-color"; // Corrigir importação
+
+import { Link } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import axios from "axios";
 import ModelProducts from "../../components/ModelProducts";
@@ -11,6 +13,7 @@ const Products = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
+    _id: null,
     name: "",
     price: 0,
     quantity: 0,
@@ -18,10 +21,23 @@ const Products = () => {
     size: "",
     category: "",
     subcategory: "",
-    // Add other fields as needed
+    images: [
+      {
+        colors: [
+          {
+            color: "",
+            url: "",
+          },
+        ],
+      },
+    ],
+    // ... outros campos necessários
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
+  const [selectedColorIndex, setSelectedColorIndex] = useState(null);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -88,6 +104,7 @@ const Products = () => {
       [name]: value,
     }));
   };
+
   // Update the handleUpdateProduct function to close the modal after updating
   const handleUpdateProduct = async (productId) => {
     try {
@@ -97,23 +114,50 @@ const Products = () => {
       );
 
       if (response.data.success) {
-        console.log("Product updated successfully");
+        console.log("Produto atualizado com sucesso");
         const updatedProducts = await axios.get(
           "http://localhost:3001/api/products"
         );
         setProducts(updatedProducts.data.products);
       } else {
         console.error(
-          "Error updating product. Server message:",
+          "Erro ao atualizar produto. Mensagem do servidor:",
           response.data.error
         );
       }
     } catch (error) {
-      console.error("Error updating product. Error details:", error);
+      console.error("Erro ao atualizar produto. Detalhes do erro:", error);
     } finally {
       setIsModalOpen(false);
+
+      // Limpar o estado do formulário
+      setFormData({
+        _id: null,
+        name: "",
+        price: 0,
+        quantity: 0,
+        description: "",
+        size: "",
+        category: "",
+        subcategory: "",
+        images: [
+          {
+            colors: [
+              {
+                color: "",
+                url: "",
+              },
+            ],
+          },
+        ],
+        // ... outros campos necessários
+      });
+
+      setSelectedImageIndex(null);
+      setSelectedColorIndex(null);
     }
   };
+
   const filteredProducts = products.filter((product) =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -164,8 +208,6 @@ const Products = () => {
                     <td className={styles.td}>{product.name}</td>
                     <td>
                       <div className={styles.spanContainer}>
-                        
-
                         <button onClick={() => setFormData(product)}>
                           Update
                         </button>
@@ -181,8 +223,25 @@ const Products = () => {
                                 setFormData({
                                   name: "",
                                   price: 0,
+                                  quantity: 0,
+                                  description: "",
+                                  size: "",
+                                  category: "",
+                                  subcategory: "",
+                                  images: [
+                                    {
+                                      colors: [
+                                        {
+                                          color: "",
+                                          url: "",
+                                        },
+                                      ],
+                                    },
+                                  ],
                                   // Add other fields as needed
                                 });
+                                setSelectedImageIndex(null);
+                                setSelectedColorIndex(null);
                               }}
                             >
                               <div className={styles.modalOverlay}>
@@ -237,12 +296,136 @@ const Products = () => {
                                     Quantidade:
                                     <input
                                       type="number"
-                                      name="price"
+                                      name="quantity"
                                       value={formData.quantity}
                                       onChange={handleFormChange}
-                                      
                                     />
                                   </label>
+                                  {formData.images.map((image, imageIndex) => (
+                                    <div key={imageIndex} className={styles.colorContainer}>
+                                      {image.colors.map((color, colorIndex) => (
+                                        <div key={colorIndex}>
+                                          
+                                          <label>
+                                            Cor:
+                                            <div
+                                              style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                              }}
+                                            >
+                                              <div
+                                                className={
+                                                  styles.colorPickerPreview
+                                                }
+                                                style={{
+                                                  backgroundColor: color.color,
+                                                }}
+                                                onClick={() => {
+                                                  setSelectedImageIndex(
+                                                    imageIndex
+                                                  );
+                                                  setSelectedColorIndex(
+                                                    colorIndex
+                                                  );
+                                                }}
+                                              ></div>
+                                              {selectedImageIndex ===
+                                                imageIndex &&
+                                                selectedColorIndex ===
+                                                  colorIndex && (
+                                                  <ChromePicker
+                                                    color={color.color}
+                                                    onChange={(newColor) => {
+                                                      setFormData(
+                                                        (prevData) => ({
+                                                          ...prevData,
+                                                          images:
+                                                            prevData.images.map(
+                                                              (img, iIndex) =>
+                                                                iIndex ===
+                                                                imageIndex
+                                                                  ? {
+                                                                      ...img,
+                                                                      colors:
+                                                                        img.colors.map(
+                                                                          (
+                                                                            c,
+                                                                            cIndex
+                                                                          ) =>
+                                                                            cIndex ===
+                                                                            colorIndex
+                                                                              ? {
+                                                                                  ...c,
+                                                                                  color:
+                                                                                    newColor.hex,
+                                                                                }
+                                                                              : c
+                                                                        ),
+                                                                    }
+                                                                  : img
+                                                            ),
+                                                        })
+                                                      );
+                                                    }}
+                                                  />
+                                                )}
+                                            </div>
+                                          </label>
+                                          <label>
+                                            URL:
+                                            <Link
+                                              to={`/${color.color.toLowerCase()}/foto${
+                                                colorIndex + 1
+                                              }`}
+                                            >
+                                              {`foto${
+                                                colorIndex + 1
+                                              }_${color.color.toLowerCase()}.png`}
+                                            </Link>
+                                          </label>
+                                        </div>
+                                      ))}
+                                      <button
+                                        type="button"
+                                        onClick={() => {
+                                          setFormData((prevData) => ({
+                                            ...prevData,
+                                            images: [
+                                              ...prevData.images,
+                                              {
+                                                colors: [
+                                                  {
+                                                    color: "",
+                                                    url: "",
+                                                  },
+                                                ],
+                                              },
+                                            ],
+                                          }));
+                                        }}
+                                      >
+                                        Adicionar Cor
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={() => {
+                                          setFormData((prevData) => {
+                                            const updatedImages = [
+                                              ...prevData.images,
+                                            ];
+                                            updatedImages.splice(imageIndex, 1);
+                                            return {
+                                              ...prevData,
+                                              images: updatedImages,
+                                            };
+                                          });
+                                        }}
+                                      >
+                                        Remover Imagem
+                                      </button>
+                                    </div>
+                                  ))}
 
                                   <label>
                                     Categoria:
@@ -262,7 +445,7 @@ const Products = () => {
                                       onChange={handleFormChange}
                                     />
                                   </label>
-                                 
+
                                   <br></br>
 
                                   <button
