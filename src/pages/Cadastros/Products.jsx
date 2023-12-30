@@ -83,32 +83,43 @@ const Products = () => {
       [name]: value,
     }));
   };
-// Update the handleUpdateProduct function to close the modal after updating
-const handleUpdateProduct = async (productId) => {
-  try {
-    const response = await axios.put(
-      `http://localhost:3001/products/${productId}`,
-      formData
-    );
-
-    if (response.data.success) {
-      console.log("Product updated successfully");
-      const updatedProducts = await axios.get(
-        "http://localhost:3001/api/products"
+  // Update the handleUpdateProduct function to close the modal after updating
+  const handleUpdateProduct = async (productId) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:3001/products/${productId}`,
+        formData
       );
-      setProducts(updatedProducts.data.products);
-    } else {
-      console.error("Error updating product. Server message:", response.data.error);
+
+      if (response.data.success) {
+        console.log("Product updated successfully");
+        const updatedProducts = await axios.get(
+          "http://localhost:3001/api/products"
+        );
+        setProducts(updatedProducts.data.products);
+      } else {
+        console.error(
+          "Error updating product. Server message:",
+          response.data.error
+        );
+      }
+    } catch (error) {
+      console.error("Error updating product. Error details:", error);
+    } finally {
+      setIsModalOpen(false);
     }
-  } catch (error) {
-    console.error("Error updating product. Error details:", error);
-  } finally {
-    setIsModalOpen(false);
-  }
-};
+  };
   const filteredProducts = products.filter((product) =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const DeleteModal = ({ onDelete, isVisible }) => {
+    return isVisible ? (
+      <span onClick={onDelete} className={styles.span}>
+        {/* Ícone ou texto de exclusão */}
+      </span>
+    ) : null;
+  };
 
   return (
     <div className={styles.container}>
@@ -136,7 +147,6 @@ const handleUpdateProduct = async (productId) => {
           height: "55vh",
         }}
       >
-        
         <main>
           {error && <div style={{ color: "red" }}>{error}</div>}
 
@@ -163,6 +173,9 @@ const handleUpdateProduct = async (productId) => {
                         ></span>
                         <DeleteModal
                           onDelete={() => handleDeleteProduct(product._id)}
+                          isVisible={
+                            !formData._id || formData._id !== product._id
+                          }
                         />
                         <button onClick={() => setFormData(product)}>
                           Update
@@ -182,40 +195,35 @@ const handleUpdateProduct = async (productId) => {
                                   // Add other fields as needed
                                 });
                               }}
-
-                              
                             >
-
                               <div className={styles.modalOverlay}>
                                 <div className={styles.modalContent}>
-                                <label>
-                                Name:
-                                <input
-                                  type="text"
-                                  name="name"
-                                  value={formData.name}
-                                  onChange={handleFormChange}
-                                />
-                              </label>
-                              <br />
-                              <label>
-                                Price:
-                                <input
-                                  type="number"
-                                  name="price"
-                                  value={formData.price}
-                                  onChange={handleFormChange}
-                                />
-                              </label>
-                              <br />
-                              {/* Add other form fields as needed */}
-                              <button type="submit">Update Product</button>
+                                  <label>
+                                    Name:
+                                    <input
+                                      type="text"
+                                      name="name"
+                                      value={formData.name}
+                                      onChange={handleFormChange}
+                                    />
+                                  </label>
+                                  <br />
+                                  <label>
+                                    Price:
+                                    <input
+                                      type="number"
+                                      name="price"
+                                      value={formData.price}
+                                      onChange={handleFormChange}
+                                    />
+                                  </label>
+                                  <br />
+                                  {/* Add other form fields as needed */}
+                                  <button type="submit">Update Product</button>
                                 </div>
                               </div>
-                              
                             </form>
                           )}
-                          
                         </div>
                       </div>
                     </td>
