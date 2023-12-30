@@ -159,21 +159,20 @@ const Products = () => {
                     <td className={styles.td}>{product.name}</td>
                     <td>
                       <div className={styles.spanContainer}>
-                        <div className={styles.deleteBtn}>
-                          {isModalOpen ? null : (
-                            <>
-                              <span
-                                onClick={() => handleDeleteProduct(product._id)}
-                                className={styles.span}
-                              ></span>
-                              <DeleteModal
-                                onDelete={() =>
-                                  handleDeleteProduct(product._id)
-                                }
-                              />
-                            </>
-                          )}
-                        </div>
+                      <div className={styles.deleteBtn}>
+  {!isModalOpen && !formData._id && (
+    <>
+      <span
+        onClick={() => handleDeleteProduct(product._id)}
+        className={styles.span}
+      ></span>
+      <DeleteModal
+        onDelete={() => handleDeleteProduct(product._id)}
+      />
+    </>
+  )}
+</div>
+
                         <button onClick={() => setFormData(product)}>
                           Update
                         </button>
