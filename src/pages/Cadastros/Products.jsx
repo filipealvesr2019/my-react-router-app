@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import axios from "axios";
 import ModelProducts from "../../components/ModelProducts";
 import DeleteModal from "../../components/DeleteModal";
-
+import CloseIcon from '@mui/icons-material/Close';
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -196,12 +196,14 @@ const Products = () => {
                             >
                               <div className={styles.modalOverlay}>
                                 <div className={styles.modalContent}>
-                                  <button
-                                    className={styles.closeButton}
+                                 
+                                <button
+                                    className={styles.closeButton }
                                     onClick={() => setIsModalOpen(false)}
                                   >
-                                    X
-                                  </button>
+                                   <CloseIcon  />
+                                   </button>                                
+                               
                                   <label>
                                     Name:
                                     <input
