@@ -28,11 +28,11 @@
   padding: 20px;
   border-radius: 5px;
   position: relative;
-  width: 80dvw;
+  width: 70dvw;
   height: 85vh;
   z-index: 9999; /* ou qualquer valor que seja suficientemente alto para garantir que esteja acima de outros elementos na página */
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   margin-top: 4rem;
 }
 
