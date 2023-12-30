@@ -32,6 +32,7 @@
   z-index: 9999; /* ou qualquer valor que seja suficientemente alto para garantir que esteja acima de outros elementos na página */
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  margin-top: 5rem;
 }
 
 
@@ -59,3 +60,23 @@
   color: #555;
 }
 
+.description{
+  width: 16vw;
+  height: 15vh;
+
+}
+
+
+.button{
+  background-color: #14337C;
+  color: #fefefe;
+  border: medium;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  width: 12dvw;
+  font-family: "poppins";
+  font-weight: 500;
+  cursor: pointer;
+  font-size: .9rem;
+
+}

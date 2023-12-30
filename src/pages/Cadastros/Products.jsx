@@ -164,21 +164,7 @@ const Products = () => {
                     <td className={styles.td}>{product.name}</td>
                     <td>
                       <div className={styles.spanContainer}>
-                        <div className={styles.deleteBtn}>
-                          {!isModalOpen && !formData._id && (
-                            <>
-                              <span
-                                onClick={() => handleDeleteProduct(product._id)}
-                                className={styles.span}
-                              ></span>
-                              <DeleteModal
-                                onDelete={() =>
-                                  handleDeleteProduct(product._id)
-                                }
-                              />
-                            </>
-                          )}
-                        </div>
+                        
 
                         <button onClick={() => setFormData(product)}>
                           Update
@@ -209,7 +195,7 @@ const Products = () => {
                                   </button>
 
                                   <label>
-                                    Name:
+                                    Nome:
                                     <input
                                       type="text"
                                       name="name"
@@ -219,7 +205,7 @@ const Products = () => {
                                   </label>
 
                                   <label>
-                                    Price:
+                                    Preço:
                                     <input
                                       type="number"
                                       name="price"
@@ -229,56 +215,80 @@ const Products = () => {
                                   </label>
 
                                   <label>
-                                    Quantity:
+                                    Descrição:
                                     <input
-                                      type="number"
-                                      name="price"
-                                      value={formData.quantity}
-                                      onChange={handleFormChange}
-                                    />
-                                  </label>
-
-                                  <label>
-                                    description:
-                                    <input
-                                      type="number"
-                                      name="price"
+                                      type="text"
+                                      name="description"
                                       value={formData.description}
                                       onChange={handleFormChange}
+                                      className={styles.description}
                                     />
                                   </label>
                                   <label>
-                                    size:
+                                    Tamanho:
                                     <input
-                                      type="number"
-                                      name="price"
+                                      type="text"
+                                      name="size"
                                       value={formData.size}
                                       onChange={handleFormChange}
                                     />
                                   </label>
                                   <label>
-                                    category:
+                                    Quantidade:
                                     <input
                                       type="number"
                                       name="price"
+                                      value={formData.quantity}
+                                      onChange={handleFormChange}
+                                      
+                                    />
+                                  </label>
+
+                                  <label>
+                                    Categoria:
+                                    <input
+                                      type="text"
+                                      name="category"
                                       value={formData.category}
                                       onChange={handleFormChange}
                                     />
                                   </label>
                                   <label>
-                                    subcategory:
+                                    Subcategoria:
                                     <input
-                                      type="number"
-                                      name="price"
+                                      type="text"
+                                      name="subcategory"
                                       value={formData.subcategory}
                                       onChange={handleFormChange}
                                     />
                                   </label>
+                                 
+                                  <br></br>
 
-                                  <button type="submit">Update Product</button>
+                                  <button
+                                    type="submit"
+                                    className={styles.button}
+                                  >
+                                    Atualisar Produto
+                                  </button>
                                 </div>
                               </div>
                             </form>
+                          )}
+                        </div>
+                        <div className={styles.deleteBtn}>
+                          {!isModalOpen && !formData._id && (
+                            <>
+                              <span
+                                onClick={() => handleDeleteProduct(product._id)}
+                                className={styles.span}
+                              ></span>
+                              <DeleteModal
+                                onDelete={() =>
+                                  handleDeleteProduct(product._id)
+                                }
+                              />
+                            </>
                           )}
                         </div>
                       </div>
