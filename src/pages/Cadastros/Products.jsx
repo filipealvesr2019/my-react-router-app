@@ -12,6 +12,9 @@ const Products = () => {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [error, setError] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
+  const [selectedColorIndex, setSelectedColorIndex] = useState(null);
   const [formData, setFormData] = useState({
     _id: null,
     name: "",
@@ -21,23 +24,15 @@ const Products = () => {
     size: "",
     category: "",
     subcategory: "",
-    images: [
+    variations: [
       {
-        colors: [
-          {
-            color: "",
-            url: "",
-          },
-        ],
+        color: "", // Assuming color is a string
+        urls: "", // Assuming urls is a string
       },
     ],
+    // ... other necessary fields
     // ... outros campos necessários
   });
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
-  const [selectedColorIndex, setSelectedColorIndex] = useState(null);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -140,17 +135,13 @@ const Products = () => {
         size: "",
         category: "",
         subcategory: "",
-        images: [
+        variations: [
           {
-            colors: [
-              {
-                color: "",
-                url: "",
-              },
-            ],
+            color: "", // Assuming color is a string
+            urls: "", // Assuming urls is a string
           },
         ],
-        // ... outros campos necessários
+        // ... other necessary fields. outros campos necessários
       });
 
       setSelectedImageIndex(null);
@@ -221,6 +212,7 @@ const Products = () => {
                                 handleUpdateProduct(product._id);
                                 // Clear the form after submission
                                 setFormData({
+                                  _id: null,
                                   name: "",
                                   price: 0,
                                   quantity: 0,
@@ -228,17 +220,14 @@ const Products = () => {
                                   size: "",
                                   category: "",
                                   subcategory: "",
-                                  images: [
+                                  variations: [
                                     {
-                                      colors: [
-                                        {
-                                          color: "",
-                                          url: "",
-                                        },
-                                      ],
+                                      color: "", // Assuming color is a string
+                                      urls: "", // Assuming urls is a string
                                     },
                                   ],
-                                  // Add other fields as needed
+                                  // ... other necessary fields
+                                  // ... outros campos necessários
                                 });
                                 setSelectedImageIndex(null);
                                 setSelectedColorIndex(null);
@@ -252,7 +241,6 @@ const Products = () => {
                                   >
                                     <CloseIcon />
                                   </button>
-
                                   <label>
                                     Nome:
                                     <input
@@ -262,7 +250,6 @@ const Products = () => {
                                       onChange={handleFormChange}
                                     />
                                   </label>
-
                                   <label>
                                     Preço:
                                     <input
@@ -272,7 +259,6 @@ const Products = () => {
                                       onChange={handleFormChange}
                                     />
                                   </label>
-
                                   <label className={styles.label}>
                                     Descrição:
                                     <input
@@ -301,143 +287,6 @@ const Products = () => {
                                       onChange={handleFormChange}
                                     />
                                   </label>
-                                  {formData.images &&
-                                    formData.images.map((image, imageIndex) => (
-                                      <div
-                                        key={imageIndex}
-                                        className={styles.colorContainer}
-                                      >
-                                        {image.colors &&
-                                          image.colors.map(
-                                            (color, colorIndex) => (
-                                              <div key={colorIndex}>
-                                                <label>
-                                                  Cor:
-                                                  <div
-                                                    style={{
-                                                      display: "flex",
-                                                      alignItems: "center",
-                                                    }}
-                                                  >
-                                                    <div
-                                                      className={
-                                                        styles.colorPickerPreview
-                                                      }
-                                                      style={{
-                                                        backgroundColor:
-                                                          color.color,
-                                                      }}
-                                                      onClick={() => {
-                                                        setSelectedImageIndex(
-                                                          imageIndex
-                                                        );
-                                                        setSelectedColorIndex(
-                                                          colorIndex
-                                                        );
-                                                      }}
-                                                    ></div>
-                                                    {selectedImageIndex ===
-                                                      imageIndex &&
-                                                      selectedColorIndex ===
-                                                        colorIndex && (
-                                                        <ChromePicker
-                                                          color={color.color}
-                                                          onChange={(
-                                                            newColor
-                                                          ) => {
-                                                            setFormData(
-                                                              (prevData) => ({
-                                                                ...prevData,
-                                                                images:
-                                                                  prevData.images.map(
-                                                                    (
-                                                                      img,
-                                                                      iIndex
-                                                                    ) =>
-                                                                      iIndex ===
-                                                                      imageIndex
-                                                                        ? {
-                                                                            ...img,
-                                                                            colors:
-                                                                              img.colors.map(
-                                                                                (
-                                                                                  c,
-                                                                                  cIndex
-                                                                                ) =>
-                                                                                  cIndex ===
-                                                                                  colorIndex
-                                                                                    ? {
-                                                                                        ...c,
-                                                                                        color:
-                                                                                          newColor.hex,
-                                                                                      }
-                                                                                    : c
-                                                                              ),
-                                                                          }
-                                                                        : img
-                                                                  ),
-                                                              })
-                                                            );
-                                                          }}
-                                                        />
-                                                      )}
-                                                  </div>
-                                                </label>
-                                                <label>
-                                                  URL:
-                                                  <Link to={color.url}>
-                                                    {`foto${
-                                                      colorIndex + 1
-                                                    }_${color.color.toLowerCase()}.png`}
-                                                  </Link>
-                                                </label>
-                                              </div>
-                                            )
-                                          )}
-                                        <button
-                                          type="button"
-                                          onClick={() => {
-                                            setFormData((prevData) => ({
-                                              ...prevData,
-                                              images: [
-                                                ...prevData.images,
-                                                {
-                                                  colors: [
-                                                    {
-                                                      color: "",
-                                                      url: "",
-                                                    },
-                                                  ],
-                                                },
-                                              ],
-                                            }));
-                                          }}
-                                        >
-                                          Adicionar Cor
-                                        </button>
-                                        <button
-                                          type="button"
-                                          onClick={() => {
-                                            setFormData((prevData) => {
-                                              const updatedImages = [
-                                                ...prevData.images,
-                                              ];
-                                              updatedImages.splice(
-                                                imageIndex,
-                                                1
-                                              );
-                                              return {
-                                                ...prevData,
-                                                images: updatedImages,
-                                              };
-                                            });
-                                          }}
-                                        >
-                                          Remover Imagem
-                                        </button>
-                                      </div>
-                                    ))}
-
                                   <label>
                                     Categoria:
                                     <input
@@ -456,9 +305,115 @@ const Products = () => {
                                       onChange={handleFormChange}
                                     />
                                   </label>
+                                  {formData.variations &&
+                                    formData.variations.map(
+                                      (variation, variationIndex) => (
+                                        <div
+                                          key={variationIndex}
+                                          className={styles.colorContainer}
+                                        >
+                                          {/* Bolinha de cor */}
+                                          <div
+                                            className={
+                                              styles.colorPickerPreview
+                                            }
+                                            style={{
+                                              backgroundColor: variation.color,
+                                            }}
+                                            onClick={() => {
+                                              setSelectedImageIndex(
+                                                variationIndex
+                                              );
+                                              setSelectedColorIndex(
+                                                variationIndex
+                                              );
+                                            }}
+                                          ></div>
 
+                                          {selectedImageIndex ===
+                                            variationIndex && (
+                                            <ChromePicker
+                                              color={variation.color}
+                                              onChange={(newColor) => {
+                                                const newVariations = [
+                                                  ...formData.variations,
+                                                ];
+                                                newVariations[
+                                                  variationIndex
+                                                ].color = newColor.hex;
+                                                setFormData((prevData) => ({
+                                                  ...prevData,
+                                                  variations: newVariations,
+                                                }));
+                                              }}
+                                            />
+                                          )}
+
+                                          {/* Seletor de fotos */}
+                                          <select
+                                            value={variation.urls}
+                                            onChange={(e) => {
+                                              const newVariations = [
+                                                ...formData.variations,
+                                              ];
+                                              newVariations[
+                                                variationIndex
+                                              ].urls = e.target.value;
+                                              setFormData((prevData) => ({
+                                                ...prevData,
+                                                variations: newVariations,
+                                              }));
+                                            }}
+                                          >
+                                            <option value="">
+                                              Selecionar Foto
+                                            </option>
+                                            {/* Adicione as opções do seletor de fotos aqui */}
+                                            {/* ... */}
+                                          </select>
+
+                                          {/* Botões para adicionar ou remover cores */}
+                                          <button
+                                            type="button"
+                                            onClick={() => {
+                                              const newVariations = [
+                                                ...formData.variations,
+                                              ];
+                                              newVariations.push({
+                                                color: "",
+                                                urls: "",
+                                              });
+                                              setFormData((prevData) => ({
+                                                ...prevData,
+                                                variations: newVariations,
+                                              }));
+                                            }}
+                                          >
+                                            Adicionar Variação
+                                          </button>
+                                          <button
+                                            type="button"
+                                            onClick={() => {
+                                              const newVariations = [
+                                                ...formData.variations,
+                                              ];
+                                              newVariations.splice(
+                                                variationIndex,
+                                                1
+                                              );
+                                              setFormData((prevData) => ({
+                                                ...prevData,
+                                                variations: newVariations,
+                                              }));
+                                            }}
+                                          >
+                                            Remover Variação
+                                          </button>
+                                        </div>
+                                      )
+                                    )}
+                                  // ... (código posterior)
                                   <br></br>
-
                                   <button
                                     type="submit"
                                     className={styles.button}

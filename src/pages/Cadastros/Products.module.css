@@ -78,11 +78,42 @@
   
 
 }
+/* Adicione esta classe para estilizar a caixa de seleção de cor */
+.colorPickerPreview {
+  width: 30px;
+  height: 30px;
+  border: 1px solid red;
+  cursor: pointer;
+}
+
+/* Adicione esta classe para estilizar o contêiner de cores */
+.colorContainer {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+/* Adicione esta classe para estilizar o seletor de fotos e a label */
+select {
+  margin-top: 5px;
+}
+
+/* Adicione esta classe para estilizar o botão Adicionar/Remover Cor */
+button {
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+/* Outros estilos conforme necessário */
+.colorPickerContainer {
+  display: flex;
+  align-items: center;
+}
 
 .colorPickerPreview {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  margin-right: 5px;
+  margin-right: 8px;
+  cursor: pointer;
 }
-
