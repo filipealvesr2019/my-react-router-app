@@ -30,6 +30,7 @@ const CreateProductForm = ({ onClose }) => {
     quantity: 0,
     variations: [], // Array de variações (cores e imagens)
     imageFiles: [], // Novo campo para arquivos de imagem
+    colorPickerOpen: false,
   });
   
 
@@ -80,15 +81,24 @@ const CreateProductForm = ({ onClose }) => {
     return Object.keys(errors).length === 0;
   };
 
-  const handleColorPickerOpen = (event) => {
-    event.stopPropagation();
-    setColorPickerOpen(true);
+  
+  const handleColorPickerOpen = () => {
+    setProductInfo((prevProductInfo) => ({
+      ...prevProductInfo,
+      colorPickerOpen: true,
+    }));
   };
-
-  const handleColorPickerClose = () => {
-    setColorPickerOpen(false);
+  const handleColorPickerClose = (event) => {
+    // Check if the click event originated from the color picker
+    if (event.target.closest('.sketch-picker')) {
+      return;
+    }
+  
+    setProductInfo((prevProductInfo) => ({
+      ...prevProductInfo,
+      colorPickerOpen: false,
+    }));
   };
-
   
   const handleColorChangeComplete = (color) => {
     setProductInfo((prevProductInfo) => ({
@@ -97,7 +107,6 @@ const CreateProductForm = ({ onClose }) => {
     }));
     handleColorPickerClose();
   };
-
   // Adicione um novo evento para impedir a propagação quando a barra de cores é movida
   const handleColorChange = (color, event) => {
     event.stopPropagation();
@@ -468,70 +477,69 @@ const CreateProductForm = ({ onClose }) => {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} sm={6}>
-          <TextField
-            label="Cor"
-            variant="outlined"
-            fullWidth
-            name="color"
-            value={productInfo.color}
-            onClick={handleColorPickerOpen}
-            onChange={handleInputChange} // Use handleInputChange for color changes
-            error={formErrors.color !== undefined}
-            helperText={formErrors.color}
-            InputProps={{
-              style: { marginTop: "10px" },
-            }}
-          />
-{colorPickerOpen && (
-        <div
-          style={{ position: "absolute", zIndex: 2, top: "1rem" }}
-          onClick={(event) => event.stopPropagation()}
-        >
-          <SketchPicker
-            color={productInfo.color}
-            onChangeComplete={handleColorChangeComplete}
-            onChange={(color, event) => handleColorChange(color, event)}
-          />
-          
+       
+      <Grid item xs={12} sm={6}>
+        <TextField
+          label="Cor"
+          variant="outlined"
+          fullWidth
+          name="color"
+          value={productInfo.color}
+          onClick={handleColorPickerOpen}
+          onChange={handleInputChange}
+          error={formErrors.color !== undefined}
+          helperText={formErrors.color}
+          InputProps={{
+            style: { marginTop: "10px" },
+          }}
+        />
+        {productInfo.colorPickerOpen && (
           <div
-    onClick={handleColorPickerClose}
-    style={{
-      backgroundColor: "#14337C",
-      width: "40px",
-      height: "40px",
-      borderRadius: "50%", // Torna o container redondo
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      cursor: "pointer", 
-      marginLeft:"11rem",
-      marginTop:".5rem"
+            style={{ position: "absolute", zIndex: 2, top: "1rem" }}
+            onClick={(event) => event.stopPropagation()}
+          >
+            <SketchPicker
+              color={productInfo.color}
+              onChangeComplete={handleColorChangeComplete}
+              onChange={(color, event) => handleColorChange(color, event)}
+            />
 
-    }}
-  >
-    <CheckIcon
-      style={{
-        color: "white",
-        fontSize: "2rem" // Ajuste o valor conforme necessário,
-      }}
-    />
-  </div>
-        </div>
-      )}
-      
-
-          {productInfo.color && (
             <div
+              onClick={handleColorPickerClose}
               style={{
-                marginTop: "0.5rem",
+                backgroundColor: "#14337C",
+                width: "40px",
+                height: "40px",
+                borderRadius: "50%",
                 display: "flex",
                 alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                marginLeft: "11rem",
+                marginTop: ".5rem",
               }}
             >
-              
+              <CheckIcon
+                style={{
+                  color: "white",
+                  fontSize: "2rem",
+                }}
+              />
             </div>
-          )}
+          </div>
+        )}
+
+        {productInfo.color && productInfo.colorPickerOpen && (
+          <div
+            style={{
+              marginTop: "0.5rem",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            {/* ... (seu código existente) */}
+          </div>
+        )}
         </Grid>
         <Grid item xs={12} sm={6}>
           <Button
