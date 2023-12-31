@@ -504,26 +504,7 @@ const CreateProductForm = ({ onClose }) => {
                 alignItems: "center",
               }}
             >
-              <span
-                style={{
-                  marginRight: "0.5rem",
-                  whiteSpace: "nowrap",
-                  marginBottom: "-.5rem",
-                }}
-              >
-                Cor Adicionada:
-              </span>
-              <div
-                style={{
-                  width: "50px",
-                  height: "20px",
-                  backgroundColor: productInfo.color,
-                  border: "1px solid red",
-                }}
-              ></div>
-              <span style={{ whiteSpace: "nowrap", marginLeft: "5rem" }}>
-                Imagem: {imageFileName}
-              </span>
+              
             </div>
           )}
         </Grid>
