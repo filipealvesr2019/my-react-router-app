@@ -6,6 +6,7 @@
 
 .spanContainer{
     display: flex;
+    align-items: center;
     gap: .4rem;
     cursor: pointer;
     margin-left: 1rem;
@@ -117,3 +118,23 @@ button {
   margin-right: 8px;
   cursor: pointer;
 }
+.buttonUpdate {
+  background-color: white;
+  border: 1px solid transparent; /* Tornar a borda transparente para não interferir na sombra */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 10dvw;
+  height: 7dvh;
+  font-size: 1.1rem;
+  border-radius: 5px;
+  gap: .5rem;
+  font-family: "poppins";
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Adicionar a sombra na borda */
+  overflow: hidden; /* Para garantir que a sombra não se espalhe para fora do botão */
+}
+
+.buttonUpdate:hover {
+  border: 1px solid #d3d3d3; /* Usando um tom mais claro de cinza usando código hexadecimal */
+}
+

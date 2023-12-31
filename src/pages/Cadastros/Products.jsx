@@ -204,9 +204,11 @@ const handleUpdateProduct = async (productId) => {
                     <td className={styles.td}>{product.name}</td>
                     <td>
                       <div className={styles.spanContainer}>
-                        <button onClick={() => setFormData(product)}>
-                          Update
+                        <button className={styles.buttonUpdate} onClick={() => setFormData(product)}>
+                        <img src="https://i.ibb.co/5R1QnT7/edit-1.png" alt="" />
+Editar
                         </button>
+
                         <div
                           className={`${styles.container} ${styles.modalContainer}`}
                         >
