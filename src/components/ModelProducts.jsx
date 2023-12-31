@@ -16,12 +16,12 @@ import Grid from "@mui/material/Grid";
 import { SketchPicker } from "react-color";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import CheckIcon from '@mui/icons-material/Check';
+import CheckIcon from "@mui/icons-material/Check";
 const CreateProductForm = ({ onClose }) => {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
   const [isColorAdded, setIsColorAdded] = useState(false);
-const [isProductCreated, setIsProductCreated] = useState(false);
+  const [isProductCreated, setIsProductCreated] = useState(false);
   const [productInfo, setProductInfo] = useState({
     name: "",
     price: 0.0,
@@ -34,7 +34,6 @@ const [isProductCreated, setIsProductCreated] = useState(false);
     imageFiles: [], // Novo campo para arquivos de imagem
     colorPickerOpen: false,
   });
-  
 
   const [imageFileName, setImageFileName] = useState("");
 
@@ -82,7 +81,6 @@ const [isProductCreated, setIsProductCreated] = useState(false);
     return Object.keys(errors).length === 0;
   };
 
-  
   const handleColorPickerOpen = () => {
     setProductInfo((prevProductInfo) => ({
       ...prevProductInfo,
@@ -91,16 +89,16 @@ const [isProductCreated, setIsProductCreated] = useState(false);
   };
   const handleColorPickerClose = (event) => {
     // Check if the click event originated from the color picker
-    if (event.target.closest('.sketch-picker')) {
+    if (event.target.closest(".sketch-picker")) {
       return;
     }
-  
+
     setProductInfo((prevProductInfo) => ({
       ...prevProductInfo,
       colorPickerOpen: false,
     }));
   };
-  
+
   const handleColorChangeComplete = (color) => {
     setProductInfo((prevProductInfo) => ({
       ...prevProductInfo,
@@ -173,24 +171,25 @@ const [isProductCreated, setIsProductCreated] = useState(false);
     } catch (error) {
       console.error("Erro ao buscar subcategorias:", error);
     }
-  };const handleFileChange = (event) => {
+  };
+  const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
-  
+
     // Verifique se a matriz de arquivos não está vazia
     if (files.length > 0) {
       const imageFile = files[0];
-  
+
       // Verifique se imageFile não é indefinido
       if (imageFile) {
         console.log("Partial File Name:", imageFile.name.substring(0, 10));
-  
+
         const partialFileName = imageFile.name.substring(0, 10);
-  
+
         setProductInfo((prevProductInfo) => ({
           ...prevProductInfo,
           imageFiles: [...prevProductInfo.imageFiles, imageFile],
         }));
-  
+
         setImageFileName(partialFileName);
       } else {
         console.error("Nenhum arquivo selecionado");
@@ -200,37 +199,35 @@ const [isProductCreated, setIsProductCreated] = useState(false);
     }
   };
   const handleAddVariation = async () => {
-    
     const { color, imageFiles } = productInfo;
-  
+
     // Verifique se color e imageFiles não estão vazios
     if (color && imageFiles.length > 0) {
-      
       try {
         // Faça o upload da imagem e obtenha a URL
         const imageUrl = await uploadImageToImgBB(imageFiles[0]);
-  
+
         if (imageUrl) {
           // Crie uma nova variação com a cor e a URL
           const newVariation = {
             color: color,
             urls: [imageUrl],
           };
-  
+
           // Adicione a nova variação ao estado
           setProductInfo((prevProductInfo) => ({
             ...prevProductInfo,
             color: "",
             variations: [...prevProductInfo.variations, newVariation],
           }));
-            // Configuração para exibir a mensagem de sucesso
-        setIsColorAdded(true);
+          // Configuração para exibir a mensagem de sucesso
+          setIsColorAdded(true);
 
-        // Exibir a mensagem de sucesso
-        toast.success("Foto adicionada à cor com sucesso!", {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 2000,
-        });
+          // Exibir a mensagem de sucesso
+          toast.success("Foto adicionada à cor com sucesso!", {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 2000,
+          });
         } else {
           console.error("Erro ao obter a URL da imagem");
         }
@@ -241,8 +238,8 @@ const [isProductCreated, setIsProductCreated] = useState(false);
       console.error("A cor ou os arquivos de imagem estão vazios");
     }
   };
-  
- const handleInputChange = (event) => {
+
+  const handleInputChange = (event) => {
     const { name, value } = event.target;
     setProductInfo((prevProductInfo) => ({
       ...prevProductInfo,
@@ -256,38 +253,41 @@ const [isProductCreated, setIsProductCreated] = useState(false);
   };
 
   const uploadImageToImgBB = async (imageFile) => {
-    const apiKey = '413ee454dba81a255811380189b8c1f0'; // Replace with your actual ImgBB API key
+    const apiKey = "413ee454dba81a255811380189b8c1f0"; // Replace with your actual ImgBB API key
 
     try {
       const formData = new FormData();
-      formData.append('image', imageFile);
+      formData.append("image", imageFile);
 
-      const response = await axios.post('https://api.imgbb.com/1/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-        params: {
-          key: apiKey,
-        },
-      });
+      const response = await axios.post(
+        "https://api.imgbb.com/1/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          params: {
+            key: apiKey,
+          },
+        }
+      );
 
       if (response.data && response.data.data && response.data.data.url) {
         const imageUrl = response.data.data.url;
         return imageUrl;
       } else {
-        console.error('Error uploading image:', response.data);
+        console.error("Error uploading image:", response.data);
         return null;
       }
     } catch (error) {
-      console.error('Error uploading image:', error.message);
+      console.error("Error uploading image:", error.message);
       return null;
     }
   };
-  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('State Before Sending to Server:', productInfo);
+    console.log("State Before Sending to Server:", productInfo);
 
     // Validate the form before proceeding
     if (!validateForm()) {
@@ -333,13 +333,13 @@ const [isProductCreated, setIsProductCreated] = useState(false);
             onClose();
           }, 4000);
           // Configuração para exibir a mensagem de sucesso
-      setIsProductCreated(true);
+          setIsProductCreated(true);
 
-      // Exibir a mensagem de sucesso
-      toast.success("Produto adicionado com sucesso!", {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 2000,
-      });
+          // Exibir a mensagem de sucesso
+          toast.success("Produto adicionado com sucesso!", {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 2000,
+          });
         } else {
           console.error("Error creating product:", response.statusText);
         }
@@ -350,7 +350,6 @@ const [isProductCreated, setIsProductCreated] = useState(false);
       console.error("Error creating product:", error.message);
     }
   };
-
 
   const handleSubcategoryChange = (event) => {
     const subcategoryName = event.target.value;
@@ -496,69 +495,68 @@ const [isProductCreated, setIsProductCreated] = useState(false);
           </FormControl>
         </Grid>
 
-       
-      <Grid item xs={12} sm={6}>
-        <TextField
-          label="Cor"
-          variant="outlined"
-          fullWidth
-          name="color"
-          value={productInfo.color}
-          onClick={handleColorPickerOpen}
-          onChange={handleInputChange}
-          error={formErrors.color !== undefined}
-          helperText={formErrors.color}
-          InputProps={{
-            style: { marginTop: "10px" },
-          }}
-        />
-        {productInfo.colorPickerOpen && (
-          <div
-            style={{ position: "absolute", zIndex: 2, top: "1rem" }}
-            onClick={(event) => event.stopPropagation()}
-          >
-            <SketchPicker
-              color={productInfo.color}
-              onChangeComplete={handleColorChangeComplete}
-              onChange={(color, event) => handleColorChange(color, event)}
-            />
-
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label="Cor"
+            variant="outlined"
+            fullWidth
+            name="color"
+            value={productInfo.color}
+            onClick={handleColorPickerOpen}
+            onChange={handleInputChange}
+            error={formErrors.color !== undefined}
+            helperText={formErrors.color}
+            InputProps={{
+              style: { marginTop: "10px" },
+            }}
+          />
+          {productInfo.colorPickerOpen && (
             <div
-              onClick={handleColorPickerClose}
+              style={{ position: "absolute", zIndex: 2, top: "1rem" }}
+              onClick={(event) => event.stopPropagation()}
+            >
+              <SketchPicker
+                color={productInfo.color}
+                onChangeComplete={handleColorChangeComplete}
+                onChange={(color, event) => handleColorChange(color, event)}
+              />
+
+              <div
+                onClick={handleColorPickerClose}
+                style={{
+                  backgroundColor: "#14337C",
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "50%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  marginLeft: "11rem",
+                  marginTop: ".5rem",
+                }}
+              >
+                <CheckIcon
+                  style={{
+                    color: "white",
+                    fontSize: "2rem",
+                  }}
+                />
+              </div>
+            </div>
+          )}
+
+          {productInfo.color && productInfo.colorPickerOpen && (
+            <div
               style={{
-                backgroundColor: "#14337C",
-                width: "40px",
-                height: "40px",
-                borderRadius: "50%",
+                marginTop: "0.5rem",
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-                marginLeft: "11rem",
-                marginTop: ".5rem",
               }}
             >
-              <CheckIcon
-                style={{
-                  color: "white",
-                  fontSize: "2rem",
-                }}
-              />
+              {/* ... (seu código existente) */}
             </div>
-          </div>
-        )}
-
-        {productInfo.color && productInfo.colorPickerOpen && (
-          <div
-            style={{
-              marginTop: "0.5rem",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            {/* ... (seu código existente) */}
-          </div>
-        )}
+          )}
         </Grid>
         <Grid item xs={12} sm={6}>
           <Button
@@ -609,35 +607,42 @@ const [isProductCreated, setIsProductCreated] = useState(false);
         Criar Produto
       </Button>
       {productInfo.color && (
-    <div className="bolinha" style={{ display: "flex", alignItems: "center", marginLeft:"3rem", marginTop:"-2rem" }}>
-    <div
-      style={{
-        marginRight: "0.5rem",
-        whiteSpace: "nowrap",
-        marginBottom: "-.5rem",
-        border: "1px solid rgba(255, 255, 255, 0.5)", // Cor semi-transparente (branca)
-      }}
-    >Cor:</div>
-    <div
-      style={{
-        width: "30px",  // Tamanho ajustado para ser igual, você pode ajustar conforme necessário
-        height: "30px",
-        backgroundColor: productInfo.color,
-        border: "1px solid rgba(255, 255, 255, 0.5)", // Cor semi-transparente (branca)
-        borderRadius: "50%",
-      }}
-    ></div>
-    <span style={{ whiteSpace: "nowrap", marginLeft: "1rem" }}>
-      Imagem: {imageFileName}
-    </span>
-  </div>
-  
-)}
-
+        <div
+          className="bolinha"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginLeft: "3rem",
+            marginTop: "-2rem",
+          }}
+        >
+          <div
+            style={{
+              marginRight: "0.5rem",
+              whiteSpace: "nowrap",
+              marginBottom: "-.5rem",
+              border: "1px solid rgba(255, 255, 255, 0.5)", // Cor semi-transparente (branca)
+            }}
+          >
+            Cor:
+          </div>
+          <div
+            style={{
+              width: "30px", // Tamanho ajustado para ser igual, você pode ajustar conforme necessário
+              height: "30px",
+              backgroundColor: productInfo.color,
+              border: "1px solid rgba(255, 255, 255, 0.5)", // Cor semi-transparente (branca)
+              borderRadius: "50%",
+            }}
+          ></div>
+          <span style={{ whiteSpace: "nowrap", marginLeft: "1rem" }}>
+            Imagem: {imageFileName}
+          </span>
+        </div>
+      )}
     </form>
   );
 };
-
 
 export default function BasicModal() {
   const [open, setOpen] = useState(false);
