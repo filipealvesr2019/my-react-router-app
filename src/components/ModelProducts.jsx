@@ -162,15 +162,14 @@ const CreateProductForm = ({ onClose }) => {
     } catch (error) {
       console.error("Erro ao buscar subcategorias:", error);
     }
-  };
-  const handleFileChange = (event) => {
+  };const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
-    
-    // Check if files array is not empty
+  
+    // Verifique se a matriz de arquivos não está vazia
     if (files.length > 0) {
       const imageFile = files[0];
   
-      // Check if imageFile is not undefined
+      // Verifique se imageFile não é indefinido
       if (imageFile) {
         console.log("Partial File Name:", imageFile.name.substring(0, 10));
   
@@ -183,31 +182,42 @@ const CreateProductForm = ({ onClose }) => {
   
         setImageFileName(partialFileName);
       } else {
-        console.error("No file selected");
+        console.error("Nenhum arquivo selecionado");
       }
     } else {
-      console.error("No files selected");
+      console.error("Nenhum arquivo selecionado");
     }
   };
-  const handleAddVariation = () => {
+  const handleAddVariation = async () => {
     const { color, imageFiles } = productInfo;
   
     // Verifique se color e imageFiles não estão vazios
     if (color && imageFiles.length > 0) {
-      // Crie uma nova variação com a cor e URLs
-      const newVariation = {
-        color: color,
-        urls: imageFiles.map(file => URL.createObjectURL(file)),
-      };
+      try {
+        // Faça o upload da imagem e obtenha a URL
+        const imageUrl = await uploadImageToImgBB(imageFiles[0]);
   
-      // Adicione a nova variação ao estado
-      setProductInfo(prevProductInfo => ({
-        ...prevProductInfo,
-        color: "",
-        variations: [...prevProductInfo.variations, newVariation],
-      }));
+        if (imageUrl) {
+          // Crie uma nova variação com a cor e a URL
+          const newVariation = {
+            color: color,
+            urls: [imageUrl],
+          };
+  
+          // Adicione a nova variação ao estado
+          setProductInfo((prevProductInfo) => ({
+            ...prevProductInfo,
+            color: "",
+            variations: [...prevProductInfo.variations, newVariation],
+          }));
+        } else {
+          console.error("Erro ao obter a URL da imagem");
+        }
+      } catch (error) {
+        console.error("Erro ao adicionar variação:", error.message);
+      }
     } else {
-      console.error("Color or imageFiles is empty");
+      console.error("A cor ou os arquivos de imagem estão vazios");
     }
   };
   
@@ -252,6 +262,7 @@ const CreateProductForm = ({ onClose }) => {
       return null;
     }
   };
+  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -564,6 +575,37 @@ const CreateProductForm = ({ onClose }) => {
       >
         Criar Produto
       </Button>
+      {productInfo.color && (
+  <div
+    style={{
+      marginTop: "0.5rem",
+      display: "flex",
+      alignItems: "center",
+    }}
+  >
+    <span
+      style={{
+        marginRight: "0.5rem",
+        whiteSpace: "nowrap",
+        marginBottom: "-.5rem",
+      }}
+    >
+      Cor Adicionada:
+    </span>
+    <div
+      style={{
+        width: "50px",
+        height: "20px",
+        backgroundColor: productInfo.color,
+        border: "1px solid red",
+      }}
+    ></div>
+    <span style={{ whiteSpace: "nowrap", marginLeft: "5rem" }}>
+      Imagem: {imageFileName}
+    </span>
+  </div>
+)}
+
     </form>
   );
 };
