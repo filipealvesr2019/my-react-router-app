@@ -20,6 +20,8 @@ import CheckIcon from '@mui/icons-material/Check';
 const CreateProductForm = ({ onClose }) => {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
+  const [isColorAdded, setIsColorAdded] = useState(false);
+const [isProductCreated, setIsProductCreated] = useState(false);
   const [productInfo, setProductInfo] = useState({
     name: "",
     price: 0.0,
@@ -34,7 +36,6 @@ const CreateProductForm = ({ onClose }) => {
   });
   
 
-  const [colorPickerOpen, setColorPickerOpen] = useState(false);
   const [imageFileName, setImageFileName] = useState("");
 
   // Novo estado para rastrear os erros
@@ -199,10 +200,12 @@ const CreateProductForm = ({ onClose }) => {
     }
   };
   const handleAddVariation = async () => {
+    
     const { color, imageFiles } = productInfo;
   
     // Verifique se color e imageFiles não estão vazios
     if (color && imageFiles.length > 0) {
+      
       try {
         // Faça o upload da imagem e obtenha a URL
         const imageUrl = await uploadImageToImgBB(imageFiles[0]);
@@ -220,6 +223,14 @@ const CreateProductForm = ({ onClose }) => {
             color: "",
             variations: [...prevProductInfo.variations, newVariation],
           }));
+            // Configuração para exibir a mensagem de sucesso
+        setIsColorAdded(true);
+
+        // Exibir a mensagem de sucesso
+        toast.success("Foto adicionada à cor com sucesso!", {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 2000,
+        });
         } else {
           console.error("Erro ao obter a URL da imagem");
         }
@@ -321,6 +332,14 @@ const CreateProductForm = ({ onClose }) => {
           setTimeout(() => {
             onClose();
           }, 4000);
+          // Configuração para exibir a mensagem de sucesso
+      setIsProductCreated(true);
+
+      // Exibir a mensagem de sucesso
+      toast.success("Produto adicionado com sucesso!", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000,
+      });
         } else {
           console.error("Error creating product:", response.statusText);
         }
@@ -559,7 +578,7 @@ const CreateProductForm = ({ onClose }) => {
               marginTop: "1.3rem",
             }}
           >
-            Adicionar cor e foto
+            Adicionar foto a Cor
           </Button>
         </Grid>
         <Grid item xs={12}>
