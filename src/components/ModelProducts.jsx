@@ -557,34 +557,29 @@ const CreateProductForm = ({ onClose }) => {
         Criar Produto
       </Button>
       {productInfo.color && (
-  <div
-    style={{
-      marginTop: "0.5rem",
-      display: "flex",
-      alignItems: "center",
-    }}
-  >
-    <span
+    <div className="bolinha" style={{ display: "flex", alignItems: "center", marginLeft:"3rem", marginTop:"-2rem" }}>
+    <div
       style={{
         marginRight: "0.5rem",
         whiteSpace: "nowrap",
         marginBottom: "-.5rem",
+        border: "1px solid rgba(255, 255, 255, 0.5)", // Cor semi-transparente (branca)
       }}
-    >
-      Cor Adicionada:
-    </span>
+    >Cor:</div>
     <div
       style={{
-        width: "50px",
-        height: "20px",
+        width: "30px",  // Tamanho ajustado para ser igual, você pode ajustar conforme necessário
+        height: "30px",
         backgroundColor: productInfo.color,
-        border: "1px solid red",
+        border: "1px solid rgba(255, 255, 255, 0.5)", // Cor semi-transparente (branca)
+        borderRadius: "50%",
       }}
     ></div>
-    <span style={{ whiteSpace: "nowrap", marginLeft: "5rem" }}>
+    <span style={{ whiteSpace: "nowrap", marginLeft: "1rem" }}>
       Imagem: {imageFileName}
     </span>
   </div>
+  
 )}
 
     </form>
