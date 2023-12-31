@@ -306,112 +306,59 @@ const Products = () => {
                                     />
                                   </label>
                                   {formData.variations &&
-                                    formData.variations.map(
-                                      (variation, variationIndex) => (
-                                        <div
-                                          key={variationIndex}
-                                          className={styles.colorContainer}
-                                        >
-                                          {/* Bolinha de cor */}
-                                          <div
-                                            className={
-                                              styles.colorPickerPreview
-                                            }
-                                            style={{
-                                              backgroundColor: variation.color,
-                                            }}
-                                            onClick={() => {
-                                              setSelectedImageIndex(
-                                                variationIndex
-                                              );
-                                              setSelectedColorIndex(
-                                                variationIndex
-                                              );
-                                            }}
-                                          ></div>
+  formData.variations.map((variation, variationIndex) => (
+    <div key={variationIndex} className={styles.colorContainer}>
+      {/* Bolinha de cor */}
+      <div
+        className={styles.colorPickerPreview}
+        style={{
+          backgroundColor: variation.color,
+        }}
+        onClick={() => {
+          setSelectedImageIndex(variationIndex);
+          setSelectedColorIndex(variationIndex);
+        }}
+      ></div>
 
-                                          {selectedImageIndex ===
-                                            variationIndex && (
-                                            <ChromePicker
-                                              color={variation.color}
-                                              onChange={(newColor) => {
-                                                const newVariations = [
-                                                  ...formData.variations,
-                                                ];
-                                                newVariations[
-                                                  variationIndex
-                                                ].color = newColor.hex;
-                                                setFormData((prevData) => ({
-                                                  ...prevData,
-                                                  variations: newVariations,
-                                                }));
-                                              }}
-                                            />
-                                          )}
+{selectedImageIndex === variationIndex && (
+  <ChromePicker
+    color={variation.color}
+    onChange={(newColor) => {
+      const newVariations = [...formData.variations];
+      newVariations[variationIndex] = {
+        ...newVariations[variationIndex],
+        color: newColor.hex,
+      };
+      setFormData((prevData) => ({
+        ...prevData,
+        variations: newVariations,
+      }));
+    }}
+  />
+)}
 
-                                          {/* Seletor de fotos */}
-                                          <select
-                                            value={variation.urls}
-                                            onChange={(e) => {
-                                              const newVariations = [
-                                                ...formData.variations,
-                                              ];
-                                              newVariations[
-                                                variationIndex
-                                              ].urls = e.target.value;
-                                              setFormData((prevData) => ({
-                                                ...prevData,
-                                                variations: newVariations,
-                                              }));
-                                            }}
-                                          >
-                                            <option value="">
-                                              Selecionar Foto
-                                            </option>
-                                            {/* Adicione as opções do seletor de fotos aqui */}
-                                            {/* ... */}
-                                          </select>
 
-                                          {/* Botões para adicionar ou remover cores */}
-                                          <button
-                                            type="button"
-                                            onClick={() => {
-                                              const newVariations = [
-                                                ...formData.variations,
-                                              ];
-                                              newVariations.push({
-                                                color: "",
-                                                urls: "",
-                                              });
-                                              setFormData((prevData) => ({
-                                                ...prevData,
-                                                variations: newVariations,
-                                              }));
-                                            }}
-                                          >
-                                            Adicionar Variação
-                                          </button>
-                                          <button
-                                            type="button"
-                                            onClick={() => {
-                                              const newVariations = [
-                                                ...formData.variations,
-                                              ];
-                                              newVariations.splice(
-                                                variationIndex,
-                                                1
-                                              );
-                                              setFormData((prevData) => ({
-                                                ...prevData,
-                                                variations: newVariations,
-                                              }));
-                                            }}
-                                          >
-                                            Remover Variação
-                                          </button>
-                                        </div>
-                                      )
-                                    )}
+      {/* Seletor de fotos */}
+      <select
+        value={variation.urls}
+        onChange={(e) => {
+          const newVariations = [...formData.variations];
+          newVariations[variationIndex].urls = e.target.value;
+          setFormData((prevData) => ({
+            ...prevData,
+            variations: newVariations,
+          }));
+        }}
+      >
+        <option value="">Selecionar Foto</option>
+        {/* Adicione as opções do seletor de fotos aqui */}
+        {/* ... */}
+      </select>
+
+    
+    </div>
+  ))}
+
                                   // ... (código posterior)
                                   <br></br>
                                   <button
