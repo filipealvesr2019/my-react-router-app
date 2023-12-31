@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const uploadImageToImgBB = async (imageFile) => {
-  const apiKey = 'your_actual_api_key'; // Replace with your actual ImgBB API key
+  const apiKey = '413ee454dba81a255811380189b8c1f0'; // Replace with your actual ImgBB API key
 
   try {
     const formData = new FormData();
