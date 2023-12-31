@@ -16,6 +16,7 @@ import Grid from "@mui/material/Grid";
 import { SketchPicker } from "react-color";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { uploadImageToImgBB } from "./uploadImageToImgBB"; // Update the path
 
 const CreateProductForm = ({ onClose }) => {
   const [categories, setCategories] = useState([]);
@@ -30,12 +31,8 @@ const CreateProductForm = ({ onClose }) => {
     quantity: 0,
     variations: [], // Array de variações (cores e imagens)
     imageFiles: [], // Novo campo para arquivos de imagem
-    color: "", // Adicione esta linha
-    urls: "", // Adicione esta linha
-
   });
 
-  
   const [colorPickerOpen, setColorPickerOpen] = useState(false);
   const [imageFileName, setImageFileName] = useState("");
 
@@ -167,10 +164,167 @@ const CreateProductForm = ({ onClose }) => {
       console.error("Erro ao buscar subcategorias:", error);
     }
   };
+  const handleFileChange = (event) => {
+    const files = Array.from(event.target.files);
+    
+    // Check if files array is not empty
+    if (files.length > 0) {
+      const imageFile = files[0];
   
+      // Check if imageFile is not undefined
+      if (imageFile) {
+        console.log("Partial File Name:", imageFile.name.substring(0, 10));
   
+        const partialFileName = imageFile.name.substring(0, 10);
+  
+        setProductInfo((prevProductInfo) => ({
+          ...prevProductInfo,
+          imageFiles: [...prevProductInfo.imageFiles, imageFile],
+        }));
+  
+        setImageFileName(partialFileName);
+      } else {
+        console.error("No file selected");
+      }
+    } else {
+      console.error("No files selected");
+    }
+  };
+  
+  const handleAddVariation = () => {
+    const { color, imageFiles } = productInfo;
+
+    // Check if a variation with the same color already exists
+    const existingVariationIndex = productInfo.variations.findIndex(
+      (variation) => variation.color === color
+    );
+
+    if (existingVariationIndex !== -1) {
+      // If the color already exists, update the images
+      const updatedVariations = [...productInfo.variations];
+      updatedVariations[existingVariationIndex].images.push(
+        ...imageFiles.map((file) => ({
+          url: URL.createObjectURL(file),
+          fileName: imageFileName,
+        }))
+      );
+
+      setProductInfo((prevProductInfo) => ({
+        ...prevProductInfo,
+        color: "",
+        variations: updatedVariations,
+      }));
+    } else {
+      // If the color doesn't exist, add a new variation
+      setProductInfo((prevProductInfo) => ({
+        ...prevProductInfo,
+        color: "",
+        variations: [
+          ...prevProductInfo.variations,
+          {
+            color,
+            images: imageFiles.map((file) => ({
+              url: URL.createObjectURL(file),
+              fileName: imageFileName,
+            })),
+          },
+        ],
+      }));
+    }
+
+    setFormErrors({});
+  };
 
 
+
+
+
+  const uploadImageToImgBB = async (imageFile) => {
+    const apiKey = '413ee454dba81a255811380189b8c1f0'; // Substitua pelo seu token de API do ImgBB
+  
+    try {
+      const formData = new FormData();
+      formData.append('image', imageFile);
+  
+      const response = await axios.post('https://api.imgbb.com/1/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        params: {
+          key: apiKey,
+        },
+      });
+  
+      if (response.data && response.data.data && response.data.data.url) {
+        const imageUrl = response.data.data.url;
+        return imageUrl;
+      } else {
+        console.error('Erro ao fazer upload da imagem:', response.data);
+        return null;
+      }
+    } catch (error) {
+      console.error('Erro ao fazer upload da imagem:', error.message);
+      return null;
+    }
+  };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+  
+    // Validate the form before proceeding
+    if (!validateForm()) {
+      toast.error('All fields must be filled!', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000,
+      });
+      return;
+    }
+  
+    try {
+      const { imageFiles, ...productData } = productInfo;
+  
+      // Upload image and get the URL
+      const imageUrl = await uploadImageToImgBB(imageFiles[0]);
+  
+      if (imageUrl) {
+        // Include the image URL in the product data
+        productData.imageUrl = imageUrl;
+  
+        // Send product data to the server for further processing
+        const response = await axios.post(
+          'http://localhost:3001/api/admin/product/new',
+          productData
+        );
+  
+        if (response.status === 201) {
+          setProductInfo({
+            name: '',
+            price: 0.0,
+            description: '',
+            size: '',
+            category: '',
+            subcategory: '',
+            quantity: 0,
+            variations: [],
+            imageFiles: [],
+          });
+  
+          console.log('Product created successfully');
+  
+          setTimeout(() => {
+            onClose();
+          }, 4000);
+        } else {
+          console.error('Error creating product:', response.statusText);
+        }
+      } else {
+        console.error('Error getting image URL');
+      }
+    } catch (error) {
+      console.error('Error creating product:', error.message);
+    }
+  };
+  
+  
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setProductInfo((prevProductInfo) => ({
@@ -191,153 +345,6 @@ const CreateProductForm = ({ onClose }) => {
       subcategory: subcategoryName,
     }));
   };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  const handleFileChange = (event) => {
-    const files = Array.from(event.target.files);
-
-    // Verificar se a matriz de arquivos não está vazia
-    if (files.length > 0) {
-      const imageFile = files[0];
-
-      // Verificar se imageFile não está indefinido
-      if (imageFile) {
-        const partialFileName = imageFile.name.substring(0, 10);
-
-        setProductInfo((prevProductInfo) => ({
-          ...prevProductInfo,
-          imageFiles: [...prevProductInfo.imageFiles, imageFile],
-        }));
-
-        setImageFileName(partialFileName);
-      } else {
-        console.error("Nenhum arquivo selecionado");
-      }
-    } else {
-      console.error("Nenhum arquivo selecionado");
-    }
-  };
-
-  const handleAddVariation = () => {
-    const { color, imageFiles } = productInfo;
-
-    // Adicionar variação apenas se houver uma cor e pelo menos uma imagem
-    if (color && imageFiles.length > 0) {
-      const existingVariationIndex = productInfo.variations.findIndex(
-        (variation) => variation.color === color
-      );
-
-      if (existingVariationIndex !== -1) {
-        const updatedVariations = [...productInfo.variations];
-        updatedVariations[existingVariationIndex].images.push(
-          ...imageFiles.map((file) => ({
-            url: URL.createObjectURL(file),
-            fileName: imageFileName,
-          }))
-        );
-
-        setProductInfo((prevProductInfo) => ({
-          ...prevProductInfo,
-          color: "",
-          variations: updatedVariations,
-        }));
-      } else {
-        setProductInfo((prevProductInfo) => ({
-          ...prevProductInfo,
-          color: "",
-          variations: [
-            ...prevProductInfo.variations,
-            {
-              color,
-              images: imageFiles.map((file) => ({
-                url: URL.createObjectURL(file),
-                fileName: imageFileName,
-              })),
-            },
-          ],
-        }));
-      }
-
-      console.log('productInfo após adição de variação:', productInfo);
-    } else {
-      console.error("Cor ou imagens ausentes para adição de variação");
-    }
-  };
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-  
-    // Validar o formulário antes de prosseguir
-    if (!validateForm()) {
-      toast.error("Todos os campos devem ser preenchidos!", {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 2000,
-      });
-      return;
-    }
-  
-    // Construir objeto de dados para enviar ao backend
-    const formData = {
-      ...productInfo,
-      imageUrls: productInfo.imageFiles.map(file => file.url), // Adicione esta linha
-    };
-  
-    // Display success message
-    toast.success("Produto criado com sucesso!", {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 3000,
-    });
-  
-    try {
-      // Enviar o formData para o backend
-      const response = await axios.post(
-        "http://localhost:3001/api/admin/product/new",
-        formData
-      );
-  
-      // Verificar a resposta do backend
-      if (response.status === 201) {
-        setProductInfo({
-          name: "",
-          price: 0.0,
-          description: "",
-          size: "",
-          category: "",
-          subcategory: "",
-          quantity: 0,
-          variations: [],
-          imageFiles: [],
-          color: "",
-        });
-  
-        console.log("Produto criado com sucesso");
-  
-        // Fechar o modal após o sucesso
-        setTimeout(() => {
-          onClose();
-        }, 4000);
-      } else {
-        console.error("Erro ao criar produto:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Erro ao criar produto:", error.message);
-    }
-  };
-  
-  // ... (restante do código)
-
   return (
     <form onSubmit={handleSubmit}>
       {formErrors.variations && (
@@ -586,6 +593,7 @@ const CreateProductForm = ({ onClose }) => {
     </form>
   );
 };
+
 
 export default function BasicModal() {
   const [open, setOpen] = useState(false);
