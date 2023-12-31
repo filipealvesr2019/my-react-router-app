@@ -16,7 +16,7 @@ import Grid from "@mui/material/Grid";
 import { SketchPicker } from "react-color";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import CheckIcon from '@mui/icons-material/Check';
 const CreateProductForm = ({ onClose }) => {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
@@ -31,6 +31,7 @@ const CreateProductForm = ({ onClose }) => {
     variations: [], // Array de variações (cores e imagens)
     imageFiles: [], // Novo campo para arquivos de imagem
   });
+  
 
   const [colorPickerOpen, setColorPickerOpen] = useState(false);
   const [imageFileName, setImageFileName] = useState("");
@@ -80,7 +81,6 @@ const CreateProductForm = ({ onClose }) => {
   };
 
   const handleColorPickerOpen = (event) => {
-    // Impedir que o evento se propague para evitar o fechamento automático
     event.stopPropagation();
     setColorPickerOpen(true);
   };
@@ -89,6 +89,7 @@ const CreateProductForm = ({ onClose }) => {
     setColorPickerOpen(false);
   };
 
+  
   const handleColorChangeComplete = (color) => {
     setProductInfo((prevProductInfo) => ({
       ...prevProductInfo,
@@ -482,19 +483,43 @@ const CreateProductForm = ({ onClose }) => {
               style: { marginTop: "10px" },
             }}
           />
+{colorPickerOpen && (
+        <div
+          style={{ position: "absolute", zIndex: 2, top: "1rem" }}
+          onClick={(event) => event.stopPropagation()}
+        >
+          <SketchPicker
+            color={productInfo.color}
+            onChangeComplete={handleColorChangeComplete}
+            onChange={(color, event) => handleColorChange(color, event)}
+          />
+          
+          <div
+    onClick={handleColorPickerClose}
+    style={{
+      backgroundColor: "#14337C",
+      width: "40px",
+      height: "40px",
+      borderRadius: "50%", // Torna o container redondo
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      cursor: "pointer", 
+      marginLeft:"11rem",
+      marginTop:".5rem"
 
-          {colorPickerOpen && (
-            <div
-              style={{ position: "absolute", zIndex: 2, top: "1rem" }}
-              onClick={(event) => event.stopPropagation()}
-            >
-              <SketchPicker
-                color={productInfo.color}
-                onChangeComplete={handleColorChangeComplete}
-                onChange={(color, event) => handleColorChange(color, event)}
-              />
-            </div>
-          )}
+    }}
+  >
+    <CheckIcon
+      style={{
+        color: "white",
+        fontSize: "2rem" // Ajuste o valor conforme necessário,
+      }}
+    />
+  </div>
+        </div>
+      )}
+      
 
           {productInfo.color && (
             <div
