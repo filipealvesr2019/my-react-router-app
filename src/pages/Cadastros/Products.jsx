@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Products.module.css";
 import { SketchPicker, ChromePicker } from "react-color"; // Corrigir importação
-
+import Stack from "@mui/material/Stack";
 import { Link } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import axios from "axios";
 import ModelProducts from "../../components/ModelProducts";
 import DeleteModal from "../../components/DeleteModal";
 import CloseIcon from "@mui/icons-material/Close";
+import Pagination from "@mui/material/Pagination";
+
 const Products = () => {
   const [products, setProducts] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
-  const [selectedColorPickerIndex, setSelectedColorPickerIndex] = useState(null); 
-   const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
+  const [selectedColorPickerIndex, setSelectedColorPickerIndex] =
+    useState(null);
+  const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
 
   const [formData, setFormData] = useState({
     _id: null,
@@ -36,22 +39,15 @@ const Products = () => {
     // ... outros campos necessários
   });
 
-  useEffect(() => {
-    const getProducts = async () => {
-      try {
-        const response = await axios.get("http://localhost:3001/api/products");
-        setProducts(response.data.products);
-        console.log("Products after fetching:", response.data.products);
-      } catch (error) {
-        console.error("Erro ao obter produtos", error);
-        setError("Erro ao obter produtos. Por favor, tente novamente.");
-      } finally {
-        // setLoading(false); // Assuming you have a loading state that you want to set to false
-      }
-    };
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(4);
+  const [totalPages, setTotalPages] = useState(1);
 
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
     getProducts();
-  }, []);
+  }, [currentPage]);
 
   const handleDeleteProduct = async (productId) => {
     try {
@@ -75,24 +71,39 @@ const Products = () => {
       console.error("Erro ao excluir produto. Detalhes do erro:", error);
     }
   };
+  
+ 
+  const getProducts = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3001/api/products?page=${currentPage}`
+      );
 
-  useEffect(() => {
-    const getProducts = async () => {
-      try {
-        const response = await axios.get("http://localhost:3001/api/products");
-        setProducts(response.data.products);
-        console.log("Products after fetching:", response.data.products);
-      } catch (error) {
-        console.log("Erro ao obter produtos", error);
+      console.log("API Response:", response.data);
+
+      const totalProducts = response.data.productsCount;
+      const validItemsPerPage = Number.isFinite(itemsPerPage) && itemsPerPage > 0;
+
+      if (Number.isFinite(totalProducts) && validItemsPerPage) {
+        setTotalPages(Math.ceil(totalProducts / itemsPerPage));
+      } else {
+        console.error("TotalProducts or ItemsPerPage is not a valid number");
       }
-    };
 
-    getProducts();
-  }, []);
+      setProducts(response.data.products);
+    } catch (error) {
+      console.error("Erro ao obter produtos", error);
+      setError("Erro ao obter produtos. Por favor, tente novamente.");
+    }
+  };
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
+
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const handleFormChange = (event) => {
     const { name, value } = event.target;
@@ -101,75 +112,64 @@ const Products = () => {
       [name]: value,
     }));
   };
-// Update the handleUpdateProduct function to close the modal after updating
-const handleUpdateProduct = async (productId) => {
-  try {
-    const response = await axios.put(
-      `http://localhost:3001/products/${productId}`,
-      formData
-    );
+  // Update the handleUpdateProduct function to close the modal after updating
+  const handleUpdateProduct = async (productId) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:3001/products/${productId}`,
+        formData
+      );
 
-    if (response.data.success) {
-      console.log("Produto atualizado com sucesso");
-      const updatedProducts = await axios.get(
-        "http://localhost:3001/api/products"
-      );
-      setProducts(updatedProducts.data.products);
-    } else {
-      console.error(
-        "Erro ao atualizar produto. Mensagem do servidor:",
-        response.data.error
-      );
+      if (response.data.success) {
+        console.log("Produto atualizado com sucesso");
+        const updatedProducts = await axios.get(
+          "http://localhost:3001/api/products"
+        );
+        console.log("Products after fetching:", response.data.products);
+
+        setProducts(updatedProducts.data.products);
+      } else {
+        console.error(
+          "Erro ao atualizar produto. Mensagem do servidor:",
+          response.data.error
+        );
+      }
+      setIsColorPickerOpen(false);
+      setSelectedColorPickerIndex(null);
+    } catch (error) {
+      console.error("Erro ao atualizar produto. Detalhes do erro:", error);
+    } finally {
+      setIsModalOpen(false);
+
+      // Limpar o estado do formulário
+      setFormData({
+        _id: null,
+        name: "",
+        price: 0,
+        quantity: 0,
+        description: "",
+        size: "",
+        category: "",
+        subcategory: "",
+        variations: [
+          {
+            color: "", // Assuming color is a string
+            urls: "", // Assuming urls is a string
+          },
+        ],
+        // ... other necessary fields. outros campos necessários
+      });
+
+      setSelectedImageIndex(null);
+      setSelectedColorPickerIndex(null);
+      setIsColorPickerOpen(false);
     }
-    setIsColorPickerOpen(false);
-    setSelectedColorPickerIndex(null);
-  } catch (error) {
-    console.error("Erro ao atualizar produto. Detalhes do erro:", error);
-  } finally {
-    setIsModalOpen(false);
+  };
 
-    // Limpar o estado do formulário
-    setFormData({
-      _id: null,
-      name: "",
-      price: 0,
-      quantity: 0,
-      description: "",
-      size: "",
-      category: "",
-      subcategory: "",
-      variations: [
-        {
-          color: "", // Assuming color is a string
-          urls: "", // Assuming urls is a string
-        },
-      ],
-      // ... other necessary fields. outros campos necessários
-    });
-
-   
-    setSelectedImageIndex(null);
-    setSelectedColorPickerIndex(null);
-    setIsColorPickerOpen(false);
-  }
-};
-
-  const filteredProducts = products.filter((product) =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  console.log("Total Pages:", totalPages);
 
   return (
     <div className={styles.container}>
-      <TextField
-        id="outlined-search"
-        label="Search field"
-        type="search"
-        value={searchTerm}
-        onChange={handleSearchChange}
-      />
-
-      {/* ... (other components) */}
-
       <div className={styles.Model}>
         <ModelProducts />
       </div>
@@ -204,9 +204,15 @@ const handleUpdateProduct = async (productId) => {
                     <td className={styles.td}>{product.name}</td>
                     <td>
                       <div className={styles.spanContainer}>
-                        <button className={styles.buttonUpdate} onClick={() => setFormData(product)}>
-                        <img src="https://i.ibb.co/5R1QnT7/edit-1.png" alt="" />
-Editar
+                        <button
+                          className={styles.buttonUpdate}
+                          onClick={() => setFormData(product)}
+                        >
+                          <img
+                            src="https://i.ibb.co/5R1QnT7/edit-1.png"
+                            alt=""
+                          />
+                          Editar
                         </button>
 
                         <div
@@ -313,76 +319,106 @@ Editar
                                     />
                                   </label>
                                   {formData.variations &&
-  formData.variations.map((variation, variationIndex) => (
-    <div className={styles.colorContainer} key={variationIndex}>
-      {/* Bolinha de cor */}
-      <div
-        className={styles.colorPickerPreview}
-        style={{
-          backgroundColor: variation.color,
-        }}
-        onClick={() => {
-          setSelectedImageIndex(variationIndex);
-          setSelectedColorPickerIndex((prevIndex) =>
-            prevIndex === variationIndex ? null : variationIndex
-          );
-          setIsColorPickerOpen((prev) => !prev);
-        }}
-      ></div>
+                                    formData.variations.map(
+                                      (variation, variationIndex) => (
+                                        <div
+                                          className={styles.colorContainer}
+                                          key={variationIndex}
+                                        >
+                                          {/* Bolinha de cor */}
+                                          <div
+                                            className={
+                                              styles.colorPickerPreview
+                                            }
+                                            style={{
+                                              backgroundColor: variation.color,
+                                            }}
+                                            onClick={() => {
+                                              setSelectedImageIndex(
+                                                variationIndex
+                                              );
+                                              setSelectedColorPickerIndex(
+                                                (prevIndex) =>
+                                                  prevIndex === variationIndex
+                                                    ? null
+                                                    : variationIndex
+                                              );
+                                              setIsColorPickerOpen(
+                                                (prev) => !prev
+                                              );
+                                            }}
+                                          ></div>
 
-      {selectedImageIndex === variationIndex && (
-        <div>
-          <ChromePicker
-            color={variation.color}
-            onChange={(newColor) => {
-              const newVariations = [...formData.variations];
-              newVariations[variationIndex] = {
-                ...newVariations[variationIndex],
-                color: newColor.hex,
-              };
-              setFormData((prevData) => ({
-                ...prevData,
-                variations: newVariations,
-              }));
-            }}
-            display={
-              selectedColorPickerIndex === variationIndex && isColorPickerOpen
-                ? "block"
-                : "none"
-            }
-          />
-          {/* Add the "Atualizar Cor" button here */}
-          <button
-            onClick={(e) => {
-              e.stopPropagation(); // Evita que o clique se propague para o div pai (colorContainer)
-              setIsColorPickerOpen(false); // Fecha apenas o seletor de cores
-              setSelectedColorPickerIndex(null);
-            }}
-          >
-            Atualizar Cor
-          </button>
-        </div>
-      )}
+                                          {selectedImageIndex ===
+                                            variationIndex && (
+                                            <div>
+                                              <ChromePicker
+                                                color={variation.color}
+                                                onChange={(newColor) => {
+                                                  const newVariations = [
+                                                    ...formData.variations,
+                                                  ];
+                                                  newVariations[
+                                                    variationIndex
+                                                  ] = {
+                                                    ...newVariations[
+                                                      variationIndex
+                                                    ],
+                                                    color: newColor.hex,
+                                                  };
+                                                  setFormData((prevData) => ({
+                                                    ...prevData,
+                                                    variations: newVariations,
+                                                  }));
+                                                }}
+                                                display={
+                                                  selectedColorPickerIndex ===
+                                                    variationIndex &&
+                                                  isColorPickerOpen
+                                                    ? "block"
+                                                    : "none"
+                                                }
+                                              />
+                                              {/* Add the "Atualizar Cor" button here */}
+                                              <button
+                                                onClick={(e) => {
+                                                  e.stopPropagation(); // Evita que o clique se propague para o div pai (colorContainer)
+                                                  setIsColorPickerOpen(false); // Fecha apenas o seletor de cores
+                                                  setSelectedColorPickerIndex(
+                                                    null
+                                                  );
+                                                }}
+                                              >
+                                                Atualizar Cor
+                                              </button>
+                                            </div>
+                                          )}
 
-      {/* Seletor de fotos */}
-      <select
-        value={variation.urls}
-        onChange={(e) => {
-          const newVariations = [...formData.variations];
-          newVariations[variationIndex].urls = e.target.value;
-          setFormData((prevData) => ({
-            ...prevData,
-            variations: newVariations,
-          }));
-        }}
-      >
-        <option value="">Selecionar Foto</option>
-        {/* Adicione as opções do seletor de fotos aqui */}
-        {/* ... */}
-      </select>
-    </div>
-  ))}
-
+                                          {/* Seletor de fotos */}
+                                          <select
+                                            value={variation.urls}
+                                            onChange={(e) => {
+                                              const newVariations = [
+                                                ...formData.variations,
+                                              ];
+                                              newVariations[
+                                                variationIndex
+                                              ].urls = e.target.value;
+                                              setFormData((prevData) => ({
+                                                ...prevData,
+                                                variations: newVariations,
+                                              }));
+                                            }}
+                                          >
+                                            <option value="">
+                                              Selecionar Foto
+                                            </option>
+                                            {/* Adicione as opções do seletor de fotos aqui */}
+                                            {/* ... */}
+                                          </select>
+                                        </div>
+                                      )
+                                    )}
                                   // ... (código posterior)
                                   <br></br>
                                   <button
@@ -417,6 +453,22 @@ Editar
                 ))}
               </tbody>
             </table>
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "20px",
+              }}
+            >
+              <Pagination
+                count={isNaN(totalPages) ? 1 : totalPages}
+                page={currentPage}
+                onChange={(event, value) => setCurrentPage(value)}
+                color="primary"
+                style={{marginBottom:"2rem"}}
+              />
+            </div>
           </div>
         </main>
       </div>

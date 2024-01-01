@@ -664,6 +664,8 @@ export default function BasicModal() {
         sx={{
           backgroundColor: "#14337C",
           color: "#FFFFFF",
+          marginTop:"-10rem",
+          marginBottom:"18rem",
           "&:hover": {
             backgroundColor: "#14337C",
             opacity: 0.9,
