@@ -12,14 +12,15 @@ import Pagination from "@mui/material/Pagination";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
-  
+
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
   const [selectedColorPickerIndex, setSelectedColorPickerIndex] =
     useState(null);
   const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
-
+  const [isImageZoomed, setIsImageZoomed] = useState(false);
+  const [zoomedImage, setZoomedImage] = useState(null);
   const [formData, setFormData] = useState({
     _id: null,
     name: "",
@@ -44,6 +45,8 @@ const Products = () => {
   const [totalPages, setTotalPages] = useState(1);
 
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [showFullImage, setShowFullImage] = useState(false);
 
   useEffect(() => {
     getProducts();
@@ -71,8 +74,7 @@ const Products = () => {
       console.error("Erro ao excluir produto. Detalhes do erro:", error);
     }
   };
-  
- 
+
   const getProducts = async () => {
     try {
       const response = await axios.get(
@@ -82,7 +84,8 @@ const Products = () => {
       console.log("API Response:", response.data);
 
       const totalProducts = response.data.productsCount;
-      const validItemsPerPage = Number.isFinite(itemsPerPage) && itemsPerPage > 0;
+      const validItemsPerPage =
+        Number.isFinite(itemsPerPage) && itemsPerPage > 0;
 
       if (Number.isFinite(totalProducts) && validItemsPerPage) {
         setTotalPages(Math.ceil(totalProducts / itemsPerPage));
@@ -167,6 +170,15 @@ const Products = () => {
   };
 
   console.log("Total Pages:", totalPages);
+  const handleThumbnailClick = (imageUrl) => {
+    setZoomedImage(imageUrl);
+    setIsImageZoomed(true);
+  };
+
+  const closeZoomedImage = () => {
+    setZoomedImage(null);
+    setIsImageZoomed(false);
+  };
 
   return (
     <div className={styles.container}>
@@ -182,10 +194,10 @@ const Products = () => {
           justifyContent: "center",
           alignItems: "center",
           height: "55vh",
-          position:"relative"
+          position: "relative",
         }}
       >
-        <main style={{position:"sticky"}}>
+        <main style={{ position: "sticky" }}>
           {error && <div style={{ color: "red" }}>{error}</div>}
 
           <h1 style={{ fontSize: "1.5rem", color: "#2A337C" }}>
@@ -352,71 +364,85 @@ const Products = () => {
 
                                           {selectedImageIndex ===
                                             variationIndex && (
-                                            <div>
-                                              <ChromePicker
-                                                color={variation.color}
-                                                onChange={(newColor) => {
-                                                  const newVariations = [
-                                                    ...formData.variations,
-                                                  ];
-                                                  newVariations[
-                                                    variationIndex
-                                                  ] = {
-                                                    ...newVariations[
+                                              <div>
+                                                <ChromePicker
+                                                  color={variation.color}
+                                                  onChange={(newColor) => {
+                                                    const newVariations = [
+                                                      ...formData.variations,
+                                                    ];
+                                                    newVariations[
                                                       variationIndex
-                                                    ],
-                                                    color: newColor.hex,
-                                                  };
-                                                  setFormData((prevData) => ({
-                                                    ...prevData,
-                                                    variations: newVariations,
-                                                  }));
-                                                }}
-                                                display={
-                                                  selectedColorPickerIndex ===
-                                                    variationIndex &&
-                                                  isColorPickerOpen
-                                                    ? "block"
-                                                    : "none"
-                                                }
+                                                    ] = {
+                                                      ...newVariations[
+                                                      variationIndex
+                                                      ],
+                                                      color: newColor.hex,
+                                                    };
+                                                    setFormData((prevData) => ({
+                                                      ...prevData,
+                                                      variations: newVariations,
+                                                    }));
+                                                  }}
+                                                  display={
+                                                    selectedColorPickerIndex ===
+                                                      variationIndex &&
+                                                      isColorPickerOpen
+                                                      ? "block"
+                                                      : "none"
+                                                  }
+                                                />
+                                                {/* Add the "Atualizar Cor" button here */}
+                                                <button
+                                                  onClick={(e) => {
+                                                    e.stopPropagation(); // Evita que o clique se propague para o div pai (colorContainer)
+                                                    setIsColorPickerOpen(false); // Fecha apenas o seletor de cores
+                                                    setSelectedColorPickerIndex(
+                                                      null
+                                                    );
+                                                  }}
+                                                >
+                                                  Atualizar Cor
+                                                </button>
+                                              </div>
+                                            )}
+                                          {/* Seletor de fotos */}
+                                          <div className={styles.thumbnailSelector}>
+                                            {formData.variations &&
+                                              formData.variations.map((variation, variationIndex) => (
+                                                <div
+                                                  key={variationIndex}
+                                                  className={styles.thumbnailContainer}
+                                                  onClick={() => {
+                                                    handleThumbnailClick(variation.urls[0]);
+                                                  }}
+                                                >
+                                                  <img
+                                                    src={variation.urls.length > 0 ? variation.urls[0] : ""}
+                                                    alt={`Thumbnail ${variationIndex + 1}`}
+                                                    className={styles.thumbnailImage}
+                                                  />
+                                                </div>
+                                              ))}
+                                          </div>
+
+                                          {/* Imagem Grande */}
+                                          {isImageZoomed && (
+                                            <div className={styles.fullImageContainer}>
+                                              <img
+                                                src={zoomedImage}
+                                                alt="Imagem Completa"
+                                                className={styles.fullImage}
+                                                onClick={closeZoomedImage}
                                               />
-                                              {/* Add the "Atualizar Cor" button here */}
                                               <button
-                                                onClick={(e) => {
-                                                  e.stopPropagation(); // Evita que o clique se propague para o div pai (colorContainer)
-                                                  setIsColorPickerOpen(false); // Fecha apenas o seletor de cores
-                                                  setSelectedColorPickerIndex(
-                                                    null
-                                                  );
-                                                }}
+                                                onClick={closeZoomedImage}
+                                                className={styles.closeButton}
                                               >
-                                                Atualizar Cor
+                                                Fechar
                                               </button>
                                             </div>
                                           )}
-
-                                          {/* Seletor de fotos */}
-                                          <select
-                                            value={variation.urls}
-                                            onChange={(e) => {
-                                              const newVariations = [
-                                                ...formData.variations,
-                                              ];
-                                              newVariations[
-                                                variationIndex
-                                              ].urls = e.target.value;
-                                              setFormData((prevData) => ({
-                                                ...prevData,
-                                                variations: newVariations,
-                                              }));
-                                            }}
-                                          >
-                                            <option value="">
-                                              Selecionar Foto
-                                            </option>
-                                            {/* Adicione as opções do seletor de fotos aqui */}
-                                            {/* ... */}
-                                          </select>
                                         </div>
                                       )
                                     )}
@@ -462,8 +488,7 @@ const Products = () => {
                 marginTop: "20px",
               }}
             >
-        
-        {!isModalOpen && !formData._id &&  (
+              {!isModalOpen && !formData._id && (
                 <Pagination
                   count={isNaN(totalPages) ? 1 : totalPages}
                   page={currentPage}
