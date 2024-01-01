@@ -462,13 +462,21 @@ const Products = () => {
                 marginTop: "20px",
               }}
             >
-              <Pagination
-                count={isNaN(totalPages) ? 1 : totalPages}
-                page={currentPage}
-                onChange={(event, value) => setCurrentPage(value)}
-                color="primary"
-                style={{ marginBottom: "1rem", position: "sticky", bottom: "0", zIndex: "1" }}
+        
+        {!isModalOpen && !formData._id &&  (
+                <Pagination
+                  count={isNaN(totalPages) ? 1 : totalPages}
+                  page={currentPage}
+                  onChange={(event, value) => setCurrentPage(value)}
+                  color="primary"
+                  style={{
+                    marginBottom: "1rem",
+                    position: "sticky",
+                    bottom: "0",
+                    zIndex: "1",
+                  }}
                 />
+              )}
             </div>
           </div>
         </main>
