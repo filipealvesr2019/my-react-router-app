@@ -9,6 +9,7 @@ import ModelProducts from "../../components/ModelProducts";
 import DeleteModal from "../../components/DeleteModal";
 import CloseIcon from "@mui/icons-material/Close";
 import Pagination from "@mui/material/Pagination";
+import ColorInputForm from "./ColorInputForm";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -521,6 +522,7 @@ const Products = () => {
               )}
             </div>
           </div>
+          <ColorInputForm/>
         </main>
       </div>
     </div>
