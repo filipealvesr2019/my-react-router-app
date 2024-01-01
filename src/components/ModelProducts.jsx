@@ -201,16 +201,16 @@ const CreateProductForm = ({ onClose }) => {
   const handleAddVariation = async () => {
     const { color, imageFiles } = productInfo;
   
-    // Verifique se color e imageFiles não estão vazios
+    // Check if color and imageFiles are not empty
     if (color && imageFiles.length > 0) {
       try {
-        // Faça o upload de todas as imagens e obtenha as URLs
+        // Upload images and get the URLs
         const imageUrls = await Promise.all(
           imageFiles.map(async (file) => await uploadImageToImgBB(file))
         );
   
         if (imageUrls.every((url) => url)) {
-          // Atualize o estado
+          // Update or add the variation
           setProductInfo((prevProductInfo) => {
             const updatedVariations = [...prevProductInfo.variations];
             const existingVariationIndex = updatedVariations.findIndex(
@@ -218,10 +218,10 @@ const CreateProductForm = ({ onClose }) => {
             );
   
             if (existingVariationIndex !== -1) {
-              // A variação já existe, adicione as novas URLs à variação existente
-              updatedVariations[existingVariationIndex].urls.push(...imageUrls);
+              // The variation already exists; update URLs
+              updatedVariations[existingVariationIndex].urls = imageUrls;
             } else {
-              // A variação não existe, crie uma nova variação com a cor e as URLs
+              // The variation does not exist; add a new one
               const newVariation = {
                 color: color,
                 urls: imageUrls,
@@ -237,12 +237,11 @@ const CreateProductForm = ({ onClose }) => {
             };
           });
   
-          // Limpe o estado relacionado à variação atual
+          // Clear the input fields and states
           setImageFileName("");
-          // Configuração para exibir a mensagem de sucesso
           setIsColorAdded(true);
   
-          // Exibir a mensagem de sucesso
+          // Display success message
           toast.success("Fotos adicionadas à cor com sucesso!", {
             position: toast.POSITION.TOP_CENTER,
             autoClose: 2000,
