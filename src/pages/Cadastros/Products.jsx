@@ -182,9 +182,10 @@ const Products = () => {
           justifyContent: "center",
           alignItems: "center",
           height: "55vh",
+          position:"relative"
         }}
       >
-        <main>
+        <main style={{position:"sticky"}}>
           {error && <div style={{ color: "red" }}>{error}</div>}
 
           <h1 style={{ fontSize: "1.5rem", color: "#2A337C" }}>
@@ -466,8 +467,8 @@ const Products = () => {
                 page={currentPage}
                 onChange={(event, value) => setCurrentPage(value)}
                 color="primary"
-                style={{marginBottom:"2rem"}}
-              />
+                style={{ marginBottom: "1rem", position: "sticky", bottom: "0", zIndex: "1" }}
+                />
             </div>
           </div>
         </main>

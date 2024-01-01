@@ -54,8 +54,8 @@ const RegisterPage = () => {
   return (
     <div className="page-container">
       <div className="navContainer">
-        <nav>
-          <ul>
+        <nav className="nav">
+          <ul className="ul">
             <li
               className={`cadastros ${
                 activeNavItem === 0 ? "active-item" : ""
