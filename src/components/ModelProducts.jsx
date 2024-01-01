@@ -200,31 +200,50 @@ const CreateProductForm = ({ onClose }) => {
   };
   const handleAddVariation = async () => {
     const { color, imageFiles } = productInfo;
-
+  
     // Verifique se color e imageFiles não estão vazios
     if (color && imageFiles.length > 0) {
       try {
-        // Faça o upload da imagem e obtenha a URL
-        const imageUrl = await uploadImageToImgBB(imageFiles[0]);
-
-        if (imageUrl) {
-          // Crie uma nova variação com a cor e a URL
-          const newVariation = {
-            color: color,
-            urls: [imageUrl],
-          };
-
-          // Adicione a nova variação ao estado
-          setProductInfo((prevProductInfo) => ({
-            ...prevProductInfo,
-            color: "",
-            variations: [...prevProductInfo.variations, newVariation],
-          }));
+        // Faça o upload de todas as imagens e obtenha as URLs
+        const imageUrls = await Promise.all(
+          imageFiles.map(async (file) => await uploadImageToImgBB(file))
+        );
+  
+        if (imageUrls.every((url) => url)) {
+          // Atualize o estado
+          setProductInfo((prevProductInfo) => {
+            const updatedVariations = [...prevProductInfo.variations];
+            const existingVariationIndex = updatedVariations.findIndex(
+              (variation) => variation.color === color
+            );
+  
+            if (existingVariationIndex !== -1) {
+              // A variação já existe, adicione as novas URLs à variação existente
+              updatedVariations[existingVariationIndex].urls.push(...imageUrls);
+            } else {
+              // A variação não existe, crie uma nova variação com a cor e as URLs
+              const newVariation = {
+                color: color,
+                urls: imageUrls,
+              };
+  
+              updatedVariations.push(newVariation);
+            }
+  
+            return {
+              ...prevProductInfo,
+              color: "",
+              variations: updatedVariations,
+            };
+          });
+  
+          // Limpe o estado relacionado à variação atual
+          setImageFileName("");
           // Configuração para exibir a mensagem de sucesso
           setIsColorAdded(true);
-
+  
           // Exibir a mensagem de sucesso
-          toast.success("Foto adicionada à cor com sucesso!", {
+          toast.success("Fotos adicionadas à cor com sucesso!", {
             position: toast.POSITION.TOP_CENTER,
             autoClose: 2000,
           });
@@ -238,7 +257,7 @@ const CreateProductForm = ({ onClose }) => {
       console.error("A cor ou os arquivos de imagem estão vazios");
     }
   };
-
+  
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setProductInfo((prevProductInfo) => ({

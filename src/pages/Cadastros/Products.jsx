@@ -45,8 +45,8 @@ const Products = () => {
   const [totalPages, setTotalPages] = useState(1);
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [showFullImage, setShowFullImage] = useState(false);
+  const [selectedColorIndex, setSelectedColorIndex] = useState(null);
+
 
   useEffect(() => {
     getProducts();
@@ -180,6 +180,24 @@ const Products = () => {
     setIsImageZoomed(false);
   };
 
+
+  
+  // Nova função para lidar com o clique na bolinha de cor
+  const handleColorPickerClick = (colorIndex) => {
+    setSelectedImageIndex(colorIndex);
+
+    // Se a bolinha de cor já estiver selecionada, fecha o seletor de fotos
+    // Caso contrário, mantém o seletor de fotos aberto
+    setShowFullImage((prev) => (selectedColorIndex === colorIndex ? !prev : true));
+
+    // Atualiza o índice da bolinha de cor selecionada
+    setSelectedColorIndex((prev) => (prev === colorIndex ? null : colorIndex));
+  };
+
+
+
+
+  
   return (
     <div className={styles.container}>
       <div className={styles.Model}>
@@ -407,25 +425,24 @@ const Products = () => {
                                               </div>
                                             )}
                                           {/* Seletor de fotos */}
-                                          <div className={styles.thumbnailSelector}>
-                                            {formData.variations &&
-                                              formData.variations.map((variation, variationIndex) => (
-                                                <div
-                                                  key={variationIndex}
-                                                  className={styles.thumbnailContainer}
-                                                  onClick={() => {
-                                                    handleThumbnailClick(variation.urls[0]);
-                                                  }}
-                                                >
-                                                  <img
-                                                    src={variation.urls.length > 0 ? variation.urls[0] : ""}
-                                                    alt={`Thumbnail ${variationIndex + 1}`}
-                                                    className={styles.thumbnailImage}
-                                                  />
-                                                </div>
-                                              ))}
-                                          </div>
-
+                                          {selectedImageIndex === variationIndex && (
+              <div className={styles.thumbnailSelector}>
+                {formData.variations &&
+                  formData.variations.map((variation, variationIndex) => (
+                    <div
+                      key={variationIndex}
+                      className={styles.thumbnailContainer}
+                      onClick={() => handleThumbnailClick(variation.urls[0])}
+                    >
+                      <img
+                        src={variation.urls.length > 0 ? variation.urls[0] : ""}
+                        alt={`Thumbnail ${variationIndex + 1}`}
+                        className={styles.thumbnailImage}
+                      />
+                    </div>
+                  ))}
+              </div>
+            )}
                                           {/* Imagem Grande */}
                                           {isImageZoomed && (
                                             <div className={styles.fullImageContainer}>
