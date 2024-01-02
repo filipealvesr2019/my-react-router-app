@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Products.module.css";
-import { SketchPicker, ChromePicker } from "react-color"; // Corrigir importação
-import Stack from "@mui/material/Stack";
-import { Link } from "react-router-dom";
-import TextField from "@mui/material/TextField";
+
 import axios from "axios";
 import ModelProducts from "../../components/ModelProducts";
 import DeleteModal from "../../components/DeleteModal";
@@ -16,11 +13,19 @@ const Products = () => {
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
-  const [selectedColorPickerIndex, setSelectedColorPickerIndex] =
-    useState(null);
+  const [selectedColorPickerIndex, setSelectedColorPickerIndex] = useState(null);
   const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
-  const [isImageZoomed, setIsImageZoomed] = useState(false);
   const [zoomedImage, setZoomedImage] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(4);
+  const [totalPages, setTotalPages] = useState(1);
+  const [selectedThumbnail, setSelectedThumbnail] = useState(null);
+  const [isImageZoomed, setIsImageZoomed] = useState(false);
+  
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isUrlInputOpen, setIsUrlInputOpen] = useState(false);
+  const [selectedThumbnailIndex, setSelectedThumbnailIndex] = useState(null);
+
   const [formData, setFormData] = useState({
     _id: null,
     name: "",
@@ -40,12 +45,6 @@ const Products = () => {
     // ... outros campos necessários
   });
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(4);
-  const [totalPages, setTotalPages] = useState(1);
-
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedColorIndex, setSelectedColorIndex] = useState(null);
 
 
   useEffect(() => {
@@ -170,32 +169,45 @@ const Products = () => {
   };
 
   console.log("Total Pages:", totalPages);
-  const handleThumbnailClick = (imageUrl) => {
-    setZoomedImage(imageUrl);
+  const handleThumbnailClick = (imageUrl, color, index) => {
+    setSelectedThumbnail(imageUrl);
     setIsImageZoomed(true);
+    setIsUrlInputOpen(true);
+    setZoomedImage(imageUrl);
+    setSelectedThumbnailIndex(index);
+    setIsImageZoomed((prev) => !prev);
   };
-
   const closeZoomedImage = () => {
-    setZoomedImage(null);
     setIsImageZoomed(false);
   };
 
-
-  
-  // Nova função para lidar com o clique na bolinha de cor
-  const handleColorPickerClick = (colorIndex) => {
-    setSelectedImageIndex(colorIndex);
-
-    // Se a bolinha de cor já estiver selecionada, fecha o seletor de fotos
-    // Caso contrário, mantém o seletor de fotos aberto
-    setShowFullImage((prev) => (selectedColorIndex === colorIndex ? !prev : true));
-
-    // Atualiza o índice da bolinha de cor selecionada
-    setSelectedColorIndex((prev) => (prev === colorIndex ? null : colorIndex));
+  const closeSelectedThumbnail = () => {
+    setSelectedThumbnail(null);
   };
 
-
-
+  const handleVariationChange = (index, field, value) => {
+    setFormData((prevData) => {
+      const newVariations = [...prevData.variations];
+      newVariations[index][field] = value;
+      return { ...prevData, variations: newVariations };
+    });
+  };
+  
+  const addVariation = () => {
+    setFormData((prevData) => ({
+      ...prevData,
+      variations: [...prevData.variations, { color: '', urls: '' }],
+    }));
+  };
+  
+  const removeVariation = (index) => {
+    setFormData((prevData) => {
+      const newVariations = [...prevData.variations];
+      newVariations.splice(index, 1);
+      return { ...prevData, variations: newVariations };
+    });
+  };
+  
 
   
   return (
@@ -285,7 +297,7 @@ const Products = () => {
                                   >
                                     <CloseIcon />
                                   </button>
-                                  <label>
+                         <label>
                                     Nome:
                                     <input
                                       type="text"
@@ -349,55 +361,32 @@ const Products = () => {
                                       onChange={handleFormChange}
                                     />
                                   </label>
-   {/* Variações de produtos (cores e miniaturas) */}
-{/* Variações de produtos (cores e miniaturas) */}
-{formData.variations &&
-  // Usamos um conjunto (Set) para manter apenas cores únicas
-  [...new Set(formData.variations.map((v) => v.color))].map((uniqueColor, colorIndex) => (
-    <div key={colorIndex} className={styles.colorContainer}>
-      {/* Nome da cor */}
-      <div className={styles.colorName}>{uniqueColor}</div>
+                                  {filteredProducts.map((product) => (
 
-      {/* Miniaturas das fotos correspondentes para a cor atual */}
-      <div className={styles.thumbnailSelector}>
-        {formData.variations
-          .filter((v) => v.color === uniqueColor)
-          .map((v, vIndex) => (
-            <div
-              key={vIndex}
-              className={styles.thumbnailContainer}
-              onClick={() => handleThumbnailClick(v.urls[0])}
-            >
-              <img
-                src={v.urls.length > 0 ? v.urls[0] : ""}
-                alt={`Thumbnail ${vIndex + 1}`}
-                className={styles.thumbnailImage}
-              />
+      <div >
+        {/* ... existing code ... */}
+        <div className={styles.thumbnailContainer}>
+          {product.variations.map((variation, index) => (
+            <div key={index} className={styles.thumbnailItem}>
+              <div className={styles.colorName}>{variation.color}</div>
+              {variation.urls.map((url, imageUrlIndex) => (
+                <img
+                  key={imageUrlIndex}
+                  src={url}
+                  alt={`${variation.color}-${imageUrlIndex}`}
+                  className={styles.thumbnailImage}
+                  onClick={() =>
+                    handleThumbnailClick(url, variation.color, index)
+                  }
+                />
+              ))}
             </div>
           ))}
+        </div>
+        {/* ... existing code ... */}
       </div>
-    </div>
-  ))}
-  
-{/* Imagem Grande */}
-{isImageZoomed && (
-  <div className={styles.fullImageContainer}>
-    <img
-      src={zoomedImage}
-      alt="Imagem Completa"
-      className={styles.fullImage}
-      onClick={closeZoomedImage}
-    />
-    <button
-      onClick={closeZoomedImage}
-      className={styles.closeButton}
-    >
-      Fechar
-    </button>
-  </div>
-)}
+))}
 
-                                  // ... (código posterior)
                                   <br></br>
                                   <button
                                     type="submit"

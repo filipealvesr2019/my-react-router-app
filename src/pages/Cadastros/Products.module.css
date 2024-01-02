@@ -182,3 +182,30 @@ button {
   cursor: pointer;
   /* Adicione outros estilos conforme necessário */
 }
+
+.thumbnailContainer {
+  display: flex;
+  align-items: center;
+}
+
+.thumbnailItem {
+  margin-right: 15px;
+  text-align: center;
+}
+
+.colorName {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.thumbnailImage {
+  width: 80px; /* Adjust the size as needed */
+  height: 80px; /* Adjust the size as needed */
+  cursor: pointer;
+  border: 2px solid #ddd; /* Add a border for better visibility */
+  border-radius: 5px;
+}
+
+.thumbnailImage:hover {
+  border-color: #2A337C; /* Change the border color on hover */
+}
