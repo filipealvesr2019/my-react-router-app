@@ -1,15 +1,15 @@
-.Model{
-    margin-top: 2rem;
-    margin-bottom: -3rem;   
-    margin-left: 52rem;
+.Model {
+  margin-top: 2rem;
+  margin-bottom: -3rem;
+  margin-left: 52rem;
 }
 
-.spanContainer{
-    display: flex;
-    align-items: center;
-    gap: .4rem;
-    cursor: pointer;
-    margin-left: 1rem;
+.spanContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  margin-left: 1rem;
 }
 
 /* Modal.css */
@@ -37,7 +37,6 @@
   margin-top: 4rem;
 }
 
-
 .close {
   color: #aaa;
   float: right;
@@ -50,7 +49,6 @@
   color: #555;
 }
 
-
 .closeButton {
   position: absolute;
   top: 10px;
@@ -62,10 +60,8 @@
   color: #555;
 }
 
-
-
-.button{
-  background-color: #14337C;
+.button {
+  background-color: #14337c;
   color: #fefefe;
   border: medium;
   padding: 0.5rem;
@@ -75,9 +71,11 @@
   font-family: "poppins";
   font-weight: 500;
   cursor: pointer;
-  font-size: .9rem;
-  
+  font-size: 0.9rem;
+  bottom: 10%;
+  left: 2%;
 
+  position: absolute;
 }
 /* Adicione esta classe para estilizar a caixa de seleção de cor */
 .colorPickerPreview {
@@ -128,7 +126,7 @@ button {
   height: 7dvh;
   font-size: 1.1rem;
   border-radius: 5px;
-  gap: .5rem;
+  gap: 0.5rem;
   font-family: "poppins";
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Adicionar a sombra na borda */
   overflow: hidden; /* Para garantir que a sombra não se espalhe para fora do botão */
@@ -186,7 +184,11 @@ button {
 .thumbnailContainer {
   display: flex;
   align-items: center;
-/* Allow the thumbnails to wrap to the next line */
+  /* Allow the thumbnails to wrap to the next line */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
 }
 
 .thumbnailItem {
@@ -194,7 +196,6 @@ button {
   margin-right: 15px;
   text-align: center;
 }
-
 
 .colorName {
   font-size: 14px;
@@ -208,17 +209,16 @@ button {
   border: 2px solid #ddd; /* Add a border for better visibility */
   border-radius: 5px;
   object-fit: contain;
-  
 }
 
 .thumbnailImage:hover {
-  border-color: #2A337C; /* Change the border color on hover */
+  border-color: #2a337c; /* Change the border color on hover */
 }
 
 .enlargedImage {
-  width: 400px; /* Set the width of the enlarged image */
-  height: 400px; /* Set the height of the enlarged image */
-  border: 2px solid #2A337C; /* Add a border for better visibility */
+  width: 450px; /* Set the width of the enlarged image */
+  height: 450px; /* Set the height of the enlarged image */
+  border: 2px solid #2a337c; /* Add a border for better visibility */
   border-radius: 5px;
 
   position: fixed;
@@ -226,5 +226,3 @@ button {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-
-
