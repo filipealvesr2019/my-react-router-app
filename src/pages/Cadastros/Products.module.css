@@ -186,12 +186,16 @@ button {
 .thumbnailContainer {
   display: flex;
   align-items: center;
+  justify-content: space-around; /* Optional: Adjust as needed */
+  flex-wrap: wrap; /* Allow the thumbnails to wrap to the next line */
 }
 
 .thumbnailItem {
+  flex: 1;
   margin-right: 15px;
   text-align: center;
 }
+
 
 .colorName {
   font-size: 14px;
@@ -204,8 +208,17 @@ button {
   cursor: pointer;
   border: 2px solid #ddd; /* Add a border for better visibility */
   border-radius: 5px;
+  object-fit: contain;
+ 
 }
 
 .thumbnailImage:hover {
   border-color: #2A337C; /* Change the border color on hover */
+}
+
+.enlargedImage {
+  width: 400px; /* Set the width of the enlarged image */
+  height: 400px; /* Set the height of the enlarged image */
+  border: 2px solid #2A337C; /* Add a border for better visibility */
+  border-radius: 5px;
 }

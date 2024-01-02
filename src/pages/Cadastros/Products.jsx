@@ -21,7 +21,8 @@ const Products = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [selectedThumbnail, setSelectedThumbnail] = useState(null);
   const [isImageZoomed, setIsImageZoomed] = useState(false);
-  
+  const [enlargedImage, setEnlargedImage] = useState(null);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [isUrlInputOpen, setIsUrlInputOpen] = useState(false);
   const [selectedThumbnailIndex, setSelectedThumbnailIndex] = useState(null);
@@ -176,6 +177,14 @@ const Products = () => {
     setZoomedImage(imageUrl);
     setSelectedThumbnailIndex(index);
     setIsImageZoomed((prev) => !prev);
+    if (enlargedImage === imageUrl) {
+      // Clicking on an already enlarged image, shrink it
+      setEnlargedImage(null);
+    } else {
+      // Clicking on a thumbnail, enlarge it
+      setEnlargedImage(imageUrl);
+    }
+  
   };
   const closeZoomedImage = () => {
     setIsImageZoomed(false);
@@ -361,33 +370,35 @@ const Products = () => {
                                       onChange={handleFormChange}
                                     />
                                   </label>
-                                  {filteredProducts.map((product) => (
 
-      <div >
-        {/* ... existing code ... */}
-        <div className={styles.thumbnailContainer}>
-          {product.variations.map((variation, index) => (
-            <div key={index} className={styles.thumbnailItem}>
-              <div className={styles.colorName}>{variation.color}</div>
-              {variation.urls.map((url, imageUrlIndex) => (
-                <img
-                  key={imageUrlIndex}
-                  src={url}
-                  alt={`${variation.color}-${imageUrlIndex}`}
-                  className={styles.thumbnailImage}
-                  onClick={() =>
-                    handleThumbnailClick(url, variation.color, index)
-                  }
-                />
-              ))}
-            </div>
-          ))}
-        </div>
-        {/* ... existing code ... */}
-      </div>
-))}
-
-                                  <br></br>
+    
+<div className={styles.thumbnailContainer}>
+                                    {product.variations.map((variation, index) => (
+                                      <div
+                                        key={index}
+                                        className={styles.thumbnailItem}
+                                      >
+                                        <div className={styles.colorName}>
+                                          {variation.color}
+                                        </div>
+                                        <img
+                                          src={variation.urls[0]} // Use the first URL for the thumbnail
+                                          alt={`${variation.color}-${index}`}
+                                          className={`${styles.thumbnailImage} ${
+                                            enlargedImage === variation.urls[0] &&
+                                            styles.enlargedImage
+                                          }`}
+                                          onClick={() =>
+                                            handleThumbnailClick(
+                                              variation.urls[0],
+                                              variation.color,
+                                              index
+                                            )
+                                          }
+                                        />
+                                      </div>
+                                    ))}
+                                  </div>                     <br></br>
                                   <button
                                     type="submit"
                                     className={styles.button}
