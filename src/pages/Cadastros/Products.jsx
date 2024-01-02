@@ -350,16 +350,18 @@ const Products = () => {
                                     />
                                   </label>
    {/* Variações de produtos (cores e miniaturas) */}
+{/* Variações de produtos (cores e miniaturas) */}
 {formData.variations &&
-  formData.variations.map((variation, variationIndex) => (
-    <div key={variationIndex} className={styles.colorContainer}>
+  // Usamos um conjunto (Set) para manter apenas cores únicas
+  [...new Set(formData.variations.map((v) => v.color))].map((uniqueColor, colorIndex) => (
+    <div key={colorIndex} className={styles.colorContainer}>
       {/* Nome da cor */}
-      <div className={styles.colorName}>{variation.color}</div>
+      <div className={styles.colorName}>{uniqueColor}</div>
 
       {/* Miniaturas das fotos correspondentes para a cor atual */}
       <div className={styles.thumbnailSelector}>
         {formData.variations
-          .filter((v) => v.color === variation.color)
+          .filter((v) => v.color === uniqueColor)
           .map((v, vIndex) => (
             <div
               key={vIndex}
