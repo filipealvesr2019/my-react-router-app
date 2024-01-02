@@ -20,8 +20,7 @@ import CheckIcon from "@mui/icons-material/Check";
 const CreateProductForm = ({ onClose }) => {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
-  const [isColorAdded, setIsColorAdded] = useState(false);
-  const [isProductCreated, setIsProductCreated] = useState(false);
+
   const [productInfo, setProductInfo] = useState({
     name: "",
     price: 0.0,
@@ -33,7 +32,13 @@ const CreateProductForm = ({ onClose }) => {
     variations: [], // Array de variações (cores e imagens)
     imageFiles: [], // Novo campo para arquivos de imagem
     colorPickerOpen: false,
+    colorPortuguese: "",
+  imageUrls: [],
+  imageUrl: "",  // Adicione este campo para armazenar a URL da imagem
+  color: "",   
+
   });
+  const [isColorAdded, setIsColorAdded] = useState(false);
 
   const [imageFileName, setImageFileName] = useState("");
 
@@ -106,7 +111,7 @@ const CreateProductForm = ({ onClose }) => {
     }));
     handleColorPickerClose();
   };
-  // Adicione um novo evento para impedir a propagação quando a barra de cores é movida
+  
   const handleColorChange = (color, event) => {
     event.stopPropagation();
     setProductInfo((prevProductInfo) => ({
@@ -114,6 +119,7 @@ const CreateProductForm = ({ onClose }) => {
       color: color.hex,
     }));
   };
+  
 
   useEffect(() => {
     // Carregar categorias ao montar o componente
@@ -172,202 +178,148 @@ const CreateProductForm = ({ onClose }) => {
       console.error("Erro ao buscar subcategorias:", error);
     }
   };
+
+
+
+
+
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
-
-    // Verifique se a matriz de arquivos não está vazia
+  
     if (files.length > 0) {
       const imageFile = files[0];
-
-      // Verifique se imageFile não é indefinido
+  
       if (imageFile) {
-        console.log("Partial File Name:", imageFile.name.substring(0, 10));
-
-        const partialFileName = imageFile.name.substring(0, 10);
-
+        // Set the image file to the state
         setProductInfo((prevProductInfo) => ({
           ...prevProductInfo,
-          imageFiles: [...prevProductInfo.imageFiles, imageFile],
+          imageFiles: [imageFile],
         }));
-
-        setImageFileName(partialFileName);
+  
+        setImageFileName(imageFile.name.substring(0, 10));
       } else {
-        console.error("Nenhum arquivo selecionado");
+        console.error("No file selected");
       }
     } else {
-      console.error("Nenhum arquivo selecionado");
-    }
-  };
-  const handleAddVariation = async () => {
-    const { color, imageFiles } = productInfo;
-  
-    // Check if color and imageFiles are not empty
-    if (color && imageFiles.length > 0) {
-      try {
-        // Upload images and get the URLs
-        const imageUrls = await Promise.all(
-          imageFiles.map(async (file) => await uploadImageToImgBB(file))
-        );
-  
-        if (imageUrls.every((url) => url)) {
-          // Update or add the variation
-          setProductInfo((prevProductInfo) => {
-            const updatedVariations = [...prevProductInfo.variations];
-            const existingVariationIndex = updatedVariations.findIndex(
-              (variation) => variation.color === color
-            );
-  
-            if (existingVariationIndex !== -1) {
-              // The variation already exists; update URLs
-              updatedVariations[existingVariationIndex].urls = imageUrls;
-            } else {
-              // The variation does not exist; add a new one
-              const newVariation = {
-                color: color,
-                urls: imageUrls,
-              };
-  
-              updatedVariations.push(newVariation);
-            }
-  
-            return {
-              ...prevProductInfo,
-              color: "",
-              variations: updatedVariations,
-            };
-          });
-  
-          // Clear the input fields and states
-          setImageFileName("");
-          setIsColorAdded(true);
-  
-          // Display success message
-          toast.success("Fotos adicionadas à cor com sucesso!", {
-            position: toast.POSITION.TOP_CENTER,
-            autoClose: 2000,
-          });
-        } else {
-          console.error("Erro ao obter a URL da imagem");
-        }
-      } catch (error) {
-        console.error("Erro ao adicionar variação:", error.message);
-      }
-    } else {
-      console.error("A cor ou os arquivos de imagem estão vazios");
-    }
-  };
-  
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setProductInfo((prevProductInfo) => ({
-      ...prevProductInfo,
-      [name]: value,
-    }));
-
-    // Handle color input separately
-    if (name === "color") {
-      handleColorChange(value, event);
+      console.error("No file selected");
     }
   };
 
-  const uploadImageToImgBB = async (imageFile) => {
-    const apiKey = "413ee454dba81a255811380189b8c1f0"; // Replace with your actual ImgBB API key
-
-    try {
-      const formData = new FormData();
-      formData.append("image", imageFile);
-
-      const response = await axios.post(
-        "https://api.imgbb.com/1/upload",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          params: {
-            key: apiKey,
-          },
-        }
-      );
-
-      if (response.data && response.data.data && response.data.data.url) {
-        const imageUrl = response.data.data.url;
-        return imageUrl;
-      } else {
-        console.error("Error uploading image:", response.data);
-        return null;
-      }
-    } catch (error) {
-      console.error("Error uploading image:", error.message);
-      return null;
-    }
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    console.log("State Before Sending to Server:", productInfo);
-
-    // Validate the form before proceeding
-    if (!validateForm()) {
-      toast.error("All fields must be filled!", {
+  const handleAddVariation = () => {
+    const { color, imageUrl } = productInfo;
+  
+    console.log("Color and Image URL before adding variation:", color, imageUrl);
+  
+    // Make sure the image URL is set correctly
+    if (color && imageUrl) {
+      // Continue with processing, such as adding color and URL to your variations list
+  
+      // Example: Add to the variations list
+      setProductInfo((prevProductInfo) => {
+        const updatedVariations = [
+          ...prevProductInfo.variations,
+          { color, urls: [imageUrl] }, // Adjusted structure to match your model
+        ];
+        return {
+          ...prevProductInfo,
+          color: "",
+          imageUrl: "",
+          variations: updatedVariations,
+        };
+      });
+  
+      // Clear the fields and states
+      setIsColorAdded(true);
+  
+      // Display success message
+      toast.success("Color and image URL added successfully!", {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 2000,
       });
-      return;
-    }
-
-    try {
-      const { imageFiles, ...productData } = productInfo;
-
-      // Upload image and get the URL
-      const imageUrl = await uploadImageToImgBB(imageFiles[0]);
-
-      if (imageUrl) {
-        // Include the image URL in the product data
-        productData.imageUrl = imageUrl;
-
-        // Send product data to the server for further processing
-        const response = await axios.post(
-          "http://localhost:3001/api/admin/product/new",
-          productData
-        );
-
-        if (response.status === 201) {
-          setProductInfo({
-            name: "",
-            price: 0.0,
-            description: "",
-            size: "",
-            category: "",
-            subcategory: "",
-            quantity: 0,
-            variations: [],
-            imageFiles: [],
-          });
-
-          console.log("Product created successfully");
-
-          setTimeout(() => {
-            onClose();
-          }, 4000);
-          // Configuração para exibir a mensagem de sucesso
-          setIsProductCreated(true);
-
-          // Exibir a mensagem de sucesso
-          toast.success("Produto adicionado com sucesso!", {
-            position: toast.POSITION.TOP_CENTER,
-            autoClose: 2000,
-          });
-        } else {
-          console.error("Error creating product:", response.statusText);
-        }
-      } else {
-        console.error("Error getting image URL");
-      }
-    } catch (error) {
-      console.error("Error creating product:", error.message);
+    } else {
+      console.error("Color or image URL is empty");
     }
   };
+  
+const handleInputChange = (event) => {
+  const { name, value } = event.target;
+
+  setProductInfo((prevProductInfo) => ({
+    ...prevProductInfo,
+    [name]: value,
+  }));
+
+  // Handle color input separately
+  if (name === "colorPortuguese") {
+    // Update the state for the color
+    setProductInfo((prevProductInfo) => ({
+      ...prevProductInfo,
+      color: value,
+    }));
+  }
+};
+
+const handleSubmit = async (event) => {
+  event.preventDefault();
+  console.log("State Before Sending to Server:", productInfo);
+
+  // Validate the form before proceeding
+  if (!validateForm()) {
+    toast.error("All fields must be filled!", {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 2000,
+    });
+    return;
+  }
+
+  try {
+    const { imageUrl, ...productData } = productInfo;
+
+    // Include the image URL in the product data
+    productData.imageUrl = imageUrl;
+
+    // Send the product data to the server for further processing
+    const response = await axios.post(
+      "http://localhost:3001/api/admin/product/new",
+      productData
+    );
+
+    if (response.status === 201) {
+      setProductInfo({
+        name: "",
+        price: 0.0,
+        description: "",
+        size: "",
+        category: "",
+        subcategory: "",
+        quantity: 0,
+        variations: [],
+        imageUrl: "", // Clear the image URL
+      });
+
+      console.log("Product created successfully");
+
+      setTimeout(() => {
+        onClose();
+      }, 4000);
+
+      // Configuration to display the success message
+      // setIsProductCreated(true);
+
+      // Display success message
+      toast.success("Product added successfully!", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000,
+      });
+    } else {
+      console.error("Error creating product:", response.statusText);
+    }
+  } catch (error) {
+    console.error("Error creating product:", error.message);
+  }
+};
+
+
 
   const handleSubcategoryChange = (event) => {
     const subcategoryName = event.target.value;
@@ -376,6 +328,18 @@ const CreateProductForm = ({ onClose }) => {
       subcategory: subcategoryName,
     }));
   };
+
+
+  const handleImageUrlsChange = (event) => {
+    const { value } = event.target;
+    // Set the image URL to the state
+    setProductInfo((prevProductInfo) => ({
+      ...prevProductInfo,
+      imageUrl: value,
+    }));
+  };
+  
+  // ...
   return (
     <form onSubmit={handleSubmit}>
       {formErrors.variations && (
@@ -512,70 +476,36 @@ const CreateProductForm = ({ onClose }) => {
             </Select>
           </FormControl>
         </Grid>
-
         <Grid item xs={12} sm={6}>
-          <TextField
-            label="Cor"
-            variant="outlined"
-            fullWidth
-            name="color"
-            value={productInfo.color}
-            onClick={handleColorPickerOpen}
-            onChange={handleInputChange}
-            error={formErrors.color !== undefined}
-            helperText={formErrors.color}
-            InputProps={{
-              style: { marginTop: "10px" },
-            }}
-          />
-          {productInfo.colorPickerOpen && (
-            <div
-              style={{ position: "absolute", zIndex: 2, top: "1rem" }}
-              onClick={(event) => event.stopPropagation()}
-            >
-              <SketchPicker
-                color={productInfo.color}
-                onChangeComplete={handleColorChangeComplete}
-                onChange={(color, event) => handleColorChange(color, event)}
-              />
+  <TextField
+    label="Cor em Português"
+    variant="outlined"
+    fullWidth
+    name="colorPortuguese"
+    value={productInfo.color}
+    onChange={handleInputChange}
+    error={formErrors.colorPortuguese !== undefined}
+    helperText={formErrors.colorPortuguese}
+    InputProps={{
+      style: { marginTop: "10px" },
+    }}
+  />
+</Grid>
 
-              <div
-                onClick={handleColorPickerClose}
-                style={{
-                  backgroundColor: "#14337C",
-                  width: "40px",
-                  height: "40px",
-                  borderRadius: "50%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                  marginLeft: "11rem",
-                  marginTop: ".5rem",
-                }}
-              >
-                <CheckIcon
-                  style={{
-                    color: "white",
-                    fontSize: "2rem",
-                  }}
-                />
-              </div>
-            </div>
-          )}
+<Grid item xs={12} sm={6}>
+  <TextField
+    label="URL da Imagem"
+    variant="outlined"
+    fullWidth
+    name="imageUrl"
+    value={productInfo.imageUrl}
+    onChange={handleImageUrlsChange}
+    InputProps={{
+      style: { marginTop: "10px" },
+    }}
+  />
+</Grid>
 
-          {productInfo.color && productInfo.colorPickerOpen && (
-            <div
-              style={{
-                marginTop: "0.5rem",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              {/* ... (seu código existente) */}
-            </div>
-          )}
-        </Grid>
         <Grid item xs={12} sm={6}>
           <Button
             onClick={handleAddVariation}
@@ -597,14 +527,7 @@ const CreateProductForm = ({ onClose }) => {
             Adicionar foto a Cor
           </Button>
         </Grid>
-        <Grid item xs={12}>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleFileChange}
-            style={{ marginTop: "-1rem" }}
-          />
-        </Grid>
+       
       </Grid>
       <Button
         style={{
@@ -624,40 +547,9 @@ const CreateProductForm = ({ onClose }) => {
       >
         Criar Produto
       </Button>
-      {productInfo.color && (
-        <div
-          className="bolinha"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            marginLeft: "3rem",
-            marginTop: "-2rem",
-          }}
-        >
-          <div
-            style={{
-              marginRight: "0.5rem",
-              whiteSpace: "nowrap",
-              marginBottom: "-.5rem",
-              border: "1px solid rgba(255, 255, 255, 0.5)", // Cor semi-transparente (branca)
-            }}
-          >
-            Cor:
-          </div>
-          <div
-            style={{
-              width: "30px", // Tamanho ajustado para ser igual, você pode ajustar conforme necessário
-              height: "30px",
-              backgroundColor: productInfo.color,
-              border: "1px solid rgba(255, 255, 255, 0.5)", // Cor semi-transparente (branca)
-              borderRadius: "50%",
-            }}
-          ></div>
-          <span style={{ whiteSpace: "nowrap", marginLeft: "1rem" }}>
-            Imagem: {imageFileName}
-          </span>
-        </div>
-      )}
+  
+
+  
     </form>
   );
 };
