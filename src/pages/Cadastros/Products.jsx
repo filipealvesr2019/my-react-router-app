@@ -349,120 +349,52 @@ const Products = () => {
                                       onChange={handleFormChange}
                                     />
                                   </label>
-                                  {formData.variations &&
-                                    formData.variations.map(
-                                      (variation, variationIndex) => (
-                                        <div
-                                          className={styles.colorContainer}
-                                          key={variationIndex}
-                                        >
-                                          {/* Bolinha de cor */}
-                                          <div
-                                            className={
-                                              styles.colorPickerPreview
-                                            }
-                                            style={{
-                                              backgroundColor: variation.color,
-                                            }}
-                                            onClick={() => {
-                                              setSelectedImageIndex(
-                                                variationIndex
-                                              );
-                                              setSelectedColorPickerIndex(
-                                                (prevIndex) =>
-                                                  prevIndex === variationIndex
-                                                    ? null
-                                                    : variationIndex
-                                              );
-                                              setIsColorPickerOpen(
-                                                (prev) => !prev
-                                              );
-                                            }}
-                                          ></div>
+   {/* Variações de produtos (cores e miniaturas) */}
+{formData.variations &&
+  formData.variations.map((variation, variationIndex) => (
+    <div key={variationIndex} className={styles.colorContainer}>
+      {/* Nome da cor */}
+      <div className={styles.colorName}>{variation.color}</div>
 
-                                          {selectedImageIndex ===
-                                            variationIndex && (
-                                              <div>
-                                                <ChromePicker
-                                                  color={variation.color}
-                                                  onChange={(newColor) => {
-                                                    const newVariations = [
-                                                      ...formData.variations,
-                                                    ];
-                                                    newVariations[
-                                                      variationIndex
-                                                    ] = {
-                                                      ...newVariations[
-                                                      variationIndex
-                                                      ],
-                                                      color: newColor.hex,
-                                                    };
-                                                    setFormData((prevData) => ({
-                                                      ...prevData,
-                                                      variations: newVariations,
-                                                    }));
-                                                  }}
-                                                  display={
-                                                    selectedColorPickerIndex ===
-                                                      variationIndex &&
-                                                      isColorPickerOpen
-                                                      ? "block"
-                                                      : "none"
-                                                  }
-                                                />
-                                                {/* Add the "Atualizar Cor" button here */}
-                                                <button
-                                                  onClick={(e) => {
-                                                    e.stopPropagation(); // Evita que o clique se propague para o div pai (colorContainer)
-                                                    setIsColorPickerOpen(false); // Fecha apenas o seletor de cores
-                                                    setSelectedColorPickerIndex(
-                                                      null
-                                                    );
-                                                  }}
-                                                >
-                                                  Atualizar Cor
-                                                </button>
-                                              </div>
-                                            )}
-                                          {/* Seletor de fotos */}
-                                          {selectedImageIndex === variationIndex && (
-              <div className={styles.thumbnailSelector}>
-                {formData.variations &&
-                  formData.variations.map((variation, variationIndex) => (
-                    <div
-                      key={variationIndex}
-                      className={styles.thumbnailContainer}
-                      onClick={() => handleThumbnailClick(variation.urls[0])}
-                    >
-                      <img
-                        src={variation.urls.length > 0 ? variation.urls[0] : ""}
-                        alt={`Thumbnail ${variationIndex + 1}`}
-                        className={styles.thumbnailImage}
-                      />
-                    </div>
-                  ))}
-              </div>
-            )}
-                                          {/* Imagem Grande */}
-                                          {isImageZoomed && (
-                                            <div className={styles.fullImageContainer}>
-                                              <img
-                                                src={zoomedImage}
-                                                alt="Imagem Completa"
-                                                className={styles.fullImage}
-                                                onClick={closeZoomedImage}
-                                              />
-                                              <button
-                                                onClick={closeZoomedImage}
-                                                className={styles.closeButton}
-                                              >
-                                                Fechar
-                                              </button>
-                                            </div>
-                                          )}
-                                        </div>
-                                      )
-                                    )}
+      {/* Miniaturas das fotos correspondentes para a cor atual */}
+      <div className={styles.thumbnailSelector}>
+        {formData.variations
+          .filter((v) => v.color === variation.color)
+          .map((v, vIndex) => (
+            <div
+              key={vIndex}
+              className={styles.thumbnailContainer}
+              onClick={() => handleThumbnailClick(v.urls[0])}
+            >
+              <img
+                src={v.urls.length > 0 ? v.urls[0] : ""}
+                alt={`Thumbnail ${vIndex + 1}`}
+                className={styles.thumbnailImage}
+              />
+            </div>
+          ))}
+      </div>
+    </div>
+  ))}
+  
+{/* Imagem Grande */}
+{isImageZoomed && (
+  <div className={styles.fullImageContainer}>
+    <img
+      src={zoomedImage}
+      alt="Imagem Completa"
+      className={styles.fullImage}
+      onClick={closeZoomedImage}
+    />
+    <button
+      onClick={closeZoomedImage}
+      className={styles.closeButton}
+    >
+      Fechar
+    </button>
+  </div>
+)}
+
                                   // ... (código posterior)
                                   <br></br>
                                   <button
