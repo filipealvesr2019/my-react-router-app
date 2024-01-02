@@ -13,7 +13,8 @@ const Products = () => {
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
-  const [selectedColorPickerIndex, setSelectedColorPickerIndex] = useState(null);
+  const [selectedColorPickerIndex, setSelectedColorPickerIndex] =
+    useState(null);
   const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
   const [zoomedImage, setZoomedImage] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -45,8 +46,6 @@ const Products = () => {
     // ... other necessary fields
     // ... outros campos necessários
   });
-
-
 
   useEffect(() => {
     getProducts();
@@ -184,7 +183,6 @@ const Products = () => {
       // Clicking on a thumbnail, enlarge it
       setEnlargedImage(imageUrl);
     }
-  
   };
   const closeZoomedImage = () => {
     setIsImageZoomed(false);
@@ -201,14 +199,14 @@ const Products = () => {
       return { ...prevData, variations: newVariations };
     });
   };
-  
+
   const addVariation = () => {
     setFormData((prevData) => ({
       ...prevData,
-      variations: [...prevData.variations, { color: '', urls: '' }],
+      variations: [...prevData.variations, { color: "", urls: "" }],
     }));
   };
-  
+
   const removeVariation = (index) => {
     setFormData((prevData) => {
       const newVariations = [...prevData.variations];
@@ -216,9 +214,7 @@ const Products = () => {
       return { ...prevData, variations: newVariations };
     });
   };
-  
 
-  
   return (
     <div className={styles.container}>
       <div className={styles.Model}>
@@ -306,7 +302,7 @@ const Products = () => {
                                   >
                                     <CloseIcon />
                                   </button>
-                         <label>
+                                  <label>
                                     Nome:
                                     <input
                                       type="text"
@@ -370,35 +366,40 @@ const Products = () => {
                                       onChange={handleFormChange}
                                     />
                                   </label>
-
-    
-<div className={styles.thumbnailContainer}>
-                                    {product.variations.map((variation, index) => (
-                                      <div
-                                        key={index}
-                                        className={styles.thumbnailItem}
-                                      >
-                                        <div className={styles.colorName}>
-                                          {variation.color}
+                                  <div className={styles.thumbnailContainer}>
+                                    {product.variations.map(
+                                      (variation, index) => (
+                                        <div
+                                          key={index}
+                                          className={styles.thumbnailItem}
+                                        >
+                                          <div className={styles.colorName}>
+                                            {variation.color}
+                                          </div>
+                                          <img
+                                            src={variation.urls[0]} // Use the first URL for the thumbnail
+                                            alt={`${variation.color}-${index}`}
+                                            className={`${
+                                              styles.thumbnailImage
+                                            } ${
+                                              enlargedImage ===
+                                                variation.urls[0] &&
+                                              styles.enlargedImage
+                                            }`}
+                                            onClick={() =>
+                                              handleThumbnailClick(
+                                                variation.urls[0],
+                                                variation.color,
+                                                index
+                                              )
+                                            }
+                                          />
                                         </div>
-                                        <img
-                                          src={variation.urls[0]} // Use the first URL for the thumbnail
-                                          alt={`${variation.color}-${index}`}
-                                          className={`${styles.thumbnailImage} ${
-                                            enlargedImage === variation.urls[0] &&
-                                            styles.enlargedImage
-                                          }`}
-                                          onClick={() =>
-                                            handleThumbnailClick(
-                                              variation.urls[0],
-                                              variation.color,
-                                              index
-                                            )
-                                          }
-                                        />
-                                      </div>
-                                    ))}
-                                  </div>                     <br></br>
+                                      )
+                                    )}
+                                    
+                                  </div>{" "}
+                                  <br></br>
                                   <button
                                     type="submit"
                                     className={styles.button}
@@ -410,6 +411,7 @@ const Products = () => {
                             </form>
                           )}
                         </div>
+                        
                         <div className={styles.deleteBtn}>
                           {!isModalOpen && !formData._id && (
                             <>
