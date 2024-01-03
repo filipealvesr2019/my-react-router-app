@@ -172,23 +172,23 @@ const Products = () => {
 
   const groupImagesByColor = (variations) => {
     const groupedImages = {};
-  
+
     variations.forEach((variation) => {
       const color = variation.color;
       const urls = variation.urls;
-  
+
       if (!groupedImages[color]) {
         groupedImages[color] = [];
       }
-  
+
       groupedImages[color] = [...groupedImages[color], ...urls];
     });
-  
+
     return groupedImages;
   };
-  
+
   // ...
-  
+
   const handleThumbnailClick = (imageUrl, color, index) => {
     setSelectedThumbnail(imageUrl);
     setIsImageZoomed(true);
@@ -204,14 +204,6 @@ const Products = () => {
       setEnlargedImage(imageUrl);
     }
   };
-  
-
-
-
-
-
-
-
 
   const closeZoomedImage = () => {
     setIsImageZoomed(false);
@@ -396,37 +388,59 @@ const Products = () => {
                                     />
                                   </label>
                                   <div className={styles.thumbnailContainer}>
-  {product.variations.reduce((uniqueVariations, variation) => {
-    const existingVariation = uniqueVariations.find(
-      (v) => v.color === variation.color
-    );
+                                    {product.variations
+                                      .reduce((uniqueVariations, variation) => {
+                                        const existingVariation =
+                                          uniqueVariations.find(
+                                            (v) => v.color === variation.color
+                                          );
 
-    if (!existingVariation) {
-      uniqueVariations.push({ ...variation, urls: [variation.urls[0]] });
-    } else {
-      existingVariation.urls.push(variation.urls[0]);
-    }
+                                        if (!existingVariation) {
+                                          uniqueVariations.push({
+                                            ...variation,
+                                            urls: [variation.urls[0]],
+                                          });
+                                        } else {
+                                          existingVariation.urls.push(
+                                            variation.urls[0]
+                                          );
+                                        }
 
-    return uniqueVariations;
-  }, []).map((uniqueVariation, index) => (
-    <div key={index} className={styles.thumbnailItem}>
-      <div className={styles.colorName}>{uniqueVariation.color}</div>
-      {uniqueVariation.urls.map((imageUrl, subIndex) => (
-        <img
-          key={subIndex}
-          src={imageUrl}
-          alt={`${uniqueVariation.color}-${subIndex}`}
-          className={`${styles.thumbnailImage} ${
-            enlargedImage === imageUrl && styles.enlargedImage
-          }`}
-          onClick={() =>
-            handleThumbnailClick(imageUrl, uniqueVariation.color, subIndex)
-          }
-        />
-      ))}
-    </div>
-  ))}
-</div>
+                                        return uniqueVariations;
+                                      }, [])
+                                      .map((uniqueVariation, index) => (
+                                        <div
+                                          key={index}
+                                          className={styles.thumbnailItem}
+                                        >
+                                          <div className={styles.colorName}>
+                                            {uniqueVariation.color}
+                                          </div>
+                                          {uniqueVariation.urls.map(
+                                            (imageUrl, subIndex) => (
+                                              <img
+                                                key={subIndex}
+                                                src={imageUrl}
+                                                alt={`${uniqueVariation.color}-${subIndex}`}
+                                                className={`${
+                                                  styles.thumbnailImage
+                                                } ${
+                                                  enlargedImage === imageUrl &&
+                                                  styles.enlargedImage
+                                                }`}
+                                                onClick={() =>
+                                                  handleThumbnailClick(
+                                                    imageUrl,
+                                                    uniqueVariation.color,
+                                                    subIndex
+                                                  )
+                                                }
+                                              />
+                                            )
+                                          )}
+                                        </div>
+                                      ))}
+                                  </div>
 
                                   <br></br>
                                   <button
@@ -440,7 +454,7 @@ const Products = () => {
                             </form>
                           )}
                         </div>
-                        
+
                         <div className={styles.deleteBtn}>
                           {!isModalOpen && !formData._id && (
                             <>
