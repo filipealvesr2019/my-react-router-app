@@ -267,11 +267,14 @@ button {
 /* Estilo para a caixa de entrada e botão, ajuste conforme necessário */
 .thumbnailItem .thumbnailImage {
   /* Adicione estilos conforme necessário */
+  display: flex;
+  flex-direction: row;
 }
 
 /* Estilo para a caixa de entrada, ajuste conforme necessário */
 .thumbnailItem .thumbnailInput {
   /* Adicione estilos conforme necessário */
+  width: 10vw;
 }
 
 /* Estilo para o botão, ajuste conforme necessário */
