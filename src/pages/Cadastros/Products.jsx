@@ -169,6 +169,26 @@ const Products = () => {
   };
 
   console.log("Total Pages:", totalPages);
+
+  const groupImagesByColor = (variations) => {
+    const groupedImages = {};
+  
+    variations.forEach((variation) => {
+      const color = variation.color;
+      const urls = variation.urls;
+  
+      if (!groupedImages[color]) {
+        groupedImages[color] = [];
+      }
+  
+      groupedImages[color] = [...groupedImages[color], ...urls];
+    });
+  
+    return groupedImages;
+  };
+  
+  // ...
+  
   const handleThumbnailClick = (imageUrl, color, index) => {
     setSelectedThumbnail(imageUrl);
     setIsImageZoomed(true);
@@ -184,6 +204,15 @@ const Products = () => {
       setEnlargedImage(imageUrl);
     }
   };
+  
+
+
+
+
+
+
+
+
   const closeZoomedImage = () => {
     setIsImageZoomed(false);
   };
@@ -367,38 +396,38 @@ const Products = () => {
                                     />
                                   </label>
                                   <div className={styles.thumbnailContainer}>
-                                    {product.variations.map(
-                                      (variation, index) => (
-                                        <div
-                                          key={index}
-                                          className={styles.thumbnailItem}
-                                        >
-                                          <div className={styles.colorName}>
-                                            {variation.color}
-                                          </div>
-                                          <img
-                                            src={variation.urls[0]} // Use the first URL for the thumbnail
-                                            alt={`${variation.color}-${index}`}
-                                            className={`${
-                                              styles.thumbnailImage
-                                            } ${
-                                              enlargedImage ===
-                                                variation.urls[0] &&
-                                              styles.enlargedImage
-                                            }`}
-                                            onClick={() =>
-                                              handleThumbnailClick(
-                                                variation.urls[0],
-                                                variation.color,
-                                                index
-                                              )
-                                            }
-                                          />
-                                        </div>
-                                      )
-                                    )}
-                                    
-                                  </div>{" "}
+  {product.variations.reduce((uniqueVariations, variation) => {
+    const existingVariation = uniqueVariations.find(
+      (v) => v.color === variation.color
+    );
+
+    if (!existingVariation) {
+      uniqueVariations.push({ ...variation, urls: [variation.urls[0]] });
+    } else {
+      existingVariation.urls.push(variation.urls[0]);
+    }
+
+    return uniqueVariations;
+  }, []).map((uniqueVariation, index) => (
+    <div key={index} className={styles.thumbnailItem}>
+      <div className={styles.colorName}>{uniqueVariation.color}</div>
+      {uniqueVariation.urls.map((imageUrl, subIndex) => (
+        <img
+          key={subIndex}
+          src={imageUrl}
+          alt={`${uniqueVariation.color}-${subIndex}`}
+          className={`${styles.thumbnailImage} ${
+            enlargedImage === imageUrl && styles.enlargedImage
+          }`}
+          onClick={() =>
+            handleThumbnailClick(imageUrl, uniqueVariation.color, subIndex)
+          }
+        />
+      ))}
+    </div>
+  ))}
+</div>
+
                                   <br></br>
                                   <button
                                     type="submit"
