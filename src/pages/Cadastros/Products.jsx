@@ -457,44 +457,11 @@ useEffect(() => {
                                     marginTop:"-5rem",
          
                                     }}>
-                                  <label>
+                        
                           
-                                    <input
-                                      type="text"
-                                      name="color"
-                                      value={formData.variations[0]?.color || ""}
-                                      onChange={(e) =>
-                                        handleVariationChange(0, "color", e.target.value)
-                                      }
-                                      style={{
-                                        width:"8vw",
-                                        marginBottom:"-4rem"
-                                      }}
-                                    />
-                                  </label>
+                                   
 
-                                  <label>
-                                    URLs:
-                                    <select
-                                      name="urls"
-                                      value={formData.variations[0]?.urls || ""}
-                                      onChange={(e) =>
-                                        handleVariationChange(0, "urls", e.target.value)
-                                      }
-                                      style={{
-                                        width:"8vw", 
-                                      display:"flex"}}
-                                    >
-                                      <option value="">Selecione a URL</option>
-                                      {product.variations[0].urls.map((url, index) => (
-                                        <option key={index} value={url}>
-                                          {url}
-                                        </option>
-                                      ))}
-                                    </select>
-                                  </label>
-  </div>
-  <div>
+                                
   <label>
     Cores:
     <input
