@@ -23,6 +23,7 @@ const Products = () => {
   const [selectedThumbnail, setSelectedThumbnail] = useState(null);
   const [isImageZoomed, setIsImageZoomed] = useState(false);
   const [enlargedImage, setEnlargedImage] = useState(null);
+  const [isUpdateInputOpen, setIsUpdateInputOpen] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [isUrlInputOpen, setIsUrlInputOpen] = useState(false);
@@ -204,14 +205,17 @@ const Products = () => {
       setEnlargedImage(imageUrl);
     }
   };
-
   const closeZoomedImage = () => {
     setIsImageZoomed(false);
+    setEnlargedImage(null); // Reset enlarged image when zooming out
   };
-
+  
   const closeSelectedThumbnail = () => {
     setSelectedThumbnail(null);
+    setIsImageZoomed(false); // Close zoomed image when the selected thumbnail is closed
+    setEnlargedImage(null); // Reset enlarged image
   };
+  
 
   const handleVariationChange = (index, field, value) => {
     setFormData((prevData) => {
@@ -235,6 +239,23 @@ const Products = () => {
       return { ...prevData, variations: newVariations };
     });
   };
+// ... (other functions)
+
+const handleVariationUrlChange = (variationIndex, urlIndex, value) => {
+  setFormData((prevData) => {
+    const newVariations = [...prevData.variations];
+    newVariations[variationIndex].urls[urlIndex] = value;
+    return { ...prevData, variations: newVariations };
+  });
+};
+
+const handleUpdateUrl = (variationIndex, urlIndex) => {
+  // Implement the logic to update the URL
+  console.log("Update URL Logic:", variationIndex, urlIndex, formData.variations[variationIndex].urls[urlIndex]);
+  // You can call your API or perform the necessary actions to update the URL
+};
+
+
 
   return (
     <div className={styles.container}>
@@ -388,60 +409,75 @@ const Products = () => {
                                     />
                                   </label>
                                   <div className={styles.thumbnailContainer}>
-                                    {product.variations
-                                      .reduce((uniqueVariations, variation) => {
-                                        const existingVariation =
-                                          uniqueVariations.find(
-                                            (v) => v.color === variation.color
-                                          );
+                          {product.variations
+                            .reduce((uniqueVariations, variation) => {
+                              const existingVariation =
+                                uniqueVariations.find(
+                                  (v) => v.color === variation.color
+                                );
 
-                                        if (!existingVariation) {
-                                          uniqueVariations.push({
-                                            ...variation,
-                                            urls: [variation.urls[0]],
-                                          });
-                                        } else {
-                                          existingVariation.urls.push(
-                                            variation.urls[0]
-                                          );
+                              if (!existingVariation) {
+                                uniqueVariations.push({
+                                  ...variation,
+                                  urls: [variation.urls[0]],
+                                });
+                              } else {
+                                existingVariation.urls.push(
+                                  variation.urls[0]
+                                );
+                              }
+
+                              return uniqueVariations;
+                            }, [])
+                            .map((uniqueVariation, index) => (
+                              <div
+                                key={index}
+                                className={styles.thumbnailItem}
+                              >
+                                <div className={styles.colorName}>
+                                  {uniqueVariation.color}
+                                </div>
+                                {uniqueVariation.urls.map(
+                                  (imageUrl, subIndex) => (
+                                    <div
+                                      key={subIndex}
+                                      className={styles.imageContainer}
+                                    >
+                                      <img
+                                        src={imageUrl}
+                                        alt={`${uniqueVariation.color}-${subIndex}`}
+                                        className={`${styles.thumbnailImage} ${
+                                          enlargedImage === imageUrl &&
+                                          styles.enlargedImage
+                                        }`}
+                                        onClick={() =>
+                                          handleThumbnailClick(
+                                            imageUrl,
+                                            uniqueVariation.color,
+                                            subIndex
+                                          )
                                         }
-
-                                        return uniqueVariations;
-                                      }, [])
-                                      .map((uniqueVariation, index) => (
-                                        <div
-                                          key={index}
-                                          className={styles.thumbnailItem}
-                                        >
-                                          <div className={styles.colorName}>
-                                            {uniqueVariation.color}
-                                          </div>
-                                          {uniqueVariation.urls.map(
-                                            (imageUrl, subIndex) => (
-                                              <img
-                                                key={subIndex}
-                                                src={imageUrl}
-                                                alt={`${uniqueVariation.color}-${subIndex}`}
-                                                className={`${
-                                                  styles.thumbnailImage
-                                                } ${
-                                                  enlargedImage === imageUrl &&
-                                                  styles.enlargedImage
-                                                }`}
-                                                onClick={() =>
-                                                  handleThumbnailClick(
-                                                    imageUrl,
-                                                    uniqueVariation.color,
-                                                    subIndex
-                                                  )
-                                                }
-                                              />
-                                            )
-                                          )}
-                                        </div>
-                                      ))}
-                                  </div>
-
+                                      />
+                                      {/* Add the input field below each image */}
+                                      <input
+                                       type="text"
+                                       placeholder="Nova URL"
+                                       value={formData.variations[index].urls[subIndex]}
+                                       onChange={(e) =>
+                                         handleVariationUrlChange(index, subIndex, e.target.value)
+                                       }
+                                       className={styles.thumbnailInput}
+                                      />
+                                      {/* Add a button or logic to update the URL */}
+                                      <button onClick={() => handleUpdateUrl(index, subIndex)} className={styles.thumbnailButton}> {/* Add the class for the button */}
+  Trocar URL
+                                      </button>
+                                    </div>
+                                  )
+                                )}
+                              </div>
+                            ))}
+                        </div>
                                   <br></br>
                                   <button
                                     type="submit"

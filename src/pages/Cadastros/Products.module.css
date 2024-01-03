@@ -191,35 +191,48 @@ button {
 
 
 }
-
 .thumbnailItem {
-  margin-right: 15px; /* Ajuste a margem conforme necessário */
-  text-align: center;
-
+  margin-bottom: 20px; /* Add some spacing between each variation */
 }
 
-
-.colorName {
-  font-size: 14px;
-  margin-bottom: 5px;
-  display: flex;
-  justify-content: left;
-  align-items: center;
+.imageContainer {
+  position: relative;
+  margin-bottom: 10px; /* Adjust margin for spacing between image and input */
 }
 
 .thumbnailImage {
-  width: 80px; /* Adjust the size as needed */
-  height: 80px; /* Adjust the size as needed */
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
   cursor: pointer;
-  border: 2px solid #ddd; /* Add a border for better visibility */
-  border-radius: 5px;
-  object-fit: contain;
- margin-right: 1rem;
+  border: 2px solid transparent;
+  transition: border-color 0.3s ease-in-out;
 }
 
-.thumbnailImage:hover {
-  border-color: #2a337c; /* Change the border color on hover */
+/* Style the input field */
+.thumbnailInput {
+  width: 100%;
+  padding: 5px;
+  margin-top: 5px;
 }
+
+/* Style the button (optional) */
+.thumbnailButton {
+  margin-top: 5px;
+  padding: 5px 10px;
+  background-color: #2A337C;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.thumbnailButton:hover {
+  background-color: #1A2153;
+}
+
+/* ... (existing styles) */
+
 
 .enlargedImage {
   width: 450px; /* Set the width of the enlarged image */
@@ -231,4 +244,5 @@ button {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  z-index: 1;
 }
