@@ -170,24 +170,23 @@ const Products = () => {
   };
 
   console.log("Total Pages:", totalPages);
-
   const groupImagesByColor = (variations) => {
     const groupedImages = {};
-
+  
     variations.forEach((variation) => {
       const color = variation.color;
       const urls = variation.urls;
-
+  
       if (!groupedImages[color]) {
         groupedImages[color] = [];
       }
-
+  
       groupedImages[color] = [...groupedImages[color], ...urls];
     });
-
+  
     return groupedImages;
   };
-
+  
   // ...
 
   const handleThumbnailClick = (imageUrl, color, index) => {
@@ -452,31 +451,34 @@ useEffect(() => {
                                     />
                                   </label>
                                   <label>
-          Cor:
-          <input
-            type="text"
-            name="color"
-            value={formData.variations[selectedColorPickerIndex]?.color || ""}
-            onChange={(e) => handleVariationChange(selectedColorPickerIndex, 'color', e.target.value)}
-          />
-        </label>
-        <label>
-          URLs:
-          <select
-            name="urls"
-            value={formData.variations[selectedColorPickerIndex]?.urls[0] || ""}
-            onChange={(e) => handleVariationChange(selectedColorPickerIndex, 'urls', [e.target.value])}
-          >
-            <option value="">Selecione a URL</option>
-            {products
-              .filter((product) => product.variations.some((v) => v.color === formData.variations[selectedColorPickerIndex]?.color))
-              .map((product) => (
-                <option key={product._id} value={product.variations[0].urls[0]}>
-                  {product.variations[0].urls[0]}
-                </option>
-              ))}
-          </select>
-        </label>
+                                    Cor:
+                                    <input
+                                      type="text"
+                                      name="color"
+                                      value={formData.variations[0]?.color || ""}
+                                      onChange={(e) =>
+                                        handleVariationChange(0, "color", e.target.value)
+                                      }
+                                    />
+                                  </label>
+
+                                  <label>
+                                    URLs:
+                                    <select
+                                      name="urls"
+                                      value={formData.variations[0]?.urls || ""}
+                                      onChange={(e) =>
+                                        handleVariationChange(0, "urls", e.target.value)
+                                      }
+                                    >
+                                      <option value="">Selecione a URL</option>
+                                      {product.variations[0].urls.map((url, index) => (
+                                        <option key={index} value={url}>
+                                          {url}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </label>
   <br></br>
                                   <button
                                     type="submit"
