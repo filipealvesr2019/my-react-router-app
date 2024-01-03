@@ -189,13 +189,14 @@ button {
   top: 50%;
   left: 50%;
 
+
 }
 
 .thumbnailItem {
-  flex: 1;
-  margin-right: 15px;
+  margin-right: 15px; /* Ajuste a margem conforme necessário */
   text-align: center;
 }
+
 
 .colorName {
   font-size: 14px;
