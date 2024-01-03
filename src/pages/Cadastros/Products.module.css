@@ -186,7 +186,7 @@ button {
   align-items: center;
   /* Allow the thumbnails to wrap to the next line */
   position: absolute;
-  top: 50%;
+  top: 20%;
   left: 50%;
 
 
@@ -251,17 +251,9 @@ button {
 
 /* Outros estilos */
 
-/* Estilo padrão para as miniaturas */
-.thumbnailItem {
-  /* Adicione outros estilos necessários aqui */
-
-  /* Transição para suavizar o efeito hover */
-  transition: transform 0.3s ease-in-out;
-}
-
-/* Efeito hover apenas na miniatura dentro de thumbnailItem */
-.thumbnailItem:hover .thumbnailImage {
-  transform: scale(1.1); /* Adicione os estilos desejados para o efeito hover na miniatura */
+/* Efeito de sombreamento (background-color) ao passar o mouse apenas na miniatura dentro de thumbnailItem */
+.thumbnailItem .thumbnailImage:hover {
+  background-color: #1A2153;
 }
 
 /* Estilo para a caixa de entrada e botão, ajuste conforme necessário */
@@ -277,12 +269,4 @@ button {
   width: 10vw;
 }
 
-/* Estilo para o botão, ajuste conforme necessário */
-.thumbnailItem .thumbnailButton {
-  /* Adicione estilos conforme necessário */
-}
-
-/* Remova o efeito hover para todas as miniaturas, exceto a que está sendo focalizada */
-.thumbnailItem .thumbnailImage:not(:hover) {
-  transform: scale(1); /* Retorne ao tamanho original se não estiver em foco */
-}
+/* Outros estilos */
