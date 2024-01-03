@@ -162,27 +162,26 @@ const Products = () => {
   };
 
   console.log("Total Pages:", totalPages);
- // Função para filtrar as imagens com base no produto e na cor selecionados
- const getImagesByColor = (product, color) => {
-  return product.variations
-    .filter((variation) => variation.color === color)
-    .map((variation) => (
-      <div key={variation._id}>
-        <p>Cor: {variation.color}</p>
-        <ul>
-          {variation.urls.map((url, index) => (
-            <li key={index}>
-              <img
-                src={url}
-                alt={`Thumbnail ${index + 1}`}
-                style={{ maxWidth: "100px", maxHeight: "100px" }}
-              />
-            </li>
-          ))}
-        </ul>
-      </div>
-    ));
-};
+  const getImagesByColor = (product, color) => {
+    return product.variations
+      .filter((variation) => variation.color === color)
+      .map((variation) => (
+        <div key={variation._id}>
+          <p>Cor: {variation.color}</p>
+          <ul>
+            {variation.urls.map((url, index) => (
+              <li key={index}>
+                <img
+                  src={url}
+                  alt={`Thumbnail ${index + 1}`}
+                  style={{ maxWidth: "100px", maxHeight: "100px" }}
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
+      ));
+  };
 
   return (
     <div className={styles.container}>
@@ -335,39 +334,40 @@ const Products = () => {
                                       onChange={handleFormChange}
                                     />
                                   </label>
-                                  <div>
-      <label>
-        Selecione a cor:
-        <select
-          value={selectedColor}
-          onChange={(e) => setSelectedColor(e.target.value)}
-        >
-          <option value="">Escolher a Cor</option>
-          {Array.from(
-            new Set(
-              products.flatMap((product) =>
-                product.variations.map((variation) => variation.color)
-              )
-            )
-          ).map((color) => (
-            <option key={color} value={color}>
-              {color}
-            </option>
-          ))}
-        </select>
-      </label>
 
-      {selectedColor && (
-        <div>
-          {products.map((product) => (
-            <div key={product._id}>
-              <p>Nome do Produto: {product.name}</p>
-              {getImagesByColor(product, selectedColor)}
-            </div>
-          ))}
-        </div>
-      )}
-    </div>      
+                                  <div>
+                            <label>
+                              Selecione a cor:
+                              <select
+                                value={selectedColor}
+                                onChange={(e) =>
+                                  setSelectedColor(e.target.value)
+                                }
+                              >
+                                <option value="">Escolher a Cor</option>
+                                {Array.from(
+                                  new Set(
+                                    product.variations.map(
+                                      (variation) => variation.color
+                                    )
+                                  )
+                                ).map((color) => (
+                                  <option key={color} value={color}>
+                                    {color}
+                                  </option>
+                                ))}
+                              </select>
+                            </label>
+
+                            {selectedColor && (
+                              <div>{getImagesByColor(product, selectedColor)}</div>
+                            )}
+                          </div>
+
+                          {/* ... (restante do código) */}
+                   
+            
+
 
   <br></br>
                                   <button
