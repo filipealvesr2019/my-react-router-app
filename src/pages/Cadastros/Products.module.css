@@ -181,23 +181,20 @@ button {
   /* Adicione outros estilos conforme necessário */
 }
 
+
+
 .thumbnailContainer {
   display: flex;
+  flex-direction: row;
   align-items: center;
   /* Allow the thumbnails to wrap to the next line */
-  position: absolute;
-  top: 20%;
-  left: 50%;
+
+
 
 
 }
 .thumbnailItem {
   margin-bottom: 20px; /* Add some spacing between each variation */
-}
-
-.imageContainer {
-  position: relative;
-  margin-bottom: 10px; /* Adjust margin for spacing between image and input */
 }
 
 .thumbnailImage {
@@ -269,4 +266,12 @@ button {
   width: 10vw;
 }
 
-/* Outros estilos */
+.thumbnailItem{
+  display: flex;
+
+  flex-wrap: wrap;
+}
+
+.thumbnailContainer{
+  margin-top: -15rem;
+}
