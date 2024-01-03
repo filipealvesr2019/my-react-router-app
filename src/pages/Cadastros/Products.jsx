@@ -24,6 +24,7 @@ const Products = () => {
   const [isImageZoomed, setIsImageZoomed] = useState(false);
   const [enlargedImage, setEnlargedImage] = useState(null);
   const [isUpdateInputOpen, setIsUpdateInputOpen] = useState(false);
+  const [selectedColor, setSelectedColor] = useState("");
 
   const [searchTerm, setSearchTerm] = useState("");
   const [isUrlInputOpen, setIsUrlInputOpen] = useState(false);
@@ -170,24 +171,8 @@ const Products = () => {
   };
 
   console.log("Total Pages:", totalPages);
-  const groupImagesByColor = (variations) => {
-    const groupedImages = {};
-  
-    variations.forEach((variation) => {
-      const color = variation.color;
-      const urls = variation.urls;
-  
-      if (!groupedImages[color]) {
-        groupedImages[color] = [];
-      }
-  
-      groupedImages[color] = [...groupedImages[color], ...urls];
-    });
-  
-    return groupedImages;
-  };
-  
-  // ...
+ 
+
 
   const handleThumbnailClick = (imageUrl, color, index) => {
     setSelectedThumbnail(imageUrl);
@@ -291,14 +276,9 @@ const handleThumbnailButtonClick = (index) => {
   setExpandedThumbnailIndex((prevIndex) => (prevIndex === index ? null : index));
 };
 
-useEffect(() => {
-  getProducts();
-  // You may fetch color options here if needed
-}, [currentPage]);
-
-
-
-
+const handleColorSelect = (event) => {
+  setSelectedColor(event.target.value);
+};
   return (
     <div className={styles.container}>
       <div className={styles.Model}>
@@ -451,58 +431,53 @@ useEffect(() => {
                                     />
                                   </label>
 
-                                  <div style={{
-                                    display:"flex",
-                                    flexDirection:"column",
-                                    marginTop:"-5rem",
-         
-                                    }}>
+                               
                         
-                          
-                                   
+                                  <div>
+        <label>
+          Selecione a cor:
+          <select value={selectedColor} onChange={handleColorSelect}>
+            <option value="">Todas as Cores</option>
+            {Array.from(new Set(products.flatMap((product) => product.variations.map((variation) => variation.color))))
+              .map((color) => (
+                <option key={color} value={color}>
+                  {color}
+                </option>
+              ))}
+          </select>
+        </label>
 
-                                
-  <label>
-    Cores:
-    <input
-      type="text"
-      name="color"
-      value={formData.variations[0]?.color || ""}
-      onChange={(e) => handleVariationChange(0, "color", e.target.value)}
-      style={{
-        width: "8vw",
-        marginBottom: "-4rem",
-      }}
-    />
-  </label>
-</div>
-
-<div>
-  <label>
-    URLs:
-    <select
-      name="urls"
-      value={formData.variations[0]?.urls[0] || ""}
-      onChange={(e) => handleVariationChange(0, "urls", [e.target.value])}
-      style={{
-        width: "8vw",
-        display: "flex",
-      }}
-    >
-      <option value="">Selecione a URL</option>
-      {formData.variations
-        .filter((variation) => variation.color === formData.variations[0]?.color)
-        .map((variation, index) => (
-          variation.urls.map((url, urlIndex) => (
-            <option key={urlIndex} value={url}>
-              {url}
-            </option>
-          ))
-        ))}
-    </select>
-  </label>
-</div>
-
+        {selectedColor && (
+          <div>
+            <h2>URLs para a cor {selectedColor}:</h2>
+            <ul>
+              {filteredProducts
+                .filter((product) => product.variations.some((variation) => variation.color === selectedColor))
+                .map((product) => (
+                  <li key={product._id}>
+                    {product.variations
+                      .filter((variation) => variation.color === selectedColor)
+                      .map((variation) => (
+                        <div key={variation._id}>
+                          <p>Cor: {variation.color}</p>
+                          <ul>
+                            {variation.urls.map((url, index) => (
+                              <li key={index}>
+                                <a href={url} target="_blank" rel="noopener noreferrer">
+                                  URL {index + 1}
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                  </li>
+                ))}
+            </ul>
+          </div>
+        )}
+                 </div>
+ 
   <br></br>
                                   <button
                                     type="submit"
