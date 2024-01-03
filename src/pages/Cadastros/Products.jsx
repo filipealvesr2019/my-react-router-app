@@ -12,24 +12,15 @@ const Products = () => {
 
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
-  const [selectedColorPickerIndex, setSelectedColorPickerIndex] =
-    useState(null);
-  const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
-  const [zoomedImage, setZoomedImage] = useState(null);
+ 
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(4);
   const [totalPages, setTotalPages] = useState(1);
-  const [selectedThumbnail, setSelectedThumbnail] = useState(null);
-  const [isImageZoomed, setIsImageZoomed] = useState(false);
-  const [enlargedImage, setEnlargedImage] = useState(null);
-  const [isUpdateInputOpen, setIsUpdateInputOpen] = useState(false);
+  
   const [selectedColor, setSelectedColor] = useState("");
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [isUrlInputOpen, setIsUrlInputOpen] = useState(false);
-  const [selectedThumbnailIndex, setSelectedThumbnailIndex] = useState(null);
-  const [selectedImage, setSelectedImage] = useState(null);
+
   const [formData, setFormData] = useState({
     _id: null,
     name: "",
@@ -173,112 +164,6 @@ const Products = () => {
   console.log("Total Pages:", totalPages);
  
 
-
-  const handleThumbnailClick = (imageUrl, color, index) => {
-    setSelectedThumbnail(imageUrl);
-    setIsImageZoomed(true);
-    setIsUrlInputOpen(true);
-    setZoomedImage(imageUrl);
-    setSelectedThumbnailIndex(index);
-    setIsImageZoomed((prev) => !prev);
-    if (enlargedImage === imageUrl) {
-      // Clicking on an already enlarged image, shrink it
-      setEnlargedImage(null);
-    } else {
-      // Clicking on a thumbnail, enlarge it
-      setEnlargedImage(imageUrl);
-    }
-  };
-  const closeZoomedImage = () => {
-    setIsImageZoomed(false);
-    setEnlargedImage(null); // Reset enlarged image when zooming out
-  };
-
-  const closeSelectedThumbnail = () => {
-    setSelectedThumbnail(null);
-    setIsImageZoomed(false); // Close zoomed image when the selected thumbnail is closed
-    setEnlargedImage(null); // Reset enlarged image
-  };
-
-  const handleVariationChange = (index, field, value) => {
-    setFormData((prevData) => {
-      const newVariations = [...prevData.variations];
-      newVariations[index][field] = value;
-      return { ...prevData, variations: newVariations };
-    });
-  };
-
-  const addVariation = () => {
-    setFormData((prevData) => ({
-      ...prevData,
-      variations: [...prevData.variations, { color: "", urls: "" }],
-    }));
-  };
-
-  const removeVariation = (index) => {
-    setFormData((prevData) => {
-      const newVariations = [...prevData.variations];
-      newVariations.splice(index, 1);
-      return { ...prevData, variations: newVariations };
-    });
-  };
-  // ... (other functions)
-
-  const handleVariationUrlChange = (variationIndex, urlIndex, value) => {
-    setFormData((prevData) => {
-      const newVariations = [...prevData.variations];
-      newVariations[variationIndex].urls[urlIndex] = value;
-      return { ...prevData, variations: newVariations };
-    });
-  };
-
-  const handleUpdateUrl = (variationIndex, urlIndex) => {
-    // Implement the logic to update the URL
-    console.log(
-      "Update URL Logic:",
-      variationIndex,
-      urlIndex,
-      formData.variations[variationIndex].urls[urlIndex]
-    );
-    // You can call your API or perform the necessary actions to update the URL
-  };
-  const handleUpdateColor = (variationIndex) => {
-    // Implemente a lógica para atualizar o nome da cor
-    console.log("Update Color Logic:", variationIndex, formData.variations[variationIndex].color);
-    // Chame sua API ou execute as ações necessárias para atualizar o nome da cor
-  };
-  // ... (código anterior)
-  const [editableColorIndex, setEditableColorIndex] = useState(null);
-  const [colorNames, setColorNames] = useState([]);
-
-  useEffect(() => {
-    // Initialize color names based on the initial products
-    setColorNames(products.map(() => ""));
-  }, [products]);
-
-  // ... (previous code)
-
-
-  const isColorNameEditable = (index) => {
-    return editableColorIndex === index;
-  };
-
-  const handleColorNameChange = (index, value) => {
-    setColorNames((prevColorNames) => {
-      const newColorNames = [...prevColorNames];
-      newColorNames[index] = value;
-      return newColorNames;
-    });
-  };
-
-
-const handleThumbnailButtonClick = (index) => {
-  setExpandedThumbnailIndex((prevIndex) => (prevIndex === index ? null : index));
-};
-
-const handleColorSelect = (event) => {
-  setSelectedColor(event.target.value);
-};
   return (
     <div className={styles.container}>
       <div className={styles.Model}>
@@ -430,29 +315,38 @@ const handleColorSelect = (event) => {
                                       onChange={handleFormChange}
                                     />
                                   </label>
-
-                               
-                        
                                   <div>
         <label>
           Selecione a cor:
-          <select value={selectedColor} onChange={handleColorSelect}>
+          <select
+            value={selectedColor}
+            onChange={(e) => setSelectedColor(e.target.value)}
+          >
             <option value="">Todas as Cores</option>
-            {Array.from(new Set(products.flatMap((product) => product.variations.map((variation) => variation.color))))
-              .map((color) => (
-                <option key={color} value={color}>
-                  {color}
-                </option>
-              ))}
+            {Array.from(
+              new Set(
+                products.flatMap((product) =>
+                  product.variations.map((variation) => variation.color)
+                )
+              )
+            ).map((color) => (
+              <option key={color} value={color}>
+                {color}
+              </option>
+            ))}
           </select>
         </label>
 
+        {/* Display images based on the selected color */}
         {selectedColor && (
           <div>
-            <h2>URLs para a cor {selectedColor}:</h2>
             <ul>
-              {filteredProducts
-                .filter((product) => product.variations.some((variation) => variation.color === selectedColor))
+              {products
+                .filter((product) =>
+                  product.variations.some(
+                    (variation) => variation.color === selectedColor
+                  )
+                )
                 .map((product) => (
                   <li key={product._id}>
                     {product.variations
@@ -463,9 +357,14 @@ const handleColorSelect = (event) => {
                           <ul>
                             {variation.urls.map((url, index) => (
                               <li key={index}>
-                                <a href={url} target="_blank" rel="noopener noreferrer">
-                                  URL {index + 1}
-                                </a>
+                                <img
+                                  src={url}
+                                  alt={`Thumbnail ${index + 1}`}
+                                  style={{
+                                    maxWidth: "100px",
+                                    maxHeight: "100px",
+                                  }}
+                                />
                               </li>
                             ))}
                           </ul>
@@ -476,8 +375,8 @@ const handleColorSelect = (event) => {
             </ul>
           </div>
         )}
-                 </div>
- 
+      </div>
+
   <br></br>
                                   <button
                                     type="submit"
