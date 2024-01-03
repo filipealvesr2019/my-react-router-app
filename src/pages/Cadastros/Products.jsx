@@ -457,6 +457,7 @@ const handleUpdateUrl = (variationIndex, urlIndex) => {
                                             subIndex
                                           )
                                         }
+                                        
                                       />
                                       {/* Add the input field below each image */}
                                       <input

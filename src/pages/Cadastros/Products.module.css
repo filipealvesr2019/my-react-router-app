@@ -246,3 +246,40 @@ button {
   transform: translate(-50%, -50%);
   z-index: 1;
 }
+
+/* Products.module.css */
+
+/* Outros estilos */
+
+/* Estilo padrão para as miniaturas */
+.thumbnailItem {
+  /* Adicione outros estilos necessários aqui */
+
+  /* Transição para suavizar o efeito hover */
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Efeito hover apenas na miniatura dentro de thumbnailItem */
+.thumbnailItem:hover .thumbnailImage {
+  transform: scale(1.1); /* Adicione os estilos desejados para o efeito hover na miniatura */
+}
+
+/* Estilo para a caixa de entrada e botão, ajuste conforme necessário */
+.thumbnailItem .thumbnailImage {
+  /* Adicione estilos conforme necessário */
+}
+
+/* Estilo para a caixa de entrada, ajuste conforme necessário */
+.thumbnailItem .thumbnailInput {
+  /* Adicione estilos conforme necessário */
+}
+
+/* Estilo para o botão, ajuste conforme necessário */
+.thumbnailItem .thumbnailButton {
+  /* Adicione estilos conforme necessário */
+}
+
+/* Remova o efeito hover para todas as miniaturas, exceto a que está sendo focalizada */
+.thumbnailItem .thumbnailImage:not(:hover) {
+  transform: scale(1); /* Retorne ao tamanho original se não estiver em foco */
+}
