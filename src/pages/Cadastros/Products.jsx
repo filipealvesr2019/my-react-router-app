@@ -9,14 +9,15 @@ import Pagination from "@mui/material/Pagination";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
 
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
- 
+
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(4);
   const [totalPages, setTotalPages] = useState(1);
-  
+
   const [selectedColor, setSelectedColor] = useState("");
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -108,34 +109,35 @@ const Products = () => {
     }));
   };
   // Update the handleUpdateProduct function to close the modal after updating
+  // Restante do código...
+
+  // Update the handleUpdateProduct function to close the modal after updating
   const handleUpdateProduct = async (productId) => {
     try {
       const response = await axios.put(
         `http://localhost:3001/products/${productId}`,
         formData
       );
-
+  
+      console.log("Response from server:", response.data);
+  
       if (response.data.success) {
         console.log("Produto atualizado com sucesso");
         const updatedProducts = await axios.get(
           "http://localhost:3001/api/products"
         );
-        console.log("Products after fetching:", response.data.products);
-
+        console.log("Products after fetching:", updatedProducts.data.products);
+  
         setProducts(updatedProducts.data.products);
       } else {
         console.error(
           "Erro ao atualizar produto. Mensagem do servidor:",
-          response.data.error
+          response.data.error || "Mensagem de erro não disponível"
         );
       }
-      setIsColorPickerOpen(false);
-      setSelectedColorPickerIndex(null);
-    } catch (error) {
-      console.error("Erro ao atualizar produto. Detalhes do erro:", error);
-    } finally {
+  
       setIsModalOpen(false);
-
+  
       // Limpar o estado do formulário
       setFormData({
         _id: null,
@@ -154,12 +156,14 @@ const Products = () => {
         ],
         // ... other necessary fields. outros campos necessários
       });
-
+  
       setSelectedImageIndex(null);
-      setSelectedColorPickerIndex(null);
-      setIsColorPickerOpen(false);
+    } catch (error) {
+      console.error("Erro ao atualizar produto. Detalhes do erro:", error);
     }
   };
+  
+  // Restante do código...
 
   console.log("Total Pages:", totalPages);
   const getImagesByColor = (product, color) => {
@@ -176,11 +180,42 @@ const Products = () => {
                   alt={`Thumbnail ${index + 1}`}
                   style={{ maxWidth: "100px", maxHeight: "100px" }}
                 />
+                <label>
+                  Editar URL:
+                  <input
+                    type="text"
+                    value={url}
+                    onChange={(e) =>
+                      handleEditUrl(product, color, index, e.target.value)
+                    }
+                  />
+                </label>
               </li>
             ))}
           </ul>
         </div>
       ));
+  };
+  const handleEditUrl = (product, color, index, newUrl) => {
+    const updatedProducts = products.map((p) => {
+      if (p._id === product._id) {
+        return {
+          ...p,
+          variations: p.variations.map((v) => {
+            if (v.color === color) {
+              return {
+                ...v,
+                urls: v.urls.map((u, i) => (i === index ? newUrl : u)),
+              };
+            }
+            return v;
+          }),
+        };
+      }
+      return p;
+    });
+
+    setProducts(updatedProducts);
   };
 
   return (
@@ -336,40 +371,40 @@ const Products = () => {
                                   </label>
 
                                   <div>
-                            <label>
-                              Selecione a cor:
-                              <select
-                                value={selectedColor}
-                                onChange={(e) =>
-                                  setSelectedColor(e.target.value)
-                                }
-                              >
-                                <option value="">Escolher a Cor</option>
-                                {Array.from(
-                                  new Set(
-                                    product.variations.map(
-                                      (variation) => variation.color
-                                    )
-                                  )
-                                ).map((color) => (
-                                  <option key={color} value={color}>
-                                    {color}
-                                  </option>
-                                ))}
-                              </select>
-                            </label>
+                                    <label>
+                                      Selecione a cor:
+                                      <select
+                                        value={selectedColor}
+                                        onChange={(e) =>
+                                          setSelectedColor(e.target.value)
+                                        }
+                                      >
+                                        <option value="">Escolher a Cor</option>
+                                        {Array.from(
+                                          new Set(
+                                            product.variations.map(
+                                              (variation) => variation.color
+                                            )
+                                          )
+                                        ).map((color) => (
+                                          <option key={color} value={color}>
+                                            {color}
+                                          </option>
+                                        ))}
+                                      </select>
+                                    </label>
 
-                            {selectedColor && (
-                              <div>{getImagesByColor(product, selectedColor)}</div>
-                            )}
-                          </div>
+                                    {selectedColor && (
+                                      <div>
+                                        {getImagesByColor(
+                                          product,
+                                          selectedColor
+                                        )}
+                                      </div>
+                                    )}
+                                  </div>
 
-                          {/* ... (restante do código) */}
-                   
-            
-
-
-  <br></br>
+                                  <br></br>
                                   <button
                                     type="submit"
                                     className={styles.button}
