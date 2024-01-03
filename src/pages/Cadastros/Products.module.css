@@ -195,6 +195,7 @@ button {
 .thumbnailItem {
   margin-right: 15px; /* Ajuste a margem conforme necessário */
   text-align: center;
+
 }
 
 
@@ -210,6 +211,7 @@ button {
   border: 2px solid #ddd; /* Add a border for better visibility */
   border-radius: 5px;
   object-fit: contain;
+ margin-right: 1rem;
 }
 
 .thumbnailImage:hover {
