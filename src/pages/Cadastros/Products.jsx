@@ -450,8 +450,15 @@ useEffect(() => {
                                       onChange={handleFormChange}
                                     />
                                   </label>
+
+                                  <div style={{
+                                    display:"flex",
+                                    flexDirection:"column",
+                                    marginTop:"-5rem",
+         
+                                    }}>
                                   <label>
-                                    Cor:
+                          
                                     <input
                                       type="text"
                                       name="color"
@@ -459,6 +466,10 @@ useEffect(() => {
                                       onChange={(e) =>
                                         handleVariationChange(0, "color", e.target.value)
                                       }
+                                      style={{
+                                        width:"8vw",
+                                        marginBottom:"-4rem"
+                                      }}
                                     />
                                   </label>
 
@@ -470,6 +481,9 @@ useEffect(() => {
                                       onChange={(e) =>
                                         handleVariationChange(0, "urls", e.target.value)
                                       }
+                                      style={{
+                                        width:"8vw", 
+                                      display:"flex"}}
                                     >
                                       <option value="">Selecione a URL</option>
                                       {product.variations[0].urls.map((url, index) => (
@@ -479,6 +493,7 @@ useEffect(() => {
                                       ))}
                                     </select>
                                   </label>
+  </div>
   <br></br>
                                   <button
                                     type="submit"
