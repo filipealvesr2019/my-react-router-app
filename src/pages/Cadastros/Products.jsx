@@ -494,6 +494,48 @@ useEffect(() => {
                                     </select>
                                   </label>
   </div>
+  <div>
+  <label>
+    Cores:
+    <input
+      type="text"
+      name="color"
+      value={formData.variations[0]?.color || ""}
+      onChange={(e) => handleVariationChange(0, "color", e.target.value)}
+      style={{
+        width: "8vw",
+        marginBottom: "-4rem",
+      }}
+    />
+  </label>
+</div>
+
+<div>
+  <label>
+    URLs:
+    <select
+      name="urls"
+      value={formData.variations[0]?.urls[0] || ""}
+      onChange={(e) => handleVariationChange(0, "urls", [e.target.value])}
+      style={{
+        width: "8vw",
+        display: "flex",
+      }}
+    >
+      <option value="">Selecione a URL</option>
+      {formData.variations
+        .filter((variation) => variation.color === formData.variations[0]?.color)
+        .map((variation, index) => (
+          variation.urls.map((url, urlIndex) => (
+            <option key={urlIndex} value={url}>
+              {url}
+            </option>
+          ))
+        ))}
+    </select>
+  </label>
+</div>
+
   <br></br>
                                   <button
                                     type="submit"
