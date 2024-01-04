@@ -34,7 +34,7 @@ const Products = () => {
     variations: [
       {
         color: "", // Assuming color is a string
-        urls: "", // Assuming urls is a string
+        urls: [], // Make sure this is an array
       },
     ],
     // ... other necessary fields
@@ -71,7 +71,7 @@ const Products = () => {
   const getProducts = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3001/api/products?page=${currentPage}`
+        `http://localhost:3001/api/products?page=${currentPage}&keyword=${searchTerm}`
       );
 
       console.log("API Response:", response.data);
@@ -119,16 +119,14 @@ const Products = () => {
         formData
       );
   
-      console.log("Response from server:", response.data);
+      console.log("Resposta do servidor:", response);
   
-      if (response.data.success) {
+      if (response.data._id) {
         console.log("Produto atualizado com sucesso");
-        const updatedProducts = await axios.get(
-          "http://localhost:3001/api/products"
-        );
-        console.log("Products after fetching:", updatedProducts.data.products);
-  
-        setProducts(updatedProducts.data.products);
+        const updatedProductsResponse = await axios.get("http://localhost:3001/api/products");
+        const updatedProducts = updatedProductsResponse.data.products;
+        console.log("Updated Products:", updatedProducts); // Log the received data
+        setProducts(updatedProducts);
       } else {
         console.error(
           "Erro ao atualizar produto. Mensagem do servidor:",
@@ -137,8 +135,6 @@ const Products = () => {
       }
   
       setIsModalOpen(false);
-  
-      // Limpar o estado do formulário
       setFormData({
         _id: null,
         name: "",
@@ -150,24 +146,72 @@ const Products = () => {
         subcategory: "",
         variations: [
           {
-            color: "", // Assuming color is a string
-            urls: "", // Assuming urls is a string
+            color: "",
+            urls: [], // Make sure this is an array
           },
         ],
-        // ... other necessary fields. outros campos necessários
       });
-  
-      setSelectedImageIndex(null);
+
+
     } catch (error) {
       console.error("Erro ao atualizar produto. Detalhes do erro:", error);
+      if (error.response) {
+        console.error("Response data:", error.response.data);
+      }
     }
+  
+    console.log("Finalizando handleUpdateProduct...");
   };
   
   // Restante do código...
 
   console.log("Total Pages:", totalPages);
+  const handleEditUrl = (productId, color, index, newUrl) => {
+    console.log("Before update, productId:", productId, "color:", color, "index:", index, "newUrl:", newUrl);
+  
+    setProducts((prevProducts) => {
+      const updatedProducts = [...prevProducts];
+  
+      const productIndex = updatedProducts.findIndex((p) => p._id === productId);
+  
+      console.log("ProductIndex:", productIndex);
+  
+      if (productIndex !== -1) {
+        const updatedVariations = updatedProducts[productIndex].variations.map((variation) => {
+          if (variation.color === color) {
+            return {
+              ...variation,
+              urls: variation.urls.map((url, i) => (i === index ? newUrl : url)),
+            };
+          }
+          return variation;
+        });
+  
+        console.log("UpdatedVariations:", updatedVariations);
+  
+        updatedProducts[productIndex] = {
+          ...updatedProducts[productIndex],
+          variations: updatedVariations,
+        };
+      }
+  
+      console.log("UpdatedProducts:", updatedProducts);
+  
+      return updatedProducts;
+    });
+  
+    console.log("After update");
+  };
+  
+  const handleUpdateProductFromEditor = (updatedData) => {
+    // Atualize o produto com os dados recebidos de ProductEditor
+    // Certifique-se de que você tenha a lógica correta aqui para atualizar o estado do produto
+    console.log("Dados atualizados recebidos:", updatedData);
+  };
   const getImagesByColor = (product, color) => {
-    return product.variations
+    const updatedProduct = products.find((p) => p._id === product._id) || product;
+  
+    return updatedProduct.variations
       .filter((variation) => variation.color === color)
       .map((variation) => (
         <div key={variation._id}>
@@ -186,7 +230,7 @@ const Products = () => {
                     type="text"
                     value={url}
                     onChange={(e) =>
-                      handleEditUrl(product, color, index, e.target.value)
+                      handleEditUrl(product._id, color, index, e.target.value)
                     }
                   />
                 </label>
@@ -196,30 +240,37 @@ const Products = () => {
         </div>
       ));
   };
-  const handleEditUrl = (product, color, index, newUrl) => {
-    const updatedProducts = products.map((p) => {
-      if (p._id === product._id) {
-        return {
-          ...p,
-          variations: p.variations.map((v) => {
-            if (v.color === color) {
-              return {
-                ...v,
-                urls: v.urls.map((u, i) => (i === index ? newUrl : u)),
-              };
-            }
-            return v;
-          }),
-        };
-      }
-      return p;
-    });
+  
 
-    setProducts(updatedProducts);
-  };
 
+
+
+
+
+
+
+
+
+
+
+
+
+  
   return (
     <div className={styles.container}>
+      <div>
+  <label htmlFor="searchInput" className="search-label">
+    Pesquisar Produto:
+    <input
+      type="text"
+      id="searchInput"
+      value={searchTerm}
+      onChange={handleSearchChange}
+      className="search-input"
+    />
+  </label>
+</div>
+
       <div className={styles.Model}>
         <ModelProducts />
       </div>
@@ -287,7 +338,7 @@ const Products = () => {
                                   variations: [
                                     {
                                       color: "", // Assuming color is a string
-                                      urls: "", // Assuming urls is a string
+                                      urls: [], // Assuming urls is a string
                                     },
                                   ],
                                   // ... other necessary fields

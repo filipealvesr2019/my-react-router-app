@@ -278,3 +278,29 @@ button {
 .thumbnailContainer{
   margin-top: -15rem;
 }
+
+
+
+
+
+
+
+
+
+/* Em seu arquivo CSS ou módulo CSS associado ao seu componente */
+
+.search-label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.search-input {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 200px; /* Ajuste conforme necessário */
+}
+
+/* Adicione estilos adicionais conforme desejado */
