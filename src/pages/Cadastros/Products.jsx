@@ -17,12 +17,10 @@ const Products = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(4);
   const [totalPages, setTotalPages] = useState(1);
-  const [selectedColor, setSelectedColor] = useState("");
 
-  const [categories, setCategories] = useState([]);
-  const [subcategories, setSubcategories] = useState([]);
+  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedSize, setSelectedSize] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [selectedSubcategory, setSelectedSubcategory] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
   const [formData, setFormData] = useState({
@@ -73,38 +71,29 @@ const Products = () => {
 
   const getProducts = async () => {
     try {
-      let apiUrl = `http://localhost:3001/api/products?page=${currentPage}&keyword=${searchTerm}`;
-  
-      // Add filters only if they are selected
-      if (selectedCategory) {
-        apiUrl += `&category=${selectedCategory}`;
-      }
-  
-      if (selectedSubcategory) {
-        apiUrl += `&subcategory=${selectedSubcategory}`;
-      }
-  
-      const response = await axios.get(apiUrl);
-  
+      const response = await axios.get(
+        `http://localhost:3001/api/products?page=${currentPage}&keyword=${searchTerm}`
+      );
+
       console.log("API Response:", response.data);
-  
+
       const totalProducts = response.data.productsCount;
       const validItemsPerPage =
         Number.isFinite(itemsPerPage) && itemsPerPage > 0;
-  
+
       if (Number.isFinite(totalProducts) && validItemsPerPage) {
         setTotalPages(Math.ceil(totalProducts / itemsPerPage));
       } else {
         console.error("TotalProducts or ItemsPerPage is not a valid number");
       }
-  
+
       setProducts(response.data.products);
     } catch (error) {
       console.error("Erro ao obter produtos", error);
       setError("Erro ao obter produtos. Por favor, tente novamente.");
     }
   };
-  
+
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -261,30 +250,7 @@ const Products = () => {
 
 
 
-  useEffect(() => {
-    // Buscar opções de categoria e subcategoria da API
-    const fetchCategories = async () => {
-      try {
-        const response = await axios.get("http://localhost:3001/api/admin/categories");
-        setCategories(response.data.categories);
-      } catch (error) {
-        console.error("Erro ao obter categorias", error);
-      }
-    };
-  
-    const fetchSubcategories = async () => {
-      try {
-        const response = await axios.get("http://localhost:3001/api/admin/subcategories");
-        setSubcategories(response.data.subcategories);
-      } catch (error) {
-        console.error("Erro ao obter subcategorias", error);
-      }
-    };
-  
-    fetchCategories();
-    fetchSubcategories();
-  }, []);
-  
+
 
 
 
@@ -299,80 +265,6 @@ const Products = () => {
   return (
     <div className={styles.container}>
     
-
-// Dentro do seu componente Products, no return, onde você renderiza o input
-{/* ... (código existente) */}
-
-<label>
-  Selecione a cor:
-  <select
-    value={selectedColor}
-    onChange={(e) => setSelectedColor(e.target.value)}
-  >
-    <option value="">Escolher a Cor</option>
-    {Array.from(
-      new Set(
-        products.flatMap((product) =>
-          product.variations.map((variation) => variation.color)
-        )
-      )
-    ).map((color) => (
-      <option key={color} value={color}>
-        {color}
-      </option>
-    ))}
-  </select>
-</label>
-
-{selectedColor && (
-  <div>
-    {filteredProducts.map((product) => (
-      <div key={product._id}>
-        <p>Produto: {product.name}</p>
-        {getImagesByColor(product, selectedColor)}
-      </div>
-    ))}
-  </div>
-)}
-{/* ... (código existente) */}
-console.log("Categories:", categories);
-console.log("Subcategories:", subcategories);
-
-<label>
-  Categoria:
-  <select
-    value={selectedCategory}
-    onChange={(e) => setSelectedCategory(e.target.value)}
-  >
-    <option value="">Escolha uma categoria</option>
-    {categories.map((category) => (
-      <option key={category._id} value={category._id}>
-        {category.name}
-      </option>
-    ))}
-  </select>
-</label>
-
-<label>
-  Subcategoria:
-  <select
-    value={selectedSubcategory}
-    onChange={(e) => setSelectedSubcategory(e.target.value)}
-  >
-    <option value="">Escolha uma subcategoria</option>
-    {subcategories.map((subcategory) => (
-      <option key={subcategory._id} value={subcategory._id}>
-        {subcategory.name}
-      </option>
-    ))}
-  </select>
-</label>
-
-
-{/* Restante do código... */}
-
-
-{/* Restante do código... */}
 
 <input
   type="text"
