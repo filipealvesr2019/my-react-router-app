@@ -239,16 +239,7 @@ const editSubcategory = async (sub) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {addedSubcategories.map((sub) => (
-                        <tr key={sub._id}>
-                            <td>{sub.category}</td>
-                            <td>{sub.name}</td>
-                            <td>
-                                <button >Editar</button>
-                                <button onClick={() => handleDeleteSubcategory(sub)}>Excluir</button>
-                            </td>
-                        </tr>
-                    ))}
+                   
                 </tbody>
             </table>
 
