@@ -11,6 +11,11 @@ const Categories = () => {
     const [availableSubcategories, setAvailableSubcategories] = useState([]);
     const [addedSubcategories, setAddedSubcategories] = useState([]);
    
+
+const [editCategoryName, setEditCategoryName] = useState('');
+const [editSubcategoryName, setEditSubcategoryName] = useState('');
+
+// ...
     const [editingItem, setEditingItem] = useState(null);
     const [editItemName, setEditItemName] = useState('');
     useEffect(() => {
@@ -152,17 +157,17 @@ const Categories = () => {
 
 
 
-// ...
 
 const editCategory = async (category) => {
   try {
       const response = await axios.put(`http://localhost:3001/api/admin/categories/${category._id}`, {
-          name: editItemName, // Use o estado editItemName para o novo nome da categoria
+          name: editCategoryName,
       });
 
       if (response.data.success) {
           console.log('Categoria editada com sucesso');
           setEditingItem(null); // Limpar o estado de edição
+          setEditCategoryName(''); // Limpar o estado de edição do nome da categoria
           getCategories();
       } else {
           console.error('Erro ao editar categoria. Mensagem do servidor:', response.data.error);
@@ -172,17 +177,16 @@ const editCategory = async (category) => {
   }
 };
 
-// ...
-
 const editSubcategory = async (sub) => {
   try {
       const response = await axios.put(`http://localhost:3001/api/admin/subcategories/${sub._id}`, {
-          name: editItemName, // Use o estado editItemName para o novo nome da subcategoria
+          name: editSubcategoryName,
       });
 
       if (response.data.success) {
           console.log('Subcategoria editada com sucesso');
           setEditingItem(null); // Limpar o estado de edição
+          setEditSubcategoryName(''); // Limpar o estado de edição do nome da subcategoria
           getSubcategories(selectedCategoryId);
           getAddedSubcategories(selectedCategoryId);
       } else {
@@ -192,11 +196,6 @@ const editSubcategory = async (sub) => {
       console.error('Erro ao editar subcategoria', error);
   }
 };
-
-// ...
-
-// ...
-
 
 
     return (
@@ -265,11 +264,15 @@ const editSubcategory = async (sub) => {
                     {editingItem === category._id ? (
                         // Se estiver editando, exibe o campo de edição
                         <>
-                            <input
-                                type="text"
-                                value={editItemName}
-                                onChange={(e) => setEditItemName(e.target.value)}
-                            />
+                          
+<input
+    type="text"
+    value={
+        editingItem === category._id ? editCategoryName : category.name
+    }
+    onChange={(e) => setEditCategoryName(e.target.value)}
+/>
+
                             <button onClick={() => editCategory(category)}>Salvar</button>
                         </>
                     ) : (
@@ -317,11 +320,13 @@ const editSubcategory = async (sub) => {
                     {editingItem === sub._id ? (
                         // Se estiver editando, exibe o campo de edição
                         <>
-                            <input
-                                type="text"
-                                value={editItemName}
-                                onChange={(e) => setEditItemName(e.target.value)}
-                            />
+                           <input
+    type="text"
+    value={
+        editingItem === sub._id ? editSubcategoryName : sub.name
+    }
+    onChange={(e) => setEditSubcategoryName(e.target.value)}
+/>
                             <button onClick={() => editSubcategory(sub)}>Salvar</button>
                         </>
                     ) : (
