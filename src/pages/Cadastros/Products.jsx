@@ -268,7 +268,7 @@ const Products = () => {
 
 <input
   type="text"
-  placeholder="Pesquisar por palavra-chave..."
+  placeholder="Pesquisar por produto..."
   value={searchTerm}
   onChange={handleSearchChange}
   style={inputStyles}

@@ -128,7 +128,7 @@ const CreateProductForm = ({ onClose }) => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/api/categories");
+      const response = await axios.get("http://localhost:3001/api/admin/categories");
       const { success, categories } = response.data;
 
       if (success) {
