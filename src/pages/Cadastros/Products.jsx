@@ -114,10 +114,8 @@ const Products = () => {
   // Update the handleUpdateProduct function to close the modal after updating
   const handleUpdateProduct = async (productId) => {
     try {
-      const response = await axios.put(
-        `http://localhost:3001/products/${productId}`,
-        formData
-      );
+      const response = await axios.put(`http://localhost:3001/api/admin/product/${productId}`, formData);
+
 
       console.log("Resposta do servidor:", response);
 
