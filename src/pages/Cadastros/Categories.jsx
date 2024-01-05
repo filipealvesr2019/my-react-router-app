@@ -172,6 +172,8 @@ const editCategory = async (category) => {
   }
 };
 
+// ...
+
 const editSubcategory = async (sub) => {
   try {
       const response = await axios.put(`http://localhost:3001/api/admin/subcategories/${sub._id}`, {
@@ -190,6 +192,8 @@ const editSubcategory = async (sub) => {
       console.error('Erro ao editar subcategoria', error);
   }
 };
+
+// ...
 
 // ...
 
@@ -255,27 +259,49 @@ const editSubcategory = async (sub) => {
                     <button onClick={addCategory}>Adicionar Categoria</button>
                 </label>
             </div>
-
-            {/* Tabela para Todas Categorias */}
-            <table className="category-table">
-                <thead>
-                    <tr>
-                        <th>Todas Categorias</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {categories.map((category) => (
-                        <tr key={category._id}>
-                            <td>{category.name}</td>
-                            <td>
-                                <button>Editar</button>
-                                <button onClick={() => handleDeleteCategory(category)}>Excluir</button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+{/* Tabela para Todas Categorias */}
+<table className="category-table">
+    <thead>
+        <tr>
+            <th>Todas Categorias</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {categories.map((category) => (
+            <tr key={category._id}>
+                <td>
+                    {editingItem === category._id ? (
+                        // Se estiver editando, exibe o campo de edição
+                        <>
+                            <input
+                                type="text"
+                                value={editItemName}
+                                onChange={(e) => setEditItemName(e.target.value)}
+                            />
+                            <button onClick={() => editCategory(category)}>Salvar</button>
+                        </>
+                    ) : (
+                        // Se não estiver editando, exibe o nome normal
+                        category.name
+                    )}
+                </td>
+                <td>
+                    {editingItem !== category._id ? (
+                        // Apenas exibe os botões de ação se não estiver editando
+                        <>
+                            <button onClick={() => setEditingItem(category._id)}>Editar</button>
+                            <button onClick={() => handleDeleteCategory(category)}>Excluir</button>
+                        </>
+                    ) : (
+                        // Se estiver editando, não exibe botões de ação
+                        null
+                    )}
+                </td>
+            </tr>
+        ))}
+    </tbody>
+</table>
 
             <div>
                 <label>
@@ -285,40 +311,17 @@ const editSubcategory = async (sub) => {
                 </label>
             </div>
             {/* Tabela para Todas Subcategorias */}
-            <table className="category-table">
-                <thead>
-                    <tr>
-                        <th>Todas Subcategorias</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {subcategories.map((sub) => (
-                        <tr key={sub._id}>
-                            <td>{sub.name}</td>
-                            <td>
-                                <button >Editar</button>
-                                <button onClick={() => handleDeleteSubcategory(sub)}>Excluir</button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            // ...
-
-{/* Tabela para Subcategorias Adicionadas à Categoria Selecionada */}
+            {/* Tabela para Todas Subcategorias */}
 <table className="category-table">
     <thead>
         <tr>
-            <th>Categoria</th>
-            <th>Subcategoria Adicionada</th>
+            <th>Todas Subcategorias</th>
             <th>Ações</th>
         </tr>
     </thead>
     <tbody>
-        {addedSubcategories.map((sub) => (
+        {subcategories.map((sub) => (
             <tr key={sub._id}>
-                <td>{sub.category}</td>
                 <td>
                     {editingItem === sub._id ? (
                         // Se estiver editando, exibe o campo de edição
@@ -336,12 +339,15 @@ const editSubcategory = async (sub) => {
                     )}
                 </td>
                 <td>
-                    {editingItem !== sub._id && (
+                    {editingItem !== sub._id ? (
                         // Apenas exibe os botões de ação se não estiver editando
                         <>
                             <button onClick={() => setEditingItem(sub._id)}>Editar</button>
                             <button onClick={() => handleDeleteSubcategory(sub)}>Excluir</button>
                         </>
+                    ) : (
+                        // Se estiver editando, não exibe botões de ação
+                        null
                     )}
                 </td>
             </tr>
@@ -349,7 +355,6 @@ const editSubcategory = async (sub) => {
     </tbody>
 </table>
 
-// ...
 
         </div>
     );
