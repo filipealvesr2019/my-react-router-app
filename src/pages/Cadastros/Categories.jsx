@@ -10,7 +10,9 @@ const Categories = () => {
     const [selectedCategoryId, setSelectedCategoryId] = useState(null);
     const [availableSubcategories, setAvailableSubcategories] = useState([]);
     const [addedSubcategories, setAddedSubcategories] = useState([]);
-
+   
+    const [editingItem, setEditingItem] = useState(null);
+    const [editItemName, setEditItemName] = useState('');
     useEffect(() => {
         // Ao montar o componente, carrega categorias e subcategorias
         getCategories();
@@ -150,7 +152,38 @@ const Categories = () => {
             console.error('Erro ao excluir subcategoria', error);
         }
     };
+    const openEditModal = (item) => {
+      setEditingItem(item);
+      setEditItemName(item.name);
+  };
 
+  const closeEditModal = () => {
+      setEditingItem(null);
+      setEditItemName('');
+  };
+  
+  const editItem = async () => {
+    try {
+        const endpoint = editingItem.isCategory ? 'categories' : 'subcategories';
+        const response = await axios.put(`http://localhost:3001/api/admin/${endpoint}/${editingItem._id}`, {
+            name: editItemName,
+        });
+
+        if (response.data.success) {
+            console.log(`${editingItem.isCategory ? 'Categoria' : 'Subcategoria'} editada com sucesso`);
+            if (editingItem.isCategory) {
+                getCategories();
+            } else {
+                getSubcategories(); // Adapte conforme necessário
+            }
+            closeEditModal();
+        } else {
+            console.error(`Erro ao editar ${editingItem.isCategory ? 'categoria' : 'subcategoria'}. Mensagem do servidor:`, response.data.error);
+        }
+    } catch (error) {
+        console.error(`Erro ao editar ${editingItem.isCategory ? 'categoria' : 'subcategoria'}`, error);
+    }
+};
     return (
         <div>
             {/* Dropdown para selecionar uma Categoria */}
