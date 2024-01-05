@@ -6,6 +6,8 @@ import ModelProducts from "../../components/ModelProducts";
 import DeleteModal from "../../components/DeleteModal";
 import CloseIcon from "@mui/icons-material/Close";
 import Pagination from "@mui/material/Pagination";
+
+
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
@@ -114,7 +116,7 @@ const Products = () => {
   // Update the handleUpdateProduct function to close the modal after updating
   const handleUpdateProduct = async (productId) => {
     try {
-      const response = await axios.put(`http://localhost:3001/api/admin/product/${productId}`, formData);
+      const response = await axios.put(`http://localhost:3001/api/update/product/${productId}`, formData);
 
 
       console.log("Resposta do servidor:", response);
@@ -165,56 +167,30 @@ const Products = () => {
 
   console.log("Total Pages:", totalPages);
   const handleEditUrl = (productId, color, index, newUrl) => {
-    console.log(
-      "Before update, productId:",
-      productId,
-      "color:",
-      color,
-      "index:",
-      index,
-      "newUrl:",
-      newUrl
-    );
-
-    setProducts((prevProducts) => {
-      const updatedProducts = [...prevProducts];
-
-      const productIndex = updatedProducts.findIndex(
-        (p) => p._id === productId
-      );
-
-      console.log("ProductIndex:", productIndex);
-
-      if (productIndex !== -1) {
-        const updatedVariations = updatedProducts[productIndex].variations.map(
-          (variation) => {
-            if (variation.color === color) {
-              return {
-                ...variation,
-                urls: variation.urls.map((url, i) =>
-                  i === index ? newUrl : url
-                ),
-              };
-            }
-            return variation;
+  setProducts((prevProducts) => {
+    const updatedProducts = prevProducts.map((product) => {
+      if (product._id === productId) {
+        const updatedVariations = product.variations.map((variation) => {
+          if (variation.color === color) {
+            return {
+              ...variation,
+              urls: variation.urls.map((url, i) => (i === index ? newUrl : url)),
+            };
           }
-        );
+          return variation;
+        });
 
-        console.log("UpdatedVariations:", updatedVariations);
-
-        updatedProducts[productIndex] = {
-          ...updatedProducts[productIndex],
+        return {
+          ...product,
           variations: updatedVariations,
         };
       }
-
-      console.log("UpdatedProducts:", updatedProducts);
-
-      return updatedProducts;
+      return product;
     });
 
-    console.log("After update");
-  };
+    return updatedProducts;
+  });
+};
 
   const getImagesByColor = (product, color) => {
     const updatedProduct =
@@ -249,6 +225,7 @@ const Products = () => {
         </div>
       ));
   };
+  const productId = "6595e4c4ccec57669d6d2a86";
 
   const inputStyles = {
     padding: "8px",
