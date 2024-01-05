@@ -145,84 +145,7 @@ const Categories = () => {
         }
     };
   
-
-
-
-
-    const [editingItem, setEditingItem] = useState(null);
-  
-    const [editingCategory, setEditingCategory] = useState(null);
-    const [editingSubcategory, setEditingSubcategory] = useState(null);
-    const [editItemName, setEditItemName] = useState('');
-    const [isEditing, setIsEditing] = useState(false);
-  
-    // ... (código existente)
-  
-    // Função para abrir a modal de edição de categoria
-    const handleEditCategory = (category) => {
-      setEditingCategory(category);
-      setEditItemName(category.name);
-      setIsEditing(true);
-    };
-  
-    // Função para abrir a modal de edição de subcategoria
-    const handleEditSubcategory = (sub) => {
-      setEditingSubcategory(sub);
-      setEditItemName(sub.name);
-      setIsEditing(true);
-    };
-  
-    // Função para editar categoria
-    const editCategory = async () => {
-      try {
-        const response = await axios.put(`/api/admin/categories/${editingCategory.id}`, {
-          name: editItemName,
-        });
-  
-        if (response.data.success) {
-          console.log('Categoria editada com sucesso');
-          getCategories();
-          closeEditModal();
-        } else {
-          console.error('Erro ao editar categoria. Mensagem do servidor:', response.data.error);
-        }
-      } catch (error) {
-        console.error('Erro na solicitação de edição de categoria', error);
-      }
-    };
-  
-    // Função para editar subcategoria
-    const editSubcategory = async () => {
-      try {
-        const response = await axios.put(`http://localhost:3001/api/admin/subcategories/${editingSubcategory._id}`, {
-          name: editItemName,
-        });
-  
-        if (response.data.success) {
-          console.log('Subcategoria editada com sucesso');
-          getSubcategories(selectedCategoryId);
-          getAddedSubcategories(selectedCategoryId);
-          closeEditModal();
-        } else {
-          console.error(`Erro ao editar subcategoria. Mensagem do servidor:`, response.data.error);
-        }
-      } catch (error) {
-        console.error('Erro ao editar subcategoria', error);
-      }
-    };
-  
-const openEditModal = (item) => {
-  setEditingItem(item);
-  setEditItemName(item.name);
-};
-    // Função para fechar a modal de edição
-    const closeEditModal = () => {
-      setEditingCategory(null);
-      setEditingSubcategory(null);
-      setEditItemName('');
-      setIsEditing(false);
-    };
-  
+    
 
     return (
         <div>
@@ -322,47 +245,11 @@ const openEditModal = (item) => {
                     </tr>
                 </thead>
                 <tbody>
-                {subcategories.map((sub) => (
-                        <tr key={sub._id}>
-                            <td>{sub.name}</td>
-                            <td>
-                                <button onClick={() => openEditModal(sub)}>Editar</button>
-                                <button onClick={() => handleDeleteSubcategory(sub)}>Excluir</button>
-                            </td>
-                        </tr>
-                    ))}
+                  
+              
                 </tbody>
             </table>
-            {isEditing && editingCategory && (
-  <div className="modal">
-    <label>
-      Editar Categoria:
-      <input
-        type="text"
-        value={editItemName}
-        onChange={(e) => setEditItemName(e.target.value)}
-      />
-      <button onClick={editCategory}>Salvar</button>
-      <button onClick={closeEditModal}>Cancelar</button>
-    </label>
-  </div>
-)}
-
-{isEditing && editingSubcategory && (
-  <div className="modal">
-    <label>
-      Editar Subcategoria:
-      <input
-        type="text"
-        value={editItemName}
-        onChange={(e) => setEditItemName(e.target.value)}
-      />
-      <button onClick={editSubcategory}>Salvar</button>
-      <button onClick={closeEditModal}>Cancelar</button>
-    </label>
-  </div>
-)}
-
+       
 
         </div>
     );
