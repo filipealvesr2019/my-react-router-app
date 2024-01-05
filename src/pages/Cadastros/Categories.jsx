@@ -152,74 +152,48 @@ const Categories = () => {
 
 
 
+// ...
 
-
-
-
-const openEditModal = (item) => {
-  setEditingItem(item);
-  setEditItemName(item.name);
-};
-
-const closeEditModal = () => {
-  setEditingItem(null);
-  setEditItemName('');
-};
-// Adicione esta função para abrir a modal de edição
-// Adicione esta função para abrir a modal de edição
-const handleEditSubcategory = (sub) => {
-  setEditingItem(sub);
-  setEditItemName(sub.name);
-};
-
-// Adicione esta função para abrir a modal de edição de categoria
-const handleEditCategory = (category) => {
-  setEditingItem(category);
-  setEditItemName(category.name);
-};
-
-// Função para editar categoria
-const editCategory = async () => {
+const editCategory = async (category) => {
   try {
-    console.log('Editando categoria...');
+      const response = await axios.put(`http://localhost:3001/api/admin/categories/${category._id}`, {
+          name: editItemName, // Use o estado editItemName para o novo nome da categoria
+      });
 
-    const response = await axios.put(`http://localhost:3001/api/admin/categories/${editingItem._id}`, {
-      name: editItemName,
-    });
-
-    if (response.data.success) {
-      console.log('Categoria editada com sucesso');
-      getCategories();
-      closeEditModal();
-    } else {
-      console.error('Erro ao editar categoria. Mensagem do servidor:', response.data.error);
-    }
+      if (response.data.success) {
+          console.log('Categoria editada com sucesso');
+          setEditingItem(null); // Limpar o estado de edição
+          getCategories();
+      } else {
+          console.error('Erro ao editar categoria. Mensagem do servidor:', response.data.error);
+      }
   } catch (error) {
-    console.error('Erro na solicitação de edição de categoria', error);
+      console.error('Erro ao editar categoria', error);
   }
 };
 
-// Função para editar subcategoria
-const editSubcategory = async () => {
-  console.log('Editando subcategoria...');
-
+const editSubcategory = async (sub) => {
   try {
-    const response = await axios.put(`http://localhost:3001/api/admin/subcategories/${editingItem._id}`, {
-      name: editItemName,
-    });
+      const response = await axios.put(`http://localhost:3001/api/admin/subcategories/${sub._id}`, {
+          name: editItemName, // Use o estado editItemName para o novo nome da subcategoria
+      });
 
-    if (response.data.success) {
-      console.log('Subcategoria editada com sucesso');
-      getSubcategories(selectedCategoryId);
-      getAddedSubcategories(selectedCategoryId);
-      closeEditModal();
-    } else {
-      console.error(`Erro ao editar subcategoria. Mensagem do servidor:`, response.data.error);
-    }
+      if (response.data.success) {
+          console.log('Subcategoria editada com sucesso');
+          setEditingItem(null); // Limpar o estado de edição
+          getSubcategories(selectedCategoryId);
+          getAddedSubcategories(selectedCategoryId);
+      } else {
+          console.error('Erro ao editar subcategoria. Mensagem do servidor:', response.data.error);
+      }
   } catch (error) {
-    console.error('Erro ao editar subcategoria', error);
+      console.error('Erro ao editar subcategoria', error);
   }
 };
+
+// ...
+
+
 
     return (
         <div>
@@ -266,7 +240,7 @@ const editSubcategory = async () => {
                             <td>{sub.category}</td>
                             <td>{sub.name}</td>
                             <td>
-                                <button onClick={() => handleEditSubcategory(sub)}>Editar</button>
+                                <button >Editar</button>
                                 <button onClick={() => handleDeleteSubcategory(sub)}>Excluir</button>
                             </td>
                         </tr>
@@ -295,7 +269,7 @@ const editSubcategory = async () => {
                         <tr key={category._id}>
                             <td>{category.name}</td>
                             <td>
-                                <button onClick={() => openEditModal(category)}>Editar</button>
+                                <button>Editar</button>
                                 <button onClick={() => handleDeleteCategory(category)}>Excluir</button>
                             </td>
                         </tr>
@@ -323,28 +297,59 @@ const editSubcategory = async () => {
                         <tr key={sub._id}>
                             <td>{sub.name}</td>
                             <td>
-                                <button onClick={() => openEditModal(sub)}>Editar</button>
+                                <button >Editar</button>
                                 <button onClick={() => handleDeleteSubcategory(sub)}>Excluir</button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
-          
-{editingItem && (
-  <div className="modal">
-    <label>
-      {editingItem.isCategory ? 'Editar Categoria:' : 'Editar Subcategoria:'}
-      <input
-        type="text"
-        value={editItemName}
-        onChange={(e) => setEditItemName(e.target.value)}
-      />
-      <button onClick={editingItem.isCategory ? editCategory : editSubcategory}>Salvar</button>
-      <button onClick={closeEditModal}>Cancelar</button>
-    </label>
-  </div>
-)}
+            // ...
+
+{/* Tabela para Subcategorias Adicionadas à Categoria Selecionada */}
+<table className="category-table">
+    <thead>
+        <tr>
+            <th>Categoria</th>
+            <th>Subcategoria Adicionada</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {addedSubcategories.map((sub) => (
+            <tr key={sub._id}>
+                <td>{sub.category}</td>
+                <td>
+                    {editingItem === sub._id ? (
+                        // Se estiver editando, exibe o campo de edição
+                        <>
+                            <input
+                                type="text"
+                                value={editItemName}
+                                onChange={(e) => setEditItemName(e.target.value)}
+                            />
+                            <button onClick={() => editSubcategory(sub)}>Salvar</button>
+                        </>
+                    ) : (
+                        // Se não estiver editando, exibe o nome normal
+                        sub.name
+                    )}
+                </td>
+                <td>
+                    {editingItem !== sub._id && (
+                        // Apenas exibe os botões de ação se não estiver editando
+                        <>
+                            <button onClick={() => setEditingItem(sub._id)}>Editar</button>
+                            <button onClick={() => handleDeleteSubcategory(sub)}>Excluir</button>
+                        </>
+                    )}
+                </td>
+            </tr>
+        ))}
+    </tbody>
+</table>
+
+// ...
 
         </div>
     );
