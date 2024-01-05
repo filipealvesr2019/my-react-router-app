@@ -132,10 +132,7 @@ const Categories = () => {
         }
     };
 
-    const handleEditSubcategory = (sub) => {
-        // Implemente a lógica para editar a subcategoria aqui
-        console.log('Editar subcategoria:', sub);
-    };
+
 
     const handleDeleteSubcategory = async (sub) => {
         try {
@@ -152,38 +149,51 @@ const Categories = () => {
             console.error('Erro ao excluir subcategoria', error);
         }
     };
-    const openEditModal = (item) => {
-      setEditingItem(item);
-      setEditItemName(item.name);
-  };
-
-  const closeEditModal = () => {
-      setEditingItem(null);
-      setEditItemName('');
-  };
   
-  const editItem = async () => {
-    try {
-        const endpoint = editingItem.isCategory ? 'categories' : 'subcategories';
-        const response = await axios.put(`http://localhost:3001/api/admin/${endpoint}/${editingItem._id}`, {
-            name: editItemName,
-        });
 
-        if (response.data.success) {
-            console.log(`${editingItem.isCategory ? 'Categoria' : 'Subcategoria'} editada com sucesso`);
-            if (editingItem.isCategory) {
-                getCategories();
-            } else {
-                getSubcategories(); // Adapte conforme necessário
-            }
-            closeEditModal();
-        } else {
-            console.error(`Erro ao editar ${editingItem.isCategory ? 'categoria' : 'subcategoria'}. Mensagem do servidor:`, response.data.error);
-        }
-    } catch (error) {
-        console.error(`Erro ao editar ${editingItem.isCategory ? 'categoria' : 'subcategoria'}`, error);
-    }
+
+
+
+
+
+
+
+
+const openEditModal = (item) => {
+  setEditingItem(item);
+  setEditItemName(item.name);
 };
+
+const closeEditModal = () => {
+  setEditingItem(null);
+  setEditItemName('');
+};
+
+const editItem = async () => {
+  try {
+      const endpoint = editingItem.isCategory ? 'categories' : 'subcategories';
+      const response = await axios.put(`http://localhost:3001/api/admin/${endpoint}/${editingItem._id}`, {
+          name: editItemName,
+      });
+
+      if (response.data.success) {
+          console.log(`${editingItem.isCategory ? 'Categoria' : 'Subcategoria'} editada com sucesso`);
+          if (editingItem.isCategory) {
+              getCategories();
+          } else {
+              getSubcategories(selectedCategoryId); // Atualize conforme necessário
+          }
+          closeEditModal();
+      } else {
+          console.error(`Erro ao editar ${editingItem.isCategory ? 'categoria' : 'subcategoria'}. Mensagem do servidor:`, response.data.error);
+      }
+  } catch (error) {
+      console.error(`Erro ao editar ${editingItem.isCategory ? 'categoria' : 'subcategoria'}`, error);
+  }
+};
+
+
+
     return (
         <div>
             {/* Dropdown para selecionar uma Categoria */}
@@ -254,11 +264,11 @@ const Categories = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {categories.map((category) => (
+                {categories.map((category) => (
                         <tr key={category._id}>
                             <td>{category.name}</td>
                             <td>
-                                <button onClick={() => handleEditCategory(category)}>Editar</button>
+                                <button onClick={() => openEditModal(category)}>Editar</button>
                                 <button onClick={() => handleDeleteCategory(category)}>Excluir</button>
                             </td>
                         </tr>
@@ -282,17 +292,33 @@ const Categories = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {subcategories.map((sub) => (
+                {subcategories.map((sub) => (
                         <tr key={sub._id}>
                             <td>{sub.name}</td>
                             <td>
-                                <button onClick={() => handleEditSubcategory(sub)}>Editar</button>
+                                <button onClick={() => openEditModal(sub)}>Editar</button>
                                 <button onClick={() => handleDeleteSubcategory(sub)}>Excluir</button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
+             {/* Modal de Edição */}
+             {editingItem && (
+    <div className="modal">
+        <label>
+            Editar {editingItem.isCategory ? 'Categoria' : 'Subcategoria'}:
+            <input
+                type="text"
+                value={editItemName}
+                onChange={(e) => setEditItemName(e.target.value)}
+            />
+            <button onClick={editItem}>Salvar</button>
+            <button onClick={closeEditModal}>Cancelar</button>
+        </label>
+    </div>
+)}
+
         </div>
     );
 };
