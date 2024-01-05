@@ -6,7 +6,6 @@ import ModelProducts from "../../components/ModelProducts";
 import DeleteModal from "../../components/DeleteModal";
 import CloseIcon from "@mui/icons-material/Close";
 import Pagination from "@mui/material/Pagination";
-
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
@@ -119,12 +118,14 @@ const Products = () => {
         `http://localhost:3001/products/${productId}`,
         formData
       );
-  
+
       console.log("Resposta do servidor:", response);
-  
+
       if (response.data._id) {
         console.log("Produto atualizado com sucesso");
-        const updatedProductsResponse = await axios.get("http://localhost:3001/api/products");
+        const updatedProductsResponse = await axios.get(
+          "http://localhost:3001/api/products"
+        );
         const updatedProducts = updatedProductsResponse.data.products;
         console.log("Updated Products:", updatedProducts); // Log the received data
         setProducts(updatedProducts);
@@ -134,7 +135,7 @@ const Products = () => {
           response.data.error || "Mensagem de erro não disponível"
         );
       }
-  
+
       setIsModalOpen(false);
       setFormData({
         _id: null,
@@ -152,66 +153,75 @@ const Products = () => {
           },
         ],
       });
-
-
     } catch (error) {
       console.error("Erro ao atualizar produto. Detalhes do erro:", error);
       if (error.response) {
         console.error("Response data:", error.response.data);
       }
     }
-  
+
     console.log("Finalizando handleUpdateProduct...");
   };
-  
+
   // Restante do código...
 
   console.log("Total Pages:", totalPages);
   const handleEditUrl = (productId, color, index, newUrl) => {
-    console.log("Before update, productId:", productId, "color:", color, "index:", index, "newUrl:", newUrl);
-  
+    console.log(
+      "Before update, productId:",
+      productId,
+      "color:",
+      color,
+      "index:",
+      index,
+      "newUrl:",
+      newUrl
+    );
+
     setProducts((prevProducts) => {
       const updatedProducts = [...prevProducts];
-  
-      const productIndex = updatedProducts.findIndex((p) => p._id === productId);
-  
+
+      const productIndex = updatedProducts.findIndex(
+        (p) => p._id === productId
+      );
+
       console.log("ProductIndex:", productIndex);
-  
+
       if (productIndex !== -1) {
-        const updatedVariations = updatedProducts[productIndex].variations.map((variation) => {
-          if (variation.color === color) {
-            return {
-              ...variation,
-              urls: variation.urls.map((url, i) => (i === index ? newUrl : url)),
-            };
+        const updatedVariations = updatedProducts[productIndex].variations.map(
+          (variation) => {
+            if (variation.color === color) {
+              return {
+                ...variation,
+                urls: variation.urls.map((url, i) =>
+                  i === index ? newUrl : url
+                ),
+              };
+            }
+            return variation;
           }
-          return variation;
-        });
-  
+        );
+
         console.log("UpdatedVariations:", updatedVariations);
-  
+
         updatedProducts[productIndex] = {
           ...updatedProducts[productIndex],
           variations: updatedVariations,
         };
       }
-  
+
       console.log("UpdatedProducts:", updatedProducts);
-  
+
       return updatedProducts;
     });
-  
+
     console.log("After update");
   };
-  
-  const handleUpdateProductFromEditor = (updatedData) => {
-    // Atualize o produto com os dados recebidos de ProductEditor
-    // Certifique-se de que você tenha a lógica correta aqui para atualizar o estado do produto
-    console.log("Dados atualizados recebidos:", updatedData);
-  };
+
   const getImagesByColor = (product, color) => {
-    const updatedProduct = products.find((p) => p._id === product._id) || product;
-  
+    const updatedProduct =
+      products.find((p) => p._id === product._id) || product;
+
     return updatedProduct.variations
       .filter((variation) => variation.color === color)
       .map((variation) => (
@@ -241,19 +251,6 @@ const Products = () => {
         </div>
       ));
   };
-  
-
-
-
-
-
-
-
-
-
-
-
-
 
   const inputStyles = {
     padding: "8px",
@@ -261,18 +258,16 @@ const Products = () => {
     borderRadius: "4px",
     border: "1px solid #ccc",
   };
-  
+
   return (
     <div className={styles.container}>
-    
-
-<input
-  type="text"
-  placeholder="Pesquisar por produto..."
-  value={searchTerm}
-  onChange={handleSearchChange}
-  style={inputStyles}
-/>
+      <input
+        type="text"
+        placeholder="Pesquisar por produto..."
+        value={searchTerm}
+        onChange={handleSearchChange}
+        style={inputStyles}
+      />
 
       <div className={styles.Model}>
         <ModelProducts />
