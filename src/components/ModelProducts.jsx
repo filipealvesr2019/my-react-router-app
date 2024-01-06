@@ -17,6 +17,7 @@ import { SketchPicker } from "react-color";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CheckIcon from "@mui/icons-material/Check";
+import { Repeat } from "@mui/icons-material";
 const CreateProductForm = ({ onClose }) => {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
@@ -25,7 +26,7 @@ const CreateProductForm = ({ onClose }) => {
     name: "",
     price: 0.0,
     description: "",
-    size: "",
+    sizes: [], // Change from size to sizes
     category: "",
     subcategory: "",
     quantity: 0,
@@ -273,10 +274,9 @@ const handleSubmit = async (event) => {
   }
 
   try {
-    const { imageUrl, ...productData } = productInfo;
-
-    // Include the image URL in the product data
-    productData.imageUrl = imageUrl;
+ 
+    const { sizes, imageUrl, ...productData } = productInfo;
+    productData.size = sizes.join(', '); // Combine sizes into a comma-separated string
 
     // Send the product data to the server for further processing
     const response = await axios.post(
@@ -339,16 +339,53 @@ const handleSubmit = async (event) => {
     }));
   };
   
+
+
+
+
+  const handleAddSize = () => {
+    setProductInfo((prevProductInfo) => ({
+      ...prevProductInfo,
+      sizes: [...prevProductInfo.sizes, ""],
+    }));
+  };
+  
+  const handleSizeChange = (event, index) => {
+    const newSize = event.target.value;
+    setProductInfo((prevProductInfo) => {
+      const updatedSizes = [...prevProductInfo.sizes];
+      updatedSizes[index] = newSize;
+      return {
+        ...prevProductInfo,
+        sizes: updatedSizes,
+      };
+    });
+  };
+  
+  const handleRemoveSize = (index) => {
+    setProductInfo((prevProductInfo) => {
+      const updatedSizes = [...prevProductInfo.sizes];
+      updatedSizes.splice(index, 1);
+      return {
+        ...prevProductInfo,
+        sizes: updatedSizes,
+      };
+    });
+  };
+
+  
+
+
   // ...
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} >
       {formErrors.variations && (
         <Typography variant="caption" color="error">
           {formErrors.variations}
         </Typography>
       )}
 
-      <Grid container spacing={2} style={{ marginTop: "-2rem" }}>
+<Grid container spacing={2} style={{ marginTop: "-2rem", display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)' }}>
         <Grid item xs={12} sm={6}>
           <TextField
             label="Nome do Produto"
@@ -397,21 +434,37 @@ const handleSubmit = async (event) => {
             }}
           />
         </Grid>
-        <Grid item xs={12} sm={6} style={{ marginTop: "-1rem" }}>
-          <TextField
-            label="Tamanho"
-            variant="outlined"
-            fullWidth
-            name="size"
-            value={productInfo.size}
-            onChange={handleInputChange}
-            error={formErrors.size !== undefined}
-            helperText={formErrors.size}
-            InputProps={{
-              style: { marginTop: "10px" },
-            }}
-          />
-        </Grid>
+        <Grid item xs={12} sm={6} style={{display:"flex",zIndex:"1"}}>
+        {productInfo && productInfo.sizes && productInfo.sizes.map((size, index) => (
+  // Restante do código
+
+    <div key={index}>
+      <TextField
+        label={`Tamanho ${index + 1}`}
+        variant="outlined"
+        fullWidth
+        name={`size_${index}`}
+        value={size}
+        onChange={(event) => handleSizeChange(event, index)}
+        InputProps={{
+          style: { marginTop: "10px" },
+        }}
+      />
+      {index > 0 && (
+        <Button
+          onClick={() => handleRemoveSize(index)}
+          style={{ marginTop: "10px" }}
+        >
+          Remover Tamanho
+        </Button>
+      )}
+    </div>
+  ))}
+  <Button onClick={handleAddSize} style={{ marginTop: "10px" }}>
+    Adicionar Tamanho
+  </Button>
+</Grid>
+
         <Grid item xs={12} sm={6} style={{ marginTop: "-1rem" }}>
           <TextField
             label="Quantidade"
@@ -595,7 +648,7 @@ export default function BasicModal() {
         <Sheet
           variant="outlined"
           sx={{
-            maxWidth: 500,
+            maxWidth: 1000,
             borderRadius: "md",
             p: 3,
             boxShadow: "lg",
