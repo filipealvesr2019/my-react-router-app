@@ -7,7 +7,6 @@ import DeleteModal from "../../components/DeleteModal";
 import CloseIcon from "@mui/icons-material/Close";
 import Pagination from "@mui/material/Pagination";
 
-
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
@@ -116,8 +115,10 @@ const Products = () => {
   // Update the handleUpdateProduct function to close the modal after updating
   const handleUpdateProduct = async (productId) => {
     try {
-      const response = await axios.put(`http://localhost:3001/api/update/product/${productId}`, formData);
-
+      const response = await axios.put(
+        `http://localhost:3001/api/update/product/${productId}`,
+        formData
+      );
 
       console.log("Resposta do servidor:", response);
 
@@ -167,30 +168,32 @@ const Products = () => {
 
   console.log("Total Pages:", totalPages);
   const handleEditUrl = (productId, color, index, newUrl) => {
-  setProducts((prevProducts) => {
-    const updatedProducts = prevProducts.map((product) => {
-      if (product._id === productId) {
-        const updatedVariations = product.variations.map((variation) => {
-          if (variation.color === color) {
-            return {
-              ...variation,
-              urls: variation.urls.map((url, i) => (i === index ? newUrl : url)),
-            };
-          }
-          return variation;
-        });
+    setProducts((prevProducts) => {
+      const updatedProducts = prevProducts.map((product) => {
+        if (product._id === productId) {
+          const updatedVariations = product.variations.map((variation) => {
+            if (variation.color === color) {
+              return {
+                ...variation,
+                urls: variation.urls.map((url, i) =>
+                  i === index ? newUrl : url
+                ),
+              };
+            }
+            return variation;
+          });
 
-        return {
-          ...product,
-          variations: updatedVariations,
-        };
-      }
-      return product;
+          return {
+            ...product,
+            variations: updatedVariations,
+          };
+        }
+        return product;
+      });
+
+      return updatedProducts;
     });
-
-    return updatedProducts;
-  });
-};
+  };
 
   const getImagesByColor = (product, color) => {
     const updatedProduct =
@@ -225,25 +228,45 @@ const Products = () => {
         </div>
       ));
   };
-  const productId = "6595e4c4ccec57669d6d2a86";
-
-  const inputStyles = {
-    padding: "8px",
-    margin: "8px",
-    borderRadius: "4px",
-    border: "1px solid #ccc",
+  const customStyle = {
+    fontSize: "1.5rem",
+    color: "#2A337C",
+    marginLeft: "min(1.8rem, 3rem)",
   };
-
+  
+  const responsiveStyle = {
+    // Adicione estilos específicos para larguras de tela menores
+    "@media (max-width: 600px)": {
+      fontSize: "1rem",
+      marginLeft: "1rem", // Ajuste para larguras de tela menores
+    },
+  };
+  
+  // Combine os estilos usando spread operator
+  const combinedStyle = { ...customStyle, ...responsiveStyle };
   return (
     <div className={styles.container}>
+      <div style={{
+         display: "flex",
+         alignItems: "center",
+         justifyContent: "center"
+      }}>
       <input
         type="text"
         placeholder="Pesquisar por produto..."
         value={searchTerm}
         onChange={handleSearchChange}
-        style={inputStyles}
+        style={{
+          padding: "8px",
+          margin: "8px",
+          borderRadius: "4px",
+          border: "1px solid #ccc",   
+          width: "50dvw",
+        }}
       />
 
+      </div>
+      
       <div className={styles.Model}>
         <ModelProducts />
       </div>
@@ -261,10 +284,15 @@ const Products = () => {
       >
         <main style={{ position: "sticky" }}>
           {error && <div style={{ color: "red" }}>{error}</div>}
-
-          <h1 style={{ fontSize: "1.5rem", color: "#2A337C" }}>
+           <div className={styles.h1Container}>
+           <h1
+            style={{ fontSize: "1.5rem", color: "#2A337C"}}
+          >
             Cadastro de produtos
           </h1>
+           </div>
+           
+         
           <div>
             <table style={{ margin: "0 auto", width: "50vw" }}>
               <thead>

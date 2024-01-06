@@ -648,7 +648,7 @@ export default function BasicModal() {
         <Sheet
           variant="outlined"
           sx={{
-            maxWidth: 1000,
+            maxWidth: 800,
             borderRadius: "md",
             p: 3,
             boxShadow: "lg",
