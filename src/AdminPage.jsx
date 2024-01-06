@@ -7,6 +7,7 @@ import User from "./pages/Cadastros/User";
 import Products from "./pages/Cadastros/Products";
 import Categories from "./pages/Cadastros/Categories";
 import Config from "./pages/Cadastros/config";
+import Sales from "./pages/Cadastros/Sales";
 const Content = ({ currentPage }) => {
   switch (currentPage) {
     case "register":
@@ -46,6 +47,8 @@ const RegisterPage = () => {
       case 2:
         return <Categories />;
       case 3:
+      return <Sales />;
+      case 4:
         return <Config />;
       default:
         return null;
@@ -85,6 +88,14 @@ const RegisterPage = () => {
                 activeNavItem === 3 ? "active-item" : ""
               }`}
               onClick={() => handleClickOtherNavbar(3)}
+            >
+              Pedidos
+            </li>
+            <li
+              className={`cadastros ${
+                activeNavItem === 4 ? "active-item" : ""
+              }`}
+              onClick={() => handleClickOtherNavbar(4)}
             >
               Configurações
             </li>

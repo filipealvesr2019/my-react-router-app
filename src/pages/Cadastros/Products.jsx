@@ -228,28 +228,14 @@ const Products = () => {
         </div>
       ));
   };
-  const customStyle = {
-    fontSize: "1.5rem",
-    color: "#2A337C",
-    marginLeft: "min(1.8rem, 3rem)",
-  };
   
-  const responsiveStyle = {
-    // Adicione estilos específicos para larguras de tela menores
-    "@media (max-width: 600px)": {
-      fontSize: "1rem",
-      marginLeft: "1rem", // Ajuste para larguras de tela menores
-    },
-  };
-  
-  // Combine os estilos usando spread operator
-  const combinedStyle = { ...customStyle, ...responsiveStyle };
   return (
     <div className={styles.container}>
       <div style={{
          display: "flex",
          alignItems: "center",
-         justifyContent: "center"
+         justifyContent: "center",
+         marginTop:"2rem"
       }}>
       <input
         type="text"
