@@ -83,13 +83,6 @@ const CreateProductForm = ({ onClose }) => {
     return Object.keys(errors).length === 0;
   };
 
-  const handleColorPickerOpen = () => {
-    setProductInfo((prevProductInfo) => ({
-      ...prevProductInfo,
-      colorPickerOpen: true,
-    }));
-  };
-
  
 
   useEffect(() => {
@@ -303,22 +296,7 @@ const CreateProductForm = ({ onClose }) => {
     }
   };
 
-  // Inside the handleRemoveSize function, remove it as we no longer need to remove sizes
-
-  // Update the form validation section to check the size input:
-
-  const handleSizeChange = (event, index) => {
-    const newSize = event.target.value;
-    setProductInfo((prevProductInfo) => {
-      const updatedSizes = [...prevProductInfo.sizes];
-      updatedSizes[index] = newSize;
-      return {
-        ...prevProductInfo,
-        sizes: updatedSizes,
-      };
-    });
-  };
-
+ 
   // ...
   return (
     <form onSubmit={handleSubmit}>
