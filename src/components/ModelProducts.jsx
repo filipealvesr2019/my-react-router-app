@@ -34,14 +34,15 @@ const CreateProductForm = ({ onClose }) => {
     imageFiles: [], // Novo campo para arquivos de imagem
     colorPickerOpen: false,
     colorPortuguese: "",
-  imageUrls: [],
-  imageUrl: "",  // Adicione este campo para armazenar a URL da imagem
-  color: "",   
-
+    imageUrls: [],
+    imageUrl: "", // Adicione este campo para armazenar a URL da imagem
+    color: "",
   });
   const [isColorAdded, setIsColorAdded] = useState(false);
 
   const [imageFileName, setImageFileName] = useState("");
+  const [size, setSize] = useState("");
+  const [currentSize, setCurrentSize] = useState("");
 
   // Novo estado para rastrear os erros
   const [formErrors, setFormErrors] = useState({});
@@ -112,7 +113,7 @@ const CreateProductForm = ({ onClose }) => {
     }));
     handleColorPickerClose();
   };
-  
+
   const handleColorChange = (color, event) => {
     event.stopPropagation();
     setProductInfo((prevProductInfo) => ({
@@ -120,7 +121,6 @@ const CreateProductForm = ({ onClose }) => {
       color: color.hex,
     }));
   };
-  
 
   useEffect(() => {
     // Carregar categorias ao montar o componente
@@ -129,7 +129,9 @@ const CreateProductForm = ({ onClose }) => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/api/admin/categories");
+      const response = await axios.get(
+        "http://localhost:3001/api/admin/categories"
+      );
       const { success, categories } = response.data;
 
       if (success) {
@@ -180,23 +182,19 @@ const CreateProductForm = ({ onClose }) => {
     }
   };
 
-
-
-
-
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
-  
+
     if (files.length > 0) {
       const imageFile = files[0];
-  
+
       if (imageFile) {
         // Set the image file to the state
         setProductInfo((prevProductInfo) => ({
           ...prevProductInfo,
           imageFiles: [imageFile],
         }));
-  
+
         setImageFileName(imageFile.name.substring(0, 10));
       } else {
         console.error("No file selected");
@@ -208,13 +206,17 @@ const CreateProductForm = ({ onClose }) => {
 
   const handleAddVariation = () => {
     const { color, imageUrl } = productInfo;
-  
-    console.log("Color and Image URL before adding variation:", color, imageUrl);
-  
+
+    console.log(
+      "Color and Image URL before adding variation:",
+      color,
+      imageUrl
+    );
+
     // Make sure the image URL is set correctly
     if (color && imageUrl) {
       // Continue with processing, such as adding color and URL to your variations list
-  
+
       // Example: Add to the variations list
       setProductInfo((prevProductInfo) => {
         const updatedVariations = [
@@ -228,10 +230,10 @@ const CreateProductForm = ({ onClose }) => {
           variations: updatedVariations,
         };
       });
-  
+
       // Clear the fields and states
       setIsColorAdded(true);
-  
+
       // Display success message
       toast.success("Color and image URL added successfully!", {
         position: toast.POSITION.TOP_CENTER,
@@ -241,85 +243,88 @@ const CreateProductForm = ({ onClose }) => {
       console.error("Color or image URL is empty");
     }
   };
-  
-const handleInputChange = (event) => {
-  const { name, value } = event.target;
 
-  setProductInfo((prevProductInfo) => ({
-    ...prevProductInfo,
-    [name]: value,
-  }));
+  // Update the handleInputChange function to handle the size input
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
 
-  // Handle color input separately
-  if (name === "colorPortuguese") {
-    // Update the state for the color
     setProductInfo((prevProductInfo) => ({
       ...prevProductInfo,
-      color: value,
+      [name]: value,
     }));
-  }
-};
 
-const handleSubmit = async (event) => {
-  event.preventDefault();
-  console.log("State Before Sending to Server:", productInfo);
+    // Handle size input separately
+    if (name === "size") {
+      setSize(value);
+    }
 
-  // Validate the form before proceeding
-  if (!validateForm()) {
-    toast.error("All fields must be filled!", {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000,
-    });
-    return;
-  }
+    // Handle color input separately
+    if (name === "colorPortuguese") {
+      // Update the state for the color
+      setProductInfo((prevProductInfo) => ({
+        ...prevProductInfo,
+        color: value,
+      }));
+    }
+  };
 
-  try {
- 
-    const { sizes, imageUrl, ...productData } = productInfo;
-    productData.size = sizes.join(', '); // Combine sizes into a comma-separated string
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    console.log("State Before Sending to Server:", productInfo);
 
-    // Send the product data to the server for further processing
-    const response = await axios.post(
-      "http://localhost:3001/api/admin/product/new",
-      productData
-    );
-
-    if (response.status === 201) {
-      setProductInfo({
-        name: "",
-        price: 0.0,
-        description: "",
-        size: "",
-        category: "",
-        subcategory: "",
-        quantity: 0,
-        variations: [],
-        imageUrl: "", // Clear the image URL
-      });
-
-      console.log("Product created successfully");
-
-      setTimeout(() => {
-        onClose();
-      }, 4000);
-
-      // Configuration to display the success message
-      // setIsProductCreated(true);
-
-      // Display success message
-      toast.success("Product added successfully!", {
+    // Validate the form before proceeding
+    if (!validateForm()) {
+      toast.error("All fields must be filled!", {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 2000,
       });
-    } else {
-      console.error("Error creating product:", response.statusText);
+      return;
     }
-  } catch (error) {
-    console.error("Error creating product:", error.message);
-  }
-};
 
+    try {
+      const { sizes, imageUrl, ...productData } = productInfo;
+      productData.size = sizes.join(", "); // Combine sizes into a comma-separated string
 
+      // Send the product data to the server for further processing
+      const response = await axios.post(
+        "http://localhost:3001/api/admin/product/new",
+        productData
+      );
+
+      if (response.status === 201) {
+        setProductInfo({
+          name: "",
+          price: 0.0,
+          description: "",
+          size: "",
+          category: "",
+          subcategory: "",
+          quantity: 0,
+          variations: [],
+          imageUrl: "", // Clear the image URL
+        });
+
+        console.log("Product created successfully");
+
+        setTimeout(() => {
+          onClose();
+        }, 4000);
+
+        // Configuration to display the success message
+        // setIsProductCreated(true);
+
+        // Display success message
+        toast.success("Product added successfully!", {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 2000,
+        });
+      } else {
+        console.error("Error creating product:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error creating product:", error.message);
+    }
+  };
 
   const handleSubcategoryChange = (event) => {
     const subcategoryName = event.target.value;
@@ -329,7 +334,6 @@ const handleSubmit = async (event) => {
     }));
   };
 
-
   const handleImageUrlsChange = (event) => {
     const { value } = event.target;
     // Set the image URL to the state
@@ -338,18 +342,21 @@ const handleSubmit = async (event) => {
       imageUrl: value,
     }));
   };
-  
-
-
-
 
   const handleAddSize = () => {
-    setProductInfo((prevProductInfo) => ({
-      ...prevProductInfo,
-      sizes: [...prevProductInfo.sizes, ""],
-    }));
+    if (size.trim() !== "") {
+      setProductInfo((prevProductInfo) => ({
+        ...prevProductInfo,
+        sizes: [...prevProductInfo.sizes, size],
+      }));
+      setSize(""); // Clear the size input after adding
+    }
   };
-  
+
+  // Inside the handleRemoveSize function, remove it as we no longer need to remove sizes
+
+  // Update the form validation section to check the size input:
+
   const handleSizeChange = (event, index) => {
     const newSize = event.target.value;
     setProductInfo((prevProductInfo) => {
@@ -361,31 +368,17 @@ const handleSubmit = async (event) => {
       };
     });
   };
-  
-  const handleRemoveSize = (index) => {
-    setProductInfo((prevProductInfo) => {
-      const updatedSizes = [...prevProductInfo.sizes];
-      updatedSizes.splice(index, 1);
-      return {
-        ...prevProductInfo,
-        sizes: updatedSizes,
-      };
-    });
-  };
-
-  
-
 
   // ...
   return (
-    <form onSubmit={handleSubmit} >
+    <form onSubmit={handleSubmit}>
       {formErrors.variations && (
         <Typography variant="caption" color="error">
           {formErrors.variations}
         </Typography>
       )}
 
-<Grid container spacing={2} style={{ marginTop: "-2rem", display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)' }}>
+      <Grid container spacing={2} style={{ marginTop: "-2rem" }}>
         <Grid item xs={12} sm={6}>
           <TextField
             label="Nome do Produto"
@@ -434,37 +427,24 @@ const handleSubmit = async (event) => {
             }}
           />
         </Grid>
-        <Grid item xs={12} sm={6} style={{display:"flex",zIndex:"1"}}>
-        {productInfo && productInfo.sizes && productInfo.sizes.map((size, index) => (
-  // Restante do código
-
-    <div key={index}>
-      <TextField
-        label={`Tamanho ${index + 1}`}
-        variant="outlined"
-        fullWidth
-        name={`size_${index}`}
-        value={size}
-        onChange={(event) => handleSizeChange(event, index)}
-        InputProps={{
-          style: { marginTop: "10px" },
-        }}
-      />
-      {index > 0 && (
-        <Button
-          onClick={() => handleRemoveSize(index)}
-          style={{ marginTop: "10px" }}
-        >
-          Remover Tamanho
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label="Tamanho"
+            variant="outlined"
+            fullWidth
+            name="size"
+            value={size}
+            onChange={handleInputChange}
+            error={formErrors.size !== undefined}
+            helperText={formErrors.size}
+            InputProps={{
+              style: { marginTop: "10px" },
+            }}
+          />
+        </Grid>
+        <Button onClick={handleAddSize} style={{ marginTop: "10px" }}>
+          Adicionar Tamanho
         </Button>
-      )}
-    </div>
-  ))}
-  <Button onClick={handleAddSize} style={{ marginTop: "10px" }}>
-    Adicionar Tamanho
-  </Button>
-</Grid>
-
         <Grid item xs={12} sm={6} style={{ marginTop: "-1rem" }}>
           <TextField
             label="Quantidade"
@@ -530,35 +510,33 @@ const handleSubmit = async (event) => {
           </FormControl>
         </Grid>
         <Grid item xs={12} sm={6}>
-  <TextField
-    label="Cor em Português"
-    variant="outlined"
-    fullWidth
-    name="colorPortuguese"
-    value={productInfo.color}
-    onChange={handleInputChange}
-    error={formErrors.colorPortuguese !== undefined}
-    helperText={formErrors.colorPortuguese}
-    InputProps={{
-      style: { marginTop: "10px" },
-    }}
-  />
-</Grid>
-
-<Grid item xs={12} sm={6}>
-  <TextField
-    label="URL da Imagem"
-    variant="outlined"
-    fullWidth
-    name="imageUrl"
-    value={productInfo.imageUrl}
-    onChange={handleImageUrlsChange}
-    InputProps={{
-      style: { marginTop: "10px" },
-    }}
-  />
-</Grid>
-
+          <TextField
+            label="Cor em Português"
+            variant="outlined"
+            fullWidth
+            name="colorPortuguese"
+            value={productInfo.color}
+            onChange={handleInputChange}
+            error={formErrors.colorPortuguese !== undefined}
+            helperText={formErrors.colorPortuguese}
+            InputProps={{
+              style: { marginTop: "10px" },
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label="URL da Imagem"
+            variant="outlined"
+            fullWidth
+            name="imageUrl"
+            value={productInfo.imageUrl}
+            onChange={handleImageUrlsChange}
+            InputProps={{
+              style: { marginTop: "10px" },
+            }}
+          />
+        </Grid>
         <Grid item xs={12} sm={6}>
           <Button
             onClick={handleAddVariation}
@@ -580,7 +558,6 @@ const handleSubmit = async (event) => {
             Adicionar foto a Cor
           </Button>
         </Grid>
-       
       </Grid>
       <Button
         style={{
@@ -600,9 +577,6 @@ const handleSubmit = async (event) => {
       >
         Criar Produto
       </Button>
-  
-
-  
     </form>
   );
 };
@@ -627,8 +601,8 @@ export default function BasicModal() {
         sx={{
           backgroundColor: "#14337C",
           color: "#FFFFFF",
-          marginTop:"-10rem",
-          marginBottom:"18rem",
+          marginTop: "-10rem",
+          marginBottom: "18rem",
           "&:hover": {
             backgroundColor: "#14337C",
             opacity: 0.9,
@@ -648,7 +622,7 @@ export default function BasicModal() {
         <Sheet
           variant="outlined"
           sx={{
-            maxWidth: 800,
+            maxWidth: 500,
             borderRadius: "md",
             p: 3,
             boxShadow: "lg",
