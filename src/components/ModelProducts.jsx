@@ -13,11 +13,9 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import { SketchPicker } from "react-color";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import CheckIcon from "@mui/icons-material/Check";
-import { Repeat } from "@mui/icons-material";
+
 const CreateProductForm = ({ onClose }) => {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
@@ -38,7 +36,6 @@ const CreateProductForm = ({ onClose }) => {
     imageUrl: "", // Adicione este campo para armazenar a URL da imagem
     color: "",
   });
-  const [isColorAdded, setIsColorAdded] = useState(false);
 
   const [size, setSize] = useState("");
 
@@ -92,33 +89,8 @@ const CreateProductForm = ({ onClose }) => {
       colorPickerOpen: true,
     }));
   };
-  const handleColorPickerClose = (event) => {
-    // Check if the click event originated from the color picker
-    if (event.target.closest(".sketch-picker")) {
-      return;
-    }
 
-    setProductInfo((prevProductInfo) => ({
-      ...prevProductInfo,
-      colorPickerOpen: false,
-    }));
-  };
-
-  const handleColorChangeComplete = (color) => {
-    setProductInfo((prevProductInfo) => ({
-      ...prevProductInfo,
-      color: color.hex,
-    }));
-    handleColorPickerClose();
-  };
-
-  const handleColorChange = (color, event) => {
-    event.stopPropagation();
-    setProductInfo((prevProductInfo) => ({
-      ...prevProductInfo,
-      color: color.hex,
-    }));
-  };
+ 
 
   useEffect(() => {
     // Carregar categorias ao montar o componente
@@ -580,7 +552,7 @@ export default function BasicModal() {
           backgroundColor: "#14337C",
           color: "#FFFFFF",
           marginTop: "-10rem",
-          marginBottom: "16rem",
+          marginBottom: "18rem",
           "&:hover": {
             backgroundColor: "#14337C",
             opacity: 0.9,

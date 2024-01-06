@@ -8,15 +8,13 @@ const Categories = () => {
   const [newCategory, setNewCategory] = useState("");
   const [newSubcategory, setNewSubcategory] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
-  const [availableSubcategories, setAvailableSubcategories] = useState([]);
-  const [addedSubcategories, setAddedSubcategories] = useState([]);
 
   const [editCategoryName, setEditCategoryName] = useState("");
   const [editSubcategoryName, setEditSubcategoryName] = useState("");
 
   // ...
   const [editingItem, setEditingItem] = useState(null);
-  const [editItemName, setEditItemName] = useState("");
+
   useEffect(() => {
     // Ao montar o componente, carrega categorias e subcategorias
     getCategories();
@@ -33,9 +31,12 @@ const Categories = () => {
       console.error("Erro ao obter categorias", error);
     }
   };
+
   const getSubcategories = async (categoryId) => {
     try {
-      const response = await axios.get(`http://localhost:3001/api/admin/subcategories?category=${categoryId}`);
+      const response = await axios.get(
+        `http://localhost:3001/api/admin/subcategories?category=${categoryId}`
+      );
       setSubcategories(response.data.subcategories);
       setSelectedCategoryId(categoryId);
       // Carrega subcategorias adicionadas à categoria selecionada
@@ -43,10 +44,9 @@ const Categories = () => {
       // Carrega subcategorias disponíveis para adicionar à categoria
       loadAvailableSubcategories();
     } catch (error) {
-      console.error('Erro ao obter subcategorias', error);
+      console.error("Erro ao obter subcategorias", error);
     }
   };
-  
 
   const loadAvailableSubcategories = async () => {
     try {
@@ -58,8 +58,6 @@ const Categories = () => {
       console.error("Erro ao obter subcategorias disponíveis", error);
     }
   };
-
-  
 
   const getAddedSubcategories = async (categoryId) => {
     try {
@@ -211,27 +209,28 @@ const Categories = () => {
     }
   };
 
-
-  
   return (
     <div>
-     
-      <div>
+      <div className="addContainer">
         <label>
           Adicionar Nova Categoria:
-          <input
-            type="text"
-            value={newCategory}
-            onChange={(e) => setNewCategory(e.target.value)}
-          />
-          <button onClick={addCategory}>Adicionar Categoria</button>
+          <div className="categoryInput">
+            <input
+              type="text"
+              value={newCategory}
+              onChange={(e) => setNewCategory(e.target.value)}
+            />
+          </div>
+          <button onClick={addCategory} className="categoryButton">
+            Adicionar Categoria
+          </button>
         </label>
       </div>
       {/* Tabela para Todas Categorias */}
       <table className="category-table">
         <thead>
           <tr>
-            <th>Todas Categorias</th>
+            <th className="Categorias">Todas Categorias</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -264,14 +263,35 @@ const Categories = () => {
               <td>
                 {editingItem !== category._id ? (
                   // Apenas exibe os botões de ação se não estiver editando
-                  <>
-                    <button onClick={() => setEditingItem(category._id)}>
+                  <div style={{ display: "flex", gap: "1rem" }}>
+                    <button
+                      onClick={() => setEditingItem(category._id)}
+                      className="buttonUpdate"
+                    >
+                      <img src="https://i.ibb.co/5R1QnT7/edit-1.png" alt="" />
                       Editar
                     </button>
-                    <button onClick={() => handleDeleteCategory(category)}>
+                    <button
+                      onClick={() => handleDeleteCategory(category)}
+                      style={{
+                        gap: ".5rem",
+                        fontSize: "1rem",
+                        backgroundColor: "#FFC2C5",
+                        color: "red",
+                        border: 0,
+                        fontWeight: "bold",
+                        display:"flex",
+                        justifyContent:"center",
+                        alignItems:"center",
+                        width: "8dvw",
+                        height:"7dvh",
+                        borderRadius: "5px"
+                      }}
+                    >
+                      <img src="https://i.ibb.co/SsZjWVS/bin.png" alt="" />{" "}
                       Excluir
                     </button>
-                  </>
+                  </div>
                 ) : // Se estiver editando, não exibe botões de ação
                 null}
               </td>
@@ -280,15 +300,19 @@ const Categories = () => {
         </tbody>
       </table>
 
-      <div>
+      <div className="addContainer">
         <label>
           Adicionar Nova Subcategoria:
-          <input
-            type="text"
-            value={newSubcategory}
-            onChange={(e) => setNewSubcategory(e.target.value)}
-          />
-          <button onClick={addSubcategory}>Adicionar Subcategoria</button>
+          <div className="categoryInput">
+            <input
+              type="text"
+              value={newSubcategory}
+              onChange={(e) => setNewSubcategory(e.target.value)}
+            />
+          </div>
+          <button onClick={addSubcategory} className="categoryButton">
+            Adicionar Subcategoria
+          </button>
         </label>
       </div>
       {/* Tabela para Todas Subcategorias */}
@@ -296,7 +320,7 @@ const Categories = () => {
       <table className="category-table">
         <thead>
           <tr>
-            <th>Todas Subcategorias</th>
+            <th className="Categorias">Todas Subcategorias</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -324,14 +348,35 @@ const Categories = () => {
               <td>
                 {editingItem !== sub._id ? (
                   // Apenas exibe os botões de ação se não estiver editando
-                  <>
-                    <button onClick={() => setEditingItem(sub._id)}>
+                  <div style={{ display: "flex", gap: "1rem" }}>
+                    <button
+                      onClick={() => setEditingItem(sub._id)}
+                      className="buttonUpdate"
+                    >
+                      <img src="https://i.ibb.co/5R1QnT7/edit-1.png" alt="" />
                       Editar
                     </button>
-                    <button onClick={() => handleDeleteSubcategory(sub)}>
-                      Excluir
+                    <button
+                      onClick={() => handleDeleteSubcategory(sub)}
+                      style={{
+                        gap: ".5rem",
+                        fontSize: "1rem",
+                        backgroundColor: "#FFC2C5",
+                        color: "red",
+                        border: 0,
+                        fontWeight: "bold",
+                        display:"flex",
+                        justifyContent:"center",
+                        alignItems:"center",
+                        width: "8dvw",
+                        height:"7dvh",
+                        borderRadius: "5px"
+                      }}
+                    >
+                      <img src="https://i.ibb.co/SsZjWVS/bin.png" alt="" />{" "}
+                      Excluir{" "}
                     </button>
-                  </>
+                  </div>
                 ) : // Se estiver editando, não exibe botões de ação
                 null}
               </td>

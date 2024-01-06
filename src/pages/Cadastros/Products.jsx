@@ -234,8 +234,7 @@ const Products = () => {
       <div style={{
          display: "flex",
          alignItems: "center",
-         justifyContent: "center",
-         marginTop:"2rem"
+         justifyContent: "center",marginTop:"3rem"
       }}>
       <input
         type="text"
@@ -455,7 +454,7 @@ const Products = () => {
                           )}
                         </div>
 
-                        <div className={styles.deleteBtn}>
+                        <div style={{marginTop:".2rem"}}>
                           {!isModalOpen && !formData._id && (
                             <>
                               <span
