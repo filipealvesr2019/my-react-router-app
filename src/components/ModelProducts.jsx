@@ -40,9 +40,7 @@ const CreateProductForm = ({ onClose }) => {
   });
   const [isColorAdded, setIsColorAdded] = useState(false);
 
-  const [imageFileName, setImageFileName] = useState("");
   const [size, setSize] = useState("");
-  const [currentSize, setCurrentSize] = useState("");
 
   // Novo estado para rastrear os erros
   const [formErrors, setFormErrors] = useState({});
@@ -182,27 +180,7 @@ const CreateProductForm = ({ onClose }) => {
     }
   };
 
-  const handleFileChange = (event) => {
-    const files = Array.from(event.target.files);
-
-    if (files.length > 0) {
-      const imageFile = files[0];
-
-      if (imageFile) {
-        // Set the image file to the state
-        setProductInfo((prevProductInfo) => ({
-          ...prevProductInfo,
-          imageFiles: [imageFile],
-        }));
-
-        setImageFileName(imageFile.name.substring(0, 10));
-      } else {
-        console.error("No file selected");
-      }
-    } else {
-      console.error("No file selected");
-    }
-  };
+  
 
   const handleAddVariation = () => {
     const { color, imageUrl } = productInfo;
