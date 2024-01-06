@@ -251,7 +251,7 @@ const Categories = () => {
                       onChange={(e) => setEditCategoryName(e.target.value)}
                     />
 
-                    <button onClick={() => editCategory(category)}>
+                    <button onClick={() => editCategory(category)} className="salvar">
                       Salvar
                     </button>
                   </>
@@ -338,7 +338,7 @@ const Categories = () => {
                       }
                       onChange={(e) => setEditSubcategoryName(e.target.value)}
                     />
-                    <button onClick={() => editSubcategory(sub)}>Salvar</button>
+                    <button onClick={() => editSubcategory(sub)} className="salvar">Salvar</button>
                   </>
                 ) : (
                   // Se não estiver editando, exibe o nome normal

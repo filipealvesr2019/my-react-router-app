@@ -65,3 +65,15 @@
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Adicionar a sombra na borda */
     overflow: hidden; /* Para garantir que a sombra não se espalhe para fora do botão */
   }
+  
+
+  .salvar{
+    background-color: #14337C;
+    color: white;
+    border: 0;
+    padding: .5rem;
+    border-radius: .3rem;
+    font-family: "poppins";
+    font-size: 1rem;
+   
+  }
