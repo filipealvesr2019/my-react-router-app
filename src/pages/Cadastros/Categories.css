@@ -78,4 +78,12 @@
    
   }
 
+ /* Estilos para o contorno vermelho em caso de erro */
+.categoryInput.error input {
+    border-color: red;
+  }
+
+  .error {
+    border-color: red; /* ou qualquer estilo de destaque para indicar erro */
+  }
   

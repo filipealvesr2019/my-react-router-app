@@ -8,17 +8,55 @@ const Categories = () => {
   const [newCategory, setNewCategory] = useState("");
   const [newSubcategory, setNewSubcategory] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
-
+// Adicione as seguintes linhas para corrigir o erro
+const [availableSubcategories, setAvailableSubcategories] = useState([]);
+const [addedSubcategories, setAddedSubcategories] = useState([]);
   const [editCategoryName, setEditCategoryName] = useState("");
   const [editSubcategoryName, setEditSubcategoryName] = useState("");
 
-  // ...
+  // ... (outros estados)
+
   const [editingItem, setEditingItem] = useState(null);
+
+  // Remova quaisquer tentativas de declarar setAvailableSubcategories e setAddedSubcategories
+
+  const [categoryInputError, setCategoryInputError] = useState("");
+  const [subcategoryInputError, setSubcategoryInputError] = useState("");
+
+  
+  const [editCategoryNameInputError, setEditCategoryNameInputError] = useState("");
+  const [editSubcategoryNameInputError, setEditSubcategoryNameInputError] = useState("");
+
+  const validateForm = () => {
+    const errors = {};
+  
+    if (!newCategory.trim()) {
+      errors.newCategory = "Digite o nome da categoria";
+    }
+  
+    if (!newSubcategory.trim()) {
+      errors.newSubcategory = "Digite o nome da subcategoria";
+    }
+  
+    console.log("Errors:", errors);
+  
+    setCategoryInputError(errors.newCategory);
+    setSubcategoryInputError(errors.newSubcategory);
+  
+    return Object.keys(errors).length === 0;
+  };
+  
+  
+
+
+
 
   useEffect(() => {
     // Ao montar o componente, carrega categorias e subcategorias
     getCategories();
     getSubcategories();
+    loadAvailableSubcategories(); // Mova esta linha para cá
+
   }, []);
 
   const getCategories = async () => {
@@ -47,7 +85,6 @@ const Categories = () => {
       console.error("Erro ao obter subcategorias", error);
     }
   };
-
   const loadAvailableSubcategories = async () => {
     try {
       const response = await axios.get(
@@ -58,7 +95,7 @@ const Categories = () => {
       console.error("Erro ao obter subcategorias disponíveis", error);
     }
   };
-
+  
   const getAddedSubcategories = async (categoryId) => {
     try {
       const response = await axios.get(
@@ -69,8 +106,21 @@ const Categories = () => {
       console.error("Erro ao obter subcategorias adicionadas", error);
     }
   };
+  
 
+
+
+
+
+
+
+
+  
   const addCategory = async () => {
+    if (!newCategory.trim()) {
+      setCategoryInputError("Digite o nome da categoria");
+      return;
+    }
     try {
       const response = await axios.post(
         "http://localhost:3001/api/admin/category/new",
@@ -82,6 +132,7 @@ const Categories = () => {
       if (response.data.success) {
         setNewCategory("");
         getCategories();
+        
       } else {
         console.error(
           "Erro ao criar categoria. Mensagem do servidor:",
@@ -92,16 +143,20 @@ const Categories = () => {
       console.error("Erro ao criar categoria", error);
     }
   };
-
   const addSubcategory = async () => {
+    if (!newSubcategory.trim()) {
+      setSubcategoryInputError("Digite o nome da subcategoria");
+      return;
+    }
     try {
       const response = await axios.post(
         "http://localhost:3001/api/admin/subcategories/new",
         {
           name: newSubcategory,
+          category: selectedCategoryId, // Adicione a categoria associada à subcategoria
         }
       );
-
+  
       if (response.data.success) {
         setNewSubcategory("");
         getSubcategories(selectedCategoryId);
@@ -116,7 +171,7 @@ const Categories = () => {
       console.error("Erro ao criar subcategoria", error);
     }
   };
-
+  
   const handleDeleteCategory = async (category) => {
     try {
       const response = await axios.delete(
@@ -211,16 +266,17 @@ const Categories = () => {
 
   return (
     <div>
-      <div className="addContainer">
+     <div className={`addContainer ${categoryInputError ? 'error' : ''}`}>
         <label>
           Adicionar Nova Categoria:
-          <div className="categoryInput">
+          <div className={`categoryInput ${categoryInputError ? 'error' : ''}`}>
             <input
               type="text"
               value={newCategory}
               onChange={(e) => setNewCategory(e.target.value)}
             />
           </div>
+          <div style={{ color: 'red' }}>{categoryInputError}</div>
           <button onClick={addCategory} className="categoryButton">
             Adicionar Categoria
           </button>
@@ -300,16 +356,17 @@ const Categories = () => {
         </tbody>
       </table>
 
-      <div className="addContainer">
+      <div className={`addContainer ${subcategoryInputError ? 'error' : ''}`}>
         <label>
           Adicionar Nova Subcategoria:
-          <div className="categoryInput">
+          <div className={`categoryInput ${subcategoryInputError ? 'error' : ''}`}>
             <input
               type="text"
               value={newSubcategory}
               onChange={(e) => setNewSubcategory(e.target.value)}
             />
           </div>
+          <div style={{ color: 'red' }}>{subcategoryInputError}</div>
           <button onClick={addSubcategory} className="categoryButton">
             Adicionar Subcategoria
           </button>
