@@ -49,35 +49,35 @@ const CreateProductForm = ({ onClose }) => {
 
     // Adicione validações para outros campos conforme necessário
     if (!productInfo.name.trim()) {
-      errors.name = "Digite o nome do produto";
+      errors.name = "";
     }
     if (productInfo.price <= 0) {
-      errors.price = "Digite um preço válido";
+      errors.price = "";
     }
     if (!productInfo.description.trim()) {
-      errors.description = "Digite a descrição do produto";
+      errors.description = "";
     }
     // Adicione validações para outros campos conforme necessário
     if (!(productInfo.quantity > 0)) {
-      errors.quantity = "Digite uma quantidade válida";
+      errors.quantity = "";
     }
     if (productInfo.sizes.length === 0) {
       errors.size = "";
   }
   if (!productInfo.colorPortuguese.trim()) {
-    errors.colorPortuguese = "Digite uma cor válida";
+    errors.colorPortuguese = "";
   }
   if (!productInfo.imageUrl.trim()) {
-    errors.imageUrl = "Digite um link válido";
+    errors.imageUrl = "";
   }
     // Verificar se há variações adicionadas
 
     if (!productInfo.category) {
-      errors.category = "Selecione uma categoria";
+      errors.category = "";
     }
 
     if (!productInfo.subcategory) {
-      errors.subcategory = "Selecione uma subcategoria";
+      errors.subcategory = "";
     }
 
     setFormErrors(errors);
@@ -377,7 +377,7 @@ const CreateProductForm = ({ onClose }) => {
           />
         </Grid>
         <div style={{display:"flex", gap:"1rem", marginLeft
-      :"1rem"}}>
+      :"1rem", alignItems:"center", marginTop:"1rem"}}>
         <Grid item xs={12} sm={6}>
         <TextField
         label="Tamanho"
