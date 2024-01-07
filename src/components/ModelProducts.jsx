@@ -19,6 +19,7 @@ import "react-toastify/dist/ReactToastify.css";
 const CreateProductForm = ({ onClose }) => {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
+  const [isColorAdded, setIsColorAdded] = useState(false);
 
   const [productInfo, setProductInfo] = useState({
     name: "",
@@ -48,30 +49,25 @@ const CreateProductForm = ({ onClose }) => {
 
     // Adicione validações para outros campos conforme necessário
     if (!productInfo.name.trim()) {
-      errors.name = "";
+      errors.name = "Digite o nome do produto";
     }
     if (productInfo.price <= 0) {
-      errors.price = "";
+      errors.price = "Digite um preço válido";
     }
     if (!productInfo.description.trim()) {
-      errors.description = "";
+      errors.description = "Digite a descrição do produto";
     }
     // Adicione validações para outros campos conforme necessário
     if (!(productInfo.quantity > 0)) {
-      errors.quantity = "";
+      errors.quantity = "Digite uma quantidade válida";
     }
     if (productInfo.sizes.length === 0) {
       errors.size = "";
-    }
-
-    if (productInfo.imageUrl.length === 0) {
-      errors.urls = "";
-    }
-
-   
-  if (!(productInfo.colorPortuguese.length === "")) {
+  }
+  if (!productInfo.colorPortuguese.trim()) {
     errors.colorPortuguese = "Digite uma cor válida";
   }
+  
     // Verificar se há variações adicionadas
 
     if (!productInfo.category) {
@@ -87,6 +83,8 @@ const CreateProductForm = ({ onClose }) => {
     // Retorna verdadeiro se não houver erros
     return Object.keys(errors).length === 0;
   };
+
+ 
 
   useEffect(() => {
     // Carregar categorias ao montar o componente
@@ -147,6 +145,8 @@ const CreateProductForm = ({ onClose }) => {
       console.error("Erro ao buscar subcategorias:", error);
     }
   };
+
+  
 
   const handleAddVariation = () => {
     const { color, imageUrl } = productInfo;
@@ -211,30 +211,29 @@ const CreateProductForm = ({ onClose }) => {
       }));
     }
   };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("State Before Sending to Server:", productInfo);
-
+  
     // Validate the form before proceeding
     if (!validateForm()) {
-      toast.error("Todos os campos devem ser prenchidos!", {
+      toast.error("Todos os campos devem ser preenchidos!", {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 2000,
       });
       return;
     }
-
+  
     try {
       const { sizes, imageUrl, ...productData } = productInfo;
-      productData.size = sizes.join(", "); // Combine sizes into a comma-separated string
+      productData.sizes = sizes.join(", ");
+      
 
       // Send the product data to the server for further processing
       const response = await axios.post(
         "http://localhost:3001/api/admin/product/new",
         productData
       );
-
+  
       if (response.status === 201) {
         setProductInfo({
           name: "",
@@ -247,29 +246,43 @@ const CreateProductForm = ({ onClose }) => {
           variations: [],
           imageUrl: "", // Clear the image URL
         });
-
+  
         console.log("Product created successfully");
-
+  
         setTimeout(() => {
           onClose();
         }, 4000);
-
+  
         // Configuration to display the success message
         // setIsProductCreated(true);
-
+  
         // Display success message
         toast.success("Product added successfully!", {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 2000,
         });
       } else {
+        // Handle the case where the server returns an error status
         console.error("Error creating product:", response.statusText);
+  
+        // Display an error message
+        toast.error("Erro ao criar produto. Tente novamente mais tarde.", {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 2000,
+        });
       }
     } catch (error) {
+      // Handle network or unexpected errors
       console.error("Error creating product:", error.message);
+  
+      // Display an error message
+      toast.error("Erro inesperado. Tente novamente mais tarde.", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000,
+      });
     }
   };
-
+  
   const handleSubcategoryChange = (event) => {
     const subcategoryName = event.target.value;
     setProductInfo((prevProductInfo) => ({
@@ -297,6 +310,7 @@ const CreateProductForm = ({ onClose }) => {
     }
   };
 
+ 
   // ...
   return (
     <form onSubmit={handleSubmit}>
@@ -355,30 +369,30 @@ const CreateProductForm = ({ onClose }) => {
             }}
           />
         </Grid>
-        <div style={{ display: "flex", gap: "1rem", marginLeft: "1rem" }}>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label="Tamanho"
-              variant="outlined"
-              fullWidth
-              name="size"
-              value={size}
-              onChange={handleInputChange}
-              error={formErrors.size !== undefined}
-              helperText={formErrors.size}
-              InputProps={{
-                style: {
-                  marginTop: "10px",
-                  borderColor: formErrors.size ? "#f44336" : undefined,
-                },
-              }}
-            />
-          </Grid>
-          <Button onClick={handleAddSize} style={{ height: "5dvh" }}>
-            Adicionar Tamanho
-          </Button>
+        <div style={{display:"flex", gap:"1rem", marginLeft
+      :"1rem"}}>
+        <Grid item xs={12} sm={6}>
+        <TextField
+        label="Tamanho"
+        variant="outlined"
+        fullWidth
+        name="size"
+        value={size}
+        onChange={handleInputChange}
+        error={formErrors.size !== undefined}
+        helperText={formErrors.size}
+        inputProps={{
+          style: {
+            marginTop: "10px",
+          },
+        }}
+      />
+        </Grid>
+        <Button onClick={handleAddSize} style={{ height:"5dvh" }}>
+          Adicionar Tamanho
+        </Button>
         </div>
-
+       
         <Grid item xs={12} sm={6} style={{ marginTop: "-1rem" }}>
           <TextField
             label="Quantidade"
@@ -444,22 +458,21 @@ const CreateProductForm = ({ onClose }) => {
           </FormControl>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <TextField
-            label="Cor em Português"
-            variant="outlined"
-            fullWidth
-            name="colorPortuguese"
-            value={productInfo.color}
-            onChange={handleInputChange}
-            error={formErrors.colorPortuguese !== undefined}
-            helperText={formErrors.colorPortuguese}
-            InputProps={{
-              style: {
-                marginTop: "10px",
-                borderColor: formErrors.colorPortuguese ? "#f44336" : undefined,
-              },
-            }}
-          />
+        <TextField
+        label="Cor em Português"
+        variant="outlined"
+        fullWidth
+        name="colorPortuguese"
+        value={productInfo.color}
+        onChange={handleInputChange}
+        error={formErrors.colorPortuguese !== undefined}
+        helperText={formErrors.colorPortuguese}
+        InputProps={{
+          style: {
+            marginTop: "10px",
+          },
+        }}
+      />
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
@@ -469,13 +482,8 @@ const CreateProductForm = ({ onClose }) => {
             name="imageUrl"
             value={productInfo.imageUrl}
             onChange={handleImageUrlsChange}
-            error={formErrors.urls !== undefined}
-            helperText={formErrors.urls}
             InputProps={{
-              style: {
-                marginTop: "10px",
-                borderColor: formErrors.urls ? "#f44336" : undefined,
-              },
+              style: { marginTop: "10px" },
             }}
           />
         </Grid>
@@ -568,8 +576,8 @@ export default function BasicModal() {
             borderRadius: "md",
             p: 3,
             boxShadow: "lg",
-            display: "flex",
-            flexWrap: "wrap",
+            display:"flex",
+            flexWrap:"wrap"
           }}
         >
           <ModalClose variant="plain" sx={{ m: 1 }} />
