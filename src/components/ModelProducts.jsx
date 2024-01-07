@@ -48,25 +48,30 @@ const CreateProductForm = ({ onClose }) => {
 
     // Adicione validações para outros campos conforme necessário
     if (!productInfo.name.trim()) {
-      errors.name = "Digite o nome do produto";
+      errors.name = "";
     }
     if (productInfo.price <= 0) {
-      errors.price = "Digite um preço válido";
+      errors.price = "";
     }
     if (!productInfo.description.trim()) {
-      errors.description = "Digite a descrição do produto";
+      errors.description = "";
     }
     // Adicione validações para outros campos conforme necessário
     if (!(productInfo.quantity > 0)) {
-      errors.quantity = "Digite uma quantidade válida";
+      errors.quantity = "";
     }
-    if (productInfo.size === "") {
-      errors.size = "Digite um tamanho válida";
+    if (productInfo.sizes.length === 0) {
+      errors.size = "";
     }
 
-    if (!(productInfo.color === "")) {
-      errors.color = "Digite uma cor válida";
+    if (productInfo.imageUrl.length === 0) {
+      errors.urls = "";
     }
+
+   
+  if (!(productInfo.colorPortuguese.length === "")) {
+    errors.colorPortuguese = "Digite uma cor válida";
+  }
     // Verificar se há variações adicionadas
 
     if (!productInfo.category) {
@@ -82,8 +87,6 @@ const CreateProductForm = ({ onClose }) => {
     // Retorna verdadeiro se não houver erros
     return Object.keys(errors).length === 0;
   };
-
- 
 
   useEffect(() => {
     // Carregar categorias ao montar o componente
@@ -144,8 +147,6 @@ const CreateProductForm = ({ onClose }) => {
       console.error("Erro ao buscar subcategorias:", error);
     }
   };
-
-  
 
   const handleAddVariation = () => {
     const { color, imageUrl } = productInfo;
@@ -217,7 +218,7 @@ const CreateProductForm = ({ onClose }) => {
 
     // Validate the form before proceeding
     if (!validateForm()) {
-      toast.error("All fields must be filled!", {
+      toast.error("Todos os campos devem ser prenchidos!", {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 2000,
       });
@@ -296,7 +297,6 @@ const CreateProductForm = ({ onClose }) => {
     }
   };
 
- 
   // ...
   return (
     <form onSubmit={handleSubmit}>
@@ -355,24 +355,30 @@ const CreateProductForm = ({ onClose }) => {
             }}
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            label="Tamanho"
-            variant="outlined"
-            fullWidth
-            name="size"
-            value={size}
-            onChange={handleInputChange}
-            error={formErrors.size !== undefined}
-            helperText={formErrors.size}
-            InputProps={{
-              style: { marginTop: "10px" },
-            }}
-          />
-        </Grid>
-        <Button onClick={handleAddSize} style={{ marginTop: "10px" }}>
-          Adicionar Tamanho
-        </Button>
+        <div style={{ display: "flex", gap: "1rem", marginLeft: "1rem" }}>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="Tamanho"
+              variant="outlined"
+              fullWidth
+              name="size"
+              value={size}
+              onChange={handleInputChange}
+              error={formErrors.size !== undefined}
+              helperText={formErrors.size}
+              InputProps={{
+                style: {
+                  marginTop: "10px",
+                  borderColor: formErrors.size ? "#f44336" : undefined,
+                },
+              }}
+            />
+          </Grid>
+          <Button onClick={handleAddSize} style={{ height: "5dvh" }}>
+            Adicionar Tamanho
+          </Button>
+        </div>
+
         <Grid item xs={12} sm={6} style={{ marginTop: "-1rem" }}>
           <TextField
             label="Quantidade"
@@ -448,7 +454,10 @@ const CreateProductForm = ({ onClose }) => {
             error={formErrors.colorPortuguese !== undefined}
             helperText={formErrors.colorPortuguese}
             InputProps={{
-              style: { marginTop: "10px" },
+              style: {
+                marginTop: "10px",
+                borderColor: formErrors.colorPortuguese ? "#f44336" : undefined,
+              },
             }}
           />
         </Grid>
@@ -460,8 +469,13 @@ const CreateProductForm = ({ onClose }) => {
             name="imageUrl"
             value={productInfo.imageUrl}
             onChange={handleImageUrlsChange}
+            error={formErrors.urls !== undefined}
+            helperText={formErrors.urls}
             InputProps={{
-              style: { marginTop: "10px" },
+              style: {
+                marginTop: "10px",
+                borderColor: formErrors.urls ? "#f44336" : undefined,
+              },
             }}
           />
         </Grid>
@@ -550,10 +564,12 @@ export default function BasicModal() {
         <Sheet
           variant="outlined"
           sx={{
-            maxWidth: 500,
+            maxWidth: 800,
             borderRadius: "md",
             p: 3,
             boxShadow: "lg",
+            display: "flex",
+            flexWrap: "wrap",
           }}
         >
           <ModalClose variant="plain" sx={{ m: 1 }} />
