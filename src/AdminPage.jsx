@@ -32,11 +32,16 @@ const HomePage = () => {
 
 
 const RegisterPage = () => {
-  const [activeNavItem, setActiveNavItem] = useState(null);
-
-  const handleClickOtherNavbar = (index) => {
-    setActiveNavItem(index);
-  };
+    // Exemplo de inicialização, certifique-se de que esteja em algum lugar antes do uso
+    const savedNavItem = localStorage.getItem("activeNavItem") || "0"; // Use "0" ou outro valor padrão desejado
+    const [activeNavItem, setActiveNavItem] = useState(parseInt(savedNavItem, 10));
+  
+    const handleClickOtherNavbar = (index) => {
+      console.log("Clicked on index:", index);
+      setActiveNavItem(index);
+      localStorage.setItem("activeNavItem", index.toString());
+    };
+  
   
   const renderPage = () => {
     switch (activeNavItem) {
@@ -147,11 +152,44 @@ const ReportsPage = () => {
   );
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const AdminPage = () => {
   const { logout } = useAuth();
   const indicatorRef = useRef(null);
 
+
+  
+// Exemplo de inicialização, certifique-se de que esteja em algum lugar antes do uso
+const savedNavItem = localStorage.getItem("activeNavItem") || 0; // ou qualquer outro valor padrão que você preferir
+  const savedPage = localStorage.getItem("currentPage");
+
+  const [currentPage, setCurrentPage] = useState("home");
+  const [activeNavItem, setActiveNavItem] = useState(savedNavItem ? parseInt(savedNavItem) : null);
+  const [activeLink, setActiveLink] = useState("home");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+
   useEffect(() => {
+
+
+ 
     // Obtendo todas as âncoras dentro do elemento nav
     const items = document.querySelectorAll("nav a");
 
@@ -176,20 +214,24 @@ const AdminPage = () => {
         link.removeEventListener("click", marker);
       });
     };
-  }, []); // O array vazio significa que este efeito só é executado após a montagem inicial do componente
-  const [currentPage, setCurrentPage] = useState("home");
+  }, [activeNavItem]); // O array vazio significa que este efeito só é executado após a montagem inicial do componente
+ 
+  const handleClickOtherNavbar = (index) => {
+    setActiveNavItem(index);
+    localStorage.setItem("activeNavItem", index.toString());
+  };
 
   const changePage = (page) => {
     setCurrentPage(page);
+    localStorage.setItem("currentPage", page);
   };
-
-  const [activeLink, setActiveLink] = useState("home");
 
   const handleLinkClick = (link) => {
     setActiveLink(link);
+    localStorage.setItem("currentPage", link);
   };
 
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
