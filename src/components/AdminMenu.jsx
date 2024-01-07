@@ -29,11 +29,16 @@ const UserForm = ({ closeForm }) => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log('Dados enviados:', { email, password, role });
       const response = await axios.post('http://localhost:3001/user', {
         email: email,
         password: password,
         role: role,
       });
+      console.log('Resposta completa do servidor:', response);
+      
+      console.log('Dados enviados:', { email, password, role });
+
       console.log('Sucesso ao criar usuário:', response.data);
       if (role === 'administrador' || role === 'funcionario' || role === "Gerente") {
         // Armazenar informações no localStorage
@@ -56,6 +61,9 @@ const UserForm = ({ closeForm }) => {
         }, 4000);
       }
     } catch (error) {
+      console.error('Erro ao criar usuário', error);
+      console.error('Resposta de erro do servidor:', error.response.data);
+    
       console.error('Erro ao criar usuário', error);
       toast.error('Erro ao criar usuário', {
         position: toast.POSITION.TOP_CENTER,
