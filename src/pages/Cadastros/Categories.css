@@ -6,7 +6,7 @@
     margin: 0 auto;
     width: 60vw;
     position: relative;
-    margin-bottom: 4rem;
+    margin-bottom: 6rem;
 }
 
 .category-table th, .category-table td {
@@ -80,6 +80,15 @@
 
  /* Estilos para o contorno vermelho em caso de erro */
 .categoryInput.error input {
+    border-color: red;
+  }
+
+  .error {
+    border-color: red; /* ou qualquer estilo de destaque para indicar erro */
+  }
+  
+
+  .EditCategory.error input {
     border-color: red;
   }
 

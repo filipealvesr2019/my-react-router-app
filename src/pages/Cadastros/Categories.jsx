@@ -8,9 +8,8 @@ const Categories = () => {
   const [newCategory, setNewCategory] = useState("");
   const [newSubcategory, setNewSubcategory] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
-// Adicione as seguintes linhas para corrigir o erro
-const [availableSubcategories, setAvailableSubcategories] = useState([]);
-const [addedSubcategories, setAddedSubcategories] = useState([]);
+  // Adicione as seguintes linhas para corrigir o erro
+
   const [editCategoryName, setEditCategoryName] = useState("");
   const [editSubcategoryName, setEditSubcategoryName] = useState("");
 
@@ -23,40 +22,35 @@ const [addedSubcategories, setAddedSubcategories] = useState([]);
   const [categoryInputError, setCategoryInputError] = useState("");
   const [subcategoryInputError, setSubcategoryInputError] = useState("");
 
-  
-  const [editCategoryNameInputError, setEditCategoryNameInputError] = useState("");
-  const [editSubcategoryNameInputError, setEditSubcategoryNameInputError] = useState("");
+  const [editCategoryNameInputError, setEditCategoryNameInputError] =
+    useState("");
+  const [editSubcategoryNameInputError, setEditSubcategoryNameInputError] =
+    useState("");
 
   const validateForm = () => {
     const errors = {};
-  
+
     if (!newCategory.trim()) {
       errors.newCategory = "Digite o nome da categoria";
     }
-  
+
     if (!newSubcategory.trim()) {
       errors.newSubcategory = "Digite o nome da subcategoria";
     }
-  
+
     console.log("Errors:", errors);
-  
+
     setCategoryInputError(errors.newCategory);
     setSubcategoryInputError(errors.newSubcategory);
-  
+
     return Object.keys(errors).length === 0;
   };
-  
-  
-
-
-
 
   useEffect(() => {
     // Ao montar o componente, carrega categorias e subcategorias
     getCategories();
     getSubcategories();
     loadAvailableSubcategories(); // Mova esta linha para cá
-
   }, []);
 
   const getCategories = async () => {
@@ -85,6 +79,7 @@ const [addedSubcategories, setAddedSubcategories] = useState([]);
       console.error("Erro ao obter subcategorias", error);
     }
   };
+
   const loadAvailableSubcategories = async () => {
     try {
       const response = await axios.get(
@@ -95,7 +90,7 @@ const [addedSubcategories, setAddedSubcategories] = useState([]);
       console.error("Erro ao obter subcategorias disponíveis", error);
     }
   };
-  
+
   const getAddedSubcategories = async (categoryId) => {
     try {
       const response = await axios.get(
@@ -106,16 +101,7 @@ const [addedSubcategories, setAddedSubcategories] = useState([]);
       console.error("Erro ao obter subcategorias adicionadas", error);
     }
   };
-  
 
-
-
-
-
-
-
-
-  
   const addCategory = async () => {
     if (!newCategory.trim()) {
       setCategoryInputError("Digite o nome da categoria");
@@ -132,7 +118,7 @@ const [addedSubcategories, setAddedSubcategories] = useState([]);
       if (response.data.success) {
         setNewCategory("");
         getCategories();
-        
+        setCategoryInputError("");
       } else {
         console.error(
           "Erro ao criar categoria. Mensagem do servidor:",
@@ -156,11 +142,13 @@ const [addedSubcategories, setAddedSubcategories] = useState([]);
           category: selectedCategoryId, // Adicione a categoria associada à subcategoria
         }
       );
-  
+
       if (response.data.success) {
         setNewSubcategory("");
         getSubcategories(selectedCategoryId);
         getAddedSubcategories(selectedCategoryId);
+        // Limpar a mensagem de erro após a operação bem-sucedida
+        setSubcategoryInputError("");
       } else {
         console.error(
           "Erro ao criar subcategoria. Mensagem do servidor:",
@@ -171,7 +159,7 @@ const [addedSubcategories, setAddedSubcategories] = useState([]);
       console.error("Erro ao criar subcategoria", error);
     }
   };
-  
+
   const handleDeleteCategory = async (category) => {
     try {
       const response = await axios.delete(
@@ -215,6 +203,15 @@ const [addedSubcategories, setAddedSubcategories] = useState([]);
 
   const editCategory = async (category) => {
     try {
+      if (editCategoryName.trim() === "") {
+        // Exibe uma mensagem de erro e retorna sem fazer a edição
+        setEditCategoryNameInputError("Digite o nome da categoria");
+        return;
+      } else {
+        // Limpa a mensagem de erro se o campo não estiver vazio
+        setEditCategoryNameInputError("");
+      }
+
       const response = await axios.put(
         `http://localhost:3001/api/admin/categories/${category._id}`,
         {
@@ -227,6 +224,7 @@ const [addedSubcategories, setAddedSubcategories] = useState([]);
         setEditingItem(null); // Limpar o estado de edição
         setEditCategoryName(""); // Limpar o estado de edição do nome da categoria
         getCategories();
+        setEditCategoryName(""); // Limpar o estado de edição do nome da categoria
       } else {
         console.error(
           "Erro ao editar categoria. Mensagem do servidor:",
@@ -240,6 +238,14 @@ const [addedSubcategories, setAddedSubcategories] = useState([]);
 
   const editSubcategory = async (sub) => {
     try {
+      if (editSubcategoryName.trim() === "") {
+        // Exibe uma mensagem de erro e retorna sem fazer a edição
+        setEditSubcategoryNameInputError("Digite o nome da subcategoria");
+        return;
+      } else {
+        // Limpa a mensagem de erro se o campo não estiver vazio
+        setEditSubcategoryNameInputError("");
+      }
       const response = await axios.put(
         `http://localhost:3001/api/admin/subcategories/${sub._id}`,
         {
@@ -266,17 +272,17 @@ const [addedSubcategories, setAddedSubcategories] = useState([]);
 
   return (
     <div>
-     <div className={`addContainer ${categoryInputError ? 'error' : ''}`}>
+      <div className={`addContainer ${categoryInputError ? "error" : ""}`}>
         <label>
           Adicionar Nova Categoria:
-          <div className={`categoryInput ${categoryInputError ? 'error' : ''}`}>
+          <div className={`categoryInput ${categoryInputError ? "error" : ""}`}>
             <input
               type="text"
               value={newCategory}
               onChange={(e) => setNewCategory(e.target.value)}
             />
           </div>
-          <div style={{ color: 'red' }}>{categoryInputError}</div>
+          <div style={{ color: "red" }}>{categoryInputError}</div>
           <button onClick={addCategory} className="categoryButton">
             Adicionar Categoria
           </button>
@@ -295,24 +301,37 @@ const [addedSubcategories, setAddedSubcategories] = useState([]);
             <tr key={category._id}>
               <td>
                 {editingItem === category._id ? (
-                  // Se estiver editando, exibe o campo de edição
-                  <>
-                    <input
-                      type="text"
-                      value={
-                        editingItem === category._id
-                          ? editCategoryName
-                          : category.name
-                      }
-                      onChange={(e) => setEditCategoryName(e.target.value)}
-                    />
-
-                    <button onClick={() => editCategory(category)} className="salvar">
+                  <div
+                    className={`EditCategory ${
+                      editCategoryNameInputError ? "error" : ""
+                    }`}
+                  >
+                    <div
+                      className={`EditCategory ${
+                        editCategoryNameInputError ? "error" : ""
+                      }`}
+                    >
+                      <input
+                        type="text"
+                        value={
+                          editingItem === category._id
+                            ? editCategoryName
+                            : category.name
+                        }
+                        onChange={(e) => setEditCategoryName(e.target.value)}
+                      />
+                    </div>
+                    <div style={{ color: "red" }}>
+                      {editCategoryNameInputError}
+                    </div>
+                    <button
+                      onClick={() => editCategory(category)}
+                      className="salvar"
+                    >
                       Salvar
                     </button>
-                  </>
+                  </div>
                 ) : (
-                  // Se não estiver editando, exibe o nome normal
                   category.name
                 )}
               </td>
@@ -336,12 +355,12 @@ const [addedSubcategories, setAddedSubcategories] = useState([]);
                         color: "red",
                         border: 0,
                         fontWeight: "bold",
-                        display:"flex",
-                        justifyContent:"center",
-                        alignItems:"center",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
                         width: "8dvw",
-                        height:"7dvh",
-                        borderRadius: "5px"
+                        height: "7dvh",
+                        borderRadius: "5px",
                       }}
                     >
                       <img src="https://i.ibb.co/SsZjWVS/bin.png" alt="" />{" "}
@@ -356,17 +375,19 @@ const [addedSubcategories, setAddedSubcategories] = useState([]);
         </tbody>
       </table>
 
-      <div className={`addContainer ${subcategoryInputError ? 'error' : ''}`}>
+      <div className={`addContainer ${subcategoryInputError ? "error" : ""}`}>
         <label>
           Adicionar Nova Subcategoria:
-          <div className={`categoryInput ${subcategoryInputError ? 'error' : ''}`}>
+          <div
+            className={`categoryInput ${subcategoryInputError ? "error" : ""}`}
+          >
             <input
               type="text"
               value={newSubcategory}
               onChange={(e) => setNewSubcategory(e.target.value)}
             />
           </div>
-          <div style={{ color: 'red' }}>{subcategoryInputError}</div>
+          <div style={{ color: "red" }}>{subcategoryInputError}</div>
           <button onClick={addSubcategory} className="categoryButton">
             Adicionar Subcategoria
           </button>
@@ -386,19 +407,33 @@ const [addedSubcategories, setAddedSubcategories] = useState([]);
             <tr key={sub._id}>
               <td>
                 {editingItem === sub._id ? (
-                  // Se estiver editando, exibe o campo de edição
-                  <>
-                    <input
-                      type="text"
-                      value={
-                        editingItem === sub._id ? editSubcategoryName : sub.name
-                      }
-                      onChange={(e) => setEditSubcategoryName(e.target.value)}
-                    />
-                    <button onClick={() => editSubcategory(sub)} className="salvar">Salvar</button>
-                  </>
+                  <div
+                    className={`EditCategory ${
+                      editSubcategoryNameInputError ? "error" : ""
+                    }`}
+                  >
+                    <div className="EditcategoryInput">
+                      <input
+                        type="text"
+                        value={
+                          editingItem === sub._id
+                            ? editSubcategoryName
+                            : sub.name
+                        }
+                        onChange={(e) => setEditSubcategoryName(e.target.value)}
+                      />
+                    </div>
+                    <div style={{ color: "red" }}>
+                      {editSubcategoryNameInputError}
+                    </div>
+                    <button
+                      onClick={() => editSubcategory(sub)}
+                      className="salvar"
+                    >
+                      Salvar
+                    </button>
+                  </div>
                 ) : (
-                  // Se não estiver editando, exibe o nome normal
                   sub.name
                 )}
               </td>
@@ -422,12 +457,12 @@ const [addedSubcategories, setAddedSubcategories] = useState([]);
                         color: "red",
                         border: 0,
                         fontWeight: "bold",
-                        display:"flex",
-                        justifyContent:"center",
-                        alignItems:"center",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
                         width: "8dvw",
-                        height:"7dvh",
-                        borderRadius: "5px"
+                        height: "7dvh",
+                        borderRadius: "5px",
                       }}
                     >
                       <img src="https://i.ibb.co/SsZjWVS/bin.png" alt="" />{" "}
