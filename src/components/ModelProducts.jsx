@@ -67,7 +67,9 @@ const CreateProductForm = ({ onClose }) => {
   if (!productInfo.colorPortuguese.trim()) {
     errors.colorPortuguese = "Digite uma cor válida";
   }
-  
+  if (!productInfo.imageUrl.trim()) {
+    errors.imageUrl = "Digite um link válido";
+  }
     // Verificar se há variações adicionadas
 
     if (!productInfo.category) {
@@ -257,13 +259,13 @@ const CreateProductForm = ({ onClose }) => {
         // setIsProductCreated(true);
   
         // Display success message
-        toast.success("Product added successfully!", {
+        toast.success("Producto criado com sucesso!", {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 2000,
         });
       } else {
         // Handle the case where the server returns an error status
-        console.error("Error creating product:", response.statusText);
+        console.error("Erro ao criar produto!:", response.statusText);
   
         // Display an error message
         toast.error("Erro ao criar produto. Tente novamente mais tarde.", {
@@ -273,7 +275,7 @@ const CreateProductForm = ({ onClose }) => {
       }
     } catch (error) {
       // Handle network or unexpected errors
-      console.error("Error creating product:", error.message);
+      console.error("Erro ao criar produto:", error.message);
   
       // Display an error message
       toast.error("Erro inesperado. Tente novamente mais tarde.", {
@@ -307,6 +309,11 @@ const CreateProductForm = ({ onClose }) => {
         sizes: [...prevProductInfo.sizes, size],
       }));
       setSize(""); // Clear the size input after adding
+       toast.success("Tamanho adicionado com sucesso!", {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 2000,
+    });
+  
     }
   };
 
@@ -481,6 +488,8 @@ const CreateProductForm = ({ onClose }) => {
             fullWidth
             name="imageUrl"
             value={productInfo.imageUrl}
+            error={formErrors.imageUrl !== undefined}
+            helperText={formErrors.imageUrl}
             onChange={handleImageUrlsChange}
             InputProps={{
               style: { marginTop: "10px" },
