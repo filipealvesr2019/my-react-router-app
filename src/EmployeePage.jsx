@@ -3,7 +3,7 @@ import { useAuth } from "./context/AuthContext";
 import axios from "axios";
 import ModelProducts from "./components/ModelProducts"
 import Pagination from "@mui/material/Pagination";
-import styles from "./pages/Cadastros/Products.module.css";
+import styles from "./EmployeePage.module.css";
 
 const EmployeePage = () => {
   const { logout } = useAuth();
@@ -71,6 +71,22 @@ const EmployeePage = () => {
   console.log("Total Pages:", totalPages);
 
   return (
+    <>
+    <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "left",
+          height: "12vh",
+          backgroundColor: "#2196F3",
+        }}
+      >
+        <h1
+          style={{ fontSize: "1.5rem", color: "white", marginLeft: "1.5rem" }}
+        >
+          Painel Administrativo
+        </h1>
+      </div>
     <div className={styles.container}>
       <div
         style={{
@@ -160,6 +176,7 @@ const EmployeePage = () => {
         </main>
       </div>
     </div>
+    </>
   );
 };
 

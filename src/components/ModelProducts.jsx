@@ -67,9 +67,7 @@ const CreateProductForm = ({ onClose }) => {
   if (!productInfo.colorPortuguese.trim()) {
     errors.colorPortuguese = "";
   }
-  if (!productInfo.imageUrl.trim()) {
-    errors.imageUrl = "";
-  }
+
     // Verificar se há variações adicionadas
 
     if (!productInfo.category) {
@@ -193,17 +191,18 @@ const CreateProductForm = ({ onClose }) => {
   // Update the handleInputChange function to handle the size input
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-
+  
     setProductInfo((prevProductInfo) => ({
       ...prevProductInfo,
       [name]: value,
     }));
-
+  
     // Handle size input separately
     if (name === "size") {
+      console.log('Setting size:', value);
       setSize(value);
     }
-
+  
     // Handle color input separately
     if (name === "colorPortuguese") {
       // Update the state for the color
@@ -213,6 +212,7 @@ const CreateProductForm = ({ onClose }) => {
       }));
     }
   };
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
   
@@ -227,9 +227,8 @@ const CreateProductForm = ({ onClose }) => {
   
     try {
       const { sizes, imageUrl, ...productData } = productInfo;
-      productData.sizes = sizes.join(", ");
+      productData.size = sizes.join(", ");  // Certifique-se de que você está usando 'size' e não 'sizes'
       
-
       // Send the product data to the server for further processing
       const response = await axios.post(
         "http://localhost:3001/api/admin/product/new",
@@ -241,7 +240,7 @@ const CreateProductForm = ({ onClose }) => {
           name: "",
           price: 0.0,
           description: "",
-          size: "",
+          sizes: sizes,
           category: "",
           subcategory: "",
           quantity: 0,
@@ -303,20 +302,24 @@ const CreateProductForm = ({ onClose }) => {
   };
 
   const handleAddSize = () => {
+    const { size } = productInfo;
     if (size.trim() !== "") {
       setProductInfo((prevProductInfo) => ({
         ...prevProductInfo,
         sizes: [...prevProductInfo.sizes, size],
       }));
-      setSize(""); // Clear the size input after adding
-       toast.success("Tamanho adicionado com sucesso!", {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000,
-    });
-  
+      // Limpe o campo de tamanho após adicionar
+      setProductInfo((prevProductInfo) => ({
+        ...prevProductInfo,
+        size: "",
+      }));
+      toast.success("Tamanho adicionado com sucesso!", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000,
+      });
     }
   };
-
+  
  
   // ...
   return (
@@ -380,20 +383,21 @@ const CreateProductForm = ({ onClose }) => {
       :"1rem", alignItems:"center", marginTop:"1rem"}}>
         <Grid item xs={12} sm={6}>
         <TextField
-        label="Tamanho"
-        variant="outlined"
-        fullWidth
-        name="size"
-        value={size}
-        onChange={handleInputChange}
-        error={formErrors.size !== undefined}
-        helperText={formErrors.size}
-        inputProps={{
-          style: {
-            marginTop: "10px",
-          },
-        }}
-      />
+  label="Tamanho"
+  variant="outlined"
+  fullWidth
+  name="size"
+  value={productInfo.size}
+  onChange={handleInputChange}
+  error={formErrors.size !== undefined}
+  helperText={formErrors.size}
+  inputProps={{
+    style: {
+      marginTop: "10px",
+    },
+  }}
+/>
+
         </Grid>
         <Button onClick={handleAddSize} style={{ height:"5dvh" }}>
           Adicionar Tamanho

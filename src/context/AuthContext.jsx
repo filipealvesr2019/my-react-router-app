@@ -18,11 +18,7 @@ export const AuthProvider = ({ children }) => {
   const [isAdmin, setIsAdmin] = useAtom(isAdminAtom);
   const [isManager, setIsManager] = useState(storedRole === 'Gerente');
 
-  // Add console logs to check the values
-  console.log('Stored Token:', storedToken);
-  console.log('Stored Role:', storedRole);
-  console.log('Is Admin:', isAdmin);
-  console.log('Is Manager:', isManager);
+
 
   useEffect(() => {
     setLoggedIn(Boolean(storedToken));
