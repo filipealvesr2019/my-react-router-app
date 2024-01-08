@@ -130,7 +130,7 @@ const Categories = () => {
         setNewCategory("");
         getCategories();
         setCategoryInputError("");
-        toast.success("Color and image URL added successfully!", {
+        toast.success("Categoria adicionada com sucesso!", {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 2000,
         });
@@ -164,7 +164,10 @@ const Categories = () => {
         getAddedSubcategories(selectedCategoryId);
         // Limpar a mensagem de erro após a operação bem-sucedida
         setSubcategoryInputError("");
-        toast.success("Subcategoria criada com sucesso!");
+        toast.success("Subcategoria adicionada com sucesso!", {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 2000,
+        });
       } else {
         console.error(
           "Erro ao criar subcategoria. Mensagem do servidor:",
@@ -320,6 +323,8 @@ const Categories = () => {
 
   return (
     <div>
+          <ToastContainer position="top-right" autoClose={5000} />
+
       <div className={`addContainer ${categoryInputError ? "error" : ""}`}>
         <label>
           Adicionar Nova Categoria:

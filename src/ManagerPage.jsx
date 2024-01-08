@@ -1,9 +1,30 @@
-import React from 'react'
+import React from "react";
+import Products from "./pages/Cadastros/Products";
 
 const ManagerPage = () => {
   return (
-    <div>ManagerPage</div>
-  )
-}
+    <div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "left",
+          height: "12vh",
+          backgroundColor: "#2196F3",
+        }}
+      >
+        <h1
+          style={{ fontSize: "1.5rem", color: "white", marginLeft: "1.5rem" }}
+        >
+          Painel Administrativo
+        </h1>
+      </div>
 
-export default ManagerPage
+      <div>
+        <Products></Products>
+      </div>
+    </div>
+  );
+};
+
+export default ManagerPage;
