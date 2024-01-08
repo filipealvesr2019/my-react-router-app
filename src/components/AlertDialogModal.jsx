@@ -11,18 +11,17 @@ const DeleteConfirmationModal = ({ open, onClose, onConfirm }) => {
       <ModalDialog variant="outlined" role="alertdialog">
         <DialogTitle>
           <WarningRoundedIcon />
-          Confirmation
+          Alert
         </DialogTitle>
         <Divider />
         <DialogContent>
-          Are you sure you want to discard all of your notes?
-        </DialogContent>
+        Tem certeza de que quer excluir essa categoria.        </DialogContent>
         <DialogActions>
           <Button variant="solid" color="danger" onClick={onConfirm}>
-            Discard notes
+            Excluir
           </Button>
           <Button variant="plain" color="neutral" onClick={onClose}>
-            Cancel
+            Cancelar
           </Button>
         </DialogActions>
       </ModalDialog>

@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Categories.css";
-import Button from '@mui/joy/Button';
-import Modal from '@mui/joy/Modal';
-import ModalDialog from '@mui/joy/ModalDialog';
-import DialogTitle from '@mui/joy/DialogTitle';
-import DialogContent from '@mui/joy/DialogContent';
-import DialogActions from '@mui/joy/DialogActions';
-import DeleteForever from '@mui/icons-material/DeleteForever';
-import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
+import Button from "@mui/joy/Button";
+import Modal from "@mui/joy/Modal";
+import ModalDialog from "@mui/joy/ModalDialog";
+import DialogTitle from "@mui/joy/DialogTitle";
+import DialogContent from "@mui/joy/DialogContent";
+import DialogActions from "@mui/joy/DialogActions";
+import DeleteForever from "@mui/icons-material/DeleteForever";
+import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const Categories = () => {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
@@ -20,7 +22,7 @@ const Categories = () => {
   const [editCategoryName, setEditCategoryName] = useState("");
   const [editSubcategoryName, setEditSubcategoryName] = useState("");
 
-// Adicione esses estados ao início do componente
+  // Adicione esses estados ao início do componente
 
   // ... (outros estados)
 
@@ -128,6 +130,10 @@ const Categories = () => {
         setNewCategory("");
         getCategories();
         setCategoryInputError("");
+        toast.success("Color and image URL added successfully!", {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 2000,
+        });
       } else {
         console.error(
           "Erro ao criar categoria. Mensagem do servidor:",
@@ -158,6 +164,7 @@ const Categories = () => {
         getAddedSubcategories(selectedCategoryId);
         // Limpar a mensagem de erro após a operação bem-sucedida
         setSubcategoryInputError("");
+        toast.success("Subcategoria criada com sucesso!");
       } else {
         console.error(
           "Erro ao criar subcategoria. Mensagem do servidor:",
@@ -215,7 +222,6 @@ const Categories = () => {
   };
 
   const editCategory = async (category) => {
- 
     try {
       if (editCategoryName.trim() === "") {
         // Exibe uma mensagem de erro e retorna sem fazer a edição
@@ -225,7 +231,6 @@ const Categories = () => {
         // Limpa a mensagem de erro se o campo não estiver vazio
         setEditCategoryNameInputError("");
       }
-
 
       const response = await axios.put(
         `http://localhost:3001/api/admin/categories/${category._id}`,
@@ -240,7 +245,6 @@ const Categories = () => {
         setEditCategoryName(""); // Limpar o estado de edição do nome da categoria
         getCategories();
         setEditCategoryName(""); // Limpar o estado de edição do nome da categoria
-
       } else {
         console.error(
           "Erro ao editar categoria. Mensagem do servidor:",
@@ -254,7 +258,6 @@ const Categories = () => {
 
   const editSubcategory = async (sub) => {
     try {
-
       if (editSubcategoryName.trim() === "") {
         // Exibe uma mensagem de erro e retorna sem fazer a edição
         setEditSubcategoryNameInputError("Digite o nome da subcategoria");
@@ -286,9 +289,10 @@ const Categories = () => {
       console.error("Erro ao editar subcategoria", error);
     }
   };
-// Adicione esses estados ao início do componente
-const [itemToDelete, setItemToDelete] = useState(null);
-const [deleteConfirmationDialogOpen, setDeleteConfirmationDialogOpen] = useState(false);
+  // Adicione esses estados ao início do componente
+  const [itemToDelete, setItemToDelete] = useState(null);
+  const [deleteConfirmationDialogOpen, setDeleteConfirmationDialogOpen] =
+    useState(false);
 
   const openDeleteConfirmationDialog = () => {
     setDeleteConfirmationDialogOpen(true);
@@ -308,12 +312,11 @@ const [deleteConfirmationDialogOpen, setDeleteConfirmationDialogOpen] = useState
         await handleDeleteSubcategory(itemToDelete);
       }
     }
-  
+
     // Limpar o estado do item a ser excluído e fechar o modal
     setItemToDelete(null);
     setDeleteConfirmationDialogOpen(false);
   };
-  
 
   return (
     <div>
@@ -342,53 +345,65 @@ const [deleteConfirmationDialogOpen, setDeleteConfirmationDialogOpen] = useState
           </tr>
         </thead>
         <tbody>
-        {categories.map((category) => (
-  <tr key={category._id}>
-    <td>
-      {editingItem === category._id ? (
-        // Se estiver editando, exibe o campo de edição
-        <div className={`EditCategory ${editCategoryNameInputError ? "error" : ""}`}>
-          <input
-            type="text"
-            value={editingItem === category._id ? editCategoryName : category.name}
-            onChange={(e) => setEditCategoryName(e.target.value)}
-          />
-          <div style={{ color: "red" }}>{editCategoryNameInputError}</div>
-          <button onClick={() => editCategory(category)} className="salvar">
-            Salvar
-          </button>
-        </div>
-      ) : (
-        // Se não estiver editando, exibe o nome da categoria
-        category.name
-      )}
-    </td>
-    <td>
-      {editingItem !== category._id ? (
-        // Apenas exibe os botões de ação se não estiver editando
-        <div style={{ display: "flex", gap: "1rem" }}>
-          <button
-            onClick={() => setEditingItem(category._id)}
-            className="buttonUpdate"
-          >
-            <img src="https://i.ibb.co/5R1QnT7/edit-1.png" alt="" />
-            Editar
-          </button>
-          <Button
-            variant="outlined"
-            color="danger"
-            endDecorator={<DeleteForever />}
-            onClick={() => handleDeleteCategory(category)} // Corrigir chamada para a função de exclusão
-            style={{ height: "7vh", marginTop: ".2rem" }}
-          >
-            Excluir
-          </Button>
-        </div>
-      ) : null}
-    </td>
-  </tr>
-))}
-
+          {categories.map((category) => (
+            <tr key={category._id}>
+              <td>
+                {editingItem === category._id ? (
+                  // Se estiver editando, exibe o campo de edição
+                  <div
+                    className={`EditCategory ${
+                      editCategoryNameInputError ? "error" : ""
+                    }`}
+                  >
+                    <input
+                      type="text"
+                      value={
+                        editingItem === category._id
+                          ? editCategoryName
+                          : category.name
+                      }
+                      onChange={(e) => setEditCategoryName(e.target.value)}
+                    />
+                    <div style={{ color: "red" }}>
+                      {editCategoryNameInputError}
+                    </div>
+                    <button
+                      onClick={() => editCategory(category)}
+                      className="salvar"
+                    >
+                      Salvar
+                    </button>
+                  </div>
+                ) : (
+                  // Se não estiver editando, exibe o nome da categoria
+                  category.name
+                )}
+              </td>
+              <td>
+                {editingItem !== category._id ? (
+                  // Apenas exibe os botões de ação se não estiver editando
+                  <div style={{ display: "flex", gap: "1rem" }}>
+                    <button
+                      onClick={() => setEditingItem(category._id)}
+                      className="buttonUpdate"
+                    >
+                      <img src="https://i.ibb.co/5R1QnT7/edit-1.png" alt="" />
+                      Editar
+                    </button>
+                    <Button
+                      variant="outlined"
+                      color="danger"
+                      endDecorator={<DeleteForever />}
+                      onClick={() => handleDeleteCategory(category)} // Corrigir chamada para a função de exclusão
+                      style={{ height: "7vh", marginTop: ".2rem" }}
+                    >
+                      Excluir
+                    </Button>
+                  </div>
+                ) : null}
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
 
@@ -411,82 +426,97 @@ const [deleteConfirmationDialogOpen, setDeleteConfirmationDialogOpen] = useState
         </label>
       </div>
       {/* Tabela para Todas Subcategorias */}
-      {/* Tabela para Todas Subcategorias */}
-      // Tabela para Todas Subcategorias
-<table className="category-table">
-  <thead>
-    <tr>
-      <th className="Categorias">Todas Subcategorias</th>
-      <th>Ações</th>
-    </tr>
-  </thead>
-  <tbody >
-  {subcategories.map((sub) => (
-  <tr key={sub._id}>
-    <td>
-      {editingItem === sub._id ? (
-        // Se estiver editando, exibe o campo de edição
-        <div className={`EditCategory ${editSubcategoryNameInputError ? "error" : ""}`}>
-          <input
-            type="text"
-            value={editingItem === sub._id ? editSubcategoryName : sub.name}
-            onChange={(e) => setEditSubcategoryName(e.target.value)}
-          />
-          <div style={{ color: "red" }}>{editSubcategoryNameInputError}</div>
-          <button onClick={() => editSubcategory(sub)} className="salvar">
-            Salvar
-          </button>
-        </div>
-      ) : (
-        // Se não estiver editando, exibe o nome da subcategoria
-        sub.name
-      )}
-    </td>
-    <td>
-      {editingItem !== sub._id ? (
-        // Apenas exibe os botões de ação se não estiver editando
-        <div style={{ display: "flex", gap: "1rem" }}>
-          <button
-            onClick={() => setEditingItem(sub._id)}
-            className="buttonUpdate"
-          >
-            <img src="https://i.ibb.co/5R1QnT7/edit-1.png" alt="" />
-            Editar
-          </button>
-          <Button
-            variant="outlined"
-            color="danger"
-            endDecorator={<DeleteForever />}
-            onClick={() => handleDeleteSubcategory(sub)} // Corrigir chamada para a função de exclusão
-            style={{ height: "7vh", marginTop: ".2rem" }}
-          >
-            Excluir
-          </Button>
-        </div>
-      ) : null}
-    </td>
-  </tr>
-))}
 
+      <table className="category-table">
+        <thead>
+          <tr>
+            <th className="Categorias">Todas Subcategorias</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {subcategories.map((sub) => (
+            <tr key={sub._id}>
+              <td>
+                {editingItem === sub._id ? (
+                  // Se estiver editando, exibe o campo de edição
+                  <div
+                    className={`EditCategory ${
+                      editSubcategoryNameInputError ? "error" : ""
+                    }`}
+                  >
+                    <input
+                      type="text"
+                      value={
+                        editingItem === sub._id ? editSubcategoryName : sub.name
+                      }
+                      onChange={(e) => setEditSubcategoryName(e.target.value)}
+                    />
+                    <div style={{ color: "red" }}>
+                      {editSubcategoryNameInputError}
+                    </div>
+                    <button
+                      onClick={() => editSubcategory(sub)}
+                      className="salvar"
+                    >
+                      Salvar
+                    </button>
+                  </div>
+                ) : (
+                  // Se não estiver editando, exibe o nome da subcategoria
+                  sub.name
+                )}
+              </td>
+              <td>
+                {editingItem !== sub._id ? (
+                  // Apenas exibe os botões de ação se não estiver editando
+                  <div style={{ display: "flex", gap: "1rem" }}>
+                    <button
+                      onClick={() => setEditingItem(sub._id)}
+                      className="buttonUpdate"
+                    >
+                      <img src="https://i.ibb.co/5R1QnT7/edit-1.png" alt="" />
+                      Editar
+                    </button>
+                    <Button
+                      variant="outlined"
+                      color="danger"
+                      endDecorator={<DeleteForever />}
+                      onClick={() => handleDeleteSubcategory(sub)} // Corrigir chamada para a função de exclusão
+                      style={{ height: "7vh", marginTop: ".2rem" }}
+                    >
+                      Excluir
+                    </Button>
+                  </div>
+                ) : null}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
-  </tbody>
-</table>
-
-        {/* Renderizar o modal */}
-        <Modal open={deleteConfirmationDialogOpen} onClose={closeDeleteConfirmationDialog}>
+      {/* Renderizar o modal */}
+      <Modal
+        open={deleteConfirmationDialogOpen}
+        onClose={closeDeleteConfirmationDialog}
+      >
         <ModalDialog variant="outlined" role="alertdialog">
           <DialogTitle>
             <WarningRoundedIcon />
-            Confirmação
+            Alerta
           </DialogTitle>
           <DialogContent>
-            Tem certeza de que deseja descartar todas as suas notas?
+            Tem certeza de que quer excluir essa Categoria ou Subcategoria.
           </DialogContent>
           <DialogActions>
             <Button variant="solid" color="danger" onClick={confirmDelete}>
-              Descartar notas
+              Excluir
             </Button>
-            <Button variant="plain" color="neutral" onClick={closeDeleteConfirmationDialog}>
+            <Button
+              variant="plain"
+              color="neutral"
+              onClick={closeDeleteConfirmationDialog}
+            >
               Cancelar
             </Button>
           </DialogActions>

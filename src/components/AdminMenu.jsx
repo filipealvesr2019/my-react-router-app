@@ -61,7 +61,7 @@ const UserForm = ({ closeForm }) => {
         }, 4000);
       }
     } catch (error) {
-      console.error('Erro ao criar usuário', error);
+      console.error('Erro ao criar usuário. Digite um email ou senha validos!', error);
       console.error('Resposta de erro do servidor:', error.response.data);
     
       console.error('Erro ao criar usuário', error);
