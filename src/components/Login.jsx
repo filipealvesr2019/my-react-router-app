@@ -13,6 +13,11 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  // Add console logs to check the values
+  console.log('loggedIn:', loggedIn);
+  console.log('isAdmin:', isAdmin);
+  console.log('isManager:', isManager);
+
   const handleLogin = () => {
     login(email, password);
   };
