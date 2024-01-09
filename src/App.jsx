@@ -7,7 +7,6 @@ import Login from "./components/Login";
 
 import AdminPage from "./AdminPage";
 import EmployeePage from "./EmployeePage";
-import Cadastros from "./components/Cadastros";
 function App() {
   return (
     <>
@@ -27,7 +26,6 @@ function App() {
               <Route path="/admin" element={<AdminPage />} />
               <Route path="/employee" element={<EmployeePage />} />
               
-              <Route path="/cadastros" element={<Cadastros />} />
 
             </Routes>
           </div>
