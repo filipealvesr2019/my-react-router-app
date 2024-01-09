@@ -333,29 +333,6 @@ margin-left: 3rem;
 
 
 
-/* Para telas entre 800px e 1280px */
-@media screen and (max-width: 800px) {
-  .h1Container {
-    margin-left: .5rem;
-  }
-
-  .Model {
-    margin-top: 3rem;
-    margin-bottom: -6rem;
-  }
-
-  .buttonUpdate {
-    height: 4dvh;
-    width: 15dvw;
-    margin-left: 2rem;
-  }
-
-  .deleteBtn {
-    height: 5vh;
-    width: 15dvw;
-    margin-top: .5rem;
-  }
-}
 
 /* Para telas entre 900px e 1440px */
 @media screen and (min-width: 900px) and (max-width: 1440px) {
@@ -383,6 +360,39 @@ margin-left: 3rem;
   .buttonUpdate {
     height: 7dvh;
     width: 9dvw;
+  }
+}
+
+
+
+/* Para telas entre 800px e 1280px */
+@media screen and ( 800px <= width <= 1280px) {
+  .h1Container {
+    margin-left: .5rem;
+  }
+
+  .Model {
+    margin-top: 3rem;
+    margin-bottom: -4rem;
+  }
+
+  .buttonUpdate {
+    height: 4dvh;
+    width: 15dvw;
+    margin-left: 2rem;
+  }
+
+  .deleteBtn {
+    height: 5vh;
+    width: 15dvw;
+    margin-top: .5rem;
+  }
+}
+
+@media screen and ( 800px <= width <= 1024px){
+  .Model {
+    margin-top: 3rem;
+    margin-bottom: 1rem;
   }
 }
 
