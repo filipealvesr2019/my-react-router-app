@@ -3,14 +3,14 @@
   flex-direction: column;
 }
 .cadastro {
-  width: 70vw;
+  width: 50vw;
 }
 
 .h1 {
   display: flex;
-  gap: 1rem;
+  gap: .5rem;
   color: #14337c;
-  font-size: .9rem;
+  font-size: .8rem;
   padding-block: 0.5rem;
 }
 

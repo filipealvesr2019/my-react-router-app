@@ -300,7 +300,7 @@ const Products = () => {
           position: "relative"
         }}
       >
-        <main>
+        <main >
           {error && <div style={{ color: "red" }}>{error}</div>}
           <div className={styles.h1Container}>
             <h1 style={{ fontSize: "1.5rem", color: "#2A337C" }}>

@@ -10,14 +10,15 @@
   color: white;
   padding: .8rem;
   border: 0;
-  border-radius: 60px;
+  border-radius: .5rem;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: .9rem;
   font-family: "urbanist";
   font-weight: 600;
 
-  margin-left: 40rem;
+  margin-left: 30rem;
   margin-bottom: -2rem;
+  width: 11dvw;
 }
 .user-form {
   display: flex;

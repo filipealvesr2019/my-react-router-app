@@ -69,6 +69,7 @@ const Categories = () => {
                   width: "8dvw",
                   height: "7dvh",
                   borderRadius: "5px",
+                  
                 }}
               >
                 <img src="https://i.ibb.co/SsZjWVS/bin.png" alt="" /> Excluir

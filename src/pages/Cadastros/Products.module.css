@@ -1,6 +1,7 @@
 .Model {
-  margin-top: 8rem;
-  margin-bottom: -3rem;
+
+    margin-top: 3rem;
+
   margin-left: 65%;
 }
 
@@ -310,7 +311,16 @@ button {
 .h1Container{
 margin-left: 3rem;
 }
-@media screen and (900px <= width <= 1440px) {
+
+
+
+
+
+
+
+
+
+@media screen and (768px <= width <= 1360px) {
   .h1Container{
     margin-left: .5rem;
 
@@ -319,7 +329,7 @@ margin-left: 3rem;
 
   .Model{
     margin-top: 3rem;
-    margin-bottom: 2rem;
+    margin-bottom: -3rem;
   }
     
 }
@@ -327,24 +337,15 @@ margin-left: 3rem;
 
 @media screen and (800px <= width <= 1280px) {
   .h1Container{
-    margin-left: 1.5rem;
+    margin-left: .5rem;
+
 
   }
 
   .Model{
-    margin-left: 60%;
     margin-top: 3rem;
-    margin-bottom: -5rem;
+    margin-bottom: -3rem;
   }
     
 }
-
-
-
-
-
-.h1Container{
-  margin-top: -8rem;
-}
-
 
