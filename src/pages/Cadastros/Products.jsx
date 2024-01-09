@@ -575,8 +575,7 @@ const Products = () => {
                     marginBottom: "1rem",
                     position: "sticky",
                     bottom: "0",
-                    zIndex: "1",
-                    marginTop:"80%"
+                    zIndex: "1"
                   }}
                 />
               )}
