@@ -20,6 +20,8 @@
   margin-bottom: -2rem;
   width: 11dvw;
 }
+
+
 .user-form {
   display: flex;
   flex-direction: column;
@@ -106,3 +108,18 @@
 }
 
 
+
+
+@media screen  and (800px <= width <= 1280px){
+  
+  .modal-content {
+    width: 35dvw;
+  
+  }
+
+  .modal-form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  }
