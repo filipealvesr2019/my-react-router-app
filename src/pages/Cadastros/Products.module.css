@@ -335,9 +335,9 @@ margin-left: 3rem;
 
 
 /* Para telas entre 900px e 1440px */
-@media screen and (min-width: 900px) and (max-width: 1440px) {
-  .main {
-    margin-bottom: 15rem;
+@media screen and (900px <= width <= 1440px) {
+  .Model {
+    margin-bottom: -7rem;
   }
 
   .buttonUpdate {
