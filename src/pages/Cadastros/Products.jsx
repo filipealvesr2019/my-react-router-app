@@ -301,10 +301,10 @@ const Products = () => {
           justifyContent: "center",
           alignItems: "center",
           height: "55vh",
-          position: "relative",
+          position: "relative"
         }}
       >
-        <main style={{ position: "sticky" }}>
+        <main>
           {error && <div style={{ color: "red" }}>{error}</div>}
           <div className={styles.h1Container}>
             <h1 style={{ fontSize: "1.5rem", color: "#2A337C" }}>
@@ -312,8 +312,8 @@ const Products = () => {
             </h1>
           </div>
 
-          <div>
-            <table style={{ margin: "0 auto", width: "50vw" }}>
+          <div >
+            <table style={{ margin: "0 auto", width: "50vw"}}>
               <thead>
                 <tr>
                   <th>Produtos</th>
@@ -567,6 +567,7 @@ const Products = () => {
                     position: "sticky",
                     bottom: "0",
                     zIndex: "1",
+                    marginTop:"80%"
                   }}
                 />
               )}
