@@ -9,3 +9,19 @@
 body{
     min-height: 100vh;
 }
+
+
+@media  (300px <= width <= 699px) {
+    .list {
+      margin-left: -2rem;
+    }
+    .h1{
+      margin-left: -1rem;
+      white-space: nowrap;
+    }
+  
+    .nav .ul{
+      margin-left: 8rem;
+    }
+  
+  }
