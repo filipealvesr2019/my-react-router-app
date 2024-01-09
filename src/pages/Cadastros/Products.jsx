@@ -297,7 +297,9 @@ const Products = () => {
           justifyContent: "center",
           alignItems: "center",
           height: "55vh",
-          position: "relative"
+          position: "relative",
+          width: "100%",
+          borderCollapse: "collapse"
         }}
       >
         <main className="main">
@@ -309,7 +311,7 @@ const Products = () => {
           </div>
 
           <div >
-            <table style={{ margin: "0 auto",  width: "50vw"}}>
+            <table className={styles.tableContainer}>
               <thead>
                 <tr>
                   <th>Produtos</th>

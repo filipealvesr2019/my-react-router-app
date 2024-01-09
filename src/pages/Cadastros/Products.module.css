@@ -385,3 +385,17 @@ margin-left: 3rem;
     width: 9dvw;
   }
 }
+
+@media screen and (300px <= width <= 699px){
+  .tableContainer{
+    width: 70vw;
+  }
+  .buttonUpdate {
+    height: 7dvh;
+    width: 15dvw;
+  }
+}
+
+.tableContainer{
+  width: 50vw;
+}
