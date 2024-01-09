@@ -123,3 +123,10 @@
     align-items: center;
   }
   }
+
+  @media screen and  (800px <= width <= 1025px){
+    .admin-menu .formButtonStyle{
+      white-space: nowrap;
+      width: 15vw;
+    }
+  }

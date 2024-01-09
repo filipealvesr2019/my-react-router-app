@@ -36,3 +36,11 @@
     font-size: 1rem;
   }
 }
+
+
+
+@media screen and (800px <= width <= 1024px) {
+  .cadastro{
+    width: 70vw;
+  }
+}
