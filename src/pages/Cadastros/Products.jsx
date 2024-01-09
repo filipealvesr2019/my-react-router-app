@@ -19,8 +19,7 @@ const Products = () => {
   const [totalPages, setTotalPages] = useState(1);
 
   const [selectedColor, setSelectedColor] = useState("");
-  const [selectedSize, setSelectedSize] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
+
   const [searchTerm, setSearchTerm] = useState("");
 
   const [formData, setFormData] = useState({
@@ -75,7 +74,6 @@ const Products = () => {
         `http://localhost:3001/api/products?page=${currentPage}&keyword=${searchTerm}`
       );
 
-
       const totalProducts = response.data.productsCount;
       const validItemsPerPage =
         Number.isFinite(itemsPerPage) && itemsPerPage > 0;
@@ -119,7 +117,6 @@ const Products = () => {
         formData
       );
 
-
       if (response.data._id) {
         console.log("Produto atualizado com sucesso");
         const updatedProductsResponse = await axios.get(
@@ -127,6 +124,7 @@ const Products = () => {
         );
         const updatedProducts = updatedProductsResponse.data.products;
         setProducts(updatedProducts);
+        console.log("Estado do produto atualizado:", updatedProducts);
       } else {
         console.error(
           "Erro ao atualizar produto. Mensagem do servidor:",
@@ -157,7 +155,6 @@ const Products = () => {
         console.error("Response data:", error.response.data);
       }
     }
-
   };
 
   // Restante do código...
@@ -223,30 +220,75 @@ const Products = () => {
         </div>
       ));
   };
-  
+  const [originalColor, setOriginalColor] = useState("");
+  const [newColor, setNewColor] = useState("");
+
+  const handleColorChange = () => {
+    // Verifica se as cores fornecidas são válidas
+    if (originalColor.trim() !== "" && newColor.trim() !== "") {
+      console.log("Original Color:", originalColor);
+      console.log("New Color:", newColor);
+
+      setProducts((prevProducts) => {
+        // Mapeia todos os produtos e atualiza as variações da cor original para a nova cor
+        const updatedProducts = prevProducts.map((product) => {
+          const updatedVariations = product.variations.map((variation) => {
+            // Comparação de cores insensível a maiúsculas e minúsculas
+            if (variation.color.toLowerCase() === originalColor.toLowerCase()) {
+              return {
+                ...variation,
+                color: newColor,
+              };
+            }
+            return variation;
+          });
+
+          return {
+            ...product,
+            variations: updatedVariations,
+          };
+        });
+
+        return updatedProducts;
+      });
+
+      // Limpa os campos de cor original e nova cor após a mudança
+      setOriginalColor("");
+      setNewColor("");
+
+      console.log(
+        `Cor de todas as URLs de ${originalColor} alterada para: ${newColor}`
+      );
+    } else {
+      console.error("As cores originais e novas não podem estar vazias.");
+    }
+  };
+
   return (
     <div className={styles.container}>
-      <div style={{
-         display: "flex",
-         alignItems: "center",
-         justifyContent: "center",marginTop:"3rem"
-      }}>
-      <input
-        type="text"
-        placeholder="Pesquisar por produto..."
-        value={searchTerm}
-        onChange={handleSearchChange}
+      <div
         style={{
-          padding: "8px",
-          margin: "8px",
-          borderRadius: "4px",
-          border: "1px solid #ccc",   
-          width: "50dvw",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop: "3rem",
         }}
-      />
-
+      >
+        <input
+          type="text"
+          placeholder="Pesquisar por produto..."
+          value={searchTerm}
+          onChange={handleSearchChange}
+          style={{
+            padding: "8px",
+            margin: "8px",
+            borderRadius: "4px",
+            border: "1px solid #ccc",
+            width: "50dvw",
+          }}
+        />
       </div>
-      
+
       <div className={styles.Model}>
         <ModelProducts />
       </div>
@@ -264,15 +306,12 @@ const Products = () => {
       >
         <main style={{ position: "sticky" }}>
           {error && <div style={{ color: "red" }}>{error}</div>}
-           <div className={styles.h1Container}>
-           <h1
-            style={{ fontSize: "1.5rem", color: "#2A337C"}}
-          >
-            Cadastro de produtos
-          </h1>
-           </div>
-           
-         
+          <div className={styles.h1Container}>
+            <h1 style={{ fontSize: "1.5rem", color: "#2A337C" }}>
+              Cadastro de produtos
+            </h1>
+          </div>
+
           <div>
             <table style={{ margin: "0 auto", width: "50vw" }}>
               <thead>
@@ -326,7 +365,6 @@ const Products = () => {
                                   // ... outros campos necessários
                                 });
                                 setSelectedImageIndex(null);
-                                setSelectedColorPickerIndex(null);
                               }}
                             >
                               <div className={styles.modalOverlay}>
@@ -401,7 +439,6 @@ const Products = () => {
                                       onChange={handleFormChange}
                                     />
                                   </label>
-
                                   <div>
                                     <label>
                                       Selecione a cor:
@@ -435,7 +472,48 @@ const Products = () => {
                                       </div>
                                     )}
                                   </div>
-
+                                  <div>
+                                    <label>
+                                      Cor Original:
+                                      <select
+                                        value={originalColor}
+                                        onChange={(e) =>
+                                          setOriginalColor(e.target.value)
+                                        }
+                                      >
+                                        <option value="">
+                                          Escolher a Cor Original
+                                        </option>
+                                        {Array.from(
+                                          new Set(
+                                            products.flatMap((product) =>
+                                              product.variations.map(
+                                                (variation) =>
+                                                  variation.color.toLowerCase()
+                                              )
+                                            )
+                                          )
+                                        ).map((color) => (
+                                          <option key={color} value={color}>
+                                            {color}
+                                          </option>
+                                        ))}
+                                      </select>
+                                    </label>
+                                    <label>
+                                      Nova Cor:
+                                      <input
+                                        type="text"
+                                        value={newColor}
+                                        onChange={(e) =>
+                                          setNewColor(e.target.value)
+                                        }
+                                      />
+                                    </label>
+                                    <button onClick={handleColorChange}>
+                                      Mudar Cor
+                                    </button>
+                                  </div>{" "}
                                   <br></br>
                                   <button
                                     type="submit"
@@ -449,7 +527,7 @@ const Products = () => {
                           )}
                         </div>
 
-                        <div style={{marginTop:".2rem"}}>
+                        <div style={{ marginTop: ".2rem" }}>
                           {!isModalOpen && !formData._id && (
                             <>
                               <span
