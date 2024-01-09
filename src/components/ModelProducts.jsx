@@ -63,11 +63,14 @@ const CreateProductForm = ({ onClose }) => {
     }
     if (productInfo.sizes.length === 0) {
       errors.size = "";
-  }
-  if (!productInfo.colorPortuguese.trim()) {
-    errors.colorPortuguese = "";
-  }
-
+    }
+    if (!productInfo.colorPortuguese.trim()) {
+      errors.colorPortuguese = "";
+    }
+    
+    if (!productInfo.imageUrl.trim()) {
+      errors.imageUrl = "";
+    }
     // Verificar se há variações adicionadas
 
     if (!productInfo.category) {
@@ -83,8 +86,6 @@ const CreateProductForm = ({ onClose }) => {
     // Retorna verdadeiro se não houver erros
     return Object.keys(errors).length === 0;
   };
-
- 
 
   useEffect(() => {
     // Carregar categorias ao montar o componente
@@ -146,8 +147,6 @@ const CreateProductForm = ({ onClose }) => {
     }
   };
 
-  
-
   const handleAddVariation = () => {
     const { color, imageUrl } = productInfo;
 
@@ -191,18 +190,18 @@ const CreateProductForm = ({ onClose }) => {
   // Update the handleInputChange function to handle the size input
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-  
+
     setProductInfo((prevProductInfo) => ({
       ...prevProductInfo,
       [name]: value,
     }));
-  
+
     // Handle size input separately
     if (name === "size") {
-      console.log('Setting size:', value);
+      console.log("Setting size:", value);
       setSize(value);
     }
-  
+
     // Handle color input separately
     if (name === "colorPortuguese") {
       // Update the state for the color
@@ -212,10 +211,10 @@ const CreateProductForm = ({ onClose }) => {
       }));
     }
   };
-  
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     // Validate the form before proceeding
     if (!validateForm()) {
       toast.error("Todos os campos devem ser preenchidos!", {
@@ -224,17 +223,17 @@ const CreateProductForm = ({ onClose }) => {
       });
       return;
     }
-  
+
     try {
       const { sizes, imageUrl, ...productData } = productInfo;
-      productData.size = sizes.join(", ");  // Certifique-se de que você está usando 'size' e não 'sizes'
-      
+      productData.size = sizes.join(", "); // Certifique-se de que você está usando 'size' e não 'sizes'
+
       // Send the product data to the server for further processing
       const response = await axios.post(
         "http://localhost:3001/api/admin/product/new",
         productData
       );
-  
+
       if (response.status === 201) {
         setProductInfo({
           name: "",
@@ -247,16 +246,16 @@ const CreateProductForm = ({ onClose }) => {
           variations: [],
           imageUrl: "", // Clear the image URL
         });
-  
+
         console.log("Product created successfully");
-  
+
         setTimeout(() => {
           onClose();
         }, 4000);
-  
+
         // Configuration to display the success message
         // setIsProductCreated(true);
-  
+
         // Display success message
         toast.success("Producto criado com sucesso!", {
           position: toast.POSITION.TOP_CENTER,
@@ -265,7 +264,7 @@ const CreateProductForm = ({ onClose }) => {
       } else {
         // Handle the case where the server returns an error status
         console.error("Erro ao criar produto!:", response.statusText);
-  
+
         // Display an error message
         toast.error("Erro ao criar produto. Tente novamente mais tarde.", {
           position: toast.POSITION.TOP_CENTER,
@@ -275,7 +274,7 @@ const CreateProductForm = ({ onClose }) => {
     } catch (error) {
       // Handle network or unexpected errors
       console.error("Erro ao criar produto:", error.message);
-  
+
       // Display an error message
       toast.error("Erro inesperado. Tente novamente mais tarde.", {
         position: toast.POSITION.TOP_CENTER,
@@ -283,7 +282,7 @@ const CreateProductForm = ({ onClose }) => {
       });
     }
   };
-  
+
   const handleSubcategoryChange = (event) => {
     const subcategoryName = event.target.value;
     setProductInfo((prevProductInfo) => ({
@@ -319,8 +318,7 @@ const CreateProductForm = ({ onClose }) => {
       });
     }
   };
-  
- 
+
   // ...
   return (
     <form onSubmit={handleSubmit}>
@@ -379,31 +377,37 @@ const CreateProductForm = ({ onClose }) => {
             }}
           />
         </Grid>
-        <div style={{display:"flex", gap:"1rem", marginLeft
-      :"1rem", alignItems:"center", marginTop:"1rem"}}>
-        <Grid item xs={12} sm={6}>
-        <TextField
-  label="Tamanho"
-  variant="outlined"
-  fullWidth
-  name="size"
-  value={productInfo.size}
-  onChange={handleInputChange}
-  error={formErrors.size !== undefined}
-  helperText={formErrors.size}
-  inputProps={{
-    style: {
-      marginTop: "10px",
-    },
-  }}
-/>
-
-        </Grid>
-        <Button onClick={handleAddSize} style={{ height:"5dvh" }}>
-          Adicionar Tamanho
-        </Button>
+        <div
+          style={{
+            display: "flex",
+            gap: "1rem",
+            marginLeft: "1rem",
+            alignItems: "center",
+            marginTop: "1rem",
+          }}
+        >
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="Tamanho"
+              variant="outlined"
+              fullWidth
+              name="size"
+              value={productInfo.size}
+              onChange={handleInputChange}
+              error={formErrors.size !== undefined}
+              helperText={formErrors.size}
+              inputProps={{
+                style: {
+                  marginTop: "10px",
+                },
+              }}
+            />
+          </Grid>
+          <Button onClick={handleAddSize} style={{ height: "5dvh" }}>
+            Adicionar Tamanho
+          </Button>
         </div>
-       
+
         <Grid item xs={12} sm={6} style={{ marginTop: "-1rem" }}>
           <TextField
             label="Quantidade"
@@ -469,21 +473,21 @@ const CreateProductForm = ({ onClose }) => {
           </FormControl>
         </Grid>
         <Grid item xs={12} sm={6}>
-        <TextField
-        label="Cor em Português"
-        variant="outlined"
-        fullWidth
-        name="colorPortuguese"
-        value={productInfo.color}
-        onChange={handleInputChange}
-        error={formErrors.colorPortuguese !== undefined}
-        helperText={formErrors.colorPortuguese}
-        InputProps={{
-          style: {
-            marginTop: "10px",
-          },
-        }}
-      />
+          <TextField
+            label="Cor em Português"
+            variant="outlined"
+            fullWidth
+            name="colorPortuguese"
+            value={productInfo.color}
+            onChange={handleInputChange}
+            error={formErrors.colorPortuguese !== undefined}
+            helperText={formErrors.colorPortuguese}
+            InputProps={{
+              style: {
+                marginTop: "10px",
+              },
+            }}
+          />
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
@@ -564,8 +568,8 @@ export default function BasicModal() {
         sx={{
           backgroundColor: "#14337C",
           color: "#FFFFFF",
-          marginTop: "-10rem",
-          marginBottom: "18rem",
+          marginTop: "-15rem",
+          marginBottom: "54%",
           "&:hover": {
             backgroundColor: "#14337C",
             opacity: 0.9,
@@ -585,12 +589,12 @@ export default function BasicModal() {
         <Sheet
           variant="outlined"
           sx={{
-            maxWidth: 800,
+            maxWidth: 500,
             borderRadius: "md",
             p: 3,
             boxShadow: "lg",
-            display:"flex",
-            flexWrap:"wrap"
+            display: "flex",
+            flexWrap: "wrap",
           }}
         >
           <ModalClose variant="plain" sx={{ m: 1 }} />

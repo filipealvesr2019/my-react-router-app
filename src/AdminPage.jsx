@@ -37,7 +37,6 @@ const RegisterPage = () => {
     const [activeNavItem, setActiveNavItem] = useState(parseInt(savedNavItem, 10));
   
     const handleClickOtherNavbar = (index) => {
-      console.log("Clicked on index:", index);
       setActiveNavItem(index);
       localStorage.setItem("activeNavItem", index.toString());
     };

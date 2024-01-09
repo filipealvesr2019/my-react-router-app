@@ -322,7 +322,7 @@ const Categories = () => {
   };
 
   return (
-    <div>
+    <div style={{}}>
           <ToastContainer position="top-right" autoClose={5000} />
 
       <div className={`addContainer ${categoryInputError ? "error" : ""}`}>

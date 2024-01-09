@@ -41,7 +41,6 @@ const EmployeePage = () => {
         `http://localhost:3001/api/products?page=${currentPage}&keyword=${searchTerm}`
       );
 
-      console.log("API Response:", response.data);
 
       const totalProducts = response.data.productsCount;
       const validItemsPerPage =
@@ -68,7 +67,6 @@ const EmployeePage = () => {
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  console.log("Total Pages:", totalPages);
 
   return (
     <>
@@ -82,7 +80,7 @@ const EmployeePage = () => {
         }}
       >
         <h1
-          style={{ fontSize: "1.5rem", color: "white", marginLeft: "1.5rem" }}
+          style={{ fontSize: "1.3rem", color: "white", marginLeft: "1.5rem" }}
         >
           Painel Administrativo
         </h1>

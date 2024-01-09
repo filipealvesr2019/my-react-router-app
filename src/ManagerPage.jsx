@@ -14,13 +14,13 @@ const ManagerPage = () => {
         }}
       >
         <h1
-          style={{ fontSize: "1.5rem", color: "white", marginLeft: "1.5rem" }}
+          style={{ fontSize: "1.3rem", color: "white", marginLeft: "1.5rem" }}
         >
           Painel Administrativo
         </h1>
       </div>
 
-      <div>
+      <div >
         <Products></Products>
       </div>
     </div>

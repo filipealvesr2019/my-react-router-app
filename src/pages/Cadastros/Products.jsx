@@ -75,7 +75,6 @@ const Products = () => {
         `http://localhost:3001/api/products?page=${currentPage}&keyword=${searchTerm}`
       );
 
-      console.log("API Response:", response.data);
 
       const totalProducts = response.data.productsCount;
       const validItemsPerPage =
@@ -120,7 +119,6 @@ const Products = () => {
         formData
       );
 
-      console.log("Resposta do servidor:", response);
 
       if (response.data._id) {
         console.log("Produto atualizado com sucesso");
@@ -128,7 +126,6 @@ const Products = () => {
           "http://localhost:3001/api/products"
         );
         const updatedProducts = updatedProductsResponse.data.products;
-        console.log("Updated Products:", updatedProducts); // Log the received data
         setProducts(updatedProducts);
       } else {
         console.error(
@@ -161,12 +158,10 @@ const Products = () => {
       }
     }
 
-    console.log("Finalizando handleUpdateProduct...");
   };
 
   // Restante do código...
 
-  console.log("Total Pages:", totalPages);
   const handleEditUrl = (productId, color, index, newUrl) => {
     setProducts((prevProducts) => {
       const updatedProducts = prevProducts.map((product) => {

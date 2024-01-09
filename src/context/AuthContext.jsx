@@ -4,7 +4,8 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useAtom } from 'jotai';
 import { isAdminAtom, loggedInAtom } from '../store/store';
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const AuthContext = createContext();
 
 
@@ -31,6 +32,7 @@ export const AuthProvider = ({ children }) => {
         email: email,
         password: password
       });
+     
   
       if (response.data.user.role === 'administrador') {
         setLoggedIn(true);
@@ -51,7 +53,13 @@ export const AuthProvider = ({ children }) => {
       Cookies.set('token', response.data.user.token);
       Cookies.set('role', response.data.user.role);
     } catch (error) {
-      console.error('Erro na solicitação de login', error);
+      if (error.response && error.response.status === 401) {
+        toast.error('Erro, email ou senha invalidas!', { position: toast.POSITION.TOP_CENTER });
+      } else {
+        console.error('Erro na solicitação de login', error);
+      }
+    
+      
     }
   };
   
