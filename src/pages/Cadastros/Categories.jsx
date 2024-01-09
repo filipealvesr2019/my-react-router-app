@@ -346,7 +346,7 @@ const Categories = () => {
         <thead>
           <tr>
             <th className="Categorias">Todas Categorias</th>
-            <th>Ações</th>
+            <th style={{width:"25vw"}}>Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -387,7 +387,7 @@ const Categories = () => {
               <td>
                 {editingItem !== category._id ? (
                   // Apenas exibe os botões de ação se não estiver editando
-                  <div style={{ display: "flex", gap: "1rem" }}>
+                  <div style={{ display: "flex", gap: "1rem", marginLeft:"2rem" }}>
                     <button
                       onClick={() => setEditingItem(category._id)}
                       className="buttonUpdate"
@@ -436,7 +436,7 @@ const Categories = () => {
         <thead>
           <tr>
             <th className="Categorias">Todas Subcategorias</th>
-            <th>Ações</th>
+            <th style={{width:"25vw"}}>Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -475,7 +475,7 @@ const Categories = () => {
               <td>
                 {editingItem !== sub._id ? (
                   // Apenas exibe os botões de ação se não estiver editando
-                  <div style={{ display: "flex", gap: "1rem" }}>
+                  <div style={{ display: "flex", gap: "1rem", marginLeft:"2rem"  }}>
                     <button
                       onClick={() => setEditingItem(sub._id)}
                       className="buttonUpdate"
