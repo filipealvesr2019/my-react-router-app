@@ -127,7 +127,7 @@ button {
   justify-content: center;
   align-items: center;
   width: 10dvw;
-  height: 7dvh;
+  height: 10dvh;
   font-size: 1.1rem;
   border-radius: 5px;
   gap: 0.5rem;
@@ -312,40 +312,76 @@ button {
 margin-left: 3rem;
 }
 
-
-
-
-
-
-
-
-
-@media screen and (768px <= width <= 1360px) {
-  .h1Container{
-    margin-left: .5rem;
-
-
-  }
-
-  .Model{
-    margin-top: 3rem;
-    margin-bottom: -3rem;
-  }
-    
+.deleteBtn{
+  margin-top: .2rem;
 }
 
 
-@media screen and (800px <= width <= 1280px) {
-  .h1Container{
+
+
+
+
+
+/* Para telas até 950px */
+@media screen and (max-width: 950px) {
+  .buttonUpdate {
+    height: 8dvh;
+    width: 15dvw;
+    margin-left: 2rem;
+  }
+}
+
+
+
+/* Para telas entre 800px e 1280px */
+@media screen and (max-width: 800px) {
+  .h1Container {
     margin-left: .5rem;
-
-
   }
 
-  .Model{
+  .Model {
+    margin-top: 3rem;
+    margin-bottom: -6rem;
+  }
+
+  .buttonUpdate {
+    height: 4dvh;
+    width: 15dvw;
+    margin-left: 2rem;
+  }
+
+  .deleteBtn {
+    height: 5vh;
+    width: 15dvw;
+    margin-top: .5rem;
+  }
+}
+
+/* Para telas entre 900px e 1440px */
+@media screen and (min-width: 900px) and (max-width: 1440px) {
+  .main {
+    margin-bottom: 15rem;
+  }
+
+  .buttonUpdate {
+    height: 5dvh;
+    width: 9vw;
+  }
+}
+
+
+/* Para telas entre 768px e 1360px */
+@media screen and (min-width: 768px) and (max-width: 1360px) {
+  .h1Container {
+    margin-left: .5rem;
+  }
+
+  .Model {
     margin-top: 3rem;
     margin-bottom: -3rem;
   }
-    
+  .buttonUpdate {
+    height: 7dvh;
+    width: 9dvw;
+  }
 }
-

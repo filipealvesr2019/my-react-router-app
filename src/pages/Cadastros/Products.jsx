@@ -300,7 +300,7 @@ const Products = () => {
           position: "relative"
         }}
       >
-        <main >
+        <main className="main">
           {error && <div style={{ color: "red" }}>{error}</div>}
           <div className={styles.h1Container}>
             <h1 style={{ fontSize: "1.5rem", color: "#2A337C" }}>
@@ -322,16 +322,7 @@ const Products = () => {
                     <td className={styles.td}>{product.name}</td>
                     <td>
                       <div className={styles.spanContainer}>
-                        <button
-                          className={styles.buttonUpdate}
-                          onClick={() => setFormData(product)}
-                        >
-                          <img
-                            src="https://i.ibb.co/5R1QnT7/edit-1.png"
-                            alt=""
-                          />
-                          Editar
-                        </button>
+                    
 
                         <div
                           className={`${styles.container} ${styles.modalContainer}`}
@@ -521,9 +512,24 @@ const Products = () => {
                               </div>
                             </form>
                           )}
-                        </div>
 
-                        <div style={{ marginTop: ".2rem" }}>
+                          <div style={{
+                            display:"flex",
+                            alignItems:"center",
+                            gap:"1rem"
+                          }}>
+                          <button
+                          className={styles.buttonUpdate}
+                          onClick={() => setFormData(product)}
+                        >
+                          <img
+                            src="https://i.ibb.co/5R1QnT7/edit-1.png"
+                            alt=""
+                          />
+                          Editar
+                        </button>
+                        
+                        <div className={styles.deleteBtn}>
                           {!isModalOpen && !formData._id && (
                             <>
                               <span
@@ -538,6 +544,11 @@ const Products = () => {
                             </>
                           )}
                         </div>
+
+                          </div>
+                            
+                        </div>
+
                       </div>
                     </td>
                   </tr>

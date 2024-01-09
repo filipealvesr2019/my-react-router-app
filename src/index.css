@@ -25,3 +25,16 @@ body{
     }
   
   }
+
+
+ 
+
+  @media screen and (700px <= width <= 1360px) {
+   
+  
+    .main{
+
+      margin-bottom: -1rem;
+    }
+      
+  }
