@@ -125,7 +125,7 @@ const EmployeePage = () => {
         <main style={{ position: "sticky" }}>
           {error && <div style={{ color: "red" }}>{error}</div>}
           <div className={styles.h1Container}>
-            <h1 style={{ fontSize: "1.5rem", color: "#2A337C" }}>
+            <h1 style={{ fontSize: "1.5rem", color: "#2A337C", marginLeft:"-3rem" }}>
               Cadastro de produtos
             </h1>
           </div>
@@ -135,16 +135,14 @@ const EmployeePage = () => {
               <thead>
                 <tr>
                   <th>Produtos</th>
-                  <th>Ações</th>
+            
                 </tr>
               </thead>
               <tbody>
                 {filteredProducts.map((product) => (
                   <tr className={styles.td} key={product._id}>
                     <td className={styles.td}>{product.name}</td>
-                    <td>
-                      {/* Actions removed */}
-                    </td>
+                    
                   </tr>
                 ))}
               </tbody>

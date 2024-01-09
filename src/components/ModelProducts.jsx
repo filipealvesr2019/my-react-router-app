@@ -68,7 +68,7 @@ const CreateProductForm = ({ onClose }) => {
       errors.colorPortuguese = "";
     }
     
-    if (!productInfo.imageUrl.trim()) {
+    if (!productInfo.imageUrl.length === 0) {
       errors.imageUrl = "";
     }
     // Verificar se há variações adicionadas
