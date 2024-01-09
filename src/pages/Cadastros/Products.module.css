@@ -1,8 +1,11 @@
 .Model {
-  margin-top: 2rem;
+  margin-top: 8rem;
   margin-bottom: -3rem;
-  margin-left: 52rem;
+  margin-left: 65%;
 }
+
+
+
 
 .spanContainer {
   display: flex;
@@ -309,24 +312,39 @@ margin-left: 3rem;
 }
 @media screen and (900px <= width <= 1440px) {
   .h1Container{
-    margin-left: 2rem;
+    margin-left: .5rem;
+
+
+  }
+
+  .Model{
+    margin-top: 3rem;
+    margin-bottom: 2rem;
   }
     
 }
 
-@media screen and (768px <= width <= 1360px) {
-  .h1Container{
-    margin-left: 3rem;
-  }
-    
-}
 
 @media screen and (800px <= width <= 1280px) {
   .h1Container{
-    margin-left: 4.5rem;
+    margin-left: 1.5rem;
+
+  }
+
+  .Model{
+    margin-left: 60%;
+    margin-top: 3rem;
+    margin-bottom: -5rem;
   }
     
 }
 
+
+
+
+
+.h1Container{
+  margin-top: -8rem;
+}
 
 

@@ -10,18 +10,15 @@ import Pagination from "@mui/material/Pagination";
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
-
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(4);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
-
+  const [originalColor, setOriginalColor] = useState("");
+  const [newColor, setNewColor] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
-
   const [searchTerm, setSearchTerm] = useState("");
-
   const [formData, setFormData] = useState({
     _id: null,
     name: "",
@@ -220,8 +217,7 @@ const Products = () => {
         </div>
       ));
   };
-  const [originalColor, setOriginalColor] = useState("");
-  const [newColor, setNewColor] = useState("");
+ 
 
   const handleColorChange = () => {
     // Verifica se as cores fornecidas são válidas
@@ -313,11 +309,11 @@ const Products = () => {
           </div>
 
           <div >
-            <table style={{ margin: "0 auto", width: "50vw"}}>
+            <table style={{ margin: "0 auto",  width: "50vw"}}>
               <thead>
                 <tr>
                   <th>Produtos</th>
-                  <th>Ações</th>
+                  <th style={{ width: "25vw" }}>Ações</th>
                 </tr>
               </thead>
               <tbody>
