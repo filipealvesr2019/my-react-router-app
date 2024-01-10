@@ -175,13 +175,19 @@ const Products = () => {
           return {
             ...product,
             variations: updatedVariations,
+            
           };
+
         }
         return product;
+
       });
 
       return updatedProducts;
+
     });
+    console.log(updatedProducts)
+
   };
 
   const getImagesByColor = (product, color) => {
