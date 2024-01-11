@@ -178,7 +178,7 @@ const CreateProductForm = ({ onClose }) => {
       setIsColorAdded(true);
 
       // Display success message
-      toast.success("Color and image URL added successfully!", {
+      toast.success("Cor e iamgem adicionadas com sucesso!", {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 2000,
       });
