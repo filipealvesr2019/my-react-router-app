@@ -40,7 +40,7 @@ const Products = () => {
 
   useEffect(() => {
     getProducts();
-  }, [currentPage]);
+  }, [currentPage, searchTerm]);
 
   const handleDeleteProduct = async (productId) => {
     try {
@@ -71,17 +71,17 @@ const Products = () => {
         `http://localhost:3001/api/products?page=${currentPage}&keyword=${searchTerm}`
       );
 
-      const totalProducts = response.data.productsCount;
-      const validItemsPerPage =
-        Number.isFinite(itemsPerPage) && itemsPerPage > 0;
-
-      if (Number.isFinite(totalProducts) && validItemsPerPage) {
-        setTotalPages(Math.ceil(totalProducts / itemsPerPage));
-      } else {
-        console.error("TotalProducts or ItemsPerPage is not a valid number");
-      }
-
+      const totalProducts = response.data.totalPages * itemsPerPage;
+      setTotalPages(response.data.totalPages);
+      
       setProducts(response.data.products);
+      
+      if (totalProducts < currentPage * itemsPerPage) {
+        // If the current page has no items, go back one page
+        setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+      }
+      
+
     } catch (error) {
       console.error("Erro ao obter produtos", error);
       setError("Erro ao obter produtos. Por favor, tente novamente.");
@@ -93,8 +93,8 @@ const Products = () => {
   };
 
   const filteredProducts = products.filter((product) =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  product.name.toLowerCase().includes(searchTerm.toLowerCase())
+);
 
   const handleFormChange = (event) => {
     const { name, value } = event.target;
