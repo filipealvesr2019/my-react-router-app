@@ -373,7 +373,7 @@ margin-left: 3rem;
 
   .Model {
     margin-top: 3rem;
-    margin-bottom: -4rem;
+    margin-bottom:-1rem;
   }
 
   .buttonUpdate {
@@ -392,7 +392,7 @@ margin-left: 3rem;
 @media screen and ( 800px <= width <= 1024px){
   .Model {
     margin-top: 3rem;
-    margin-bottom: 1rem;
+    margin-bottom: 10rem;
   }
 }
 
