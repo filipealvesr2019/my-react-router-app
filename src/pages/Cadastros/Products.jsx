@@ -303,7 +303,7 @@ const Products = () => {
           justifyContent: "center",
           alignItems: "center",
           height: "55vh",
-          position: "relative",
+          position: "sticky",
           width: "100%",
           borderCollapse: "collapse"
         }}

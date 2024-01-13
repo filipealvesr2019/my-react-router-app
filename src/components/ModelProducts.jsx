@@ -569,7 +569,7 @@ export default function BasicModal() {
           backgroundColor: "#14337C",
           color: "#FFFFFF",
           marginTop: "-15rem",
-          marginBottom: "54%",
+          marginBottom: "58%",
           "&:hover": {
             backgroundColor: "#14337C",
             opacity: 0.9,

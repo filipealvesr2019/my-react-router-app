@@ -409,3 +409,7 @@ margin-left: 3rem;
 .tableContainer{
   width: 50vw;
 }
+
+.main{
+  position: relative;
+}
