@@ -539,7 +539,7 @@ const Products = () => {
                                       
                                       ))}
                                   </div>
-
+                                  <div style={{display:"flex", flexDirection:"column", position:"absolute", left:"80%", top:"30%"}}>
                                   <label>
                                     Novo Nome da Cor:
                                     <input
@@ -549,6 +549,7 @@ const Products = () => {
                                       onChange={(e) =>
                                         setNewColorName(e.target.value)
                                       }
+                                      style={{width:"10vw", height:"5vh"}}
                                     />
                                   </label>
                                   <button
@@ -559,6 +560,7 @@ const Products = () => {
                                   >
                                     Adicionar Nova Cor
                                   </button>
+                                  </div>
                                   <br></br>
                                   <button
                                     type="submit"
