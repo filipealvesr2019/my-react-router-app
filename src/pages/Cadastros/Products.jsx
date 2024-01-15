@@ -580,11 +580,18 @@ const Products = () => {
                                       onChange={(e) =>
                                         setNewColorName(e.target.value)
                                       }
-                                      style={{width:"10vw", height:"5vh"}}
+                                      style={{width:"15vw", height:"5vh"}}
                                     />
                                   </label>
                                   <button
-                                    style={{ width: "10vw", height: "5vh" }}
+                                    style={{ 
+                                    width: "11vw", 
+                                    height: "5vh", 
+                                    backgroundColor: "#14337c",
+                                    color: '#fefefe',
+                                    border: "medium",
+                                    padding:".5rem",
+                                    borderRadius:"5px",}}
                                     onClick={() =>
                                       handleAddNewColor(product._id)
                                     }
