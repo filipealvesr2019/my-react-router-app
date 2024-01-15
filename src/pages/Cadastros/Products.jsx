@@ -457,8 +457,7 @@ const Products = () => {
                                   </label>
                                   <div
                                     style={{
-                                      display: "flex",
-                                      marginTop: "-10rem",
+                                      display: "flex"
                                     }}
                                   >
                                     <label>
@@ -482,17 +481,19 @@ const Products = () => {
                                           </option>
                                         ))}
                                       </select>
-                                      <button
-                                        onClick={() =>
-                                          handleDeleteColor(
-                                            product._id,
-                                            selectedColor
-                                          )
-                                        }
-                                      >
-                                        Excluir Cor
-                                      </button>
                                     </label>
+                                    {/* Botão para excluir cor */}
+                                    <button
+                                      onClick={() =>
+                                        handleDeleteColor(
+                                          product._id,
+                                          selectedColor
+                                        )
+                                      }
+                                      style={{width:"11vw", height:"5vh"}}
+                                    >
+                                      Excluir Cor
+                                    </button>
                                     {product.variations
                                       .filter(
                                         (variation) =>
