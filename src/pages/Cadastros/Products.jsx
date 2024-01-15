@@ -437,6 +437,7 @@ const Products = () => {
                                       onChange={handleFormChange}
                                     />
                                   </label>
+                                  <div style={{display:"flex", flexDirection:"column", marginTop:"-5rem", }}>
                                   <label>
                                     Categoria:
                                     <input
@@ -455,10 +456,10 @@ const Products = () => {
                                       onChange={handleFormChange}
                                     />
                                   </label>
+                                  </div>
+                                 
                                   <div
-                                    style={{
-                                      display: "flex"
-                                    }}
+                                   style={{ display: "flex", flexDirection: "column", right:"20%",top:"20%", position:"absolute" }}
                                   >
                                     <label>
                                       Selecione a cor:
@@ -490,7 +491,7 @@ const Products = () => {
                                           selectedColor
                                         )
                                       }
-                                      style={{width:"11vw", height:"5vh"}}
+                                      style={{width:"5vw", height:"3vh"}}
                                     >
                                       Excluir Cor
                                     </button>
