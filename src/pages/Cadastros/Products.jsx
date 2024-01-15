@@ -167,12 +167,11 @@ const Products = () => {
                 urls: variation.urls.map((url, i) =>
                   i === index ? newUrl : url
                 ),
-                color: newColorName || color, // Use o novo nome da cor, se fornecido
               };
             }
             return variation;
           });
-
+  
           return {
             ...product,
             variations: updatedVariations,
@@ -180,10 +179,11 @@ const Products = () => {
         }
         return product;
       });
-
+  
       return updatedProducts;
     });
   };
+  
 
   const getImagesByColor = (product, color) => {
     const updatedProduct =
@@ -243,6 +243,27 @@ const Products = () => {
     }
   };
 
+
+
+  // Função para excluir uma URL de uma cor específica de um produto
+  const handleDeleteUrl = async (productId, color, urlId) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:3001/api/product/${productId}/color/${color}/url/${urlId}`
+      );
+  
+      if (response.data.success) {
+        console.log("URL excluída com sucesso");
+        // Atualize o estado ou realize outras ações necessárias
+      } else {
+        console.error("Erro ao excluir URL:", response.data.message);
+      }
+    } catch (error) {
+      console.error("Erro ao excluir URL:", error);
+    }
+  };
+  
+  
   
   return (
     <div className={styles.container}>
@@ -433,15 +454,41 @@ const Products = () => {
                                         ))}
                                       </select>
                                     </label>
+                                    {product.variations
+  .filter((variation) => variation.color === selectedColor)
+  .map((variation) => (
+    <div key={variation._id}>
+      <p>Cor: {variation.color}</p>
+      <ul>
+        {variation.urls.map((url, index) => (
+          <li key={index}>
+            <img
+              src={url}
+              alt={`Thumbnail ${index + 1}`}
+              style={{ maxWidth: "100px", maxHeight: "100px" }}
+            />
+            <label>
+              Editar URL:
+              <input
+                type="text"
+                value={url}
+                onChange={(e) =>
+                  handleEditUrl(product._id, selectedColor, index, e.target.value)
+                }
+              />
+            </label>
+            <button onClick={() => handleDeleteUrl(product._id, selectedColor, index)}>
+  Excluir URL
+</button>
 
-                                    {selectedColor && (
-                                      <div>
-                                        {getImagesByColor(
-                                          product,
-                                          selectedColor
-                                        )}
-                                      </div>
-                                    )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  ))}
+
+
+
                                   </div>
                                   <label>
                                     Novo Nome da Cor:
