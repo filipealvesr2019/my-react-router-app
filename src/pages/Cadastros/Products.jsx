@@ -15,8 +15,7 @@ const Products = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
-  const [originalColor, setOriginalColor] = useState("");
-  const [newColor, setNewColor] = useState("");
+  const [newColorName, setNewColorName] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [formData, setFormData] = useState({
@@ -73,15 +72,13 @@ const Products = () => {
 
       const totalProducts = response.data.totalPages * itemsPerPage;
       setTotalPages(response.data.totalPages);
-      
+
       setProducts(response.data.products);
-      
+
       if (totalProducts < currentPage * itemsPerPage) {
         // If the current page has no items, go back one page
         setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
       }
-      
-
     } catch (error) {
       console.error("Erro ao obter produtos", error);
       setError("Erro ao obter produtos. Por favor, tente novamente.");
@@ -93,8 +90,8 @@ const Products = () => {
   };
 
   const filteredProducts = products.filter((product) =>
-  product.name.toLowerCase().includes(searchTerm.toLowerCase())
-);
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const handleFormChange = (event) => {
     const { name, value } = event.target;
@@ -111,7 +108,10 @@ const Products = () => {
     try {
       const response = await axios.put(
         `http://localhost:3001/api/update/product/${productId}`,
-        formData
+        {
+          ...formData,
+          newColorName: newColorName, // Adicione o novo nome da cor aos dados do formulário
+        }
       );
 
       if (response.data._id) {
@@ -146,6 +146,7 @@ const Products = () => {
           },
         ],
       });
+      setNewColorName("");
     } catch (error) {
       console.error("Erro ao atualizar produto. Detalhes do erro:", error);
       if (error.response) {
@@ -155,7 +156,6 @@ const Products = () => {
   };
 
   // Restante do código...
-
   const handleEditUrl = (productId, color, index, newUrl) => {
     setProducts((prevProducts) => {
       const updatedProducts = prevProducts.map((product) => {
@@ -167,6 +167,7 @@ const Products = () => {
                 urls: variation.urls.map((url, i) =>
                   i === index ? newUrl : url
                 ),
+                color: newColorName || color, // Use o novo nome da cor, se fornecido
               };
             }
             return variation;
@@ -175,19 +176,13 @@ const Products = () => {
           return {
             ...product,
             variations: updatedVariations,
-            
           };
-
         }
         return product;
-
       });
 
       return updatedProducts;
-
     });
-    console.log(updatedProducts)
-
   };
 
   const getImagesByColor = (product, color) => {
@@ -222,48 +217,6 @@ const Products = () => {
           </ul>
         </div>
       ));
-  };
- 
-
-  const handleColorChange = () => {
-    // Verifica se as cores fornecidas são válidas
-    if (originalColor.trim() !== "" && newColor.trim() !== "") {
-      console.log("Original Color:", originalColor);
-      console.log("New Color:", newColor);
-
-      setProducts((prevProducts) => {
-        // Mapeia todos os produtos e atualiza as variações da cor original para a nova cor
-        const updatedProducts = prevProducts.map((product) => {
-          const updatedVariations = product.variations.map((variation) => {
-            // Comparação de cores insensível a maiúsculas e minúsculas
-            if (variation.color.toLowerCase() === originalColor.toLowerCase()) {
-              return {
-                ...variation,
-                color: newColor,
-              };
-            }
-            return variation;
-          });
-
-          return {
-            ...product,
-            variations: updatedVariations,
-          };
-        });
-
-        return updatedProducts;
-      });
-
-      // Limpa os campos de cor original e nova cor após a mudança
-      setOriginalColor("");
-      setNewColor("");
-
-      console.log(
-        `Cor de todas as URLs de ${originalColor} alterada para: ${newColor}`
-      );
-    } else {
-      console.error("As cores originais e novas não podem estar vazias.");
-    }
   };
 
   return (
@@ -305,7 +258,7 @@ const Products = () => {
           height: "55vh",
           position: "sticky",
           width: "100%",
-          borderCollapse: "collapse"
+          borderCollapse: "collapse",
         }}
       >
         <main className="main">
@@ -316,7 +269,7 @@ const Products = () => {
             </h1>
           </div>
 
-          <div >
+          <div>
             <table className={styles.tableContainer}>
               <thead>
                 <tr>
@@ -330,8 +283,6 @@ const Products = () => {
                     <td className={styles.td}>{product.name}</td>
                     <td>
                       <div className={styles.spanContainer}>
-                    
-
                         <div
                           className={`${styles.container} ${styles.modalContainer}`}
                         >
@@ -467,7 +418,18 @@ const Products = () => {
                                       </div>
                                     )}
                                   </div>
-                                 
+                                  <label>
+                                    Novo Nome da Cor:
+                                    <input
+                                      type="text"
+                                      name="newColorName"
+                                      value={newColorName}
+                                      onChange={(e) =>
+                                        setNewColorName(e.target.value)
+                                      }
+                                    />
+                                  </label>
+
                                   <br></br>
                                   <button
                                     type="submit"
@@ -480,42 +442,43 @@ const Products = () => {
                             </form>
                           )}
 
-                          <div style={{
-                            display:"flex",
-                            alignItems:"center",
-                            gap:"1rem"
-                          }}>
-                          <button
-                          className={styles.buttonUpdate}
-                          onClick={() => setFormData(product)}
-                        >
-                          <img
-                            src="https://i.ibb.co/5R1QnT7/edit-1.png"
-                            alt=""
-                          />
-                          Editar
-                        </button>
-                        
-                        <div className={styles.deleteBtn}>
-                          {!isModalOpen && !formData._id && (
-                            <>
-                              <span
-                                onClick={() => handleDeleteProduct(product._id)}
-                                className={styles.span}
-                              ></span>
-                              <DeleteModal
-                                onDelete={() =>
-                                  handleDeleteProduct(product._id)
-                                }
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "1rem",
+                            }}
+                          >
+                            <button
+                              className={styles.buttonUpdate}
+                              onClick={() => setFormData(product)}
+                            >
+                              <img
+                                src="https://i.ibb.co/5R1QnT7/edit-1.png"
+                                alt=""
                               />
-                            </>
-                          )}
-                        </div>
+                              Editar
+                            </button>
 
+                            <div className={styles.deleteBtn}>
+                              {!isModalOpen && !formData._id && (
+                                <>
+                                  <span
+                                    onClick={() =>
+                                      handleDeleteProduct(product._id)
+                                    }
+                                    className={styles.span}
+                                  ></span>
+                                  <DeleteModal
+                                    onDelete={() =>
+                                      handleDeleteProduct(product._id)
+                                    }
+                                  />
+                                </>
+                              )}
+                            </div>
                           </div>
-                            
                         </div>
-
                       </div>
                     </td>
                   </tr>
@@ -540,7 +503,7 @@ const Products = () => {
                     marginBottom: "1rem",
                     position: "sticky",
                     bottom: "0",
-                    zIndex: "1"
+                    zIndex: "1",
                   }}
                 />
               )}
