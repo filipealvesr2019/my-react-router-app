@@ -18,6 +18,7 @@ const Products = () => {
   const [newColorName, setNewColorName] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+
   const [formData, setFormData] = useState({
     _id: null,
     name: "",
@@ -155,31 +156,35 @@ const Products = () => {
     }
   };
 
-  // Restante do código...
   const handleEditUrl = (productId, color, index, newUrl) => {
     setProducts((prevProducts) => {
-      return prevProducts.map((product) => {
+      const updatedProducts = prevProducts.map((product) => {
         if (product._id === productId) {
+          const updatedVariations = product.variations.map((variation) => {
+            if (variation.color === color) {
+              return {
+                ...variation,
+                urls: variation.urls.map((url, i) =>
+                  i === index ? newUrl : url
+                ),
+                color: newColorName || color,
+              };
+            }
+            return variation;
+          });
+
           return {
             ...product,
-            variations: product.variations.map((variation) => {
-              if (variation.color === color) {
-                return {
-                  ...variation,
-                  urls: variation.urls.map((url, i) =>
-                    i === index ? newUrl : url
-                  ),
-                };
-              }
-              return variation;
-            }),
+            variations: updatedVariations,
           };
         }
         return product;
       });
+
+      return updatedProducts;
     });
   };
-  
+
   const getImagesByColor = (product, color) => {
     const updatedProduct =
       products.find((p) => p._id === product._id) || product;
@@ -214,16 +219,13 @@ const Products = () => {
       ));
   };
 
-
-
-
   const handleAddUrl = async (productId, color, newUrl) => {
     try {
       const response = await axios.post(
         `http://localhost:3001/api/product/${productId}/color/${color}/url`,
         { url: newUrl }
       );
-  
+
       if (response.data.success) {
         console.log("URL adicionada com sucesso");
         // Atualize o estado ou recarregue os produtos, se necessário
@@ -237,14 +239,29 @@ const Products = () => {
       console.error("Erro ao adicionar URL. Detalhes do erro:", error);
     }
   };
-  
+
+  const addUrlsToColor = async () => {
+    try {
+      // Certifique-se de ter os estados corretos aqui (productId, selectedColor, newUrls)
+      const response = await axios.post(
+        `/api/product/${productId}/add-color/${selectedColor}/add-urls`,
+        { urls: newUrls }
+      );
+
+      console.log("URLs adicionadas com sucesso:", response.data);
+      // Adicione qualquer lógica adicional que você deseja executar após o sucesso aqui
+    } catch (error) {
+      console.error("Erro ao adicionar URLs à cor:", error);
+      // Adicione qualquer lógica de tratamento de erro aqui
+    }
+  };
 
   const handleDeleteColor = async (productId, color) => {
     try {
       const response = await axios.delete(
         `http://localhost:3001/api/product/${productId}/color/${color}`
       );
-  
+
       if (response.data.success) {
         console.log("Cor excluída com sucesso");
         // Atualize o estado ou recarregue os produtos, se necessário
@@ -264,10 +281,10 @@ const Products = () => {
       const response = await axios.post(
         `http://localhost:3001/api/product/${productId}/add-color`,
         {
-          color: newColorName
+          color: newColorName,
         }
       );
-  
+
       if (response.data.success) {
         console.log("Nova cor adicionada com sucesso");
       } else {
@@ -277,8 +294,7 @@ const Products = () => {
       console.error("Erro ao adicionar nova cor:", error);
     }
   };
-  
-  
+
   return (
     <div className={styles.container}>
       <div
@@ -445,43 +461,26 @@ const Products = () => {
                                       onChange={handleFormChange}
                                     />
                                   </label>
+
                                   <label>
-  Selecione a cor:
-  <select
-    value={selectedColor}
-    onChange={(e) => setSelectedColor(e.target.value)}
-  >
-    <option value="">Escolher a Cor</option>
-    {Array.from(
-      new Set(
-        product.variations.map((variation) => variation.color)
-      )
-    ).map((color) => (
-      <option key={color} value={color}>
-        {color}
-      </option>
-    ))}
-  </select>
-</label>
-
-{selectedColor && (
-  <div>
-    {getImagesByColor(product, selectedColor)}
-  </div>
-)}
-
-<button onClick={() => handleAddNewColor(product._id)}>Adicionar Nova Cor</button>
-
-<label>
-  Novo Nome da Cor:
-  <input
-    type="text"
-    name="newColorName"
-    value={newColorName}
-    onChange={(e) => setNewColorName(e.target.value)}
-  />
-</label>
-
+                                    Novo Nome da Cor:
+                                    <input
+                                      type="text"
+                                      name="newColorName"
+                                      value={newColorName}
+                                      onChange={(e) =>
+                                        setNewColorName(e.target.value)
+                                      }
+                                    />
+                                  </label>
+                                  <button
+                                    style={{ width: "10vw", height: "5vh" }}
+                                    onClick={() =>
+                                      handleAddNewColor(product._id)
+                                    }
+                                  >
+                                    Adicionar Nova Cor
+                                  </button>
 
                                   <br></br>
                                   <button
