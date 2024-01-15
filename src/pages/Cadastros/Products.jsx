@@ -533,27 +533,7 @@ const Products = () => {
                                               />
                                                <div style={{display:"flex",flexDirection:"column"}}>
                                                 
-                                              <label>
-                                                <input
-                                                  type="text"
-                                                  value={novaUrl}
-                                                  onChange={(e) => setNovaUrl(e.target.value)}
-                                                  style={{width:"8vw", height:"5vh"}}
-                                                  placeholder="Nova Url..."
-                                                />
-                                              </label>
-                                              <button onClick={() => handleAddNewUrl(product._id)} style={{
-                                              
-                                                
-                                                backgroundColor: "#14337c",
-                                                color: '#fefefe',
-                                                border: "medium",
-                                                padding:".5rem",
-                                                borderRadius:"5px"
-
-                                                }}>
-                                                Adicionar Nova URL
-                                              </button>
+                                            
                                       
                                               <button
                                                 onClick={() =>
@@ -578,6 +558,30 @@ const Products = () => {
                                       
                                       ))}
                                   </div>
+                                  <div style={{ position:"absolute", right:"25%", top:"35%"}}>
+<label>
+                                                <input
+                                                  type="text"
+                                                  value={novaUrl}
+                                                  onChange={(e) => setNovaUrl(e.target.value)}
+                                                  style={{width:"8vw", height:"5vh"}}
+                                                  placeholder="Nova Url..."
+                                                />
+                                              </label>
+                                              <button onClick={() => handleAddNewUrl(product._id)} style={{
+                                              
+                                                
+                                                backgroundColor: "#14337c",
+                                                color: '#fefefe',
+                                                border: "medium",
+                                                padding:".5rem",
+                                                borderRadius:"5px"
+
+                                                }}>
+                                                Adicionar Nova URL
+                                              </button>
+                                  </div>
+                                  
                                   <div style={{display:"flex", flexDirection:"column", position:"absolute", left:"80%", top:"30%"}}>
                                   <label>
                                     Novo Nome da Cor:
