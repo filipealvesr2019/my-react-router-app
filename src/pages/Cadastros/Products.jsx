@@ -501,59 +501,42 @@ const Products = () => {
                                       )
                                       .map((variation) => (
                                         <div key={variation._id}>
-                                          <p>Cor: {variation.color}</p>
-                                          <ul>
-                                            {variation.urls.map(
-                                              (url, index) => (
-                                                <li key={index}>
-                                                  <img
-                                                    src={url}
-                                                    alt={`Thumbnail ${
-                                                      index + 1
-                                                    }`}
-                                                    style={{
-                                                      maxWidth: "100px",
-                                                      maxHeight: "100px",
-                                                    }}
-                                                  />
-                                                  <label>
-                                                    Nova URL:
-                                                    <input
-                                                      type="text"
-                                                      value={novaUrl}
-                                                      onChange={(e) =>
-                                                        setNovaUrl(
-                                                          e.target.value
-                                                        )
-                                                      }
-                                                    />
-                                                  </label>
-                                                  <button
-                                                    onClick={() =>
-                                                      handleAddNewUrl(
-                                                        product._id
-                                                      )
-                                                    }
-                                                  >
-                                                    Adicionar Nova URL
-                                                  </button>
-
-                                                  <button
-                                                    onClick={() =>
-                                                      handleDeleteUrl(
-                                                        product._id,
-                                                        selectedColor,
-                                                        index
-                                                      )
-                                                    }
-                                                  >
-                                                    Excluir URL
-                                                  </button>
-                                                </li>
-                                              )
-                                            )}
-                                          </ul>
-                                        </div>
+                                        <p>Cor: {variation.color}</p>
+                                        <ul style={{ listStyle: 'none', display: 'flex', gap: '10px' }}>
+                                          {variation.urls.map((url, index) => (
+                                            <li key={index} style={{ display: 'inline-block' }}>
+                                              <img
+                                                src={url}
+                                                alt={`Thumbnail ${index + 1}`}
+                                                style={{
+                                                  maxWidth: '100px',
+                                                  maxHeight: '100px',
+                                                }}
+                                              />
+                                              <label>
+                                                Nova URL:
+                                                <input
+                                                  type="text"
+                                                  value={novaUrl}
+                                                  onChange={(e) => setNovaUrl(e.target.value)}
+                                                />
+                                              </label>
+                                              <button onClick={() => handleAddNewUrl(product._id)}>
+                                                Adicionar Nova URL
+                                              </button>
+                                      
+                                              <button
+                                                onClick={() =>
+                                                  handleDeleteUrl(product._id, selectedColor, index)
+                                                }
+                                              >
+                                                Excluir URL
+                                              </button>
+                                            </li>
+                                          ))}
+                                        </ul>
+                                      </div>
+                                      
                                       ))}
                                   </div>
 
