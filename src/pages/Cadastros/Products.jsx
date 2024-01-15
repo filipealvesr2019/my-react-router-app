@@ -459,8 +459,8 @@ const Products = () => {
                                   </div>
                                  
                                   <div
-                                   style={{ display: "flex", flexDirection: "column", left:"25%",top:"25%", position:"absolute" }}
-                                  >
+                                   style={{ display: "flex", flexDirection: "column", left:"25%",top:"22%", position:"absolute" }}
+                                  > <div style={{display:"inline-block"}}>
                                     <label>
                                       Selecione a cor:
                                       <select
@@ -491,10 +491,20 @@ const Products = () => {
                                           selectedColor
                                         )
                                       }
-                                      style={{width:"5vw", height:"3vh"}}
+                                      style={{
+                                      width:"8vw", 
+                                      height:"5vh",
+                                      backgroundColor: "#14337c",
+                                      color: '#fefefe',
+                                      border: "medium",
+                                      padding:".5rem",
+                                      borderRadius:"5px",
+                                      
+                                    }}
                                     >
                                       Excluir Cor
                                     </button>
+                                    </div>
                                     {product.variations
                                       .filter(
                                         (variation) =>
