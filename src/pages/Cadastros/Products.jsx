@@ -467,48 +467,7 @@ const Products = () => {
                                       </div>
                                     )}
                                   </div>
-                                  <div>
-                                    <label>
-                                      Cor Original:
-                                      <select
-                                        value={originalColor}
-                                        onChange={(e) =>
-                                          setOriginalColor(e.target.value)
-                                        }
-                                      >
-                                        <option value="">
-                                          Escolher a Cor Original
-                                        </option>
-                                        {Array.from(
-                                          new Set(
-                                            products.flatMap((product) =>
-                                              product.variations.map(
-                                                (variation) =>
-                                                  variation.color.toLowerCase()
-                                              )
-                                            )
-                                          )
-                                        ).map((color) => (
-                                          <option key={color} value={color}>
-                                            {color}
-                                          </option>
-                                        ))}
-                                      </select>
-                                    </label>
-                                    <label>
-                                      Nova Cor:
-                                      <input
-                                        type="text"
-                                        value={newColor}
-                                        onChange={(e) =>
-                                          setNewColor(e.target.value)
-                                        }
-                                      />
-                                    </label>
-                                    <button onClick={handleColorChange}>
-                                      Mudar Cor
-                                    </button>
-                                  </div>{" "}
+                                 
                                   <br></br>
                                   <button
                                     type="submit"
