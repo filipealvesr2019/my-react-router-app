@@ -6,6 +6,7 @@ import ModelProducts from "../../components/ModelProducts";
 import DeleteModal from "../../components/DeleteModal";
 import CloseIcon from "@mui/icons-material/Close";
 import Pagination from "@mui/material/Pagination";
+import AlertDialogModal from "./AlertDialogModal";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -289,13 +290,6 @@ const Products = () => {
     }
   };
 
-
-
-
-
-
-  
-
   return (
     <div className={styles.container}>
       <div
@@ -444,73 +438,88 @@ const Products = () => {
                                       onChange={handleFormChange}
                                     />
                                   </label>
-                                  <div style={{display:"flex", flexDirection:"column", marginTop:"-5rem", }}>
-                                  <label>
-                                    Categoria:
-                                    <input
-                                      type="text"
-                                      name="category"
-                                      value={formData.category}
-                                      onChange={handleFormChange}
-                                    />
-                                  </label>
-                                  <label>
-                                    Subcategoria:
-                                    <input
-                                      type="text"
-                                      name="subcategory"
-                                      value={formData.subcategory}
-                                      onChange={handleFormChange}
-                                    />
-                                  </label>
-                                  </div>
-                                 
                                   <div
-                                   style={{ display: "flex", flexDirection: "column", left:"25%",top:"22%", position:"absolute" }}
-                                  > <div style={{display:"inline-block"}}>
-                                    <label>
-                                      Selecione a cor:
-                                      <select
-                                        value={selectedColor}
-                                        onChange={(e) =>
-                                          setSelectedColor(e.target.value)
-                                        }
-                                      >
-                                        <option value="">Escolher a Cor</option>
-                                        {Array.from(
-                                          new Set(
-                                            product.variations.map(
-                                              (variation) => variation.color
-                                            )
-                                          )
-                                        ).map((color) => (
-                                          <option key={color} value={color}>
-                                            {color}
-                                          </option>
-                                        ))}
-                                      </select>
-                                    </label>
-                                    {/* Botão para excluir cor */}
-                                    <button
-                                      onClick={() =>
-                                        handleDeleteColor(
-                                          product._id,
-                                          selectedColor
-                                        )
-                                      }
-                                      style={{
-                                      width:"8vw", 
-                                      height:"5vh",
-                                      backgroundColor: "#14337c",
-                                      color: '#fefefe',
-                                      border: "medium",
-                                      padding:".5rem",
-                                      borderRadius:"5px",
-                                      
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "column",
+                                      marginTop: "-5rem",
                                     }}
-                                    >
-                                      Excluir Cor
-                                    </button>
+                                  >
+                                    <label>
+                                      Categoria:
+                                      <input
+                                        type="text"
+                                        name="category"
+                                        value={formData.category}
+                                        onChange={handleFormChange}
+                                      />
+                                    </label>
+                                    <label>
+                                      Subcategoria:
+                                      <input
+                                        type="text"
+                                        name="subcategory"
+                                        value={formData.subcategory}
+                                        onChange={handleFormChange}
+                                      />
+                                    </label>
+                                  </div>
+
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "column",
+                                      left: "25%",
+                                      top: "22%",
+                                      position: "absolute",
+                                    }}
+                                  >
+                                    {" "}
+                                    <div style={{ display: "inline-block" }}>
+                                      <label>
+                                        Selecione a cor:
+                                        <select
+                                          value={selectedColor}
+                                          onChange={(e) =>
+                                            setSelectedColor(e.target.value)
+                                          }
+                                        >
+                                          <option value="">
+                                            Escolher a Cor
+                                          </option>
+                                          {Array.from(
+                                            new Set(
+                                              product.variations.map(
+                                                (variation) => variation.color
+                                              )
+                                            )
+                                          ).map((color) => (
+                                            <option key={color} value={color}>
+                                              {color}
+                                            </option>
+                                          ))}
+                                        </select>
+                                      </label>
+                                      {/* Botão para excluir cor */}
+                                      <button
+                                        onClick={() =>
+                                          handleDeleteColor(
+                                            product._id,
+                                            selectedColor
+                                          )
+                                        }
+                                        style={{
+                                          width: "8vw",
+                                          height: "5vh",
+                                          backgroundColor: "#14337c",
+                                          color: "#fefefe",
+                                          border: "medium",
+                                          padding: ".5rem",
+                                          borderRadius: "5px",
+                                        }}
+                                      >
+                                        Excluir Cor
+                                      </button>
                                     </div>
                                     {product.variations
                                       .filter(
@@ -519,97 +528,140 @@ const Products = () => {
                                       )
                                       .map((variation) => (
                                         <div key={variation._id}>
-                                        <p>Cor: {variation.color}</p>
-                                        <ul style={{ listStyle: 'none', display: 'flex', gap: '10px' }}>
-                                          {variation.urls.map((url, index) => (
-                                            <li key={index} style={{ display: 'inline-block' }}>
-                                              <img
-                                                src={url}
-                                                alt={`Thumbnail ${index + 1}`}
-                                                style={{
-                                                  maxWidth: '100px',
-                                                  maxHeight: '100px',
-                                                }}
-                                              />
-                                               <div style={{display:"flex",flexDirection:"column"}}>
-                                                
-                                            
-                                      
-                                              <button
-                                                onClick={() =>
-                                                  handleDeleteUrl(product._id, selectedColor, index)
-                                                }
-                                                style={{  
-                                                  width:"15vh",
-                                                backgroundColor: "#14337c",
-                                                color: '#fefefe',
-                                                border: "medium",
-                                                padding:".5rem",
-                                                borderRadius:"5px"}}
-                                              >
-                                                Excluir URL
-                                              </button>
-                                              
-                                              </div>
-                                            </li>
-                                          ))}
-                                        </ul>
-                                      </div>
-                                      
+                                          <p>Cor: {variation.color}</p>
+                                          <ul
+                                            style={{
+                                              listStyle: "none",
+                                              display: "flex",
+                                              gap: "10px",
+                                            }}
+                                          >
+                                            {variation.urls.map(
+                                              (url, index) => (
+                                                <li
+                                                  key={index}
+                                                  style={{
+                                                    display: "inline-block",
+                                                  }}
+                                                >
+                                                  <img
+                                                    src={url}
+                                                    alt={`Thumbnail ${
+                                                      index + 1
+                                                    }`}
+                                                    style={{
+                                                      maxWidth: "100px",
+                                                      maxHeight: "100px",
+                                                    }}
+                                                  />
+                                                  <div
+                                                    style={{
+                                                      display: "flex",
+                                                      flexDirection: "column",
+                                                    }}
+                                                  >
+                                                    <button
+                                                      onClick={() =>
+                                                        handleDeleteUrl(
+                                                          product._id,
+                                                          selectedColor,
+                                                          index
+                                                        )
+                                                      }
+                                                      style={{
+                                                        width: "15vh",
+                                                        backgroundColor:
+                                                          "#14337c",
+                                                        color: "#fefefe",
+                                                        border: "medium",
+                                                        padding: ".5rem",
+                                                        borderRadius: "5px",
+                                                      }}
+                                                    >
+                                                      Excluir URL
+                                                    </button>
+
+
+                                                    
+                                                  </div>
+                                                </li>
+                                              )
+                                            )}
+                                          </ul>
+                                        </div>
                                       ))}
                                   </div>
-                                  <div style={{ position:"absolute", right:"25%", top:"35%"}}>
-<label>
-                                                <input
-                                                  type="text"
-                                                  value={novaUrl}
-                                                  onChange={(e) => setNovaUrl(e.target.value)}
-                                                  style={{width:"8vw", height:"5vh"}}
-                                                  placeholder="Nova Url..."
-                                                />
-                                              </label>
-                                              <button onClick={() => handleAddNewUrl(product._id)} style={{
-                                              
-                                                
-                                                backgroundColor: "#14337c",
-                                                color: '#fefefe',
-                                                border: "medium",
-                                                padding:".5rem",
-                                                borderRadius:"5px"
-
-                                                }}>
-                                                Adicionar Nova URL
-                                              </button>
-                                  </div>
-                                  
-                                  <div style={{display:"flex", flexDirection:"column", position:"absolute", left:"80%", top:"30%"}}>
-                                  <label>
-                                    Novo Nome da Cor:
-                                    <input
-                                      type="text"
-                                      name="newColorName"
-                                      value={newColorName}
-                                      onChange={(e) =>
-                                        setNewColorName(e.target.value)
-                                      }
-                                      style={{width:"15vw", height:"5vh"}}
-                                    />
-                                  </label>
-                                  <button
-                                    style={{ 
-                                    width: "11vw", 
-                                    height: "5vh", 
-                                    backgroundColor: "#14337c",
-                                    color: '#fefefe',
-                                    border: "medium",
-                                    padding:".5rem",
-                                    borderRadius:"5px",}}
-                                    onClick={() =>
-                                      handleAddNewColor(product._id)
-                                    }
+                                  <div
+                                    style={{
+                                      position: "absolute",
+                                      right: "25%",
+                                      top: "35%",
+                                    }}
                                   >
-                                    Adicionar Nova Cor
-                                  </button>
+                                    <label>
+                                      <input
+                                        type="text"
+                                        value={novaUrl}
+                                        onChange={(e) =>
+                                          setNovaUrl(e.target.value)
+                                        }
+                                        style={{ width: "12vw", height: "5vh" }}
+                                        placeholder="Nova Url..."
+                                      />
+                                    </label>
+                                    <button
+                                      onClick={() =>
+                                        handleAddNewUrl(product._id)
+                                      }
+                                      style={{
+                                        backgroundColor: "#14337c",
+                                        color: "#fefefe",
+                                        border: "medium",
+                                        padding: ".5rem",
+                                        borderRadius: "5px",
+                                      }}
+                                    >
+                                      Adicionar Nova URL
+                                    </button>
+                                  </div>
+
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "column",
+                                      position: "absolute",
+                                      left: "80%",
+                                      top: "30%",
+                                    }}
+                                  >
+                                    <label>
+                                      Novo Nome da Cor:
+                                      <input
+                                        type="text"
+                                        name="newColorName"
+                                        value={newColorName}
+                                        onChange={(e) =>
+                                          setNewColorName(e.target.value)
+                                        }
+                                        style={{ width: "15vw", height: "5vh" }}
+                                      />
+                                    </label>
+                                    <button
+                                      style={{
+                                        width: "11vw",
+                                        height: "5vh",
+                                        backgroundColor: "#14337c",
+                                        color: "#fefefe",
+                                        border: "medium",
+                                        padding: ".5rem",
+                                        borderRadius: "5px",
+                                      }}
+                                      onClick={() =>
+                                        handleAddNewColor(product._id)
+                                      }
+                                    >
+                                      Adicionar Nova Cor
+                                    </button>
                                   </div>
                                   <br></br>
                                   <button
