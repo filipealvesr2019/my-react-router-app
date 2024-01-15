@@ -258,6 +258,27 @@ const Products = () => {
     }
   };
 
+
+
+
+  const handleAddNewUrl = async (productId) => {
+    try {
+      // Resto do código...
+  
+      const response = await axios.post(
+        `http://localhost:3001/api/product/${productId}/color/${selectedColor}/add-url`,
+        { url: novaUrl }
+      );
+  
+      console.log('Resposta do servidor:', response);
+  
+      // Resto do código...
+    } catch (error) {
+      console.error("Erro ao adicionar URL:", error);
+    }
+  };
+  
+
   return (
     <div className={styles.container}>
       <div
@@ -469,6 +490,15 @@ const Products = () => {
                                                       maxHeight: "100px",
                                                     }}
                                                   />
+                                                    <label>
+  Nova URL:
+  <input
+    type="text"
+    value={novaUrl}
+    onChange={(e) => setNovaUrl(e.target.value)}
+  />
+</label>
+<button onClick={() => handleAddNewUrl(product._id)}>Adicionar Nova URL</button>
                                                   <label>
                                                     Editar URL:
                                                     <input
@@ -484,6 +514,8 @@ const Products = () => {
                                                       }
                                                     />
                                                   </label>
+                                                
+
                                                   <button
                                                     onClick={() =>
                                                       handleDeleteUrl(
