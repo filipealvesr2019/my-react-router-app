@@ -158,33 +158,28 @@ const Products = () => {
   // Restante do código...
   const handleEditUrl = (productId, color, index, newUrl) => {
     setProducts((prevProducts) => {
-      const updatedProducts = prevProducts.map((product) => {
+      return prevProducts.map((product) => {
         if (product._id === productId) {
-          const updatedVariations = product.variations.map((variation) => {
-            if (variation.color === color) {
-              return {
-                ...variation,
-                urls: variation.urls.map((url, i) =>
-                  i === index ? newUrl : url
-                ),
-                color: newColorName || color, // Use o novo nome da cor, se fornecido
-              };
-            }
-            return variation;
-          });
-
           return {
             ...product,
-            variations: updatedVariations,
+            variations: product.variations.map((variation) => {
+              if (variation.color === color) {
+                return {
+                  ...variation,
+                  urls: variation.urls.map((url, i) =>
+                    i === index ? newUrl : url
+                  ),
+                };
+              }
+              return variation;
+            }),
           };
         }
         return product;
       });
-
-      return updatedProducts;
     });
   };
-
+  
   const getImagesByColor = (product, color) => {
     const updatedProduct =
       products.find((p) => p._id === product._id) || product;
@@ -219,6 +214,71 @@ const Products = () => {
       ));
   };
 
+
+
+
+  const handleAddUrl = async (productId, color, newUrl) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:3001/api/product/${productId}/color/${color}/url`,
+        { url: newUrl }
+      );
+  
+      if (response.data.success) {
+        console.log("URL adicionada com sucesso");
+        // Atualize o estado ou recarregue os produtos, se necessário
+      } else {
+        console.error(
+          "Erro ao adicionar URL. Mensagem do servidor:",
+          response.data.error
+        );
+      }
+    } catch (error) {
+      console.error("Erro ao adicionar URL. Detalhes do erro:", error);
+    }
+  };
+  
+
+  const handleDeleteColor = async (productId, color) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:3001/api/product/${productId}/color/${color}`
+      );
+  
+      if (response.data.success) {
+        console.log("Cor excluída com sucesso");
+        // Atualize o estado ou recarregue os produtos, se necessário
+      } else {
+        console.error(
+          "Erro ao excluir cor. Mensagem do servidor:",
+          response.data.error
+        );
+      }
+    } catch (error) {
+      console.error("Erro ao excluir cor. Detalhes do erro:", error);
+    }
+  };
+
+  const handleAddNewColor = async (productId) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:3001/api/product/${productId}/add-color`,
+        {
+          color: newColorName
+        }
+      );
+  
+      if (response.data.success) {
+        console.log("Nova cor adicionada com sucesso");
+      } else {
+        console.error("Erro ao adicionar nova cor:", response.data.message);
+      }
+    } catch (error) {
+      console.error("Erro ao adicionar nova cor:", error);
+    }
+  };
+  
+  
   return (
     <div className={styles.container}>
       <div
@@ -385,50 +445,43 @@ const Products = () => {
                                       onChange={handleFormChange}
                                     />
                                   </label>
-                                  <div>
-                                    <label>
-                                      Selecione a cor:
-                                      <select
-                                        value={selectedColor}
-                                        onChange={(e) =>
-                                          setSelectedColor(e.target.value)
-                                        }
-                                      >
-                                        <option value="">Escolher a Cor</option>
-                                        {Array.from(
-                                          new Set(
-                                            product.variations.map(
-                                              (variation) => variation.color
-                                            )
-                                          )
-                                        ).map((color) => (
-                                          <option key={color} value={color}>
-                                            {color}
-                                          </option>
-                                        ))}
-                                      </select>
-                                    </label>
-
-                                    {selectedColor && (
-                                      <div>
-                                        {getImagesByColor(
-                                          product,
-                                          selectedColor
-                                        )}
-                                      </div>
-                                    )}
-                                  </div>
                                   <label>
-                                    Novo Nome da Cor:
-                                    <input
-                                      type="text"
-                                      name="newColorName"
-                                      value={newColorName}
-                                      onChange={(e) =>
-                                        setNewColorName(e.target.value)
-                                      }
-                                    />
-                                  </label>
+  Selecione a cor:
+  <select
+    value={selectedColor}
+    onChange={(e) => setSelectedColor(e.target.value)}
+  >
+    <option value="">Escolher a Cor</option>
+    {Array.from(
+      new Set(
+        product.variations.map((variation) => variation.color)
+      )
+    ).map((color) => (
+      <option key={color} value={color}>
+        {color}
+      </option>
+    ))}
+  </select>
+</label>
+
+{selectedColor && (
+  <div>
+    {getImagesByColor(product, selectedColor)}
+  </div>
+)}
+
+<button onClick={() => handleAddNewColor(product._id)}>Adicionar Nova Cor</button>
+
+<label>
+  Novo Nome da Cor:
+  <input
+    type="text"
+    name="newColorName"
+    value={newColorName}
+    onChange={(e) => setNewColorName(e.target.value)}
+  />
+</label>
+
 
                                   <br></br>
                                   <button
