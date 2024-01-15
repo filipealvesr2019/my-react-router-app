@@ -459,7 +459,7 @@ const Products = () => {
                                   </div>
                                  
                                   <div
-                                   style={{ display: "flex", flexDirection: "column", right:"20%",top:"20%", position:"absolute" }}
+                                   style={{ display: "flex", flexDirection: "column", left:"25%",top:"25%", position:"absolute" }}
                                   >
                                     <label>
                                       Selecione a cor:
@@ -514,15 +514,27 @@ const Products = () => {
                                                   maxHeight: '100px',
                                                 }}
                                               />
+                                               <div style={{display:"flex",flexDirection:"column"}}>
+                                                
                                               <label>
-                                                Nova URL:
                                                 <input
                                                   type="text"
                                                   value={novaUrl}
                                                   onChange={(e) => setNovaUrl(e.target.value)}
+                                                  style={{width:"8vw", height:"5vh"}}
+                                                  placeholder="Nova Url..."
                                                 />
                                               </label>
-                                              <button onClick={() => handleAddNewUrl(product._id)}>
+                                              <button onClick={() => handleAddNewUrl(product._id)} style={{
+                                              
+                                                
+                                                backgroundColor: "#14337c",
+                                                color: '#fefefe',
+                                                border: "medium",
+                                                padding:".5rem",
+                                                borderRadius:"5px"
+
+                                                }}>
                                                 Adicionar Nova URL
                                               </button>
                                       
@@ -530,9 +542,16 @@ const Products = () => {
                                                 onClick={() =>
                                                   handleDeleteUrl(product._id, selectedColor, index)
                                                 }
+                                                style={{  
+                                                  backgroundColor: "#14337c",
+                                                color: '#fefefe',
+                                                border: "medium",
+                                                padding:".5rem",
+                                                borderRadius:"5px"}}
                                               >
                                                 Excluir URL
                                               </button>
+</div>
                                             </li>
                                           ))}
                                         </ul>
