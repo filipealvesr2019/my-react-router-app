@@ -275,6 +275,22 @@ const Products = () => {
     }
   };
 
+
+  const handleDeleteColor = async (productId, colorName) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:3001/api/product/${productId}/color/${colorName}`
+      );
+  
+      console.log('Resposta do servidor:', response);
+  
+      // Atualize o estado ou qualquer outra lógica necessária após a exclusão da cor
+    } catch (error) {
+      console.error("Erro ao excluir cor:", error);
+    }
+  };
+  
+
   return (
     <div className={styles.container}>
       <div
@@ -463,6 +479,10 @@ const Products = () => {
                                           </option>
                                         ))}
                                       </select>
+                                      <button onClick={() => handleDeleteColor(product._id, selectedColor)}>
+  Excluir Cor
+</button>
+
                                     </label>
                                     {product.variations
                                       .filter(
