@@ -543,7 +543,8 @@ const Products = () => {
                                                   handleDeleteUrl(product._id, selectedColor, index)
                                                 }
                                                 style={{  
-                                                  backgroundColor: "#14337c",
+                                                  width:"15vh",
+                                                backgroundColor: "#14337c",
                                                 color: '#fefefe',
                                                 border: "medium",
                                                 padding:".5rem",
