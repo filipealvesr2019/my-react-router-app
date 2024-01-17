@@ -9,7 +9,7 @@ import ModalDialog from '@mui/joy/ModalDialog';
 import DeleteForever from '@mui/icons-material/DeleteForever';
 import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 
-export default function AlertDialogModal({ isOpen, onClose, onConfirm, data }) {
+export default function AlertDialogModal({ onDelete }) {
   const [open, setOpen] = React.useState(false);
 
   const handleConfirmDelete = () => {
@@ -38,7 +38,7 @@ export default function AlertDialogModal({ isOpen, onClose, onConfirm, data }) {
             Are you sure you want to discard all of your notes?
           </DialogContent>
           <DialogActions>
-          <Button variant="solid" color="danger" onClick={onConfirm}>
+            <Button variant="solid" color="danger" onClick={handleConfirmDelete}>
               Excluir
             </Button>
             <Button variant="plain" color="neutral" onClick={() => setOpen(false)}>
