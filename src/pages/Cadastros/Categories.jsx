@@ -67,7 +67,7 @@ const Categories = () => {
   const getCategories = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3001/api/admin/categories"
+        "http://localhost:3001/api/categories"
       );
       setCategories(response.data.categories);
     } catch (error) {
