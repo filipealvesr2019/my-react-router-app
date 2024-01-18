@@ -257,7 +257,7 @@ const CreateProductForm = ({ onClose }) => {
         // setIsProductCreated(true);
 
         // Display success message
-        toast.success("Producto criado com sucesso!", {
+        toast.success("Produto criado com sucesso!", {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 2000,
         });
