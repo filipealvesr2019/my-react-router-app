@@ -741,6 +741,36 @@ const Products = ({ role }) => {
 
 
 
+      {((role === "administrador" || role === "Gerente") && (
+              <button
+                className={styles.buttonUpdate}
+                onClick={() => setFormData(product)}
+              >
+                <img
+                  src="https://i.ibb.co/5R1QnT7/edit-1.png"
+                  alt=""
+                />
+                Editar
+              </button>
+            ))}
+
+            <div className={styles.deleteBtn}>
+              {(!isModalOpen && !formData._id && (role === "administrador" || role === "Gerente")) && (
+                <>
+                  <span
+                    onClick={() =>
+                      handleDeleteProduct(product._id)
+                    }
+                    className={styles.span}
+                  ></span>
+                  <DeleteModal
+                    onDelete={() =>
+                      handleDeleteProduct(product._id)
+                    }
+                  />
+                </>
+              )}
+                                      </div>
 
 
 
