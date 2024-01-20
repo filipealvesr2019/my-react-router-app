@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 
 import styles from "./EmployeePage.module.css";
 import Products from "./pages/Cadastros/Products";
-import React, { useEffect, useState } from "react";
 
 import axios from "axios";
 import ModelProducts from "../../components/ModelProducts";
