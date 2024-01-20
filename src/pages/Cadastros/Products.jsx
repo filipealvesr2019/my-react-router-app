@@ -7,8 +7,11 @@ import DeleteModal from "../../components/DeleteModal";
 import CloseIcon from "@mui/icons-material/Close";
 import Pagination from "@mui/material/Pagination";
 import AlertDialogModal from "./AlertDialogModal";
+import { useAuth } from "../../context/AuthContext";
 
 const Products = () => {
+  const { isAdmin, isManager } = useAuth();
+
   const [products, setProducts] = useState([]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
   const [error, setError] = useState(null);
@@ -47,6 +50,10 @@ const Products = () => {
 
   const handleDeleteProduct = async (productId) => {
     try {
+      if (!isAdmin && !isManager) {
+        alert("Você não tem permissão para excluir produtos.");
+        return;
+      }
       const response = await axios.delete(
         `http://localhost:3001/api/admin/product/${productId}`
       );
@@ -710,6 +717,7 @@ const Products = () => {
                                 </>
                               )}
                             </div>
+                            
                           </div>
                         </div>
                       </div>

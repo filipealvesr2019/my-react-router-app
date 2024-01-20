@@ -22,7 +22,7 @@ const EmployeePage = () => {
     
     
     </div>
-    <Products></Products>
+    <Products ></Products>
     </>
   );
 };
