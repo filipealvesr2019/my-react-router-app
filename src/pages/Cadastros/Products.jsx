@@ -8,7 +8,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import Pagination from "@mui/material/Pagination";
 import AlertDialogModal from "./AlertDialogModal";
 import { useAuth } from "../../context/AuthContext";
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Products = () => {
   const { isAdmin, isManager } = useAuth();
 
@@ -51,7 +52,10 @@ const Products = () => {
   const handleDeleteProduct = async (productId) => {
     try {
       if (!isAdmin && !isManager) {
-        alert("Você não tem permissão para excluir produtos.");
+        toast.error("Você não tem permissão para excluir produtos.", {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 2000,
+        });
         return;
       }
       const response = await axios.delete(
@@ -117,6 +121,14 @@ const Products = () => {
   // Update the handleUpdateProduct function to close the modal after updating
   const handleUpdateProduct = async (productId) => {
     try {
+
+      if (!isAdmin && !isManager) {
+        toast.error("Você não tem permissão para editar produtos.", {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 2000,
+        });
+        return;
+      }
       const response = await axios.put(
         `http://localhost:3001/api/update/product/${productId}`,
         {
