@@ -30,7 +30,7 @@ const UserForm = ({ closeForm }) => {
     e.preventDefault();
     try {
       console.log('Dados enviados:', { email, password, role });
-      const response = await axios.post('http://localhost:3001/user', {
+      const response = await axios.post('https://serveradmin-whhj.onrender.com/user', {
         email: email,
         password: password,
         role: role,
