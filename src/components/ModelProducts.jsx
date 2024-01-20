@@ -11,15 +11,13 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
-import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const CreateProductForm = ({ onClose }) => {
+const CreateProductForm = () => {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
-  const [isColorAdded, setIsColorAdded] = useState(false);
 
   const [productInfo, setProductInfo] = useState({
     name: "",
@@ -38,7 +36,6 @@ const CreateProductForm = ({ onClose }) => {
     color: "",
   });
 
-  const [size, setSize] = useState("");
 
   // Novo estado para rastrear os erros
   const [formErrors, setFormErrors] = useState({});
@@ -175,7 +172,7 @@ const CreateProductForm = ({ onClose }) => {
       });
 
       // Clear the fields and states
-      setIsColorAdded(true);
+
 
       // Display success message
       toast.success("Cor e Imagem adicionadas com sucesso!", {
@@ -199,7 +196,6 @@ const CreateProductForm = ({ onClose }) => {
     // Handle size input separately
     if (name === "size") {
       console.log("Setting size:", value);
-      setSize(value);
     }
 
     // Handle color input separately
@@ -225,7 +221,7 @@ const CreateProductForm = ({ onClose }) => {
     }
 
     try {
-      const { sizes, imageUrl, ...productData } = productInfo;
+      const { sizes, ...productData } = productInfo;
       productData.size = sizes.join(", "); // Certifique-se de que você está usando 'size' e não 'sizes'
 
       // Send the product data to the server for further processing
@@ -250,7 +246,6 @@ const CreateProductForm = ({ onClose }) => {
         console.log("Product created successfully");
 
         setTimeout(() => {
-          onClose();
         }, 4000);
 
         // Configuration to display the success message
