@@ -6,7 +6,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import User from "./pages/Cadastros/User";
 import Products from "./pages/Cadastros/Products";
 import Categories from "./pages/Cadastros/Categories";
-import Config from "./pages/Cadastros/config";
+import Configuration from "./pages/Cadastros/Configuration";
 import Sales from "./pages/Cadastros/Sales";
 const Content = ({ currentPage }) => {
   switch (currentPage) {
@@ -53,7 +53,7 @@ const RegisterPage = () => {
       case 3:
       return <Sales />;
       case 4:
-        return <Config />;
+        return <Configuration />;
       default:
         return null;
     }
