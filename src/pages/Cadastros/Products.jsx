@@ -8,7 +8,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import Pagination from "@mui/material/Pagination";
 import AlertDialogModal from "./AlertDialogModal";
 
-const Products = () => {
+const Products = ({ role }) => {
   const [products, setProducts] = useState([]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
   const [error, setError] = useState(null);
@@ -47,6 +47,11 @@ const Products = () => {
 
   const handleDeleteProduct = async (productId) => {
     try {
+      if (role !== "administrador" && role !== "Gerente") {
+        console.log("Usuário sem permissão para excluir produto.");
+        return;
+      }
+
       const response = await axios.delete(
         `http://localhost:3001/api/admin/product/${productId}`
       );
@@ -110,6 +115,11 @@ const Products = () => {
   // Update the handleUpdateProduct function to close the modal after updating
   const handleUpdateProduct = async (productId) => {
     try {
+      if (role !== "administrador" && role !== "Gerente") {
+        console.log("Usuário sem permissão para atualizar produto.");
+        return;
+      }
+
       const response = await axios.put(
         `http://localhost:3001/api/update/product/${productId}`,
         {
@@ -675,42 +685,65 @@ const Products = () => {
                             </form>
                           )}
 
-                          <div
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: "1rem",
-                            }}
-                          >
-                            <button
-                              className={styles.buttonUpdate}
-                              onClick={() => setFormData(product)}
-                            >
-                              <img
-                                src="https://i.ibb.co/5R1QnT7/edit-1.png"
-                                alt=""
-                              />
-                              Editar
-                            </button>
 
-                            <div className={styles.deleteBtn}>
-                              {!isModalOpen && !formData._id && (
-                                <>
-                                  <span
-                                    onClick={() =>
-                                      handleDeleteProduct(product._id)
-                                    }
-                                    className={styles.span}
-                                  ></span>
-                                  <DeleteModal
-                                    onDelete={() =>
-                                      handleDeleteProduct(product._id)
-                                    }
-                                  />
-                                </>
-                              )}
-                            </div>
-                          </div>
+
+
+
+
+<div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "20px",
+        }}
+      >
+        {role === "administrador" || role === "Gerente" ? (
+        
+        <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "1rem",
+        }}
+      >
+        
+        <button
+          className={styles.buttonUpdate}
+          onClick={() => setFormData(product)}
+        >
+          <img
+            src="https://i.ibb.co/5R1QnT7/edit-1.png"
+            alt=""
+          />
+          Editar
+        </button>
+
+        <div className={styles.deleteBtn}>
+          {!isModalOpen && !formData._id && (
+            <>
+              <span
+                onClick={() =>
+                  handleDeleteProduct(product._id)
+                }
+                className={styles.span}
+              ></span>
+              <DeleteModal
+                onDelete={() =>
+                  handleDeleteProduct(product._id)
+                }
+              />
+            </>
+          )}
+        </div>
+      </div>
+        ) : null}
+      </div>
+
+
+
+
+
+
                         </div>
                       </div>
                     </td>
