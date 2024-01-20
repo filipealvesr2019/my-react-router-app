@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 
 import styles from "./EmployeePage.module.css";
 import Products from "./pages/Cadastros/Products";
-
+ModelProducts
 import axios from "axios";
-import ModelProducts from "../../components/ModelProducts";
-import AlertDialogModal from "./AlertDialogModal";
+import ModelProducts from "./components/ModelProducts";
 import CloseIcon from "@mui/icons-material/Close";
 import Pagination from "@mui/material/Pagination";
 
@@ -47,29 +46,7 @@ const EmployeePage = () => {
     getProducts();
   }, [currentPage, searchTerm]);
 
-  const handleDeleteProduct = async (productId) => {
-    try {
-      const response = await axios.delete(
-        `http://localhost:3001/api/admin/product/${productId}`
-      );
-
-      if (response.data.success) {
-        const updatedProducts = products.filter(
-          (product) => product._id !== productId
-        );
-        setProducts(updatedProducts);
-        console.log("Produto excluído com sucesso");
-      } else {
-        console.error(
-          "Erro ao excluir produto. Mensagem do servidor:",
-          response.data.error
-        );
-      }
-    } catch (error) {
-      console.error("Erro ao excluir produto. Detalhes do erro:", error);
-    }
-  };
-
+ 
   const getProducts = async () => {
     try {
       const response = await axios.get(
@@ -108,189 +85,6 @@ const EmployeePage = () => {
   };
   // Update the handleUpdateProduct function to close the modal after updating
   // Restante do código...
-
-  // Update the handleUpdateProduct function to close the modal after updating
-  const handleUpdateProduct = async (productId) => {
-    try {
-      const response = await axios.put(
-        `http://localhost:3001/api/update/product/${productId}`,
-        {
-          ...formData,
-          newColorName: newColorName, // Adicione o novo nome da cor aos dados do formulário
-        }
-      );
-
-      if (response.data._id) {
-        console.log("Produto atualizado com sucesso");
-        const updatedProductsResponse = await axios.get(
-          "http://localhost:3001/api/products"
-        );
-        const updatedProducts = updatedProductsResponse.data.products;
-        setProducts(updatedProducts);
-        console.log("Estado do produto atualizado:", updatedProducts);
-      } else {
-        console.error(
-          "Erro ao atualizar produto. Mensagem do servidor:",
-          response.data.error || "Mensagem de erro não disponível"
-        );
-      }
-
-      setIsModalOpen(false);
-      setFormData({
-        _id: null,
-        name: "",
-        price: 0,
-        quantity: 0,
-        description: "",
-        size: "",
-        category: "",
-        subcategory: "",
-        variations: [
-          {
-            color: "",
-            urls: [], // Make sure this is an array
-          },
-        ],
-      });
-      setNewColorName("");
-    } catch (error) {
-      console.error("Erro ao atualizar produto. Detalhes do erro:", error);
-      if (error.response) {
-        console.error("Response data:", error.response.data);
-      }
-    }
-  };
-
-  // Restante do código...
-  const handleEditUrl = (productId, color, index, newUrl) => {
-    setProducts((prevProducts) => {
-      const updatedProducts = prevProducts.map((product) => {
-        if (product._id === productId) {
-          const updatedVariations = product.variations.map((variation) => {
-            if (variation.color === color) {
-              return {
-                ...variation,
-                urls: variation.urls.map((url, i) =>
-                  i === index ? newUrl : url
-                ),
-              };
-            }
-            return variation;
-          });
-
-          return {
-            ...product,
-            variations: updatedVariations,
-          };
-        }
-        return product;
-      });
-
-      return updatedProducts;
-    });
-  };
-
-  const getImagesByColor = (product, color) => {
-    const updatedProduct =
-      products.find((p) => p._id === product._id) || product;
-
-    return updatedProduct.variations
-      .filter((variation) => variation.color === color)
-      .map((variation) => (
-        <div key={variation._id}>
-          <p>Cor: {variation.color}</p>
-          <ul>
-            {variation.urls.map((url, index) => (
-              <li key={index}>
-                <img
-                  src={url}
-                  alt={`Thumbnail ${index + 1}`}
-                  style={{ maxWidth: "100px", maxHeight: "100px" }}
-                />
-                <label>
-                  Editar URL:
-                  <input
-                    type="text"
-                    value={url}
-                    onChange={(e) =>
-                      handleEditUrl(product._id, color, index, e.target.value)
-                    }
-                  />
-                </label>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ));
-  };
-
-  const handleAddNewColor = async (productId) => {
-    try {
-      const response = await axios.post(
-        `http://localhost:3001/api/product/${productId}/add-color`,
-        {
-          color: newColorName,
-        }
-      );
-
-      if (response.data.success) {
-        console.log("Nova cor adicionada com sucesso");
-      } else {
-        console.error("Erro ao adicionar nova cor:", response.data.message);
-      }
-    } catch (error) {
-      console.error("Erro ao adicionar nova cor:", error);
-    }
-  };
-
-  // Função para excluir uma URL de uma cor específica de um produto
-  const handleDeleteUrl = async (productId, color, urlId) => {
-    try {
-      const response = await axios.delete(
-        `http://localhost:3001/api/product/${productId}/color/${color}/url/${urlId}`
-      );
-
-      if (response.data.success) {
-        console.log("URL excluída com sucesso");
-        // Atualize o estado ou realize outras ações necessárias
-      } else {
-        console.error("Erro ao excluir URL:", response.data.message);
-      }
-    } catch (error) {
-      console.error("Erro ao excluir URL:", error);
-    }
-  };
-
-  const handleAddNewUrl = async (productId) => {
-    try {
-      // Resto do código...
-
-      const response = await axios.post(
-        `http://localhost:3001/api/product/${productId}/color/${selectedColor}/add-url`,
-        { url: novaUrl }
-      );
-
-      console.log("Resposta do servidor:", response);
-
-      // Resto do código...
-    } catch (error) {
-      console.error("Erro ao adicionar URL:", error);
-    }
-  };
-
-  const handleDeleteColor = async (productId, colorName) => {
-    try {
-      const response = await axios.delete(
-        `http://localhost:3001/api/product/${productId}/color/${colorName}`
-      );
-
-      console.log("Resposta do servidor:", response);
-
-      // Atualize o estado ou qualquer outra lógica necessária após a exclusão da cor
-    } catch (error) {
-      console.error("Erro ao excluir cor:", error);
-    }
-  };
 
   return (
     <>
@@ -704,7 +498,6 @@ const EmployeePage = () => {
                           >
                             <button
                               className={styles.buttonUpdate}
-                              onClick={() => setFormData(product)}
                             >
                               <img
                                 src="https://i.ibb.co/5R1QnT7/edit-1.png"
@@ -714,21 +507,14 @@ const EmployeePage = () => {
                             </button>
 
                             <div className={styles.deleteBtn}>
-                              {!isModalOpen && !formData._id && (
                                 <>
                                   <span
-                                    onClick={() =>
-                                      handleDeleteProduct(product._id)
-                                    }
+                                 
                                     className={styles.span}
                                   ></span>
-                                  <DeleteModal
-                                    onDelete={() =>
-                                      handleDeleteProduct(product._id)
-                                    }
-                                  />
+                               
                                 </>
-                              )}
+                           
                             </div>
                           </div>
                         </div>
