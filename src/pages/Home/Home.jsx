@@ -8,6 +8,7 @@ import { userData } from "../../../dummyData";
 export default function Home() {
   return (
     <div className="home">
+        // Notas do progamador pagina em construção
       <FeaturedInfo />
       <Chart data={userData} title="User Analytics" grid dataKey="Active User"/>
       <div className="homeWidgets">
