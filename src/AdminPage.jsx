@@ -94,7 +94,7 @@ const RegisterPage = () => {
               }`}
               onClick={() => handleClickOtherNavbar(3)}
             >
-              Pedidos
+              Vendas
             </li>
             <li
               className={`cadastros ${
