@@ -9,6 +9,10 @@ import Categories from "./pages/Cadastros/Categories";
 import Configuration from "./pages/Cadastros/Configuration";
 import Sales from "./pages/Cadastros/Sales";
 import Home from "./pages/Home/Home";
+import Financial from "./pages/Financial/Financial";
+import Stock from "./pages/stock/stock";
+import Fiscal from "./pages/Fiscal/Fiscal";
+import Reports from "./pages/Reports/Reports";
 const Content = ({ currentPage }) => {
   switch (currentPage) {
     case "register":
@@ -118,7 +122,7 @@ const FinancialPage = () => {
   return (
     <div style={{ marginTop: "5rem" }}>
       <div className="maintenance-container">
-        <p className="maintenance-text">Ops. Página em construção!</p>
+        <p className="maintenance-text"><Financial/></p>
       </div>
     </div>
   );
@@ -127,7 +131,11 @@ const StockPage = () => {
   return (
     <div style={{ marginTop: "5rem" }}>
       <div className="maintenance-container">
-        <p className="maintenance-text">Ops. Página em construção!</p>
+        <p className="maintenance-text">Ops. Página em construção! </p>
+        <div style={{display:"none"}}>
+        <Stock />
+
+        </div>
       </div>
     </div>
   );
@@ -138,6 +146,11 @@ const FiscalPage = () => {
     <div style={{ marginTop: "5rem" }}>
       <div className="maintenance-container">
         <p className="maintenance-text">Ops. Página em construção!</p>
+        <div style={{display:"none"}}>
+        <Fiscal/>
+        </div>
+     
+
       </div>
     </div>
   );
@@ -147,6 +160,9 @@ const ReportsPage = () => {
     <div style={{ marginTop: "5rem" }}>
       <div className="maintenance-container">
         <p className="maintenance-text">Ops. Página em construção!</p>
+        <div style={{display:"none"}}>
+        <Reports/>
+        </div>
       </div>{" "}
     </div>
   );
