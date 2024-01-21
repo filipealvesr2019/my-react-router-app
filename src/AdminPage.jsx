@@ -8,6 +8,7 @@ import Products from "./pages/Cadastros/Products";
 import Categories from "./pages/Cadastros/Categories";
 import Configuration from "./pages/Cadastros/Configuration";
 import Sales from "./pages/Cadastros/Sales";
+import Home from "./pages/Home/Home";
 const Content = ({ currentPage }) => {
   switch (currentPage) {
     case "register":
@@ -27,7 +28,7 @@ const Content = ({ currentPage }) => {
 };
 
 const HomePage = () => {
-  return <div style={{ marginTop: "5rem" }}>Home Page</div>;
+  return <div style={{ marginTop: "5rem" }}><Home/></div>;
 };
 
 
