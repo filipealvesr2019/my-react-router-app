@@ -32,31 +32,35 @@ const Content = ({ currentPage }) => {
 };
 
 const HomePage = () => {
-  return <div style={{ marginTop: "5rem" }}><Home/></div>;
+  return (
+    <div style={{ marginTop: "5rem" }}>
+      <Home />
+    </div>
+  );
 };
 
-
 const RegisterPage = () => {
-    // Exemplo de inicialização, certifique-se de que esteja em algum lugar antes do uso
-    const savedNavItem = localStorage.getItem("activeNavItem") || "0"; // Use "0" ou outro valor padrão desejado
-    const [activeNavItem, setActiveNavItem] = useState(parseInt(savedNavItem, 10));
-  
-    const handleClickOtherNavbar = (index) => {
-      setActiveNavItem(index);
-      localStorage.setItem("activeNavItem", index.toString());
-    };
-  
-  
+  // Exemplo de inicialização, certifique-se de que esteja em algum lugar antes do uso
+  const savedNavItem = localStorage.getItem("activeNavItem") || "0"; // Use "0" ou outro valor padrão desejado
+  const [activeNavItem, setActiveNavItem] = useState(
+    parseInt(savedNavItem, 10)
+  );
+
+  const handleClickOtherNavbar = (index) => {
+    setActiveNavItem(index);
+    localStorage.setItem("activeNavItem", index.toString());
+  };
+
   const renderPage = () => {
     switch (activeNavItem) {
       case 0:
-        return <User/>;
+        return <User />;
       case 1:
         return <Products />;
       case 2:
         return <Categories />;
       case 3:
-      return <Sales />;
+        return <Sales />;
       case 4:
         return <Configuration />;
       default:
@@ -109,11 +113,9 @@ const RegisterPage = () => {
               Configurações
             </li>
           </ul>
-
         </nav>
         <div className="content-container">{renderPage()}</div>
       </div>
-
     </div>
   );
 };
@@ -122,7 +124,11 @@ const FinancialPage = () => {
   return (
     <div style={{ marginTop: "5rem" }}>
       <div className="maintenance-container">
-        <p className="maintenance-text"><Financial/></p>
+      <p className="maintenance-text">Ops. Página em construção!</p>
+
+          <div style={{ display: "none" }}>
+            <Financial />
+          </div>
       </div>
     </div>
   );
@@ -132,9 +138,8 @@ const StockPage = () => {
     <div style={{ marginTop: "5rem" }}>
       <div className="maintenance-container">
         <p className="maintenance-text">Ops. Página em construção! </p>
-        <div style={{display:"none"}}>
-        <Stock />
-
+        <div style={{ display: "none" }}>
+          <Stock />
         </div>
       </div>
     </div>
@@ -146,11 +151,9 @@ const FiscalPage = () => {
     <div style={{ marginTop: "5rem" }}>
       <div className="maintenance-container">
         <p className="maintenance-text">Ops. Página em construção!</p>
-        <div style={{display:"none"}}>
-        <Fiscal/>
+        <div style={{ display: "none" }}>
+          <Fiscal />
         </div>
-     
-
       </div>
     </div>
   );
@@ -160,52 +163,30 @@ const ReportsPage = () => {
     <div style={{ marginTop: "5rem" }}>
       <div className="maintenance-container">
         <p className="maintenance-text">Ops. Página em construção!</p>
-        <div style={{display:"none"}}>
-        <Reports/>
+        <div style={{ display: "none" }}>
+          <Reports />
         </div>
       </div>{" "}
     </div>
   );
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const AdminPage = () => {
   const { logout } = useAuth();
   const indicatorRef = useRef(null);
 
-
-  
-// Exemplo de inicialização, certifique-se de que esteja em algum lugar antes do uso
-const savedNavItem = localStorage.getItem("activeNavItem") || 0; // ou qualquer outro valor padrão que você preferir
+  // Exemplo de inicialização, certifique-se de que esteja em algum lugar antes do uso
+  const savedNavItem = localStorage.getItem("activeNavItem") || 0; // ou qualquer outro valor padrão que você preferir
   const savedPage = localStorage.getItem("currentPage");
 
   const [currentPage, setCurrentPage] = useState("home");
-  const [activeNavItem, setActiveNavItem] = useState(savedNavItem ? parseInt(savedNavItem) : null);
+  const [activeNavItem, setActiveNavItem] = useState(
+    savedNavItem ? parseInt(savedNavItem) : null
+  );
   const [activeLink, setActiveLink] = useState("home");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-
   useEffect(() => {
-
-
- 
     // Obtendo todas as âncoras dentro do elemento nav
     const items = document.querySelectorAll("nav a");
 
@@ -213,8 +194,10 @@ const savedNavItem = localStorage.getItem("activeNavItem") || 0; // ou qualquer 
     const marker = (e) => {
       indicatorRef.current.style.left = e.offsetLeft + "px";
       indicatorRef.current.style.width = e.offsetWidth + "px";
-      setTimeout(() => indicatorRef.current.style.transition = 'left 0.5s ease', 100);
-
+      setTimeout(
+        () => (indicatorRef.current.style.transition = "left 0.5s ease"),
+        100
+      );
     };
 
     // Adicionando um event listener para cada âncora
@@ -231,7 +214,7 @@ const savedNavItem = localStorage.getItem("activeNavItem") || 0; // ou qualquer 
       });
     };
   }, [activeNavItem]); // O array vazio significa que este efeito só é executado após a montagem inicial do componente
- 
+
   const handleClickOtherNavbar = (index) => {
     setActiveNavItem(index);
     localStorage.setItem("activeNavItem", index.toString());
@@ -246,8 +229,6 @@ const savedNavItem = localStorage.getItem("activeNavItem") || 0; // ou qualquer 
     setActiveLink(link);
     localStorage.setItem("currentPage", link);
   };
-
-
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);

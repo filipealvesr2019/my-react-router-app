@@ -20,7 +20,7 @@ const Financial = () => {
       case 2:
         return <Expenses />;
       case 3:
-        return <Revenues />;
+        return <Clients />;
       case 4:
         return <Revenues />;
       default:
@@ -56,25 +56,25 @@ const Financial = () => {
                 }`}
                 onClick={() => handleClickOtherNavbar(2)}
               >
-                Categorias
+                Despesas
               </li>
               <li
                 className={`cadastros ${
                   activeNavItem === 3 ? 'active-item' : ''
                 }`}
                 onClick={() => handleClickOtherNavbar(3)}
-                style={{display:"none"}}
+    
               >
-                Vendas
+                Clientes
               </li>
               <li
                 className={`cadastros ${
                   activeNavItem === 4 ? 'active-item' : ''
                 }`}
                 onClick={() => handleClickOtherNavbar(4)}
-                style={{display:"none"}}
+
               >
-                Configurações
+                Fornecedores
               </li>
             </ul>
           </nav>
