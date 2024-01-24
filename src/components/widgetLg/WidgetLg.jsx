@@ -14,6 +14,8 @@ export default function WidgetLg() {
           <th className="widgetLgTh">Amount</th>
           <th className="widgetLgTh">Status</th>
         </tr>
+        <tbody>
+
         <tr className="widgetLgTr">
           <td className="widgetLgUser">
             <img
@@ -74,6 +76,7 @@ export default function WidgetLg() {
             <Button type="Approved" />
           </td>
         </tr>
+        </tbody>
       </table>
     </div>
   );

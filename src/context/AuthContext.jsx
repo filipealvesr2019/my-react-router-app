@@ -32,8 +32,8 @@ export const AuthProvider = ({ children }) => {
         email: email,
         password: password
       });
-     
-  
+
+      
       if (response.data.user.role === 'administrador') {
         setLoggedIn(true);
         setIsAdmin(true);
@@ -52,6 +52,7 @@ export const AuthProvider = ({ children }) => {
   
       Cookies.set('token', response.data.user.token);
       Cookies.set('role', response.data.user.role);
+      
     } catch (error) {
       if (error.response && error.response.status === 401) {
         toast.error('Erro, email ou senha invalidas!', { position: toast.POSITION.TOP_CENTER });

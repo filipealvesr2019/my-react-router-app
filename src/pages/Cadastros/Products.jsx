@@ -82,8 +82,10 @@ const Products = () => {
   const getProducts = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3001/api/products?page=${currentPage}&keyword=${searchTerm}`
-      );
+        `http://localhost:3001/api/products?page=${currentPage}&keyword=${searchTerm}`,
+        
+      
+        );
 
       const totalProducts = response.data.totalPages * itemsPerPage;
       setTotalPages(response.data.totalPages);

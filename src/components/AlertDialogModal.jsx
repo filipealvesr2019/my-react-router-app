@@ -49,7 +49,7 @@ const Categories = () => {
   return (
     <div>
       <table>
-        {/* ... outras linhas da tabela ... */}
+    
         <td>
           {editingItem !== sub._id ? (
             <div style={{ display: "flex", gap: "1rem" }}>
