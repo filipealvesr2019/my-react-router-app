@@ -180,15 +180,7 @@ const VendorList = () => {
 
       <React.Fragment>
       <Stack direction="row" spacing={1}>
-        <Button
-          variant="outlined"
-          color="neutral"
-          onClick={() => {
-            setLayout('center');
-          }}
-        >
-          Center
-        </Button>
+      
         <Button
           variant="outlined"
           color="neutral"
