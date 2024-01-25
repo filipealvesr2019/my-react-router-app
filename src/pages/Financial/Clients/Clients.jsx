@@ -9,11 +9,9 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-
-import Modal from '@mui/joy/Modal';
-import ModalClose from '@mui/joy/ModalClose';
-import ModalDialog from '@mui/joy/ModalDialog';
-
+import Modal from "@mui/joy/Modal";
+import ModalClose from "@mui/joy/ModalClose";
+import ModalDialog from "@mui/joy/ModalDialog";
 
 const VendorList = () => {
   const [vendors, setVendors] = useState([]);
@@ -59,7 +57,6 @@ const VendorList = () => {
     setCurrentPage(page);
   };
 
-
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [vendorToDelete, setVendorToDelete] = useState(null);
 
@@ -76,8 +73,8 @@ const VendorList = () => {
       // Atualize a lista de fornecedores após a exclusão.
       getVendors();
     } catch (error) {
-      console.error('Erro ao excluir fornecedor', error);
-      setError('Erro ao excluir fornecedor. Por favor, tente novamente.');
+      console.error("Erro ao excluir fornecedor", error);
+      setError("Erro ao excluir fornecedor. Por favor, tente novamente.");
     }
   };
 
@@ -115,45 +112,49 @@ const VendorList = () => {
               <td>{vendor.email}</td>
               <td>{vendor.cpfCnpj}</td>
               <td>
-                <div style={{ display: "flex", gap: "1rem", marginLeft: "2rem" }}>
+                <div
+                  style={{ display: "flex", gap: "1rem", marginLeft: "2rem" }}
+                >
                   <button className="buttonUpdate">
                     <img src="https://i.ibb.co/5R1QnT7/edit-1.png" alt="" />
-                  
-      <React.Fragment>
-      <Stack direction="row" spacing={1}>
-      
-        <Button
-          variant="outlined"
-          color="neutral"
-          onClick={() => {
-            setLayout('fullscreen');
-          }}
-        >
-          Full screen
-        </Button>
-      </Stack>
-      <Modal open={!!layout} onClose={() => setLayout(undefined)}>
-        <ModalDialog layout={layout}>
-          <ModalClose />
-          <DialogTitle>Modal Dialog</DialogTitle>
-          <DialogContent>
-            <div>
-              This is a <code>{layout}</code> modal dialog. Press <code>esc</code> to
-              close it.
-            </div>
-          </DialogContent>
-        </ModalDialog>
-      </Modal>
-    </React.Fragment>
+
+                    <React.Fragment>
+                      <Stack direction="row" spacing={1}>
+                        <Button
+                          variant="outlined"
+                          color="neutral"
+                          onClick={() => {
+                            setLayout("fullscreen");
+                          }}
+                        >
+                          Full screen
+                        </Button>
+                      </Stack>
+                      <Modal
+                        open={!!layout}
+                        onClose={() => setLayout(undefined)}
+                      >
+                        <ModalDialog layout={layout}>
+                          <ModalClose />
+                          <DialogTitle>Modal Dialog</DialogTitle>
+                          <DialogContent>
+                            <div>
+                              This is a <code>{layout}</code> modal dialog.
+                              Press <code>esc</code> to close it.
+                            </div>
+                          </DialogContent>
+                        </ModalDialog>
+                      </Modal>
+                    </React.Fragment>
                   </button>
                   <Button
-                variant="outlined"
-                color="secondary"
-                style={{ height: '7vh', marginTop: '.2rem' }}
-                onClick={() => handleOpenConfirmation(vendor._id)}
-              >
-                Excluir
-              </Button>
+                    variant="outlined"
+                    color="secondary"
+                    style={{ height: "7vh", marginTop: ".2rem" }}
+                    onClick={() => handleOpenConfirmation(vendor._id)}
+                  >
+                    Excluir
+                  </Button>
                 </div>
               </td>
             </tr>
@@ -202,8 +203,6 @@ const VendorList = () => {
           </Button>
         </DialogActions>
       </Dialog>
-      
-
     </div>
   );
 };
