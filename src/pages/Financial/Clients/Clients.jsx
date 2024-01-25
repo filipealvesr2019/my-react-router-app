@@ -21,6 +21,7 @@ const VendorList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [error, setError] = useState(null);
   const [layout, setLayout] = React.useState(undefined);
+  const [updatedName, setUpdatedName] = useState("");
 
   useEffect(() => {
     getVendors();
@@ -91,10 +92,28 @@ const VendorList = () => {
     setShowConfirmation(true);
   };
 
+  const handleEdit = async (vendorId) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:3001/api/vendor/${vendorId}`,
+        {
+          // Passe os dados atualizados do fornecedor
+          name: updatedName,
+        }
+      );
+
+      // Atualize a lista de fornecedores após a edição.
+      getVendors();
+      // Feche o modal de edição, se aplicável
+      setLayout(undefined);
+    } catch (error) {
+      console.error("Erro ao editar fornecedor", error);
+      setError("Erro ao editar fornecedor. Por favor, tente novamente.");
+    }
+  };
   return (
     <div>
-
-<div>
+      <div>
         <input
           type="text"
           value={searchTerm}
@@ -124,40 +143,45 @@ const VendorList = () => {
                 <div
                   style={{ display: "flex", gap: "1rem", marginLeft: "2rem" }}
                 >
-             
-                   
-
-                    <React.Fragment>
-                      <Stack direction="row" spacing={1}>
-                        <Button
-                          variant="outlined"
-                          color="neutral"
-                          onClick={() => {
-                            setLayout("fullscreen");
-                          }}
-                          className="buttonUpdate"
-                        >
-                             <img src="https://i.ibb.co/5R1QnT7/edit-1.png" alt="" />
-                          Editar
-                        </Button>
-                      </Stack>
-                      <Modal
-                        open={!!layout}
-                        onClose={() => setLayout(undefined)}
+                  <React.Fragment>
+                    <Stack direction="row" spacing={1}>
+                      <Button
+                        variant="outlined"
+                        color="neutral"
+                        onClick={() => {
+                          setLayout("fullscreen");
+                        }}
+                        className="buttonUpdate"
                       >
-                        <ModalDialog layout={layout}>
-                          <ModalClose />
-                          <DialogTitle>Modal Dialog</DialogTitle>
-                          <DialogContent>
-                            <div>
-                              This is a <code>{layout}</code> modal dialog.
-                              Press <code>esc</code> to close it.
-                            </div>
-                          </DialogContent>
-                        </ModalDialog>
-                      </Modal>
-                    </React.Fragment>
-  
+                        <img src="https://i.ibb.co/5R1QnT7/edit-1.png" alt="" />
+                        Editar
+                      </Button>
+                    </Stack>
+                    <Modal open={!!layout} onClose={() => setLayout(undefined)}>
+                      <ModalDialog layout={layout}>
+                        <ModalClose />
+                        <DialogTitle>Modal Dialog</DialogTitle>
+                        <DialogContent>
+                          <div>
+                            <input
+                              type="text"
+                              value={updatedName}
+                              onChange={(e) => setUpdatedName(e.target.value)}
+                              placeholder="Nome"
+                            />
+                            <Button
+                              variant="outlined"
+                              color="primary"
+                              onClick={() => handleEdit(vendor._id)}
+                            >
+                              Confirmar Edição
+                            </Button>
+                          </div>
+                        </DialogContent>
+                      </ModalDialog>
+                    </Modal>
+                  </React.Fragment>
+
                   <Button
                     variant="outlined"
                     color="secondary"
