@@ -115,8 +115,8 @@ const VendorList = () => {
                 <div
                   style={{ display: "flex", gap: "1rem", marginLeft: "2rem" }}
                 >
-                  <button className="buttonUpdate">
-                    <img src="https://i.ibb.co/5R1QnT7/edit-1.png" alt="" />
+             
+                   
 
                     <React.Fragment>
                       <Stack direction="row" spacing={1}>
@@ -126,7 +126,9 @@ const VendorList = () => {
                           onClick={() => {
                             setLayout("fullscreen");
                           }}
+                          className="buttonUpdate"
                         >
+                             <img src="https://i.ibb.co/5R1QnT7/edit-1.png" alt="" />
                           Full screen
                         </Button>
                       </Stack>
@@ -146,7 +148,7 @@ const VendorList = () => {
                         </ModalDialog>
                       </Modal>
                     </React.Fragment>
-                  </button>
+  
                   <Button
                     variant="outlined"
                     color="secondary"
