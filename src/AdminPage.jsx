@@ -124,11 +124,7 @@ const FinancialPage = () => {
   return (
     <div style={{ marginTop: "5rem" }}>
       <div className="maintenance-container">
-      <p className="maintenance-text">Ops. Página em construção!</p>
-
-          <div style={{ display: "none" }}>
             <Financial />
-          </div>
       </div>
     </div>
   );
@@ -138,9 +134,7 @@ const StockPage = () => {
     <div style={{ marginTop: "5rem" }}>
       <div className="maintenance-container">
         <p className="maintenance-text">Ops. Página em construção! </p>
-        <div style={{ display: "none" }}>
           <Stock />
-        </div>
       </div>
     </div>
   );
@@ -151,9 +145,8 @@ const FiscalPage = () => {
     <div style={{ marginTop: "5rem" }}>
       <div className="maintenance-container">
         <p className="maintenance-text">Ops. Página em construção!</p>
-        <div style={{ display: "none" }}>
           <Fiscal />
-        </div>
+     
       </div>
     </div>
   );
@@ -163,9 +156,7 @@ const ReportsPage = () => {
     <div style={{ marginTop: "5rem" }}>
       <div className="maintenance-container">
         <p className="maintenance-text">Ops. Página em construção!</p>
-        <div style={{ display: "none" }}>
           <Reports />
-        </div>
       </div>{" "}
     </div>
   );

@@ -2,15 +2,31 @@ import React, { useState } from 'react';
 import Revenues from './FinancialNavItems/Revenues.JSX';
 import Transations from './transations/Transations';
 import Expenses from './expenses/expenses';
-
-
+import Clients from './Clients/Clients';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import Menu from '@mui/material/Menu';
 const Financial = () => {
-  const [activeNavItem, setActiveNavItem] = useState(0); // Initialize activeNavItem state
-
-  const handleClickOtherNavbar = (index) => {
-    setActiveNavItem(index);
+  const [age, setAge] = useState('');  // Declare o estado age
+  // Declare a função handleChange
+  const handleChange = (event) => {
+    setAge(event.target.value);
   };
 
+  const [activeNavItem, setActiveNavItem] = useState(0);
+  const [anchorEl, setAnchorEl] = useState(null); // Estado para controlar a posição do menu
+
+  const handleClickOtherNavbar = (index, event) => {
+    setActiveNavItem(index);
+    setAnchorEl(event.currentTarget); // Defina a posição do menu no clique
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null); // Feche o menu
+  };
   const renderPage = () => {
     switch (activeNavItem) {
       case 0:
@@ -42,39 +58,38 @@ const Financial = () => {
               >
                 Movimentações
               </li>
+              {/* ... (restante do código) ... */}
               <li
                 className={`cadastros ${
-                  activeNavItem === 1 ? 'active-item' : ''
+                  activeNavItem === 4 ? 'active-item' : ''
                 }`}
-                onClick={() => handleClickOtherNavbar(1)}
+                onClick={() => handleClickOtherNavbar(4)}
               >
-                Receitas
-              </li>
-              <li
-                className={`cadastros ${
-                  activeNavItem === 2 ? 'active-item' : ''
-                }`}
-                onClick={() => handleClickOtherNavbar(2)}
-              >
-                Despesas
-              </li>
-              <li
-                className={`cadastros ${
-                  activeNavItem === 3 ? 'active-item' : ''
-                }`}
-                onClick={() => handleClickOtherNavbar(3)}
-    
-              >
-                Clientes
+                Fornecedores
               </li>
               <li
                 className={`cadastros ${
                   activeNavItem === 4 ? 'active-item' : ''
                 }`}
                 onClick={() => handleClickOtherNavbar(4)}
-
               >
-                Fornecedores
+        
+                {/* Componente de Dropdown */}
+                <Box>
+                  <div onClick={(event) => handleClickOtherNavbar(4, event)}>
+                    Nome do Dropdown
+                  </div>
+                  <Menu
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                  >
+                    <MenuItem onClick={handleClose}>Item 1</MenuItem>
+                    <MenuItem onClick={handleClose}>Item 2</MenuItem>
+                    <MenuItem onClick={handleClose}>Item 3</MenuItem>
+                  </Menu>
+                </Box>
+
               </li>
             </ul>
           </nav>
