@@ -13,10 +13,14 @@ import Financial from "./pages/Financial/Financial";
 import Stock from "./pages/stock/stock";
 import Fiscal from "./pages/Fiscal/Fiscal";
 import Reports from "./pages/Reports/Reports";
+import PhysicalGoods from "./pages/PhysicalGoods/PhysicalGoods";
 const Content = ({ currentPage }) => {
   switch (currentPage) {
     case "register":
       return <RegisterPage />;
+    case "physicalGoods":
+      return <PhysicalGoods />;
+
     case "financial":
       return <FinancialPage />;
     case "stock":
@@ -124,7 +128,7 @@ const FinancialPage = () => {
   return (
     <div style={{ marginTop: "5rem" }}>
       <div className="maintenance-container">
-            <Financial />
+        <Financial />
       </div>
     </div>
   );
@@ -134,7 +138,7 @@ const StockPage = () => {
     <div style={{ marginTop: "5rem" }}>
       <div className="maintenance-container">
         <p className="maintenance-text">Ops. Página em construção! </p>
-          <Stock />
+        <Stock />
       </div>
     </div>
   );
@@ -145,8 +149,7 @@ const FiscalPage = () => {
     <div style={{ marginTop: "5rem" }}>
       <div className="maintenance-container">
         <p className="maintenance-text">Ops. Página em construção!</p>
-          <Fiscal />
-     
+        <Fiscal />
       </div>
     </div>
   );
@@ -156,7 +159,7 @@ const ReportsPage = () => {
     <div style={{ marginTop: "5rem" }}>
       <div className="maintenance-container">
         <p className="maintenance-text">Ops. Página em construção!</p>
-          <Reports />
+        <Reports />
       </div>{" "}
     </div>
   );
@@ -276,8 +279,19 @@ const AdminPage = () => {
                   }}
                   className={activeLink === "register" ? "active" : ""}
                 >
-                  Cadastros
+                  Ecommerce
                 </a>
+                <a
+            href="#"
+            onClick={() => {
+              changePage("physicalGoods");
+              handleLinkClick("physicalGoods");
+              // Adicione mais lógica, se necessário
+            }}
+            className={activeLink === "physicalGoods" ? "active" : ""}
+          >
+            Cadastros
+          </a>
                 <a
                   href="#"
                   onClick={() => {
@@ -354,6 +368,17 @@ const AdminPage = () => {
               // Adicione mais lógica, se necessário
             }}
             className={activeLink === "register" ? "active" : ""}
+          >
+            Ecommerce
+          </a>
+          <a
+            href="#"
+            onClick={() => {
+              changePage("physicalGoods");
+              handleLinkClick("physicalGoods");
+              // Adicione mais lógica, se necessário
+            }}
+            className={activeLink === "physicalGoods" ? "active" : ""}
           >
             Cadastros
           </a>
