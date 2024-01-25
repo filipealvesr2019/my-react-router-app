@@ -1,5 +1,4 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import Transations from '../Financial/transations/Transations';
 import Revenues from '../Financial/FinancialNavItems/Revenues.JSX';
 import Expenses from '../Financial/expenses/expenses';
@@ -9,6 +8,10 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Menu from '@mui/material/Menu';
+import Clients from '../Financial/Clients/Clients';
+import Goods from '../PhysicalGoods/Goods';
+import GoodsCategories from '../PhysicalGoods/GoodsCategories';
+import Suppliers from '../PhysicalGoods/Suppliers';
 const Fiscal = () => {
   const [age, setAge] = useState('');  // Declare o estado age
   // Declare a função handleChange
@@ -30,75 +33,85 @@ const Fiscal = () => {
   const renderPage = () => {
     switch (activeNavItem) {
       case 0:
-        return <Transations />;
-      case 1:
-        return <Revenues />;
-      case 2:
-        return <Expenses />;
-      case 3:
         return <Clients />;
-      case 4:
-        return <Revenues />;
+      case 1:
+          return <Suppliers />;
+      case 2:
+          return <Goods />;
+
+      case 3:
+          return <GoodsCategories />;
+
       default:
         return null;
     }
   };
-  
-    return (
-      <div>
-      <div className="page-container">
-        <div className="navContainer">
-          <nav className="nav">
-            <ul className="ul">
-              <li
-                className={`cadastros ${
-                  activeNavItem === 0 ? 'active-item' : ''
-                }`}
-                onClick={() => handleClickOtherNavbar(0)}
-              >
-                Movimentações
-              </li>
-              {/* ... (restante do código) ... */}
-              <li
-                className={`cadastros ${
-                  activeNavItem === 4 ? 'active-item' : ''
-                }`}
-                onClick={() => handleClickOtherNavbar(4)}
-              >
-                Fornecedores
-              </li>
-              <li
-                className={`cadastros ${
-                  activeNavItem === 4 ? 'active-item' : ''
-                }`}
-                onClick={() => handleClickOtherNavbar(4)}
-              >
-        
-                {/* Componente de Dropdown */}
-                <Box>
-                  <div onClick={(event) => handleClickOtherNavbar(4, event)}>
-                    Nome do Dropdown
-                  </div>
-                  <Menu
-                    anchorEl={anchorEl}
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}
-                  >
-                    <MenuItem onClick={handleClose}>Item 1</MenuItem>
-                    <MenuItem onClick={handleClose}>Item 2</MenuItem>
-                    <MenuItem onClick={handleClose}>Item 3</MenuItem>
-                  </Menu>
-                </Box>
+  return (
+    <div>
+    <div className="page-container">
+      <div className="navContainer">
+        <nav className="nav">
+          <ul className="ul">
+            <li
+              className={`cadastros ${
+                activeNavItem === 0 ? 'active-item' : ''
+              }`}
+              onClick={() => handleClickOtherNavbar(0)}
+            >
+              Clientes
+            </li>
+            {/* ... (restante do código) ... */}
+            <li
+              className={`cadastros ${
+                activeNavItem === 1 ? 'active-item' : ''
+              }`}
+              onClick={() => handleClickOtherNavbar(1)}
+            >
+              Fornecedores
+            </li>
+            <li
+              className={`cadastros ${
+                activeNavItem === 2 ? 'active-item' : ''
+              }`}
+              onClick={() => handleClickOtherNavbar(2)}
+            >
+              Produtos
+            </li>
+            <li
+              className={`cadastros ${
+                activeNavItem === 3 ? 'active-item' : ''
+              }`}
+              onClick={() => handleClickOtherNavbar(3)}
+            >
+              Categorias
+            </li>
+            <li
+           
+            >
+      
+              {/* Componente de Dropdown */}
+              <Box>
+                <div onClick={(event) => handleClickOtherNavbar(4, event)}>
+                  outros
+                </div>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                >
+                  <MenuItem onClick={handleClose}>Item 1</MenuItem>
+                  <MenuItem onClick={handleClose}>Item 2</MenuItem>
+                  <MenuItem onClick={handleClose}>Item 3</MenuItem>
+                </Menu>
+              </Box>
 
-              </li>
-            </ul>
-          </nav>
-          <div className="content-container">{renderPage()}</div>
-        </div>
+            </li>
+          </ul>
+        </nav>
+        <div className="content-container">{renderPage()}</div>
       </div>
     </div>
-    );
-  };
-
-
+  </div>
+)
+}
 export default Fiscal
