@@ -2,11 +2,12 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
-
+ import Clients from "./pages/Financial/Clients/Clients"
 import Login from "./components/Login";
 
 import AdminPage from "./AdminPage";
 import EmployeePage from "./EmployeePage";
+import EditClients from "./pages/Financial/Clients/EditClients";
 function App() {
   return (
     <>
@@ -25,7 +26,7 @@ function App() {
               <Route path="/" element={<Login />} />
               <Route path="/admin" element={<AdminPage />} />
               <Route path="/employee" element={<EmployeePage />} />
-              
+
 
             </Routes>
           </div>

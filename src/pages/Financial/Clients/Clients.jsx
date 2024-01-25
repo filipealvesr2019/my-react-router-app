@@ -8,6 +8,13 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+
+
+import Modal from '@mui/joy/Modal';
+import ModalClose from '@mui/joy/ModalClose';
+import ModalDialog from '@mui/joy/ModalDialog';
+
+
 const VendorList = () => {
   const [vendors, setVendors] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -15,6 +22,7 @@ const VendorList = () => {
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [searchTerm, setSearchTerm] = useState("");
   const [error, setError] = useState(null);
+  const [layout, setLayout] = React.useState(undefined);
 
   useEffect(() => {
     getVendors();
@@ -168,6 +176,42 @@ const VendorList = () => {
           </Button>
         </DialogActions>
       </Dialog>
+      
+
+      <React.Fragment>
+      <Stack direction="row" spacing={1}>
+        <Button
+          variant="outlined"
+          color="neutral"
+          onClick={() => {
+            setLayout('center');
+          }}
+        >
+          Center
+        </Button>
+        <Button
+          variant="outlined"
+          color="neutral"
+          onClick={() => {
+            setLayout('fullscreen');
+          }}
+        >
+          Full screen
+        </Button>
+      </Stack>
+      <Modal open={!!layout} onClose={() => setLayout(undefined)}>
+        <ModalDialog layout={layout}>
+          <ModalClose />
+          <DialogTitle>Modal Dialog</DialogTitle>
+          <DialogContent>
+            <div>
+              This is a <code>{layout}</code> modal dialog. Press <code>esc</code> to
+              close it.
+            </div>
+          </DialogContent>
+        </ModalDialog>
+      </Modal>
+    </React.Fragment>
     </div>
   );
 };
