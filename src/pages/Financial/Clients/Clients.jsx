@@ -3,7 +3,11 @@ import axios from "axios";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import { Button } from "@mui/joy";
-
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 const VendorList = () => {
   const [vendors, setVendors] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -48,9 +52,16 @@ const VendorList = () => {
   };
 
 
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [vendorToDelete, setVendorToDelete] = useState(null);
+
+  // ... (restante do código)
 
   const handleDelete = async (vendorId) => {
     try {
+      // Fecha o diálogo de confirmação
+      setShowConfirmation(false);
+
       // Faça uma solicitação para excluir o fornecedor pelo ID.
       await axios.delete(`http://localhost:3001/api/vendor/${vendorId}`);
 
@@ -60,6 +71,19 @@ const VendorList = () => {
       console.error('Erro ao excluir fornecedor', error);
       setError('Erro ao excluir fornecedor. Por favor, tente novamente.');
     }
+  };
+
+  const handleConfirmDelete = () => {
+    // Chama a função de exclusão apenas se houver um fornecedor para excluir
+    if (vendorToDelete) {
+      handleDelete(vendorToDelete);
+    }
+  };
+
+  const handleOpenConfirmation = (vendorId) => {
+    // Define o fornecedor a ser excluído e mostra o diálogo de confirmação
+    setVendorToDelete(vendorId);
+    setShowConfirmation(true);
   };
 
   return (
@@ -89,13 +113,13 @@ const VendorList = () => {
                     Editar
                   </button>
                   <Button
-                    variant="outlined"
-                    color="secondary"
-                    style={{ height: '7vh', marginTop: '.2rem' }}
-                    onClick={() => handleDelete(vendor._id)}
-                  >
-                    Excluir
-                  </Button>
+                variant="outlined"
+                color="secondary"
+                style={{ height: '7vh', marginTop: '.2rem' }}
+                onClick={() => handleOpenConfirmation(vendor._id)}
+              >
+                Excluir
+              </Button>
                 </div>
               </td>
             </tr>
@@ -125,6 +149,25 @@ const VendorList = () => {
       </div>
 
       {error && <div>{error}</div>}
+      <Dialog
+        open={showConfirmation}
+        onClose={() => setShowConfirmation(false)}
+      >
+        <DialogTitle>Confirmar Exclusão</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Tem certeza de que deseja excluir este fornecedor?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setShowConfirmation(false)} color="primary">
+            Cancelar
+          </Button>
+          <Button onClick={handleConfirmDelete} color="secondary">
+            Confirmar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
