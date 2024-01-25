@@ -118,7 +118,33 @@ const VendorList = () => {
                 <div style={{ display: "flex", gap: "1rem", marginLeft: "2rem" }}>
                   <button className="buttonUpdate">
                     <img src="https://i.ibb.co/5R1QnT7/edit-1.png" alt="" />
-                    Editar
+                  
+      <React.Fragment>
+      <Stack direction="row" spacing={1}>
+      
+        <Button
+          variant="outlined"
+          color="neutral"
+          onClick={() => {
+            setLayout('fullscreen');
+          }}
+        >
+          Full screen
+        </Button>
+      </Stack>
+      <Modal open={!!layout} onClose={() => setLayout(undefined)}>
+        <ModalDialog layout={layout}>
+          <ModalClose />
+          <DialogTitle>Modal Dialog</DialogTitle>
+          <DialogContent>
+            <div>
+              This is a <code>{layout}</code> modal dialog. Press <code>esc</code> to
+              close it.
+            </div>
+          </DialogContent>
+        </ModalDialog>
+      </Modal>
+    </React.Fragment>
                   </button>
                   <Button
                 variant="outlined"
@@ -178,32 +204,6 @@ const VendorList = () => {
       </Dialog>
       
 
-      <React.Fragment>
-      <Stack direction="row" spacing={1}>
-      
-        <Button
-          variant="outlined"
-          color="neutral"
-          onClick={() => {
-            setLayout('fullscreen');
-          }}
-        >
-          Full screen
-        </Button>
-      </Stack>
-      <Modal open={!!layout} onClose={() => setLayout(undefined)}>
-        <ModalDialog layout={layout}>
-          <ModalClose />
-          <DialogTitle>Modal Dialog</DialogTitle>
-          <DialogContent>
-            <div>
-              This is a <code>{layout}</code> modal dialog. Press <code>esc</code> to
-              close it.
-            </div>
-          </DialogContent>
-        </ModalDialog>
-      </Modal>
-    </React.Fragment>
     </div>
   );
 };
