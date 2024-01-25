@@ -93,7 +93,16 @@ const VendorList = () => {
 
   return (
     <div>
-      <div>{/* Renderize a lista de fornecedores */}</div>
+
+<div>
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={handleSearchChange}
+          placeholder="Pesquisar por nome"
+        />
+        <button onClick={() => setCurrentPage(1)}>Pesquisar</button>
+      </div>
       <table>
         <thead>
           <tr>
@@ -129,7 +138,7 @@ const VendorList = () => {
                           className="buttonUpdate"
                         >
                              <img src="https://i.ibb.co/5R1QnT7/edit-1.png" alt="" />
-                          Full screen
+                          Editar
                         </Button>
                       </Stack>
                       <Modal
@@ -172,17 +181,6 @@ const VendorList = () => {
             onChange={handlePageChange}
           />
         </Stack>
-      </div>
-
-      <div>
-        {/* Renderize a caixa de pesquisa */}
-        <input
-          type="text"
-          value={searchTerm}
-          onChange={handleSearchChange}
-          placeholder="Pesquisar por nome"
-        />
-        <button onClick={() => setCurrentPage(1)}>Pesquisar</button>
       </div>
 
       {error && <div>{error}</div>}
