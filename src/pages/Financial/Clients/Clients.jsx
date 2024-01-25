@@ -111,6 +111,17 @@ const VendorList = () => {
       setError("Erro ao editar fornecedor. Por favor, tente novamente.");
     }
   };
+
+
+  // Adicione um novo estado para rastrear o fornecedor em edição
+const [editingVendor, setEditingVendor] = useState(null);
+
+// Adicione uma função para carregar os dados do fornecedor no formulário de edição
+const loadEditingVendor = (vendor) => {
+  setEditingVendor(vendor);
+  setUpdatedName(vendor.name);
+
+};
   return (
     <div>
       <div>
@@ -145,17 +156,17 @@ const VendorList = () => {
                 >
                   <React.Fragment>
                     <Stack direction="row" spacing={1}>
-                      <Button
-                        variant="outlined"
-                        color="neutral"
-                        onClick={() => {
-                          setLayout("fullscreen");
-                        }}
-                        className="buttonUpdate"
-                      >
-                        <img src="https://i.ibb.co/5R1QnT7/edit-1.png" alt="" />
-                        Editar
-                      </Button>
+                    <Button
+  variant="outlined"
+  color="neutral"
+  onClick={() => {
+    loadEditingVendor(vendor);
+    setLayout("fullscreen");
+  }}
+>
+  <img src="https://i.ibb.co/5R1QnT7/edit-1.png" alt="" />
+  Editar
+</Button>
                     </Stack>
                     <Modal open={!!layout} onClose={() => setLayout(undefined)}>
                       <ModalDialog layout={layout}>
@@ -163,19 +174,19 @@ const VendorList = () => {
                         <DialogTitle>Modal Dialog</DialogTitle>
                         <DialogContent>
                           <div>
-                            <input
-                              type="text"
-                              value={updatedName}
-                              onChange={(e) => setUpdatedName(e.target.value)}
-                              placeholder="Nome"
-                            />
-                            <Button
-                              variant="outlined"
-                              color="primary"
-                              onClick={() => handleEdit(vendor._id)}
-                            >
-                              Confirmar Edição
-                            </Button>
+                          <input
+          type="text"
+          value={updatedName}
+          onChange={(e) => setUpdatedName(e.target.value)}
+          placeholder="Nome"
+        />
+                      <Button
+          variant="outlined"
+          color="primary"
+          onClick={() => handleEdit(editingVendor._id)}
+        >
+          Confirmar Edição
+        </Button>
                           </div>
                         </DialogContent>
                       </ModalDialog>
