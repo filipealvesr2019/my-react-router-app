@@ -13,7 +13,8 @@ import Financial from "./pages/Financial/Financial";
 import Stock from "./pages/stock/stock";
 import Fiscal from "./pages/Fiscal/Fiscal";
 import Reports from "./pages/Reports/Reports";
-import PhysicalGoods from "./pages/PhysicalGoods/PhysicalGoods";
+import PhysicalGoods from "./pages/PhysicalGoods]/PhysicalGoods";
+
 const Content = ({ currentPage }) => {
   switch (currentPage) {
     case "register":

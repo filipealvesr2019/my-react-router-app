@@ -8,10 +8,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Menu from '@mui/material/Menu';
-import Clients from '../Financial/Clients/Clients';
-import Goods from '../PhysicalGoods/Goods';
-import GoodsCategories from '../PhysicalGoods/GoodsCategories';
-import Suppliers from '../PhysicalGoods/Suppliers';
+
 const Financial = () => {
   const [age, setAge] = useState('');  // Declare o estado age
     // Declare a função handleChange
@@ -33,14 +30,14 @@ const Financial = () => {
     const renderPage = () => {
       switch (activeNavItem) {
         case 0:
-          return <Clients />;
+          return <></>;
         case 1:
-            return <Suppliers />;
+            return <></>;
         case 2:
-            return <Goods />;
+            return <></>;
 
         case 3:
-            return <GoodsCategories />;
+            return <></>;
 
         default:
           return null;
