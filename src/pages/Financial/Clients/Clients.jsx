@@ -47,70 +47,59 @@ const VendorList = () => {
     setCurrentPage(page);
   };
 
+
+
+  const handleDelete = async (vendorId) => {
+    try {
+      // Faça uma solicitação para excluir o fornecedor pelo ID.
+      await axios.delete(`http://localhost:3001/api/vendor/${vendorId}`);
+
+      // Atualize a lista de fornecedores após a exclusão.
+      getVendors();
+    } catch (error) {
+      console.error('Erro ao excluir fornecedor', error);
+      setError('Erro ao excluir fornecedor. Por favor, tente novamente.');
+    }
+  };
+
   return (
     <div>
       <div>{/* Renderize a lista de fornecedores */}</div>
       <table>
         <thead>
           <tr>
-            <th
-              style={{
-                color: "#14337C",
-              }}
-            >
-              Nome
-            </th>
-            <th
-              style={{
-                color: "#14337C",
-              }}
-            >
-              Telefone
-            </th>
-            <th
-              style={{
-                color: "#14337C",
-              }}
-            >
-              E-mail
-            </th>
-            <th
-              style={{
-                color: "#14337C",
-              }}
-            >
-              CPF/CNPJ
-            </th>
-            <th style={{ width: "25vw", color: "#14337C" }}>Ações</th>
+            <th>Nome</th>
+            <th>Telefone</th>
+            <th>E-mail</th>
+            <th>CPF/CNPJ</th>
+            <th style={{ width: "25vw" }}>Ações</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
-              {" "}
-              {vendors.map((vendor) => (
-                <div key={vendor._id}>{vendor.name}</div>
-              ))}
-            </td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>
-              <div style={{ display: "flex", gap: "1rem", marginLeft: "2rem" }}>
-                <button className="buttonUpdate">
-                  <img src="https://i.ibb.co/5R1QnT7/edit-1.png" alt="" />
-                  Editar
-                </button>
-                <Button
-                  variant="outlined"
-                  color="danger"
-                  style={{ height: "7vh", marginTop: ".2rem" }}
-                >
-                  Excluir
-                </Button>
-              </div>
-            </td>
-          </tr>
+          {vendors.map((vendor) => (
+            <tr key={vendor._id}>
+              <td>{vendor.name}</td>
+              <td>{vendor.phone}</td>
+              <td>{vendor.email}</td>
+              <td>{vendor.cpfCnpj}</td>
+              <td>
+                <div style={{ display: "flex", gap: "1rem", marginLeft: "2rem" }}>
+                  <button className="buttonUpdate">
+                    <img src="https://i.ibb.co/5R1QnT7/edit-1.png" alt="" />
+                    Editar
+                  </button>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    style={{ height: '7vh', marginTop: '.2rem' }}
+                    onClick={() => handleDelete(vendor._id)}
+                  >
+                    Excluir
+                  </Button>
+                </div>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
       <div>
