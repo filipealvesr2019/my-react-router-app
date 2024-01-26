@@ -144,7 +144,9 @@ const VendorList = () => {
       }}>
         <thead>
           <tr>
-            <th>Nome</th>
+            <th style={{
+                color:"#14337c"
+            }}>Nome</th>
             <th>Telefone</th>
             <th>E-mail</th>
             <th>CPF/CNPJ</th>
