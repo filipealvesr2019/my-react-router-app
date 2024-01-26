@@ -28,8 +28,9 @@ const VendorList = () => {
   const [editingVendor, setEditingVendor] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [vendorToDelete, setVendorToDelete] = useState(null);
+
   const [newVendor, setNewVendor] = useState({
-    name: '',
+    name: "",
     // Adicione outros campos conforme necessário
   });
   useEffect(() => {
@@ -124,43 +125,26 @@ const VendorList = () => {
     setUpdatedName(vendor.name);
   };
 
-
-
-
-
-
-
-
-
-
-  
   // Novo estado para armazenar os detalhes do novo fornecedor
-  
+
   const handleAddVendor = async () => {
     try {
       // Faça uma solicitação para adicionar o novo fornecedor.
-      await axios.post('http://localhost:3001/api/vendor', newVendor);
-  
+      await axios.post("http://localhost:3001/api/vendor", newVendor);
+
       // Atualize a lista de fornecedores após a adição.
       getVendors();
-  
+
       // Feche o modal de adição
       setLayout(undefined);
     } catch (error) {
-      console.error('Erro ao adicionar fornecedor', error);
-      setError('Erro ao adicionar fornecedor. Por favor, tente novamente.');
+      console.error("Erro ao adicionar fornecedor", error);
+      setError("Erro ao adicionar fornecedor. Por favor, tente novamente.");
     }
   };
-  
-
-  
-
-
 
   return (
-    <div style={{
-      position:"relative"
-    }}>
+    <div>
       <div
         style={{
           margin: "0 auto",
@@ -181,89 +165,55 @@ const VendorList = () => {
           }}
         />
 
-<React.Fragment>
-  <Stack direction="row" spacing={1}>
-    <Button
-      onClick={() => {
-        setNewVendor({
-          name: '',
-          phone: '',
-          email: '',
-          cpfCnpj: '',
-          // Adicione outros campos conforme necessário
-        });
-        setLayout('fullscreen');
-      }}
-      style={{
-        backgroundColor: '#14337C',
-        color: '#FFFFFF',
-        marginTop: '2rem',
-        position:"absolute",
-        right:"10px",
+        <React.Fragment>
+          <Stack direction="row" spacing={1}>
+            <Button
+              onClick={() => {
+                setNewVendor({
+                  name: "",
+                  phone: "",
+                  email: "",
+                  cpfCnpj: "",
+                });
+                setModalType("create"); // Defina o tipo do modal como 'create'
+              }}
+            >
+              Novo Cliente
+            </Button>
+          </Stack>
 
-        '&:hover': {
-          backgroundColor: '#14337C',
-          opacity: 0.9,
-        },
-      }}
-    >
-      Novo Cliente
-    </Button>
-  </Stack>
-
-  <Modal open={!!layout} onClose={() => setLayout(undefined)}>
-    <ModalDialog layout={layout}>
-      <ModalClose />
-      <DialogTitle>Adicionar Novo Cliente</DialogTitle>
-      <DialogContent>
-        <div>
-          <input
-            type="text"
-            value={newVendor.name}
-            onChange={(e) =>
-              setNewVendor({ ...newVendor, name: e.target.value })
-            }
-            placeholder="Nome do novo fornecedor"
-          />
-          <input
-            type="text"
-            value={newVendor.phone}
-            onChange={(e) =>
-              setNewVendor({ ...newVendor, phone: e.target.value })
-            }
-            placeholder="Telefone"
-          />
-          <input
-            type="text"
-            value={newVendor.email}
-            onChange={(e) =>
-              setNewVendor({ ...newVendor, email: e.target.value })
-            }
-            placeholder="E-mail"
-          />
-          <input
-            type="text"
-            value={newVendor.cpfCnpj}
-            onChange={(e) =>
-              setNewVendor({ ...newVendor, cpfCnpj: e.target.value })
-            }
-            placeholder="CPF/CNPJ"
-          />
-          {/* Adicione outros campos do fornecedor conforme necessário */}
-          <button onClick={handleAddVendor}>Adicionar Fornecedor</button>
-        </div>
-      </DialogContent>
-    </ModalDialog>
-  </Modal>
-</React.Fragment>
-
-
+          <Modal
+            open={modalType === "create"}
+            onClose={() => setModalType(null)}
+          >
+            <ModalDialog layout={layout}>
+              <ModalClose />
+              <DialogTitle>Adicionar Novo Cliente</DialogTitle>
+              <DialogContent>
+                <div>
+                  <input
+                    type="text"
+                    value={newVendor.name}
+                    onChange={(e) =>
+                      setNewVendor({ ...newVendor, name: e.target.value })
+                    }
+                    placeholder="Nome do novo fornecedor"
+                  />
+                  {/* Outros campos... */}
+                  <button onClick={handleAddVendor}>
+                    Adicionar Fornecedor
+                  </button>
+                </div>
+              </DialogContent>
+            </ModalDialog>
+          </Modal>
+        </React.Fragment>
       </div>
       <table
         style={{
           margin: "0 auto",
           width: "60dvw",
-          marginTop: "5rem",
+          marginTop: "3rem",
         }}
       >
         <thead>
