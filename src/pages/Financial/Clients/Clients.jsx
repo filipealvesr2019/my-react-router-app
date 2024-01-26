@@ -12,7 +12,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Modal from "@mui/joy/Modal";
 import ModalClose from "@mui/joy/ModalClose";
 import ModalDialog from "@mui/joy/ModalDialog";
-
+import SearchIcon from '@mui/icons-material/Search';
 const VendorList = () => {
   const [vendors, setVendors] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -124,16 +124,24 @@ const VendorList = () => {
   };
   return (
     <div>
-      <div>
-        <input
-          type="text"
-          value={searchTerm}
-          onChange={handleSearchChange}
-          placeholder="Pesquisar por nome"
-        />
-        <button onClick={() => setCurrentPage(1)}>Pesquisar</button>
-      </div>
-      <table>
+      <div style={{ margin: '0 auto', position: 'relative', width: '60vw' }}>
+      <input
+        type="text"
+        value={searchTerm}
+        onChange={handleSearchChange}
+        placeholder="Pesquisar por nome"
+        style={{
+          width: '100%', // Altera para 100% para centralizar
+          paddingRight: '2rem', // Adiciona espaço à direita para o ícone
+        }}
+      />
+    </div>
+      <table style={{
+        margin:"0 auto",
+        width:"80dvw",
+        marginTop:"3rem"
+
+      }}>
         <thead>
           <tr>
             <th>Nome</th>
