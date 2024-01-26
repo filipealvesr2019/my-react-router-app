@@ -28,6 +28,7 @@ const VendorList = () => {
   const [editingVendor, setEditingVendor] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [vendorToDelete, setVendorToDelete] = useState(null);
+  const [modalType, setModalType] = useState(null);
 
   const [newVendor, setNewVendor] = useState({
     name: "",
