@@ -330,12 +330,14 @@ const Categories = () => {
             placeholder="adicionar categoria..."
             onChange={(e) => setNewCategory(e.target.value)}
           />
-          <div style={{ color: "red", marginLeft: "1rem" }}>
+            <div style={{ color: "red"}}>
           {categoryInputError}
         </div>
         </div>
-        
-        <button onClick={addCategory} className="categoryButton">
+      
+        <button onClick={addCategory} className="categoryButton" style={{
+          marginLeft: "1rem" 
+        }}>
           Adicionar Categoria
         </button>
       </div>
@@ -423,7 +425,7 @@ const Categories = () => {
             onChange={(e) => setNewSubcategory(e.target.value)}
             placeholder="adicionar subcategoria..."
           />
-                  <div style={{ color: "red" }}>{subcategoryInputError}</div>
+                  <div style={{ color: "red", fontSize:"1.1rem" }}>{subcategoryInputError}</div>
 
         </div>
         <button
