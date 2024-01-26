@@ -26,7 +26,7 @@ const VendorList = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [vendorToDelete, setVendorToDelete] = useState(null);
 
-  
+
   useEffect(() => {
     getVendors();
   }, [currentPage, searchTerm]);
@@ -212,6 +212,7 @@ const VendorList = () => {
         <Stack spacing={2}>
           <Pagination
             count={totalPages}
+            color="primary"
             page={currentPage}
             onChange={handlePageChange}
           />
