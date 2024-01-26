@@ -124,7 +124,7 @@ const VendorList = () => {
   };
   return (
     <div>
-      <div style={{ margin: '0 auto', position: 'relative', width: '60vw' }}>
+      <div style={{ margin: '0 auto', position: 'relative', width: '60vw', marginTop:"2rem" }}>
       <input
         type="text"
         value={searchTerm}
@@ -215,7 +215,9 @@ const VendorList = () => {
           ))}
         </tbody>
       </table>
-      <div>
+      <div style={{
+        marginTop:"2rem"
+      }}>
         {/* Renderize a navegação de página usando o componente MUI Pagination */}
         <Stack spacing={2}>
           <Pagination
