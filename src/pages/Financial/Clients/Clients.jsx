@@ -186,8 +186,12 @@ const VendorList = () => {
           <Modal
             open={modalType === "create"}
             onClose={() => setModalType(null)}
+           
           >
-            <ModalDialog layout={layout}>
+            <ModalDialog layout={layout}  style={{
+              width:"90dvw",
+              height:"85dvh"
+            }}>
               <ModalClose />
               <DialogTitle>Adicionar Novo Cliente</DialogTitle>
               <DialogContent>
