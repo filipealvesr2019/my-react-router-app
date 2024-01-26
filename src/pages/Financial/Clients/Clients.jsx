@@ -137,7 +137,7 @@ const VendorList = () => {
       getVendors();
 
       // Feche o modal de adição
-      setLayout(undefined);
+      setModalType(null);
     } catch (error) {
       console.error("Erro ao adicionar fornecedor", error);
       setError("Erro ao adicionar fornecedor. Por favor, tente novamente.");
@@ -152,6 +152,7 @@ const VendorList = () => {
           position: "relative",
           width: "60vw",
           marginTop: "2rem",
+          marginBottom:"5rem"
         }}
       >
         <input
@@ -167,7 +168,7 @@ const VendorList = () => {
         />
 
         <React.Fragment>
-          <Stack direction="row" spacing={1}>
+          <Stack direction="row" spacing={1} style={{ marginTop: '2rem' }}>
             <Button
               onClick={() => {
                 setNewVendor({
@@ -177,6 +178,10 @@ const VendorList = () => {
                   cpfCnpj: "",
                 });
                 setModalType("create"); // Defina o tipo do modal como 'create'
+              }}
+              style={{
+                position:"absolute",
+                right:"10px",
               }}
             >
               Novo Cliente
@@ -218,7 +223,7 @@ const VendorList = () => {
         style={{
           margin: "0 auto",
           width: "60dvw",
-          marginTop: "3rem",
+          marginTop: "-2rem",
         }}
       >
         <thead>
