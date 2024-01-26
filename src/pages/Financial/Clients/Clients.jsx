@@ -13,6 +13,18 @@ import Modal from "@mui/joy/Modal";
 import ModalClose from "@mui/joy/ModalClose";
 import ModalDialog from "@mui/joy/ModalDialog";
 import SearchIcon from '@mui/icons-material/Search';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+
+
+
+
+
+
+
+
+
+
 const VendorList = () => {
   const [vendors, setVendors] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -166,17 +178,11 @@ const VendorList = () => {
                 >
                   <React.Fragment>
                     <Stack direction="row" spacing={1}>
-                      <Button
-                        variant="outlined"
-                        color="neutral"
-                        onClick={() => {
+                   
+                      <EditIcon   onClick={() => {
                           loadEditingVendor(vendor);
                           setLayout("fullscreen");
-                        }}
-                      >
-                        <img src="https://i.ibb.co/5R1QnT7/edit-1.png" alt="" />
-                        Editar
-                      </Button>
+                        }}/>
                     </Stack>
                     <Modal open={!!layout} onClose={() => setLayout(undefined)}>
                       <ModalDialog layout={layout}>
@@ -203,14 +209,9 @@ const VendorList = () => {
                     </Modal>
                   </React.Fragment>
 
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    style={{ height: "7vh", marginTop: ".2rem" }}
-                    onClick={() => handleOpenConfirmation(vendor._id)}
-                  >
-                    Excluir
-                  </Button>
+              
+                  <DeleteIcon                      onClick={() => handleOpenConfirmation(vendor._id)}
+/>
                 </div>
               </td>
             </tr>
