@@ -66,9 +66,7 @@ const Categories = () => {
 
   const getCategories = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:3001/api/categories"
-      );
+      const response = await axios.get("http://localhost:3001/api/categories");
       setCategories(response.data.categories);
     } catch (error) {
       console.error("Erro ao obter categorias", error);
@@ -323,30 +321,30 @@ const Categories = () => {
 
   return (
     <div style={{}}>
-          <ToastContainer position="top-right" autoClose={5000} />
-
+      <ToastContainer position="top-right" autoClose={5000} />
       <div className={`addContainer ${categoryInputError ? "error" : ""}`}>
-        <label>
-          Adicionar Nova Categoria:
-          <div className={`categoryInput ${categoryInputError ? "error" : ""}`}>
-            <input
-              type="text"
-              value={newCategory}
-              onChange={(e) => setNewCategory(e.target.value)}
-            />
-          </div>
-          <div style={{ color: "red" }}>{categoryInputError}</div>
-          <button onClick={addCategory} className="categoryButton">
-            Adicionar Categoria
-          </button>
-        </label>
+        <div className={`categoryInput ${categoryInputError ? "error" : ""}`}>
+          <input
+            type="text"
+            value={newCategory}
+            placeholder="adicionar categoria..."
+            onChange={(e) => setNewCategory(e.target.value)}
+          />
+        </div>
+        <div style={{ color: "red", marginLeft: "1rem" }}>
+          {categoryInputError}
+        </div>
+        <button onClick={addCategory} className="categoryButton">
+          Adicionar Categoria
+        </button>
       </div>
+
       {/* Tabela para Todas Categorias */}
       <table className="category-table">
         <thead>
           <tr>
             <th className="Categorias">Todas Categorias</th>
-            <th style={{width:"25vw"}}>Ações</th>
+            <th style={{ width: "25vw" }}>Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -387,7 +385,9 @@ const Categories = () => {
               <td>
                 {editingItem !== category._id ? (
                   // Apenas exibe os botões de ação se não estiver editando
-                  <div style={{ display: "flex", gap: "1rem", marginLeft:"2rem" }}>
+                  <div
+                    style={{ display: "flex", gap: "1rem", marginLeft: "2rem" }}
+                  >
                     <button
                       onClick={() => setEditingItem(category._id)}
                       className="buttonUpdate"
@@ -413,30 +413,33 @@ const Categories = () => {
       </table>
 
       <div className={`addContainer ${subcategoryInputError ? "error" : ""}`}>
-        <label>
-          Adicionar Nova Subcategoria:
-          <div
-            className={`categoryInput ${subcategoryInputError ? "error" : ""}`}
-          >
-            <input
-              type="text"
-              value={newSubcategory}
-              onChange={(e) => setNewSubcategory(e.target.value)}
-            />
-          </div>
-          <div style={{ color: "red" }}>{subcategoryInputError}</div>
-          <button onClick={addSubcategory} className="categoryButton">
-            Adicionar Subcategoria
-          </button>
-        </label>
+        <div
+          className={`categoryInput ${subcategoryInputError ? "error" : ""}`}
+        >
+          <input
+            type="text"
+            value={newSubcategory}
+            onChange={(e) => setNewSubcategory(e.target.value)}
+            placeholder="adicionar subcategoria..."
+          />
+        </div>
+        <div style={{ color: "red" }}>{subcategoryInputError}</div>
+        <button
+          onClick={addSubcategory}
+          className="categoryButton"
+          style={{
+            marginLeft: "1rem",
+          }}
+        >
+          Adicionar Subcategoria
+        </button>
       </div>
-      {/* Tabela para Todas Subcategorias */}
 
       <table className="category-table">
         <thead>
           <tr>
             <th className="Categorias">Todas Subcategorias</th>
-            <th style={{width:"25vw"}}>Ações</th>
+            <th style={{ width: "25vw" }}>Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -475,7 +478,9 @@ const Categories = () => {
               <td>
                 {editingItem !== sub._id ? (
                   // Apenas exibe os botões de ação se não estiver editando
-                  <div style={{ display: "flex", gap: "1rem", marginLeft:"2rem"  }}>
+                  <div
+                    style={{ display: "flex", gap: "1rem", marginLeft: "2rem" }}
+                  >
                     <button
                       onClick={() => setEditingItem(sub._id)}
                       className="buttonUpdate"

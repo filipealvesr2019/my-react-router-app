@@ -29,26 +29,37 @@
 
 .categoryInput input{
     width: 20dvw;
+    height: 7dvh;
 }
 
 .categoryButton{
     background-color: #14337C;
     color: white;
     border: 0;
-    padding: .5rem;
+    width: 14vw;
+    height: 7dvh;
     border-radius: .3rem;
     font-family: "poppins";
-    font-size: 1rem;
+    font-size: .9rem;
+    margin-top: -1px;
    
 
 }
 
 .addContainer{
     margin-top: 5rem;
-    margin-bottom: 2rem;
-    margin-left: 53%;
+    margin-bottom: .5rem;
+    margin-left: 38%;
+
     
 }
+
+.addContainer {
+  display: flex;
+  flex-direction: row;
+
+}
+
 
 .buttonUpdate {
     background-color: white;

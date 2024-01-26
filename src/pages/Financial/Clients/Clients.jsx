@@ -12,18 +12,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Modal from "@mui/joy/Modal";
 import ModalClose from "@mui/joy/ModalClose";
 import ModalDialog from "@mui/joy/ModalDialog";
-import SearchIcon from '@mui/icons-material/Search';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-
-
-
-
-
-
-
-
-
+import SearchIcon from "@mui/icons-material/Search";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
 const VendorList = () => {
   const [vendors, setVendors] = useState([]);
@@ -37,8 +28,10 @@ const VendorList = () => {
   const [editingVendor, setEditingVendor] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [vendorToDelete, setVendorToDelete] = useState(null);
-
-
+  const [newVendor, setNewVendor] = useState({
+    name: '',
+    // Adicione outros campos conforme necessário
+  });
   useEffect(() => {
     getVendors();
   }, [currentPage, searchTerm]);
@@ -73,8 +66,6 @@ const VendorList = () => {
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
   };
-
-  
 
   // ... (restante do código)
 
@@ -127,42 +118,168 @@ const VendorList = () => {
     }
   };
 
- 
-
   // Adicione uma função para carregar os dados do fornecedor no formulário de edição
   const loadEditingVendor = (vendor) => {
     setEditingVendor(vendor);
     setUpdatedName(vendor.name);
   };
-  return (
-    <div>
-      <div style={{ margin: '0 auto', position: 'relative', width: '60vw', marginTop:"2rem" }}>
-      <input
-        type="text"
-        value={searchTerm}
-        onChange={handleSearchChange}
-        placeholder="Pesquisar por nome"
-        style={{
-          width: '100%', // Altera para 100% para centralizar
-          paddingRight: '2rem', // Adiciona espaço à direita para o ícone
-        }}
-      />
-    </div>
-      <table style={{
-        margin:"0 auto",
-        width:"80dvw",
-        marginTop:"3rem"
 
-      }}>
+
+
+
+
+
+
+
+
+
+  
+  // Novo estado para armazenar os detalhes do novo fornecedor
+  
+  const handleAddVendor = async () => {
+    try {
+      // Faça uma solicitação para adicionar o novo fornecedor.
+      await axios.post('http://localhost:3001/api/vendor', newVendor);
+  
+      // Atualize a lista de fornecedores após a adição.
+      getVendors();
+  
+      // Feche o modal de adição
+      setLayout(undefined);
+    } catch (error) {
+      console.error('Erro ao adicionar fornecedor', error);
+      setError('Erro ao adicionar fornecedor. Por favor, tente novamente.');
+    }
+  };
+  
+
+  
+
+
+
+  return (
+    <div style={{
+      position:"relative"
+    }}>
+      <div
+        style={{
+          margin: "0 auto",
+          position: "relative",
+          width: "60vw",
+          marginTop: "2rem",
+        }}
+      >
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={handleSearchChange}
+          placeholder="Pesquisar por nome"
+          style={{
+            width: "60dvw", // Altera para 100% para centralizar
+            paddingRight: "2rem", // Adiciona espaço à direita para o ícone
+            margin: "0 auto",
+          }}
+        />
+
+<React.Fragment>
+  <Stack direction="row" spacing={1}>
+    <Button
+      onClick={() => {
+        setNewVendor({
+          name: '',
+          phone: '',
+          email: '',
+          cpfCnpj: '',
+          // Adicione outros campos conforme necessário
+        });
+        setLayout('fullscreen');
+      }}
+      style={{
+        backgroundColor: '#14337C',
+        color: '#FFFFFF',
+        marginTop: '2rem',
+        position:"absolute",
+        right:"10px",
+
+        '&:hover': {
+          backgroundColor: '#14337C',
+          opacity: 0.9,
+        },
+      }}
+    >
+      Novo Cliente
+    </Button>
+  </Stack>
+
+  <Modal open={!!layout} onClose={() => setLayout(undefined)}>
+    <ModalDialog layout={layout}>
+      <ModalClose />
+      <DialogTitle>Adicionar Novo Cliente</DialogTitle>
+      <DialogContent>
+        <div>
+          <input
+            type="text"
+            value={newVendor.name}
+            onChange={(e) =>
+              setNewVendor({ ...newVendor, name: e.target.value })
+            }
+            placeholder="Nome do novo fornecedor"
+          />
+          <input
+            type="text"
+            value={newVendor.phone}
+            onChange={(e) =>
+              setNewVendor({ ...newVendor, phone: e.target.value })
+            }
+            placeholder="Telefone"
+          />
+          <input
+            type="text"
+            value={newVendor.email}
+            onChange={(e) =>
+              setNewVendor({ ...newVendor, email: e.target.value })
+            }
+            placeholder="E-mail"
+          />
+          <input
+            type="text"
+            value={newVendor.cpfCnpj}
+            onChange={(e) =>
+              setNewVendor({ ...newVendor, cpfCnpj: e.target.value })
+            }
+            placeholder="CPF/CNPJ"
+          />
+          {/* Adicione outros campos do fornecedor conforme necessário */}
+          <button onClick={handleAddVendor}>Adicionar Fornecedor</button>
+        </div>
+      </DialogContent>
+    </ModalDialog>
+  </Modal>
+</React.Fragment>
+
+
+      </div>
+      <table
+        style={{
+          margin: "0 auto",
+          width: "60dvw",
+          marginTop: "5rem",
+        }}
+      >
         <thead>
           <tr>
-            <th style={{
-                color:"#14337c"
-            }}>Nome</th>
-            <th>Telefone</th>
-            <th>E-mail</th>
-            <th>CPF/CNPJ</th>
-            <th style={{ width: "25vw" }}>Ações</th>
+            <th
+              style={{
+                color: "#14337c",
+                width: "40dvw",
+              }}
+            >
+              Nome
+            </th>
+            <th style={{ width: "10dvw" }}>Telefone</th>
+            <th style={{ width: "10dvw" }}>E-mail</th>
+            <th style={{ width: "10dvw" }}>CPF/CNPJ</th>
+            <th style={{ width: "10dvw" }}>Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -178,11 +295,12 @@ const VendorList = () => {
                 >
                   <React.Fragment>
                     <Stack direction="row" spacing={1}>
-                   
-                      <EditIcon   onClick={() => {
+                      <EditIcon
+                        onClick={() => {
                           loadEditingVendor(vendor);
                           setLayout("fullscreen");
-                        }}/>
+                        }}
+                      />
                     </Stack>
                     <Modal open={!!layout} onClose={() => setLayout(undefined)}>
                       <ModalDialog layout={layout}>
@@ -209,20 +327,22 @@ const VendorList = () => {
                     </Modal>
                   </React.Fragment>
 
-              
-                  <DeleteIcon                      onClick={() => handleOpenConfirmation(vendor._id)}
-/>
+                  <DeleteIcon
+                    onClick={() => handleOpenConfirmation(vendor._id)}
+                  />
                 </div>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <div style={{
-        marginTop:"2rem"
-      }}>
+      <div
+        style={{
+          marginTop: "2rem",
+        }}
+      >
         {/* Renderize a navegação de página usando o componente MUI Pagination */}
-        <Stack spacing={2}>
+        <Stack spacing={1}>
           <Pagination
             count={totalPages}
             color="primary"
