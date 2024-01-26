@@ -22,7 +22,11 @@ const VendorList = () => {
   const [error, setError] = useState(null);
   const [layout, setLayout] = React.useState(undefined);
   const [updatedName, setUpdatedName] = useState("");
+  const [editingVendor, setEditingVendor] = useState(null);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [vendorToDelete, setVendorToDelete] = useState(null);
 
+  
   useEffect(() => {
     getVendors();
   }, [currentPage, searchTerm]);
@@ -58,8 +62,7 @@ const VendorList = () => {
     setCurrentPage(page);
   };
 
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [vendorToDelete, setVendorToDelete] = useState(null);
+  
 
   // ... (restante do código)
 
@@ -103,7 +106,7 @@ const VendorList = () => {
       );
 
       // Atualize a lista de fornecedores após a edição.
-      getVendors();
+      getVendors(response.data);
       // Feche o modal de edição, se aplicável
       setLayout(undefined);
     } catch (error) {
@@ -112,16 +115,13 @@ const VendorList = () => {
     }
   };
 
+ 
 
-  // Adicione um novo estado para rastrear o fornecedor em edição
-const [editingVendor, setEditingVendor] = useState(null);
-
-// Adicione uma função para carregar os dados do fornecedor no formulário de edição
-const loadEditingVendor = (vendor) => {
-  setEditingVendor(vendor);
-  setUpdatedName(vendor.name);
-
-};
+  // Adicione uma função para carregar os dados do fornecedor no formulário de edição
+  const loadEditingVendor = (vendor) => {
+    setEditingVendor(vendor);
+    setUpdatedName(vendor.name);
+  };
   return (
     <div>
       <div>
@@ -156,17 +156,17 @@ const loadEditingVendor = (vendor) => {
                 >
                   <React.Fragment>
                     <Stack direction="row" spacing={1}>
-                    <Button
-  variant="outlined"
-  color="neutral"
-  onClick={() => {
-    loadEditingVendor(vendor);
-    setLayout("fullscreen");
-  }}
->
-  <img src="https://i.ibb.co/5R1QnT7/edit-1.png" alt="" />
-  Editar
-</Button>
+                      <Button
+                        variant="outlined"
+                        color="neutral"
+                        onClick={() => {
+                          loadEditingVendor(vendor);
+                          setLayout("fullscreen");
+                        }}
+                      >
+                        <img src="https://i.ibb.co/5R1QnT7/edit-1.png" alt="" />
+                        Editar
+                      </Button>
                     </Stack>
                     <Modal open={!!layout} onClose={() => setLayout(undefined)}>
                       <ModalDialog layout={layout}>
@@ -174,19 +174,19 @@ const loadEditingVendor = (vendor) => {
                         <DialogTitle>Modal Dialog</DialogTitle>
                         <DialogContent>
                           <div>
-                          <input
-          type="text"
-          value={updatedName}
-          onChange={(e) => setUpdatedName(e.target.value)}
-          placeholder="Nome"
-        />
-                      <Button
-          variant="outlined"
-          color="primary"
-          onClick={() => handleEdit(editingVendor._id)}
-        >
-          Confirmar Edição
-        </Button>
+                            <input
+                              type="text"
+                              value={updatedName}
+                              onChange={(e) => setUpdatedName(e.target.value)}
+                              placeholder="Nome"
+                            />
+                            <Button
+                              variant="outlined"
+                              color="primary"
+                              onClick={() => handleEdit(editingVendor._id)}
+                            >
+                              Confirmar Edição
+                            </Button>
                           </div>
                         </DialogContent>
                       </ModalDialog>
