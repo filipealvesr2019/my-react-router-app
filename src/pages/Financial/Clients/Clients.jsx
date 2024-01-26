@@ -15,12 +15,13 @@ import ModalDialog from "@mui/joy/ModalDialog";
 import SearchIcon from "@mui/icons-material/Search";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import { Tabs, Tab, Box, Typography, TextField } from "@mui/material";
 
 const VendorList = () => {
   const [vendors, setVendors] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [itemsPerPage, setItemsPerPage] = useState(20);
   const [searchTerm, setSearchTerm] = useState("");
   const [error, setError] = useState(null);
   const [layout, setLayout] = React.useState(undefined);
@@ -29,9 +30,13 @@ const VendorList = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [vendorToDelete, setVendorToDelete] = useState(null);
   const [modalType, setModalType] = useState(null);
+  const [tabValue, setTabValue] = useState(0);
 
   const [newVendor, setNewVendor] = useState({
     name: "",
+    TaxpayerIDNumber: "",
+    email: "",
+    phoneNumber: ""
     // Adicione outros campos conforme necessário
   });
   useEffect(() => {
@@ -124,6 +129,7 @@ const VendorList = () => {
   const loadEditingVendor = (vendor) => {
     setEditingVendor(vendor);
     setUpdatedName(vendor.name);
+    
   };
 
   // Novo estado para armazenar os detalhes do novo fornecedor
@@ -144,6 +150,21 @@ const VendorList = () => {
     }
   };
 
+  const handleTabChange = (event, newValue) => {
+    setTabValue(newValue);
+  };
+
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+  };
+
+  const tabsData = [
+    { label: "Cadastro" },
+    { label: "Dados Adicionais" },
+    { label: "Endereços" },
+    { label: "Configurações Avançadas" },
+  ];
+
   return (
     <div>
       <div
@@ -152,7 +173,7 @@ const VendorList = () => {
           position: "relative",
           width: "60vw",
           marginTop: "2rem",
-          marginBottom:"5rem"
+          marginBottom: "5rem",
         }}
       >
         <input
@@ -168,20 +189,20 @@ const VendorList = () => {
         />
 
         <React.Fragment>
-          <Stack direction="row" spacing={1} style={{ marginTop: '2rem' }}>
+          <Stack direction="row" spacing={1} style={{ marginTop: "2rem" }}>
             <Button
               onClick={() => {
                 setNewVendor({
                   name: "",
                   phone: "",
                   email: "",
-                  cpfCnpj: "",
+                  TaxpayerIDNumber: "",
                 });
                 setModalType("create"); // Defina o tipo do modal como 'create'
               }}
               style={{
-                position:"absolute",
-                right:"10px",
+                position: "absolute",
+                right: "10px",
               }}
             >
               Novo Cliente
@@ -191,28 +212,161 @@ const VendorList = () => {
           <Modal
             open={modalType === "create"}
             onClose={() => setModalType(null)}
-           
           >
-            <ModalDialog layout={layout}  style={{
-              width:"90dvw",
-              height:"85dvh"
-            }}>
+            <ModalDialog
+              layout={layout}
+              style={{
+                width: "90dvw",
+                height: "85dvh",
+              }}
+            >
               <ModalClose />
               <DialogTitle>Adicionar Novo Cliente</DialogTitle>
               <DialogContent>
                 <div>
-                  <input
-                    type="text"
-                    value={newVendor.name}
-                    onChange={(e) =>
-                      setNewVendor({ ...newVendor, name: e.target.value })
-                    }
-                    placeholder="Nome do novo fornecedor"
-                  />
-                  {/* Outros campos... */}
-                  <button onClick={handleAddVendor}>
-                    Adicionar Fornecedor
-                  </button>
+                  <Box display="flex">
+                    <Tabs
+                      value={tabValue}
+                      onChange={handleTabChange}
+                      orientation="vertical"
+                      variant="scrollable"
+                      textColor="primary"
+                    >
+                      {tabsData.map((tab, index) => (
+                        <Tab
+                          key={index}
+                          label={capitalizeFirstLetter(tab.label)}
+                          style={{
+                            ...tabStyle,
+                            ...(tabValue === index ? activeTabStyle : {}),
+                          }}
+                        />
+                      ))}
+                    </Tabs>
+
+                    <TabPanel value={tabValue} index={0}>
+                      {/* Conteúdo da primeira aba (Informações do Fornecedor) */}
+                      <Box p={3}>
+                        <Typography variant="h6">
+                          Informações do Fornecedor
+                        </Typography>
+                        <TextField
+                          label="Nome do Fornecedor"
+                          value={newVendor.name}
+                          onChange={(e) =>
+                            setNewVendor({ ...newVendor, name: e.target.value })
+                          }
+                          fullWidth
+                          margin="normal"
+                        />
+                        {/* Outros campos... */}
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={handleAddVendor}
+                        >
+                          Adicionar Fornecedor
+                        </Button>
+                      </Box>
+
+                      <Box p={3}>
+                        <Typography variant="h6">
+                        TaxpayerIDNumber
+                        </Typography>
+                        <TextField
+                          label="Nome do Fornecedor"
+                          value={newVendor.TaxpayerIDNumber}
+                          onChange={(e) =>
+                            setNewVendor({ ...newVendor, TaxpayerIDNumber: e.target.value })
+                          }
+                          fullWidth
+                          margin="normal"
+                        />
+                        {/* Outros campos... */}
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={handleAddVendor}
+                        >
+                          Adicionar TaxpayerIDNumber
+                        </Button>
+                      </Box>
+                      <Box p={3}>
+                        <Typography variant="h6">
+                        Telefone
+                        </Typography>
+                        <TextField
+                          label="Nome do Fornecedor"
+                          value={newVendor.phoneNumber}
+                          onChange={(e) =>
+                            setNewVendor({ ...newVendor, phoneNumber: e.target.value })
+                          }
+                          fullWidth
+                          margin="normal"
+                        />
+                        {/* Outros campos... */}
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={handleAddVendor}
+                        >
+                          Adicionar phoneNumber
+                        </Button>
+                      </Box>
+                      <Box p={3}>
+                        <Typography variant="h6">
+                        email
+                        </Typography>
+                        <TextField
+                          label="Nome do Fornecedor"
+                          value={newVendor.email}
+                          onChange={(e) =>
+                            setNewVendor({ ...newVendor, email: e.target.value })
+                          }
+                          fullWidth
+                          margin="normal"
+                        />
+                        {/* Outros campos... */}
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={handleAddVendor}
+                        >
+                          Adicionar email
+                        </Button>
+                      </Box>
+                    </TabPanel>
+
+                    <TabPanel value={tabValue} index={1}>
+                      {/* Conteúdo da segunda aba (Outras Configurações) */}
+                      <Box p={3}>
+                        <Typography variant="h6">
+                          Outras Configurações
+                        </Typography>
+                        {/* Conteúdo específico da segunda aba */}
+                      </Box>
+                    </TabPanel>
+
+                    <TabPanel value={tabValue} index={2}>
+                      {/* Conteúdo da terceira aba (Detalhes de Contato) */}
+                      <Box p={3}>
+                        <Typography variant="h6">
+                          Detalhes de Contato
+                        </Typography>
+                        {/* Conteúdo específico da terceira aba */}
+                      </Box>
+                    </TabPanel>
+
+                    <TabPanel value={tabValue} index={3}>
+                      {/* Conteúdo da quarta aba (Configurações Avançadas) */}
+                      <Box p={3}>
+                        <Typography variant="h6">
+                          Configurações Avançadas
+                        </Typography>
+                        {/* Conteúdo específico da quarta aba */}
+                      </Box>
+                    </TabPanel>
+                  </Box>
                 </div>
               </DialogContent>
             </ModalDialog>
@@ -231,14 +385,14 @@ const VendorList = () => {
             <th
               style={{
                 color: "#14337c",
-                width: "40dvw",
+                width: "30dvw",
               }}
             >
               Nome
             </th>
             <th style={{ width: "10dvw" }}>Telefone</th>
-            <th style={{ width: "10dvw" }}>E-mail</th>
-            <th style={{ width: "10dvw" }}>CPF/CNPJ</th>
+            <th style={{ width: "40dvw" }}>E-mail</th>
+            <th style={{ width: "20dvw" }}>CPF/CNPJ</th>
             <th style={{ width: "10dvw" }}>Ações</th>
           </tr>
         </thead>
@@ -336,4 +490,24 @@ const VendorList = () => {
   );
 };
 
+const tabStyle = {
+  fontFamily: "Poppins, sans-serif",
+  textTransform: "none", // Manter o texto como fornecido
+  fontWeight: 300, // Peso da fonte leve
+  fontSize: "1rem",
+};
+
+const activeTabStyle = {
+  fontWeight: 500, // Peso da fonte mais forte para a aba ativa
+};
+
+const TabPanel = (props) => {
+  const { children, value, index } = props;
+
+  return (
+    <div role="tabpanel" hidden={value !== index}>
+      {value === index && <Box>{children}</Box>}
+    </div>
+  );
+};
 export default VendorList;
