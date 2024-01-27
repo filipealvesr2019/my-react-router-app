@@ -423,9 +423,9 @@ const VendorList = () => {
           {vendors.map((vendor) => (
             <tr key={vendor._id}>
               <td>{vendor.name}</td>
-              <td>{vendor.phone}</td>
+              <td>{vendor.phoneNumber}</td>
               <td>{vendor.email}</td>
-              <td>{vendor.cpfCnpj}</td>
+              <td>{vendor.TaxpayerIDNumber}</td>
               <td>
                 <div
                   style={{ display: "flex", gap: "1rem", marginLeft: "2rem" }}
