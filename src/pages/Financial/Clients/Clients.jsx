@@ -151,11 +151,11 @@ const VendorList = () => {
       setSaveButtonClicked(true);
 
       // Validar se o campo "Nome do Cliente" não está vazio antes de enviar a solicitação.
-    if (newVendor.name.trim() === '') {
-      setIsNameEmpty(true); // Define o estado para true se estiver vazio
-      console.error("O campo 'Nome do Cliente' não pode ficar vazio.");
-      return;
-    }
+      if (newVendor.name.trim() === "") {
+        setIsNameEmpty(true); // Define o estado para true se estiver vazio
+        console.error("O campo 'Nome do Cliente' não pode ficar vazio.");
+        return;
+      }
       // Faça uma solicitação para adicionar o novo fornecedor.
       await axios.post("http://localhost:3001/api/vendor", newVendor);
 
@@ -305,10 +305,14 @@ const VendorList = () => {
                             placeholder="nome do cliente"
                             style={{
                               width: "30dvw",
-                              border: saveButtonClicked && isNameEmpty ? "1px solid red" : "1px solid #ccc",
+                              border:
+                                saveButtonClicked && isNameEmpty
+                                  ? "1px solid red"
+                                  : "1px solid #ccc",
                             }}
-                           
-                            onBlur={() => setIsNameEmpty(newVendor.name.trim() === '')}
+                            onBlur={() =>
+                              setIsNameEmpty(newVendor.name.trim() === "")
+                            }
                           />
                         </div>
 
@@ -368,23 +372,22 @@ const VendorList = () => {
                         </div>
                       </Box>
                       <Button
-  variant="contained"
-  color="primary"
-  onClick={handleAddVendor}
-  style={{
-    backgroundColor: "#0B6BCB",
-    color: "#ffffff",
-    width: "15vw",
-    height: "7dvh",
-    fontSize: "1.1rem",
-    right: "20px",
-    bottom: "20px",
-    position:"absolute"
-  }}
->
-  Salvar
-</Button>
-
+                        variant="contained"
+                        color="primary"
+                        onClick={handleAddVendor}
+                        style={{
+                          backgroundColor: "#0B6BCB",
+                          color: "#ffffff",
+                          width: "15vw",
+                          height: "7dvh",
+                          fontSize: "1.1rem",
+                          right: "20px",
+                          bottom: "20px",
+                          position: "absolute",
+                        }}
+                      >
+                        Salvar
+                      </Button>
                     </TabPanel>
 
                     <TabPanel value={tabValue} index={1}>
@@ -469,26 +472,60 @@ const VendorList = () => {
                     <Modal open={!!layout} onClose={() => setLayout(undefined)}>
                       <ModalDialog layout={layout}>
                         <ModalClose />
-                        <DialogTitle>Modal Dialog</DialogTitle>
+                        <DialogTitle>Infomaçoes do cliente</DialogTitle>
                         <DialogContent>
-                          <div>
-                            <input
+                 
+               
+                  <Box display="flex">
+                    <Tabs
+                      value={tabValue}
+                      onChange={handleTabChange}
+                      orientation="vertical"
+                      variant="scrollable"
+                      textColor="primary"
+                    >
+                      {tabsData.map((tab, index) => (
+                        <Tab
+                          key={index}
+                          label={capitalizeFirstLetter(tab.label)}
+                          style={{
+                            ...tabStyle,
+                            ...(tabValue === index ? activeTabStyle : {}),
+                          }}
+                        />
+                      ))}
+                    </Tabs>
+
+                    <TabPanel
+                      value={tabValue}
+                      index={0}
+                      style={{
+                        marginTop: "5rem",
+                      }}
+                    >
+                      {/* Conteúdo da primeira aba (Informações do Fornecedor) */}
+                      <Box
+                        p={3}
+                        display="grid"
+                        gridTemplateColumns="1fr 1fr"
+                        gap={16}
+                      >
+                        <div>
+                          <Typography variant="h6">Nome</Typography>
+                          <input
                               type="text"
                               value={updatedName}
                               onChange={(e) => setUpdatedName(e.target.value)}
                               placeholder="Nome"
+                              style={{
+                                width:"30vw"
+                              }}
                             />
-                            <Button
-                              variant="outlined"
-                              color="primary"
-                              onClick={() => handleEdit(editingVendor._id)}
-                            >
-                              Salvar
-                            </Button>
-                          </div>
+                        </div>
 
-                          <div>
-                            <input
+                        <div>
+                          <Typography variant="h6">CPF/CNPJ</Typography>
+                          <input
                               type="text"
                               value={updatedTaxpayerIDNumber}
                               onChange={(e) =>
@@ -497,38 +534,93 @@ const VendorList = () => {
                               placeholder="CPF/CNPJ"
                             />
                           </div>
-                          <div>
-                            <input
-                              type="text"
-                              value={updatedEmail}
-                              onChange={(e) => setUpdatedEmail(e.target.value)}
-                              placeholder="Email"
-                            />
-                            <Button
-                              variant="outlined"
-                              color="primary"
-                              onClick={() => handleEdit(editingVendor._id)}
-                            >
-                              email
-                            </Button>
-                          </div>
-                          <div>
-                            <input
+                       
+
+                        {/* Adicione mais colunas conforme necessário */}
+                      </Box>
+
+                      {/* Segunda fileira */}
+                      <Box
+                        p={3}
+                        display="grid"
+                        gridTemplateColumns="1fr 1fr"
+                        gap={16}
+                      >
+                        <div>
+                          <Typography variant="h6">Telefone</Typography>
+                          <input
                               type="text"
                               value={updatedPhoneNumber}
                               onChange={(e) =>
                                 setUpdatedPhoneNumber(e.target.value)
                               }
                               placeholder="Telefone"
+                              style={{
+                                width:"30vw"
+                              }}
                             />
-                            <Button
-                              variant="outlined"
-                              color="primary"
-                              onClick={() => handleEdit(editingVendor._id)}
-                            >
-                              Telefone
-                            </Button>
-                          </div>
+                        </div>
+
+                        <div>
+                          <Typography variant="h6">Email</Typography>
+                          <input
+                              type="text"
+                              value={updatedEmail}
+                              onChange={(e) => setUpdatedEmail(e.target.value)}
+                              placeholder="Email"
+                            />
+                        </div>
+                      </Box>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => handleEdit(editingVendor._id)}
+                        style={{
+                          backgroundColor: "#0B6BCB",
+                          color: "#ffffff",
+                          width: "15vw",
+                          height: "7dvh",
+                          fontSize: "1.1rem",
+                          right: "20px",
+                          bottom: "20px",
+                          position: "absolute",
+                        }}
+                      >
+                        Salvar
+                      </Button>
+                    </TabPanel>
+
+                    <TabPanel value={tabValue} index={1}>
+                      {/* Conteúdo da segunda aba (Outras Configurações) */}
+                      <Box p={3}>
+                        <Typography variant="h6">
+                          Outras Configurações
+                        </Typography>
+                        {/* Conteúdo específico da segunda aba */}
+                      </Box>
+                    </TabPanel>
+
+                    <TabPanel value={tabValue} index={2}>
+                      {/* Conteúdo da terceira aba (Detalhes de Contato) */}
+                      <Box p={3}>
+                        <Typography variant="h6">
+                          Detalhes de Contato
+                        </Typography>
+                        {/* Conteúdo específico da terceira aba */}
+                      </Box>
+                    </TabPanel>
+
+                    <TabPanel value={tabValue} index={3}>
+                      {/* Conteúdo da quarta aba (Configurações Avançadas) */}
+                      <Box p={3}>
+                        <Typography variant="h6">
+                          Configurações Avançadas
+                        </Typography>
+                        {/* Conteúdo específico da quarta aba */}
+                      </Box>
+                    </TabPanel>
+                  </Box>
+                          
                         </DialogContent>
                       </ModalDialog>
                     </Modal>
@@ -574,10 +666,14 @@ const VendorList = () => {
           <Button onClick={() => setShowConfirmation(false)} color="primary">
             Cancelar
           </Button>
-          <Button onClick={handleConfirmDelete} color="secondary" style={{
-            backgroundColor:"red",
-            color:"white"
-          }}>
+          <Button
+            onClick={handleConfirmDelete}
+            color="secondary"
+            style={{
+              backgroundColor: "red",
+              color: "white",
+            }}
+          >
             Confirmar
           </Button>
         </DialogActions>
