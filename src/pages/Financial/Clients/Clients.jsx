@@ -567,7 +567,7 @@ const VendorList = () => {
         <DialogTitle>Confirmar Exclusão</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Tem certeza de que deseja excluir este fornecedor?
+            Tem certeza de que deseja excluir este Cliente?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
