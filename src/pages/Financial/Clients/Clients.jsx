@@ -30,6 +30,7 @@ const VendorList = () => {
   const [updatedEmail, setUpdatedEmail] = useState("");
   const [updatedPhoneNumber, setUpdatedPhoneNumber] = useState("");
   const [isNameEmpty, setIsNameEmpty] = useState(false);
+  const [saveButtonClicked, setSaveButtonClicked] = useState(false);
 
   const [editingVendor, setEditingVendor] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -147,6 +148,8 @@ const VendorList = () => {
 
   const handleAddVendor = async () => {
     try {
+      setSaveButtonClicked(true);
+
       // Validar se o campo "Nome do Cliente" não está vazio antes de enviar a solicitação.
     if (newVendor.name.trim() === '') {
       setIsNameEmpty(true); // Define o estado para true se estiver vazio
@@ -166,6 +169,8 @@ const VendorList = () => {
       });
       // Feche o modal de adição
       setModalType(null);
+      setSaveButtonClicked(false); // Redefina saveButtonClicked para false
+
       // Limpe o estado do novo fornecedor após a adição.
     } catch (error) {
       console.error("Erro ao adicionar fornecedor", error);
@@ -300,8 +305,10 @@ const VendorList = () => {
                             placeholder="nome do cliente"
                             style={{
                               width: "30dvw",
-                              border: isNameEmpty ? "1px solid red" : "1px solid #ccc",
+                              border: saveButtonClicked && isNameEmpty ? "1px solid red" : "1px solid #ccc",
                             }}
+                           
+                            onBlur={() => setIsNameEmpty(newVendor.name.trim() === '')}
                           />
                         </div>
 
@@ -567,7 +574,10 @@ const VendorList = () => {
           <Button onClick={() => setShowConfirmation(false)} color="primary">
             Cancelar
           </Button>
-          <Button onClick={handleConfirmDelete} color="secondary">
+          <Button onClick={handleConfirmDelete} color="secondary" style={{
+            backgroundColor:"red",
+            color:"white"
+          }}>
             Confirmar
           </Button>
         </DialogActions>
