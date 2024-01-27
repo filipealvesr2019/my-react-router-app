@@ -474,153 +474,155 @@ const VendorList = () => {
                         <ModalClose />
                         <DialogTitle>Infomaçoes do cliente</DialogTitle>
                         <DialogContent>
-                 
-               
-                  <Box display="flex">
-                    <Tabs
-                      value={tabValue}
-                      onChange={handleTabChange}
-                      orientation="vertical"
-                      variant="scrollable"
-                      textColor="primary"
-                    >
-                      {tabsData.map((tab, index) => (
-                        <Tab
-                          key={index}
-                          label={capitalizeFirstLetter(tab.label)}
-                          style={{
-                            ...tabStyle,
-                            ...(tabValue === index ? activeTabStyle : {}),
-                          }}
-                        />
-                      ))}
-                    </Tabs>
+                          <Box display="flex">
+                            <Tabs
+                              value={tabValue}
+                              onChange={handleTabChange}
+                              orientation="vertical"
+                              variant="scrollable"
+                              textColor="primary"
+                            >
+                              {tabsData.map((tab, index) => (
+                                <Tab
+                                  key={index}
+                                  label={capitalizeFirstLetter(tab.label)}
+                                  style={{
+                                    ...tabStyle,
+                                    ...(tabValue === index
+                                      ? activeTabStyle
+                                      : {}),
+                                  }}
+                                />
+                              ))}
+                            </Tabs>
 
-                    <TabPanel
-                      value={tabValue}
-                      index={0}
-                      style={{
-                        marginTop: "5rem",
-                      }}
-                    >
-                      {/* Conteúdo da primeira aba (Informações do Fornecedor) */}
-                      <Box
-                        p={3}
-                        display="grid"
-                        gridTemplateColumns="1fr 1fr"
-                        gap={16}
-                      >
-                        <div>
-                          <Typography variant="h6">Nome</Typography>
-                          <input
-                              type="text"
-                              value={updatedName}
-                              onChange={(e) => setUpdatedName(e.target.value)}
-                              placeholder="Nome"
+                            <TabPanel
+                              value={tabValue}
+                              index={0}
                               style={{
-                                width:"30vw"
+                                marginTop: "5rem",
                               }}
-                            />
-                        </div>
+                            >
+                              {/* Conteúdo da primeira aba (Informações do Fornecedor) */}
+                              <Box
+                                p={3}
+                                display="grid"
+                                gridTemplateColumns="1fr 1fr"
+                                gap={16}
+                              >
+                                <div>
+                                  <Typography variant="h6">Nome</Typography>
+                                  <input
+                                    type="text"
+                                    value={updatedName}
+                                    onChange={(e) =>
+                                      setUpdatedName(e.target.value)
+                                    }
+                                    placeholder="Nome"
+                                    style={{
+                                      width: "30vw",
+                                    }}
+                                  />
+                                </div>
 
-                        <div>
-                          <Typography variant="h6">CPF/CNPJ</Typography>
-                          <input
-                              type="text"
-                              value={updatedTaxpayerIDNumber}
-                              onChange={(e) =>
-                                setUpdatedTaxpayerIDNumber(e.target.value)
-                              }
-                              placeholder="CPF/CNPJ"
-                            />
-                          </div>
-                       
+                                <div>
+                                  <Typography variant="h6">CPF/CNPJ</Typography>
+                                  <input
+                                    type="text"
+                                    value={updatedTaxpayerIDNumber}
+                                    onChange={(e) =>
+                                      setUpdatedTaxpayerIDNumber(e.target.value)
+                                    }
+                                    placeholder="CPF/CNPJ"
+                                  />
+                                </div>
 
-                        {/* Adicione mais colunas conforme necessário */}
-                      </Box>
+                                {/* Adicione mais colunas conforme necessário */}
+                              </Box>
 
-                      {/* Segunda fileira */}
-                      <Box
-                        p={3}
-                        display="grid"
-                        gridTemplateColumns="1fr 1fr"
-                        gap={16}
-                      >
-                        <div>
-                          <Typography variant="h6">Telefone</Typography>
-                          <input
-                              type="text"
-                              value={updatedPhoneNumber}
-                              onChange={(e) =>
-                                setUpdatedPhoneNumber(e.target.value)
-                              }
-                              placeholder="Telefone"
-                              style={{
-                                width:"30vw"
-                              }}
-                            />
-                        </div>
+                              {/* Segunda fileira */}
+                              <Box
+                                p={3}
+                                display="grid"
+                                gridTemplateColumns="1fr 1fr"
+                                gap={16}
+                              >
+                                <div>
+                                  <Typography variant="h6">Telefone</Typography>
+                                  <input
+                                    type="text"
+                                    value={updatedPhoneNumber}
+                                    onChange={(e) =>
+                                      setUpdatedPhoneNumber(e.target.value)
+                                    }
+                                    placeholder="Telefone"
+                                    style={{
+                                      width: "30vw",
+                                    }}
+                                  />
+                                </div>
 
-                        <div>
-                          <Typography variant="h6">Email</Typography>
-                          <input
-                              type="text"
-                              value={updatedEmail}
-                              onChange={(e) => setUpdatedEmail(e.target.value)}
-                              placeholder="Email"
-                            />
-                        </div>
-                      </Box>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => handleEdit(editingVendor._id)}
-                        style={{
-                          backgroundColor: "#0B6BCB",
-                          color: "#ffffff",
-                          width: "15vw",
-                          height: "7dvh",
-                          fontSize: "1.1rem",
-                          right: "20px",
-                          bottom: "20px",
-                          position: "absolute",
-                        }}
-                      >
-                        Salvar
-                      </Button>
-                    </TabPanel>
+                                <div>
+                                  <Typography variant="h6">Email</Typography>
+                                  <input
+                                    type="text"
+                                    value={updatedEmail}
+                                    onChange={(e) =>
+                                      setUpdatedEmail(e.target.value)
+                                    }
+                                    placeholder="Email"
+                                  />
+                                </div>
+                              </Box>
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={() => handleEdit(editingVendor._id)}
+                                style={{
+                                  backgroundColor: "#0B6BCB",
+                                  color: "#ffffff",
+                                  width: "15vw",
+                                  height: "7dvh",
+                                  fontSize: "1.1rem",
+                                  right: "20px",
+                                  bottom: "20px",
+                                  position: "absolute",
+                                }}
+                              >
+                                Salvar
+                              </Button>
+                            </TabPanel>
 
-                    <TabPanel value={tabValue} index={1}>
-                      {/* Conteúdo da segunda aba (Outras Configurações) */}
-                      <Box p={3}>
-                        <Typography variant="h6">
-                          Outras Configurações
-                        </Typography>
-                        {/* Conteúdo específico da segunda aba */}
-                      </Box>
-                    </TabPanel>
+                            <TabPanel value={tabValue} index={1}>
+                              {/* Conteúdo da segunda aba (Outras Configurações) */}
+                              <Box p={3}>
+                                <Typography variant="h6">
+                                  Outras Configurações
+                                </Typography>
+                                {/* Conteúdo específico da segunda aba */}
+                              </Box>
+                            </TabPanel>
 
-                    <TabPanel value={tabValue} index={2}>
-                      {/* Conteúdo da terceira aba (Detalhes de Contato) */}
-                      <Box p={3}>
-                        <Typography variant="h6">
-                          Detalhes de Contato
-                        </Typography>
-                        {/* Conteúdo específico da terceira aba */}
-                      </Box>
-                    </TabPanel>
+                            <TabPanel value={tabValue} index={2}>
+                              {/* Conteúdo da terceira aba (Detalhes de Contato) */}
+                              <Box p={3}>
+                                <Typography variant="h6">
+                                  Detalhes de Contato
+                                </Typography>
+                                {/* Conteúdo específico da terceira aba */}
+                              </Box>
+                            </TabPanel>
 
-                    <TabPanel value={tabValue} index={3}>
-                      {/* Conteúdo da quarta aba (Configurações Avançadas) */}
-                      <Box p={3}>
-                        <Typography variant="h6">
-                          Configurações Avançadas
-                        </Typography>
-                        {/* Conteúdo específico da quarta aba */}
-                      </Box>
-                    </TabPanel>
-                  </Box>
-                          
+                            <TabPanel value={tabValue} index={3}>
+                              {/* Conteúdo da quarta aba (Configurações Avançadas) */}
+                              <Box p={3}>
+                                <Typography variant="h6">
+                                  Configurações Avançadas
+                                </Typography>
+                                {/* Conteúdo específico da quarta aba */}
+                              </Box>
+                            </TabPanel>
+                          </Box>
                         </DialogContent>
                       </ModalDialog>
                     </Modal>
