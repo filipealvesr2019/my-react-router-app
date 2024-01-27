@@ -17,7 +17,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Tabs, Tab, Box, Typography, TextField } from "@mui/material";
 
-const VendorList = () => {
+const Clients = () => {
   const [vendors, setVendors] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -704,4 +704,4 @@ const TabPanel = (props) => {
     </div>
   );
 };
-export default VendorList;
+export default Clients;
