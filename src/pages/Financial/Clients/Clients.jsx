@@ -26,6 +26,11 @@ const VendorList = () => {
   const [error, setError] = useState(null);
   const [layout, setLayout] = React.useState(undefined);
   const [updatedName, setUpdatedName] = useState("");
+  const [updatedTaxpayerIDNumber, setUpdatedTaxpayerIDNumber] = useState("");
+  const [updatedEmail, setUpdatedEmail] = useState("");
+  const [updatedPhoneNumber, setUpdatedPhoneNumber] = useState("");
+
+
   const [editingVendor, setEditingVendor] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [vendorToDelete, setVendorToDelete] = useState(null);
@@ -107,11 +112,19 @@ const VendorList = () => {
 
   const handleEdit = async (vendorId) => {
     try {
+      console.log("Atualizando fornecedor com os seguintes dados:");
+      console.log("Nome:", updatedName);
+      console.log("CPF/CNPJ:", updatedTaxpayerIDNumber);
+      console.log("Email:", updatedEmail);
+      console.log("Telefone:", updatedPhoneNumber);
       const response = await axios.put(
         `http://localhost:3001/api/vendor/${vendorId}`,
         {
-          // Passe os dados atualizados do fornecedor
+          // Passe todos os dados atualizados do fornecedor
           name: updatedName,
+          TaxpayerIDNumber: updatedTaxpayerIDNumber,
+          email: updatedEmail,
+          phoneNumber: updatedPhoneNumber
         }
       );
 
@@ -129,7 +142,9 @@ const VendorList = () => {
   const loadEditingVendor = (vendor) => {
     setEditingVendor(vendor);
     setUpdatedName(vendor.name);
-    
+    setUpdatedTaxpayerIDNumber(vendor.TaxpayerIDNumber);
+    setUpdatedPhoneNumber(vendor.phoneNumber)
+    setUpdatedEmail(vendor.email)
   };
 
   // Novo estado para armazenar os detalhes do novo fornecedor
@@ -141,9 +156,16 @@ const VendorList = () => {
 
       // Atualize a lista de fornecedores após a adição.
       getVendors();
-
+      setNewVendor({
+        name: "",
+        TaxpayerIDNumber: "",
+        email: "",
+        phoneNumber: ""
+      });
       // Feche o modal de adição
       setModalType(null);
+       // Limpe o estado do novo fornecedor após a adição.
+ 
     } catch (error) {
       console.error("Erro ao adicionar fornecedor", error);
       setError("Erro ao adicionar fornecedor. Por favor, tente novamente.");
@@ -165,6 +187,27 @@ const VendorList = () => {
     { label: "Configurações Avançadas" },
   ];
 
+
+
+
+
+
+  const handleUpdatedNameChange = (e) => {
+    setUpdatedName(e.target.value);
+  };
+  
+  const handleUpdatedTaxpayerIDNumberChange = (e) => {
+    setUpdatedTaxpayerIDNumber(e.target.value);
+  };
+  
+  const handleUpdatedEmailChange = (e) => {
+    setUpdatedEmail(e.target.value);
+  };
+  
+  const handleUpdatedPhoneNumberChange = (e) => {
+    setUpdatedPhoneNumber(e.target.value);
+  };
+  
   return (
     <div>
       <div
@@ -434,6 +477,52 @@ const VendorList = () => {
                               onClick={() => handleEdit(editingVendor._id)}
                             >
                               Confirmar Edição
+                            </Button>
+                          </div>
+                         
+                          <div>
+                            <input
+                              type="text"
+                              value={updatedTaxpayerIDNumber}
+                              onChange={(e) => setUpdatedTaxpayerIDNumber(e.target.value)}
+                              placeholder="CPF/CNPJ"
+                            />
+                            <Button
+                              variant="outlined"
+                              color="primary"
+                              onClick={() => handleEdit(editingVendor._id)}
+                            >
+                              updatedTaxpayerIDNumber
+                            </Button>
+                          </div>
+                          <div>
+                            <input
+                              type="text"
+                              value={updatedEmail}
+                              onChange={(e) => setUpdatedEmail(e.target.value)}
+                              placeholder="Email"
+                            />
+                            <Button
+                              variant="outlined"
+                              color="primary"
+                              onClick={() => handleEdit(editingVendor._id)}
+                            >
+                              email
+                            </Button>
+                          </div>
+                          <div>
+                            <input
+                              type="text"
+                              value={updatedPhoneNumber}
+                              onChange={(e) => setUpdatedPhoneNumber(e.target.value)}
+                              placeholder="Telefone"
+                            />
+                            <Button
+                              variant="outlined"
+                              color="primary"
+                              onClick={() => handleEdit(editingVendor._id)}
+                            >
+                              Telefone
                             </Button>
                           </div>
                         </DialogContent>
