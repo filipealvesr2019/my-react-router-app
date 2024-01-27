@@ -29,12 +29,14 @@ const VendorList = () => {
   const [updatedTaxpayerIDNumber, setUpdatedTaxpayerIDNumber] = useState("");
   const [updatedEmail, setUpdatedEmail] = useState("");
   const [updatedPhoneNumber, setUpdatedPhoneNumber] = useState("");
+  const [isNameEmpty, setIsNameEmpty] = useState(false);
 
   const [editingVendor, setEditingVendor] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [vendorToDelete, setVendorToDelete] = useState(null);
   const [modalType, setModalType] = useState(null);
   const [tabValue, setTabValue] = useState(0);
+  const [formValid, setFormValid] = useState(false);
 
   const [newVendor, setNewVendor] = useState({
     name: "",
@@ -145,6 +147,12 @@ const VendorList = () => {
 
   const handleAddVendor = async () => {
     try {
+      // Validar se o campo "Nome do Cliente" não está vazio antes de enviar a solicitação.
+    if (newVendor.name.trim() === '') {
+      setIsNameEmpty(true); // Define o estado para true se estiver vazio
+      console.error("O campo 'Nome do Cliente' não pode ficar vazio.");
+      return;
+    }
       // Faça uma solicitação para adicionar o novo fornecedor.
       await axios.post("http://localhost:3001/api/vendor", newVendor);
 
@@ -239,8 +247,11 @@ const VendorList = () => {
               }}
             >
               <ModalClose />
-              <DialogTitle>Adicionar Novo Cliente</DialogTitle>
-              <DialogContent>
+              <DialogContent
+                style={{
+                  marginTop: "1rem",
+                }}
+              >
                 <div>
                   <Box display="flex">
                     <Tabs
@@ -262,21 +273,23 @@ const VendorList = () => {
                       ))}
                     </Tabs>
 
-                    <TabPanel value={tabValue} index={0}>
+                    <TabPanel
+                      value={tabValue}
+                      index={0}
+                      style={{
+                        marginTop: "5rem",
+                      }}
+                    >
                       {/* Conteúdo da primeira aba (Informações do Fornecedor) */}
                       <Box
                         p={3}
                         display="grid"
                         gridTemplateColumns="1fr 1fr"
                         gap={16}
-                        marginBottom={"-4rem"}
                       >
                         <div>
-                          <Typography variant="h6">
-                          Nome do Fornecedor
-                          </Typography>
-                          <TextField
-                            label="Nome do Fornecedor"
+                          <Typography variant="h6">Nome</Typography>
+                          <input
                             value={newVendor.name}
                             onChange={(e) =>
                               setNewVendor({
@@ -284,15 +297,17 @@ const VendorList = () => {
                                 name: e.target.value,
                               })
                             }
-                            fullWidth
-                            margin="normal"
-                          />                        
+                            placeholder="nome do cliente"
+                            style={{
+                              width: "30dvw",
+                              border: isNameEmpty ? "1px solid red" : "1px solid #ccc",
+                            }}
+                          />
                         </div>
 
                         <div>
                           <Typography variant="h6">CPF/CNPJ</Typography>
-                          <TextField
-                            label="Nome do Fornecedor"
+                          <input
                             value={newVendor.TaxpayerIDNumber}
                             onChange={(e) =>
                               setNewVendor({
@@ -300,10 +315,8 @@ const VendorList = () => {
                                 TaxpayerIDNumber: e.target.value,
                               })
                             }
-                            fullWidth
-                            margin="normal"
+                            placeholder="CPF/CNPJ"
                           />
-                         
                         </div>
 
                         {/* Adicione mais colunas conforme necessário */}
@@ -318,8 +331,7 @@ const VendorList = () => {
                       >
                         <div>
                           <Typography variant="h6">Telefone</Typography>
-                          <TextField
-                            label="Nome do Fornecedor"
+                          <input
                             value={newVendor.phoneNumber}
                             onChange={(e) =>
                               setNewVendor({
@@ -327,26 +339,16 @@ const VendorList = () => {
                                 phoneNumber: e.target.value,
                               })
                             }
-                            fullWidth
-                            margin="normal"
-                          />
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={handleAddVendor}
+                            placeholder="(85) 999.999.999"
                             style={{
-                              backgroundColor:"#0B6BCB",
-                              color:"#ffffff"
+                              width: "30dvw",
                             }}
-                          >
-                            Salvar
-                          </Button>
+                          />
                         </div>
 
                         <div>
                           <Typography variant="h6">Email</Typography>
-                          <TextField
-                            label="Nome do Fornecedor"
+                          <input
                             value={newVendor.email}
                             onChange={(e) =>
                               setNewVendor({
@@ -354,13 +356,28 @@ const VendorList = () => {
                                 email: e.target.value,
                               })
                             }
-                            fullWidth
-                            margin="normal"
+                            placeholder="Email"
                           />
-                
-                         
-                        </div>  
-                                            </Box>
+                        </div>
+                      </Box>
+                      <Button
+  variant="contained"
+  color="primary"
+  onClick={handleAddVendor}
+  style={{
+    backgroundColor: "#0B6BCB",
+    color: "#ffffff",
+    width: "15vw",
+    height: "7dvh",
+    fontSize: "1.1rem",
+    right: "20px",
+    bottom: "20px",
+    position:"absolute"
+  }}
+>
+  Salvar
+</Button>
+
                     </TabPanel>
 
                     <TabPanel value={tabValue} index={1}>
@@ -459,7 +476,7 @@ const VendorList = () => {
                               color="primary"
                               onClick={() => handleEdit(editingVendor._id)}
                             >
-                              Confirmar Edição
+                              Salvar
                             </Button>
                           </div>
 
@@ -472,13 +489,6 @@ const VendorList = () => {
                               }
                               placeholder="CPF/CNPJ"
                             />
-                            <Button
-                              variant="outlined"
-                              color="primary"
-                              onClick={() => handleEdit(editingVendor._id)}
-                            >
-                              updatedTaxpayerIDNumber
-                            </Button>
                           </div>
                           <div>
                             <input
