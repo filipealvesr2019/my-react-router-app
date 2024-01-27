@@ -112,11 +112,7 @@ const VendorList = () => {
 
   const handleEdit = async (vendorId) => {
     try {
-      console.log("Atualizando fornecedor com os seguintes dados:");
-      console.log("Nome:", updatedName);
-      console.log("CPF/CNPJ:", updatedTaxpayerIDNumber);
-      console.log("Email:", updatedEmail);
-      console.log("Telefone:", updatedPhoneNumber);
+  
       const response = await axios.put(
         `http://localhost:3001/api/vendor/${vendorId}`,
         {
@@ -191,22 +187,6 @@ const VendorList = () => {
 
 
 
-
-  const handleUpdatedNameChange = (e) => {
-    setUpdatedName(e.target.value);
-  };
-  
-  const handleUpdatedTaxpayerIDNumberChange = (e) => {
-    setUpdatedTaxpayerIDNumber(e.target.value);
-  };
-  
-  const handleUpdatedEmailChange = (e) => {
-    setUpdatedEmail(e.target.value);
-  };
-  
-  const handleUpdatedPhoneNumberChange = (e) => {
-    setUpdatedPhoneNumber(e.target.value);
-  };
   
   return (
     <div>
@@ -419,7 +399,7 @@ const VendorList = () => {
       <table
         style={{
           margin: "0 auto",
-          width: "60dvw",
+          width: "90dvw",
           marginTop: "-2rem",
         }}
       >
