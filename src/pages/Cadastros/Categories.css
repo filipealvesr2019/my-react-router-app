@@ -33,7 +33,7 @@
 }
 
 .categoryButton{
-    background-color: #14337C;
+    background-color: #185ea5;
     color: white;
     border: 0;
     width: 14vw;
@@ -44,6 +44,12 @@
     margin-top: -1px;
    
 
+}
+
+
+.categoryButton:hover{
+  background-color: #185ea5;
+  opacity: 0.9;
 }
 
 .addContainer{

@@ -523,7 +523,7 @@ const CreateProductForm = () => {
       </Grid>
       <Button
         style={{
-          backgroundColor: "#14337C",
+          backgroundColor: "#185ea5",
           color: "white",
           border: "none",
           padding: ".5rem",
@@ -561,12 +561,12 @@ export default function BasicModal() {
         color="neutral"
         onClick={handleOpen}
         sx={{
-          backgroundColor: "#14337C",
+          backgroundColor: "#185ea5",
           color: "#FFFFFF",
           marginTop: "-15rem",
           marginBottom: "58%",
           "&:hover": {
-            backgroundColor: "#14337C",
+            backgroundColor: "#185ea5",
             opacity: 0.9,
           },
         }}

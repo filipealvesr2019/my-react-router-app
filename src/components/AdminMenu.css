@@ -6,21 +6,25 @@
   
 }
 .admin-menu .formButtonStyle{
-  background-color:#14337c;
+  background-color:#185ea5;
   color: white;
   padding: .8rem;
   border: 0;
   border-radius: .5rem;
   cursor: pointer;
-  font-size: .9rem;
+  font-size: 1rem;
   font-family: "urbanist";
   font-weight: 600;
 
   margin-left: 30rem;
   margin-bottom: -2rem;
-  width: 11dvw;
+  width: 12dvw;
+  
 }
-
+.admin-menu .formButtonStyle:hover {
+  background-color: #185ea5;
+  opacity: 0.9;
+}
 
 .user-form {
   display: flex;

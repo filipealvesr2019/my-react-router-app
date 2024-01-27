@@ -225,7 +225,10 @@ const VendorList = () => {
               }}
               style={{
                 position: "absolute",
-                right: "10px",
+                right: "-180px",
+                width:"11dvw",
+                height:"7dvh",
+                fontSize:"1.1rem"
               }}
             >
               Novo Cliente
@@ -400,7 +403,7 @@ const VendorList = () => {
         style={{
           margin: "0 auto",
           width: "90dvw",
-          marginTop: "-2rem",
+          marginTop: "-1rem",
         }}
       >
         <thead>
@@ -413,7 +416,7 @@ const VendorList = () => {
             >
               Nome
             </th>
-            <th style={{ width: "10dvw" }}>Telefone</th>
+            <th style={{ width: "15dvw" }}>Telefone</th>
             <th style={{ width: "40dvw" }}>E-mail</th>
             <th style={{ width: "20dvw" }}>CPF/CNPJ</th>
             <th style={{ width: "10dvw" }}>Ações</th>
