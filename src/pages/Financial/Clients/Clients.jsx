@@ -30,7 +30,6 @@ const VendorList = () => {
   const [updatedEmail, setUpdatedEmail] = useState("");
   const [updatedPhoneNumber, setUpdatedPhoneNumber] = useState("");
 
-
   const [editingVendor, setEditingVendor] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [vendorToDelete, setVendorToDelete] = useState(null);
@@ -41,7 +40,7 @@ const VendorList = () => {
     name: "",
     TaxpayerIDNumber: "",
     email: "",
-    phoneNumber: ""
+    phoneNumber: "",
     // Adicione outros campos conforme necessário
   });
   useEffect(() => {
@@ -112,7 +111,6 @@ const VendorList = () => {
 
   const handleEdit = async (vendorId) => {
     try {
-  
       const response = await axios.put(
         `http://localhost:3001/api/vendor/${vendorId}`,
         {
@@ -120,7 +118,7 @@ const VendorList = () => {
           name: updatedName,
           TaxpayerIDNumber: updatedTaxpayerIDNumber,
           email: updatedEmail,
-          phoneNumber: updatedPhoneNumber
+          phoneNumber: updatedPhoneNumber,
         }
       );
 
@@ -139,8 +137,8 @@ const VendorList = () => {
     setEditingVendor(vendor);
     setUpdatedName(vendor.name);
     setUpdatedTaxpayerIDNumber(vendor.TaxpayerIDNumber);
-    setUpdatedPhoneNumber(vendor.phoneNumber)
-    setUpdatedEmail(vendor.email)
+    setUpdatedPhoneNumber(vendor.phoneNumber);
+    setUpdatedEmail(vendor.email);
   };
 
   // Novo estado para armazenar os detalhes do novo fornecedor
@@ -156,12 +154,11 @@ const VendorList = () => {
         name: "",
         TaxpayerIDNumber: "",
         email: "",
-        phoneNumber: ""
+        phoneNumber: "",
       });
       // Feche o modal de adição
       setModalType(null);
-       // Limpe o estado do novo fornecedor após a adição.
- 
+      // Limpe o estado do novo fornecedor após a adição.
     } catch (error) {
       console.error("Erro ao adicionar fornecedor", error);
       setError("Erro ao adicionar fornecedor. Por favor, tente novamente.");
@@ -183,11 +180,6 @@ const VendorList = () => {
     { label: "Configurações Avançadas" },
   ];
 
-
-
-
-
-  
   return (
     <div>
       <div
@@ -226,9 +218,9 @@ const VendorList = () => {
               style={{
                 position: "absolute",
                 right: "-180px",
-                width:"11dvw",
-                height:"7dvh",
-                fontSize:"1.1rem"
+                width: "11dvw",
+                height: "7dvh",
+                fontSize: "1.1rem",
               }}
             >
               Novo Cliente
@@ -248,9 +240,8 @@ const VendorList = () => {
             >
               <ModalClose />
               <DialogTitle>Adicionar Novo Cliente</DialogTitle>
-              <DialogContent >             
-                 <div>
-                   
+              <DialogContent>
+                <div>
                   <Box display="flex">
                     <Tabs
                       value={tabValue}
@@ -270,111 +261,107 @@ const VendorList = () => {
                         />
                       ))}
                     </Tabs>
-                     
+
                     <TabPanel value={tabValue} index={0}>
-  {/* Conteúdo da primeira aba (Informações do Fornecedor) */}
-  <Box p={3} display="grid" gridTemplateColumns="1fr 1fr" gap={16}>
-    <div>
-      <Typography variant="h6">
-        Informações do Fornecedor
-      </Typography>
-      <TextField
-        label="Nome do Fornecedor"
-        value={newVendor.name}
-        onChange={(e) =>
-          setNewVendor({ ...newVendor, name: e.target.value })
-        }
-        fullWidth
-        margin="normal"
-      />
-      {/* Outros campos... */}
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleAddVendor}
-      >
-        Adicionar Fornecedor
-      </Button>
-    </div>
+                      {/* Conteúdo da primeira aba (Informações do Fornecedor) */}
+                      <Box
+                        p={3}
+                        display="grid"
+                        gridTemplateColumns="1fr 1fr"
+                        gap={16}
+                        marginBottom={"-4rem"}
+                      >
+                        <div>
+                          <Typography variant="h6">
+                          Nome do Fornecedor
+                          </Typography>
+                          <TextField
+                            label="Nome do Fornecedor"
+                            value={newVendor.name}
+                            onChange={(e) =>
+                              setNewVendor({
+                                ...newVendor,
+                                name: e.target.value,
+                              })
+                            }
+                            fullWidth
+                            margin="normal"
+                          />                        
+                        </div>
 
-    <div>
-      <Typography variant="h6">
-        TaxpayerIDNumber
-      </Typography>
-      <TextField
-        label="Nome do Fornecedor"
-        value={newVendor.TaxpayerIDNumber}
-        onChange={(e) =>
-          setNewVendor({ ...newVendor, TaxpayerIDNumber: e.target.value })
-        }
-        fullWidth
-        margin="normal"
-      />
-      {/* Outros campos... */}
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleAddVendor}
-      >
-        Adicionar TaxpayerIDNumber
-      </Button>
-    </div>
+                        <div>
+                          <Typography variant="h6">CPF/CNPJ</Typography>
+                          <TextField
+                            label="Nome do Fornecedor"
+                            value={newVendor.TaxpayerIDNumber}
+                            onChange={(e) =>
+                              setNewVendor({
+                                ...newVendor,
+                                TaxpayerIDNumber: e.target.value,
+                              })
+                            }
+                            fullWidth
+                            margin="normal"
+                          />
+                         
+                        </div>
 
-    {/* Adicione mais colunas conforme necessário */}
-  </Box>
+                        {/* Adicione mais colunas conforme necessário */}
+                      </Box>
 
-  {/* Segunda fileira */}
-  <Box p={3} display="grid" gridTemplateColumns="1fr 1fr" gap={16}>
-    <div>
-      <Typography variant="h6">
-        Telefone
-      </Typography>
-      <TextField
-        label="Nome do Fornecedor"
-        value={newVendor.phoneNumber}
-        onChange={(e) =>
-          setNewVendor({ ...newVendor, phoneNumber: e.target.value })
-        }
-        fullWidth
-        margin="normal"
-      />
-      {/* Outros campos... */}
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleAddVendor}
-      >
-        Adicionar phoneNumber
-      </Button>
-    </div>
+                      {/* Segunda fileira */}
+                      <Box
+                        p={3}
+                        display="grid"
+                        gridTemplateColumns="1fr 1fr"
+                        gap={16}
+                      >
+                        <div>
+                          <Typography variant="h6">Telefone</Typography>
+                          <TextField
+                            label="Nome do Fornecedor"
+                            value={newVendor.phoneNumber}
+                            onChange={(e) =>
+                              setNewVendor({
+                                ...newVendor,
+                                phoneNumber: e.target.value,
+                              })
+                            }
+                            fullWidth
+                            margin="normal"
+                          />
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={handleAddVendor}
+                            style={{
+                              backgroundColor:"#0B6BCB",
+                              color:"#ffffff"
+                            }}
+                          >
+                            Salvar
+                          </Button>
+                        </div>
 
-    <div>
-      <Typography variant="h6">
-        Email
-      </Typography>
-      <TextField
-        label="Nome do Fornecedor"
-        value={newVendor.email}
-        onChange={(e) =>
-          setNewVendor({ ...newVendor, email: e.target.value })
-        }
-        fullWidth
-        margin="normal"
-      />
-      {/* Outros campos... */}
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleAddVendor}
-      >
-        Adicionar email
-      </Button>
-    </div>
-
-    {/* Adicione mais colunas conforme necessário */}
-  </Box>
-</TabPanel>
-
+                        <div>
+                          <Typography variant="h6">Email</Typography>
+                          <TextField
+                            label="Nome do Fornecedor"
+                            value={newVendor.email}
+                            onChange={(e) =>
+                              setNewVendor({
+                                ...newVendor,
+                                email: e.target.value,
+                              })
+                            }
+                            fullWidth
+                            margin="normal"
+                          />
+                
+                         
+                        </div>  
+                                            </Box>
+                    </TabPanel>
 
                     <TabPanel value={tabValue} index={1}>
                       {/* Conteúdo da segunda aba (Outras Configurações) */}
@@ -407,7 +394,6 @@ const VendorList = () => {
                     </TabPanel>
                   </Box>
                 </div>
-        
               </DialogContent>
             </ModalDialog>
           </Modal>
@@ -476,12 +462,14 @@ const VendorList = () => {
                               Confirmar Edição
                             </Button>
                           </div>
-                         
+
                           <div>
                             <input
                               type="text"
                               value={updatedTaxpayerIDNumber}
-                              onChange={(e) => setUpdatedTaxpayerIDNumber(e.target.value)}
+                              onChange={(e) =>
+                                setUpdatedTaxpayerIDNumber(e.target.value)
+                              }
                               placeholder="CPF/CNPJ"
                             />
                             <Button
@@ -511,7 +499,9 @@ const VendorList = () => {
                             <input
                               type="text"
                               value={updatedPhoneNumber}
-                              onChange={(e) => setUpdatedPhoneNumber(e.target.value)}
+                              onChange={(e) =>
+                                setUpdatedPhoneNumber(e.target.value)
+                              }
                               placeholder="Telefone"
                             />
                             <Button
