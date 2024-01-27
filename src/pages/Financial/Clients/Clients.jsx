@@ -12,10 +12,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Modal from "@mui/joy/Modal";
 import ModalClose from "@mui/joy/ModalClose";
 import ModalDialog from "@mui/joy/ModalDialog";
-import SearchIcon from "@mui/icons-material/Search";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { Tabs, Tab, Box, Typography, TextField } from "@mui/material";
+import { Tabs, Tab, Box, Typography } from "@mui/material";
 
 const Clients = () => {
   const [vendors, setVendors] = useState([]);
