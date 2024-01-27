@@ -248,8 +248,9 @@ const VendorList = () => {
             >
               <ModalClose />
               <DialogTitle>Adicionar Novo Cliente</DialogTitle>
-              <DialogContent>
-                <div>
+              <DialogContent >             
+                 <div>
+                   
                   <Box display="flex">
                     <Tabs
                       value={tabValue}
@@ -269,99 +270,111 @@ const VendorList = () => {
                         />
                       ))}
                     </Tabs>
-
+                     
                     <TabPanel value={tabValue} index={0}>
-                      {/* Conteúdo da primeira aba (Informações do Fornecedor) */}
-                      <Box p={3}>
-                        <Typography variant="h6">
-                          Informações do Fornecedor
-                        </Typography>
-                        <TextField
-                          label="Nome do Fornecedor"
-                          value={newVendor.name}
-                          onChange={(e) =>
-                            setNewVendor({ ...newVendor, name: e.target.value })
-                          }
-                          fullWidth
-                          margin="normal"
-                        />
-                        {/* Outros campos... */}
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={handleAddVendor}
-                        >
-                          Adicionar Fornecedor
-                        </Button>
-                      </Box>
+  {/* Conteúdo da primeira aba (Informações do Fornecedor) */}
+  <Box p={3} display="grid" gridTemplateColumns="1fr 1fr" gap={16}>
+    <div>
+      <Typography variant="h6">
+        Informações do Fornecedor
+      </Typography>
+      <TextField
+        label="Nome do Fornecedor"
+        value={newVendor.name}
+        onChange={(e) =>
+          setNewVendor({ ...newVendor, name: e.target.value })
+        }
+        fullWidth
+        margin="normal"
+      />
+      {/* Outros campos... */}
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleAddVendor}
+      >
+        Adicionar Fornecedor
+      </Button>
+    </div>
 
-                      <Box p={3}>
-                        <Typography variant="h6">
-                        TaxpayerIDNumber
-                        </Typography>
-                        <TextField
-                          label="Nome do Fornecedor"
-                          value={newVendor.TaxpayerIDNumber}
-                          onChange={(e) =>
-                            setNewVendor({ ...newVendor, TaxpayerIDNumber: e.target.value })
-                          }
-                          fullWidth
-                          margin="normal"
-                        />
-                        {/* Outros campos... */}
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={handleAddVendor}
-                        >
-                          Adicionar TaxpayerIDNumber
-                        </Button>
-                      </Box>
-                      <Box p={3}>
-                        <Typography variant="h6">
-                        Telefone
-                        </Typography>
-                        <TextField
-                          label="Nome do Fornecedor"
-                          value={newVendor.phoneNumber}
-                          onChange={(e) =>
-                            setNewVendor({ ...newVendor, phoneNumber: e.target.value })
-                          }
-                          fullWidth
-                          margin="normal"
-                        />
-                        {/* Outros campos... */}
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={handleAddVendor}
-                        >
-                          Adicionar phoneNumber
-                        </Button>
-                      </Box>
-                      <Box p={3}>
-                        <Typography variant="h6">
-                        email
-                        </Typography>
-                        <TextField
-                          label="Nome do Fornecedor"
-                          value={newVendor.email}
-                          onChange={(e) =>
-                            setNewVendor({ ...newVendor, email: e.target.value })
-                          }
-                          fullWidth
-                          margin="normal"
-                        />
-                        {/* Outros campos... */}
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={handleAddVendor}
-                        >
-                          Adicionar email
-                        </Button>
-                      </Box>
-                    </TabPanel>
+    <div>
+      <Typography variant="h6">
+        TaxpayerIDNumber
+      </Typography>
+      <TextField
+        label="Nome do Fornecedor"
+        value={newVendor.TaxpayerIDNumber}
+        onChange={(e) =>
+          setNewVendor({ ...newVendor, TaxpayerIDNumber: e.target.value })
+        }
+        fullWidth
+        margin="normal"
+      />
+      {/* Outros campos... */}
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleAddVendor}
+      >
+        Adicionar TaxpayerIDNumber
+      </Button>
+    </div>
+
+    {/* Adicione mais colunas conforme necessário */}
+  </Box>
+
+  {/* Segunda fileira */}
+  <Box p={3} display="grid" gridTemplateColumns="1fr 1fr" gap={16}>
+    <div>
+      <Typography variant="h6">
+        Telefone
+      </Typography>
+      <TextField
+        label="Nome do Fornecedor"
+        value={newVendor.phoneNumber}
+        onChange={(e) =>
+          setNewVendor({ ...newVendor, phoneNumber: e.target.value })
+        }
+        fullWidth
+        margin="normal"
+      />
+      {/* Outros campos... */}
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleAddVendor}
+      >
+        Adicionar phoneNumber
+      </Button>
+    </div>
+
+    <div>
+      <Typography variant="h6">
+        Email
+      </Typography>
+      <TextField
+        label="Nome do Fornecedor"
+        value={newVendor.email}
+        onChange={(e) =>
+          setNewVendor({ ...newVendor, email: e.target.value })
+        }
+        fullWidth
+        margin="normal"
+      />
+      {/* Outros campos... */}
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleAddVendor}
+      >
+        Adicionar email
+      </Button>
+    </div>
+
+    {/* Adicione mais colunas conforme necessário */}
+  </Box>
+</TabPanel>
+
 
                     <TabPanel value={tabValue} index={1}>
                       {/* Conteúdo da segunda aba (Outras Configurações) */}
@@ -394,6 +407,7 @@ const VendorList = () => {
                     </TabPanel>
                   </Box>
                 </div>
+        
               </DialogContent>
             </ModalDialog>
           </Modal>
