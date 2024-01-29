@@ -44,6 +44,8 @@ const Goods = () => {
     pricePerPiece: "",
     costPerPiece: "",
     category: "",
+    grossProfitPerPiece:""
+
 
     // Adicione outros campos conforme necessário
   });
@@ -436,12 +438,16 @@ const Goods = () => {
         }}
       >
         <thead>
-          <tr>
+          <tr style={{
+            padding:"1rem"
+          }}>
             <th
               style={{
                 border: "none",
                 borderTop: "1px solid #dddddd",
                 borderBottom: "1px solid #dddddd",
+                padding:".8rem",
+                width:"15vw"
               }}
             >
               codigo
@@ -451,6 +457,7 @@ const Goods = () => {
                 border: "none",
                 borderTop: "1px solid #dddddd",
                 borderBottom: "1px solid #dddddd",
+                width:"40vw"
               }}
             >
               {" "}
@@ -461,9 +468,10 @@ const Goods = () => {
                 border: "none",
                 borderTop: "1px solid #dddddd",
                 borderBottom: "1px solid #dddddd",
+                whiteSpace:"wrap"
               }}
             >
-              Lucro por peça
+              Lucro por peça-%
             </th>
             <th
               style={{
@@ -503,6 +511,7 @@ const Goods = () => {
                   style={{
                     border: "none", // Remove todas as bordas
                     borderBottom: "1px solid #dddddd",
+                    padding:"1rem",
                   }}
                 >
                   {product.reference}
@@ -511,6 +520,7 @@ const Goods = () => {
                   style={{
                     border: "none",
                     borderBottom: "1px solid #dddddd",
+                    padding:"1rem"
                   }}
                 >
                   {product.name}
@@ -536,14 +546,17 @@ const Goods = () => {
                   style={{
                     border: "none", // Remove todas as bordas
                     borderBottom: "1px solid #dddddd",
+                    textAlign:"center"
                   }}
                 >
-                  {product.grossProfitPercentage}
+                  {product.grossProfitPerPiece}
+                  -{product.grossProfitPercentage}%
                 </td>
                 <td
                   style={{
                     border: "none", // Remove todas as bordas
                     borderBottom: "1px solid #dddddd",
+                    textAlign:"center"
                   }}
                 >
                   {product.quantity}
