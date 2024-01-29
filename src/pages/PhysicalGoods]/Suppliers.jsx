@@ -466,6 +466,9 @@ const Suppliers = () => {
                           loadEditingSupplier(supplier);
                           setLayout("fullscreen");
                         }}
+                        style={{
+                          cursor:"pointer"
+                        }}
                       />
                     </Stack>
                     <Modal open={!!layout} onClose={() => setLayout(undefined)}>
@@ -629,6 +632,9 @@ const Suppliers = () => {
 
                   <DeleteIcon
                     onClick={() => handleOpenConfirmation(supplier._id)}
+                    style={{
+                      cursor:"pointer"
+                    }}
                   />
                 </div>
               </td>

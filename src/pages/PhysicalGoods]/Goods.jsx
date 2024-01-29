@@ -431,23 +431,67 @@ const Goods = () => {
           margin: "0 auto",
           width: "90dvw",
           marginTop: "-1rem",
+          borderRight: "1px solid #dddddd", // Adiciona borda na parte inferior
+          borderLeft: "1px solid #dddddd", // Adiciona borda na parte inferior
         }}
       >
         <thead>
           <tr>
             <th
               style={{
-                color: "#14337c",
+                border: "none",
+                borderTop: "1px solid #dddddd",
+                borderBottom: "1px solid #dddddd",
               }}
             >
               codigo
             </th>
-            <th style={{}}> nome</th>
-
-            <th style={{}}>margem de lucro</th>
-            <th style={{}}>quantidade</th>
-            <th style={{}}>preço</th>
-            <th style={{}}>Ações</th>
+            <th
+              style={{
+                border: "none",
+                borderTop: "1px solid #dddddd",
+                borderBottom: "1px solid #dddddd",
+              }}
+            >
+              {" "}
+              nome
+            </th>
+            <th
+              style={{
+                border: "none",
+                borderTop: "1px solid #dddddd",
+                borderBottom: "1px solid #dddddd",
+              }}
+            >
+              Lucro por peça
+            </th>
+            <th
+              style={{
+                border: "none",
+                borderTop: "1px solid #dddddd",
+                borderBottom: "1px solid #dddddd",
+              }}
+            >
+              quantidade
+            </th>
+            <th
+              style={{
+                border: "none",
+                borderTop: "1px solid #dddddd",
+                borderBottom: "1px solid #dddddd",
+              }}
+            >
+              preço
+            </th>
+            <th
+              style={{
+                border: "none",
+                borderTop: "1px solid #dddddd",
+                borderBottom: "1px solid #dddddd",
+              }}
+            >
+              Ações
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -455,10 +499,18 @@ const Goods = () => {
             products.length > 0 &&
             products.map((product) => (
               <tr key={product._id}>
-                <td>{product.reference}</td>
                 <td
-                  onClick={() => {
-                    setLayoutDetails("fullscreen");
+                  style={{
+                    border: "none", // Remove todas as bordas
+                    borderBottom: "1px solid #dddddd",
+                  }}
+                >
+                  {product.reference}
+                </td>
+                <td
+                  style={{
+                    border: "none",
+                    borderBottom: "1px solid #dddddd",
                   }}
                 >
                   {product.name}
@@ -480,10 +532,36 @@ const Goods = () => {
                     </ModalDialog>
                   </Modal>
                 </React.Fragment>
-                <td>{product.grossProfitPercentage}</td>
-                <td>{product.quantity}</td>
-                <td>{product.pricePerPiece}</td>
-                <td>
+                <td
+                  style={{
+                    border: "none", // Remove todas as bordas
+                    borderBottom: "1px solid #dddddd",
+                  }}
+                >
+                  {product.grossProfitPercentage}
+                </td>
+                <td
+                  style={{
+                    border: "none", // Remove todas as bordas
+                    borderBottom: "1px solid #dddddd",
+                  }}
+                >
+                  {product.quantity}
+                </td>
+                <td
+                  style={{
+                    border: "none", // Remove todas as bordas
+                    borderBottom: "1px solid #dddddd",
+                  }}
+                >
+                  {product.pricePerPiece}
+                </td>
+                <td
+                  style={{
+                    border: "none", // Remove todas as bordas
+                    borderBottom: "1px solid #dddddd",
+                  }}
+                >
                   <div
                     style={{ display: "flex", gap: "1rem", marginLeft: "2rem" }}
                   >
@@ -493,6 +571,9 @@ const Goods = () => {
                           onClick={() => {
                             loadEditingProduct(product);
                             setLayout("fullscreen");
+                          }}
+                          style={{
+                            cursor: "pointer",
                           }}
                         />
                       </Stack>
@@ -666,6 +747,9 @@ const Goods = () => {
 
                     <DeleteIcon
                       onClick={() => handleOpenConfirmation(product._id)}
+                      style={{
+                        cursor: "pointer",
+                      }}
                     />
                   </div>
                 </td>

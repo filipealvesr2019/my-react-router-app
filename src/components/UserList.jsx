@@ -71,6 +71,9 @@ const UserList = () => {
                     <DeleteIcon
                       className="delete"
                       onClick={() => handleDeleteIconClick(user._id)}
+                      style={{
+                        cursor:"pointer"
+                      }}
                     ></DeleteIcon>
                   </td>
                 </tr>

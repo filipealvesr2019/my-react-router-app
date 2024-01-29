@@ -465,6 +465,10 @@ const Clients = () => {
                         onClick={() => {
                           loadEditingVendor(vendor);
                           setLayout("fullscreen");
+                          
+                        }}
+                        style={{
+                          cursor:"pointer"
                         }}
                       />
                     </Stack>
@@ -629,6 +633,9 @@ const Clients = () => {
 
                   <DeleteIcon
                     onClick={() => handleOpenConfirmation(vendor._id)}
+                    style={{
+                      cursor:"pointer"
+                    }}
                   />
                 </div>
               </td>
