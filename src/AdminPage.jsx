@@ -138,7 +138,6 @@ const StockPage = () => {
   return (
     <div style={{ marginTop: "5rem" }}>
       <div className="maintenance-container">
-        <p className="maintenance-text">Ops. Página em construção! </p>
         <Stock />
       </div>
     </div>
@@ -149,7 +148,6 @@ const FiscalPage = () => {
   return (
     <div style={{ marginTop: "5rem" }}>
       <div className="maintenance-container">
-        <p className="maintenance-text">Ops. Página em construção!</p>
         <Fiscal />
       </div>
     </div>
@@ -159,7 +157,6 @@ const ReportsPage = () => {
   return (
     <div style={{ marginTop: "5rem" }}>
       <div className="maintenance-container">
-        <p className="maintenance-text">Ops. Página em construção!</p>
         <Reports />
       </div>{" "}
     </div>

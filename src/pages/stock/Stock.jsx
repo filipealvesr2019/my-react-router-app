@@ -54,7 +54,7 @@ const Stock = () => {
                 }`}
                 onClick={() => handleClickOtherNavbar(0)}
               >
-                Clientes
+                Pedidos de Venda
               </li>
               {/* ... (restante do código) ... */}
               <li
@@ -63,7 +63,8 @@ const Stock = () => {
                 }`}
                 onClick={() => handleClickOtherNavbar(1)}
               >
-                Fornecedores
+                Ordem de Compra
+
               </li>
               <li
                 className={`cadastros ${
@@ -71,7 +72,7 @@ const Stock = () => {
                 }`}
                 onClick={() => handleClickOtherNavbar(2)}
               >
-                Produtos
+                Controle de Estoque
               </li>
               <li
                 className={`cadastros ${
@@ -79,7 +80,7 @@ const Stock = () => {
                 }`}
                 onClick={() => handleClickOtherNavbar(3)}
               >
-                Categorias
+                Relatorios de compra
               </li>
               <li
              
@@ -95,8 +96,8 @@ const Stock = () => {
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                   >
-                    <MenuItem onClick={handleClose}>Item 1</MenuItem>
-                    <MenuItem onClick={handleClose}>Item 2</MenuItem>
+                    <MenuItem onClick={handleClose}>Estoque Mínimo</MenuItem>
+                    <MenuItem onClick={handleClose}>Integrações</MenuItem>
                     <MenuItem onClick={handleClose}>Item 3</MenuItem>
                   </Menu>
                 </Box>

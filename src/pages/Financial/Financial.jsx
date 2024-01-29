@@ -55,7 +55,7 @@ const Financial = () => {
                 }`}
                 onClick={() => handleClickOtherNavbar(0)}
               >
-                Clientes
+                Movimentações
               </li>
               {/* ... (restante do código) ... */}
               <li
@@ -64,7 +64,7 @@ const Financial = () => {
                 }`}
                 onClick={() => handleClickOtherNavbar(1)}
               >
-                Fornecedores
+                Receitas
               </li>
               <li
                 className={`cadastros ${
@@ -72,7 +72,7 @@ const Financial = () => {
                 }`}
                 onClick={() => handleClickOtherNavbar(2)}
               >
-                Produtos
+                Despesas
               </li>
               <li
                 className={`cadastros ${
@@ -80,7 +80,7 @@ const Financial = () => {
                 }`}
                 onClick={() => handleClickOtherNavbar(3)}
               >
-                Categorias
+                Transferências
               </li>
               <li
              
