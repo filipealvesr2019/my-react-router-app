@@ -478,6 +478,7 @@ const Goods = () => {
                 border: "none",
                 borderTop: "1px solid #dddddd",
                 borderBottom: "1px solid #dddddd",
+                width:"15vw"
               }}
             >
               quantidade
@@ -487,6 +488,7 @@ const Goods = () => {
                 border: "none",
                 borderTop: "1px solid #dddddd",
                 borderBottom: "1px solid #dddddd",
+                width:"15vw"
               }}
             >
               preço
@@ -522,6 +524,9 @@ const Goods = () => {
                     borderBottom: "1px solid #dddddd",
                     padding:"1rem"
                   }}
+                  onClick={() => {
+                    setLayoutDetails('fullscreen');
+                  }}
                 >
                   {product.name}
                 </td>
@@ -546,7 +551,8 @@ const Goods = () => {
                   style={{
                     border: "none", // Remove todas as bordas
                     borderBottom: "1px solid #dddddd",
-                    textAlign:"center"
+                    textAlign:"center",
+                    gap:"1rem"
                   }}
                 >
                   {product.grossProfitPerPiece}
