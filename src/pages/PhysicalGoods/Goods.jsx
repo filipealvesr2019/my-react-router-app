@@ -205,26 +205,9 @@ const Goods = ({ product }) => {
 
 
   const [layoutDetails, setLayoutDetails] = useState(null);
-  const [productDetails, setProductDetails] = useState(null);
-
-  const fetchProductDetails = async (productId) => {
-    try {
-      const entriesResponse = await axios.get(`http://localhost:3001/api/productStock/entries/${productId}`);
-      const exitsResponse = await axios.get(`http://localhost:3001/api/productStock/exits/${productId}`);
-
-      setProductDetails({
-        entries: entriesResponse.data,
-        exits: exitsResponse.data,
-      });
-    } catch (error) {
-      console.error('Error fetching product details:', error);
-    }
-  };
-
+  
   const handleButtonClick = (productId) => {
-    console.log('Button clicked');
     setLayoutDetails('fullscreen');
-    fetchProductDetails(productId);
   };
   
   return (
@@ -572,23 +555,8 @@ const Goods = ({ product }) => {
                       <DialogTitle>Modal Dialog</DialogTitle>
                       <DialogContent>
                         <>
-                        {productDetails && (
-          <div>
-            <h2>Product Details: {product.name}</h2>
-            <h3>Entries:</h3>
-            <ul>
-              {productDetails.entries.map((entry) => (
-                <li key={entry._id}>{/* Render entry details here */}</li>
-              ))}
-            </ul>
-            <h3>Exits:</h3>
-            <ul>
-              {productDetails.exits.map((exit) => (
-                <li key={exit._id}>{/* Render exit details here */}</li>
-              ))}
-            </ul>
-          </div>
-        )}
+              
+                       
                         
                         </>
                       </DialogContent>

@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
 
 import Menu from '@mui/material/Menu';
+import ProductHistoryComponent from '../PhysicalGoods/ProductHistoryComponent';
 
 
 
@@ -29,7 +30,7 @@ const Stock = () => {
     const renderPage = () => {
       switch (activeNavItem) {
         case 0:
-          return <></>;
+          return <><ProductHistoryComponent/></>;
         case 1:
             return <></>;
         case 2:
