@@ -51,7 +51,6 @@ const Goods = () => {
     getProducts();
   }, [currentPage, searchTerm]);
 
-
   const getProducts = async () => {
     try {
       // Se houver um termo de pesquisa, faz uma solicitação de pesquisa separada.
@@ -74,7 +73,6 @@ const Goods = () => {
       setError("Erro ao obter produtos. Por favor, tente novamente.");
     }
   };
-  
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -92,9 +90,7 @@ const Goods = () => {
       setShowConfirmation(false);
 
       // Faça uma solicitação para excluir o fornecedor pelo ID.
-      await axios.delete(
-        `http://localhost:3001/api/productStock/${productId}`
-      );
+      await axios.delete(`http://localhost:3001/api/productStock/${productId}`);
 
       // Atualize a lista de fornecedores após a exclusão.
       getProducts();
@@ -198,6 +194,7 @@ const Goods = () => {
     { label: "Endereços" },
     { label: "Configurações Avançadas" },
   ];
+  const [layoutDetails, setLayoutDetails] = React.useState(undefined);
 
   return (
     <div>
@@ -441,17 +438,16 @@ const Goods = () => {
             <th
               style={{
                 color: "#14337c",
-              
               }}
             >
               codigo
             </th>
-            <th style={{  }}>nome</th>
+            <th style={{}}> nome</th>
 
-            <th style={{  }}>margem de lucro</th>
-            <th style={{ }}>quantidade</th>
-            <th style={{ }}>preço</th>
-            <th style={{ }}>Ações</th>
+            <th style={{}}>margem de lucro</th>
+            <th style={{}}>quantidade</th>
+            <th style={{}}>preço</th>
+            <th style={{}}>Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -460,7 +456,30 @@ const Goods = () => {
             products.map((product) => (
               <tr key={product._id}>
                 <td>{product.reference}</td>
-                <td>{product.name}</td>
+                <td
+                  onClick={() => {
+                    setLayoutDetails("fullscreen");
+                  }}
+                >
+                  {product.name}
+                </td>
+                <React.Fragment>
+                  <Modal
+                    open={!!layoutDetails}
+                    onClose={() => setLayoutDetails(undefined)}
+                  >
+                    <ModalDialog layout={layoutDetails}>
+                      <ModalClose />
+                      <DialogTitle>Modal Dialog</DialogTitle>
+                      <DialogContent>
+                        <div>
+                          This is a <code>{layoutDetails}</code> modal dialog.
+                          Press <code>esc</code> to close it.
+                        </div>
+                      </DialogContent>
+                    </ModalDialog>
+                  </Modal>
+                </React.Fragment>
                 <td>{product.grossProfitPercentage}</td>
                 <td>{product.quantity}</td>
                 <td>{product.pricePerPiece}</td>
@@ -594,9 +613,7 @@ const Goods = () => {
                                 <Button
                                   variant="contained"
                                   color="primary"
-                                  onClick={() =>
-                                    handleEdit(editingProduct._id)
-                                  }
+                                  onClick={() => handleEdit(editingProduct._id)}
                                   style={{
                                     backgroundColor: "#0B6BCB",
                                     color: "#ffffff",
