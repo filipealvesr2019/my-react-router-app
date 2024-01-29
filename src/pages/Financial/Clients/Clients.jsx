@@ -465,125 +465,139 @@ const Clients = () => {
                         onClick={() => {
                           loadEditingVendor(vendor);
                           setLayout("fullscreen");
-                          
                         }}
                         style={{
-                          cursor:"pointer"
+                          cursor: "pointer",
                         }}
                       />
                     </Stack>
                     <Modal open={!!layout} onClose={() => setLayout(undefined)}>
-  <ModalDialog layout={layout}>
-    <ModalClose />
-    <DialogTitle>Infomações do cliente</DialogTitle>
-    <DialogContent>
-      {/* Tabs movidas para a parte superior */}
-      <Tabs
-        value={tabValue}
-        onChange={handleTabChange}
-        orientation="horizontal"  
-        variant="scrollable"
-        textColor="primary"
-      >
-        {tabsData.map((tab, index) => (
-          <Tab
-            key={index}
-            label={capitalizeFirstLetter(tab.label)}
-            style={{
-              ...tabStyle,
-              ...(tabValue === index ? activeTabStyle : {}),
-            }}
-          />
-        ))}
-      </Tabs>
+                      <ModalDialog layout={layout}>
+                        <ModalClose />
+                        <DialogTitle>Infomações do cliente</DialogTitle>
+                        <DialogContent>
+                          {/* Tabs movidas para a parte superior */}
+                          <Tabs
+                            value={tabValue}
+                            onChange={handleTabChange}
+                            orientation="horizontal"
+                            variant="scrollable"
+                            textColor="primary"
+                          >
+                            {tabsData.map((tab, index) => (
+                              <Tab
+                                key={index}
+                                label={capitalizeFirstLetter(tab.label)}
+                                style={{
+                                  ...tabStyle,
+                                  ...(tabValue === index ? activeTabStyle : {}),
+                                }}
+                              />
+                            ))}
+                          </Tabs>
 
-      {/* Conteúdo associado a cada aba (TabPanel) permanece abaixo das Tabs */}
-      <TabPanel value={tabValue} index={0}>
-        {/* Conteúdo da primeira aba (Informações do Fornecedor) */}
-        <Box p={3} display="grid" gridTemplateColumns="1fr 1fr" gap={16}>
-          <div>
-            <Typography variant="h6">Nome</Typography>
-            <input
-              type="text"
-              value={updatedName}
-              onChange={(e) => setUpdatedName(e.target.value)}
-              placeholder="Nome"
-              style={{
-                width: "30vw",
-              }}
-            />
-          </div>
+                          {/* Conteúdo associado a cada aba (TabPanel) permanece abaixo das Tabs */}
+                          <TabPanel value={tabValue} index={0}>
+                            {/* Conteúdo da primeira aba (Informações do Fornecedor) */}
+                            <Box
+                              p={3}
+                              display="grid"
+                              gridTemplateColumns="1fr 1fr"
+                              gap={16}
+                            >
+                              <div>
+                                <Typography variant="h6">Nome</Typography>
+                                <input
+                                  type="text"
+                                  value={updatedName}
+                                  onChange={(e) =>
+                                    setUpdatedName(e.target.value)
+                                  }
+                                  placeholder="Nome"
+                                  style={{
+                                    width: "30vw",
+                                  }}
+                                />
+                              </div>
 
-          <div>
-            <Typography variant="h6">CPF/CNPJ</Typography>
-            <input
-              type="text"
-              value={updatedTaxpayerIDNumber}
-              onChange={(e) =>
-                setUpdatedTaxpayerIDNumber(e.target.value)
-              }
-              placeholder="CPF/CNPJ"
-            />
-          </div>
-        </Box>
+                              <div>
+                                <Typography variant="h6">CPF/CNPJ</Typography>
+                                <input
+                                  type="text"
+                                  value={updatedTaxpayerIDNumber}
+                                  onChange={(e) =>
+                                    setUpdatedTaxpayerIDNumber(e.target.value)
+                                  }
+                                  placeholder="CPF/CNPJ"
+                                />
+                              </div>
+                            </Box>
 
-        {/* Segunda fileira */}
-        <Box p={3} display="grid" gridTemplateColumns="1fr 1fr" gap={16}>
-          <div>
-            <Typography variant="h6">Telefone</Typography>
-            <input
-              type="text"
-              value={updatedPhoneNumber}
-              onChange={(e) => setUpdatedPhoneNumber(e.target.value)}
-              placeholder="Telefone"
-              style={{
-                width: "30vw",
-              }}
-            />
-          </div>
+                            {/* Segunda fileira */}
+                            <Box
+                              p={3}
+                              display="grid"
+                              gridTemplateColumns="1fr 1fr"
+                              gap={16}
+                            >
+                              <div>
+                                <Typography variant="h6">Telefone</Typography>
+                                <input
+                                  type="text"
+                                  value={updatedPhoneNumber}
+                                  onChange={(e) =>
+                                    setUpdatedPhoneNumber(e.target.value)
+                                  }
+                                  placeholder="Telefone"
+                                  style={{
+                                    width: "30vw",
+                                  }}
+                                />
+                              </div>
 
-          <div>
-            <Typography variant="h6">Email</Typography>
-            <input
-              type="text"
-              value={updatedEmail}
-              onChange={(e) => setUpdatedEmail(e.target.value)}
-              placeholder="Email"
-            />
-          </div>
-        </Box>
+                              <div>
+                                <Typography variant="h6">Email</Typography>
+                                <input
+                                  type="text"
+                                  value={updatedEmail}
+                                  onChange={(e) =>
+                                    setUpdatedEmail(e.target.value)
+                                  }
+                                  placeholder="Email"
+                                />
+                              </div>
+                            </Box>
 
-        {/* Botão Salvar movido para a parte inferior */}
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => handleEdit(editingVendor._id)}
-          style={{
-            backgroundColor: "#0B6BCB",
-            color: "#ffffff",
-            width: "15vw",
-            height: "7dvh",
-            fontSize: "1.1rem",
-            right: "20px",
-            bottom: "20px",
-            position: "absolute",
-          }}
-        >
-          Salvar
-        </Button>
-      </TabPanel>
+                            {/* Botão Salvar movido para a parte inferior */}
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              onClick={() => handleEdit(editingVendor._id)}
+                              style={{
+                                backgroundColor: "#0B6BCB",
+                                color: "#ffffff",
+                                width: "15vw",
+                                height: "7dvh",
+                                fontSize: "1.1rem",
+                                right: "20px",
+                                bottom: "20px",
+                                position: "absolute",
+                              }}
+                            >
+                              Salvar
+                            </Button>
+                          </TabPanel>
 
-      {/* Adicione TabPanel para outras abas conforme necessário */}
-    </DialogContent>
-  </ModalDialog>
-</Modal>
-
+                          {/* Adicione TabPanel para outras abas conforme necessário */}
+                        </DialogContent>
+                      </ModalDialog>
+                    </Modal>
                   </React.Fragment>
 
                   <DeleteIcon
                     onClick={() => handleOpenConfirmation(vendor._id)}
                     style={{
-                      cursor:"pointer"
+                      cursor: "pointer",
                     }}
                   />
                 </div>

@@ -16,7 +16,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Tabs, Tab, Box, Typography } from "@mui/material";
 
-const Goods = () => {
+const Goods = ({ product }) => {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -36,16 +36,15 @@ const Goods = () => {
   const [productToDelete, setProductToDelete] = useState(null);
   const [modalType, setModalType] = useState(null);
   const [tabValue, setTabValue] = useState(0);
-  const [formValid, setFormValid] = useState(false);
 
+  
   const [newProduct, setNewProduct] = useState({
     name: "",
     quantity: "",
     pricePerPiece: "",
     costPerPiece: "",
     category: "",
-    grossProfitPerPiece:""
-
+    grossProfitPerPiece: "",
 
     // Adicione outros campos conforme necessário
   });
@@ -196,8 +195,38 @@ const Goods = () => {
     { label: "Endereços" },
     { label: "Configurações Avançadas" },
   ];
-  const [layoutDetails, setLayoutDetails] = React.useState(undefined);
 
+
+
+
+
+
+
+
+
+  const [layoutDetails, setLayoutDetails] = useState(null);
+  const [productDetails, setProductDetails] = useState(null);
+
+  const fetchProductDetails = async (productId) => {
+    try {
+      const entriesResponse = await axios.get(`http://localhost:3001/api/productStock/entries/${productId}`);
+      const exitsResponse = await axios.get(`http://localhost:3001/api/productStock/exits/${productId}`);
+
+      setProductDetails({
+        entries: entriesResponse.data,
+        exits: exitsResponse.data,
+      });
+    } catch (error) {
+      console.error('Error fetching product details:', error);
+    }
+  };
+
+  const handleButtonClick = (productId) => {
+    console.log('Button clicked');
+    setLayoutDetails('fullscreen');
+    fetchProductDetails(productId);
+  };
+  
   return (
     <div>
       <div
@@ -438,16 +467,18 @@ const Goods = () => {
         }}
       >
         <thead>
-          <tr style={{
-            padding:"1rem"
-          }}>
+          <tr
+            style={{
+              padding: "1rem",
+            }}
+          >
             <th
               style={{
                 border: "none",
                 borderTop: "1px solid #dddddd",
                 borderBottom: "1px solid #dddddd",
-                padding:".8rem",
-                width:"15vw"
+                padding: ".8rem",
+                width: "15vw",
               }}
             >
               codigo
@@ -457,7 +488,7 @@ const Goods = () => {
                 border: "none",
                 borderTop: "1px solid #dddddd",
                 borderBottom: "1px solid #dddddd",
-                width:"40vw"
+                width: "40vw",
               }}
             >
               {" "}
@@ -468,7 +499,7 @@ const Goods = () => {
                 border: "none",
                 borderTop: "1px solid #dddddd",
                 borderBottom: "1px solid #dddddd",
-                whiteSpace:"nowrap"
+                whiteSpace: "nowrap",
               }}
             >
               Lucro por peça-%
@@ -478,7 +509,7 @@ const Goods = () => {
                 border: "none",
                 borderTop: "1px solid #dddddd",
                 borderBottom: "1px solid #dddddd",
-                width:"15vw"
+                width: "15vw",
               }}
             >
               quantidade
@@ -488,7 +519,7 @@ const Goods = () => {
                 border: "none",
                 borderTop: "1px solid #dddddd",
                 borderBottom: "1px solid #dddddd",
-                width:"15vw"
+                width: "15vw",
               }}
             >
               preço
@@ -513,7 +544,7 @@ const Goods = () => {
                   style={{
                     border: "none", // Remove todas as bordas
                     borderBottom: "1px solid #dddddd",
-                    padding:"1rem",
+                    padding: "1rem",
                   }}
                 >
                   {product.reference}
@@ -522,13 +553,14 @@ const Goods = () => {
                   style={{
                     border: "none",
                     borderBottom: "1px solid #dddddd",
-                    padding:"1rem"
+                    padding: "1rem",
                   }}
-                  onClick={() => {
-                    setLayoutDetails('fullscreen');
-                  }}
+                  onClick={() => handleButtonClick(product._id)}
+
+                  
                 >
                   {product.name}
+
                 </td>
                 <React.Fragment>
                   <Modal
@@ -539,10 +571,26 @@ const Goods = () => {
                       <ModalClose />
                       <DialogTitle>Modal Dialog</DialogTitle>
                       <DialogContent>
-                        <div>
-                          This is a <code>{layoutDetails}</code> modal dialog.
-                          Press <code>esc</code> to close it.
-                        </div>
+                        <>
+                        {productDetails && (
+          <div>
+            <h2>Product Details: {product.name}</h2>
+            <h3>Entries:</h3>
+            <ul>
+              {productDetails.entries.map((entry) => (
+                <li key={entry._id}>{/* Render entry details here */}</li>
+              ))}
+            </ul>
+            <h3>Exits:</h3>
+            <ul>
+              {productDetails.exits.map((exit) => (
+                <li key={exit._id}>{/* Render exit details here */}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+                        
+                        </>
                       </DialogContent>
                     </ModalDialog>
                   </Modal>
@@ -551,18 +599,17 @@ const Goods = () => {
                   style={{
                     border: "none", // Remove todas as bordas
                     borderBottom: "1px solid #dddddd",
-                    textAlign:"center",
-                    gap:"1rem"
+                    textAlign: "center",
+                    gap: "1rem",
                   }}
                 >
-                  {product.grossProfitPerPiece}
-                  -{product.grossProfitPercentage}%
+                  {product.grossProfitPerPiece}-{product.grossProfitPercentage}%
                 </td>
                 <td
                   style={{
                     border: "none", // Remove todas as bordas
                     borderBottom: "1px solid #dddddd",
-                    textAlign:"center"
+                    textAlign: "center",
                   }}
                 >
                   {product.quantity}
@@ -597,140 +644,149 @@ const Goods = () => {
                         />
                       </Stack>
                       <Modal
-  open={!!layout}
-  onClose={() => setLayout(undefined)}
->
-  <ModalDialog layout={layout}>
-    <ModalClose />
-    <DialogTitle>Infomaçoes do cliente</DialogTitle>
-    <DialogContent>
-      <Tabs
-        value={tabValue}
-        onChange={handleTabChange}
-        indicatorColor="primary"
-        textColor="primary"
-        centered
-      >
-        {tabsData.map((tab, index) => (
-          <Tab
-            key={index}
-            label={capitalizeFirstLetter(tab.label)}
-            style={{
-              ...tabStyle,
-              ...(tabValue === index ? activeTabStyle : {}),
-            }}
-          />
-        ))}
-      </Tabs>
+                        open={!!layout}
+                        onClose={() => setLayout(undefined)}
+                      >
+                        <ModalDialog layout={layout}>
+                          <ModalClose />
+                          <DialogTitle>Infomaçoes do cliente</DialogTitle>
+                          <DialogContent>
+                            <Tabs
+                              value={tabValue}
+                              onChange={handleTabChange}
+                              indicatorColor="primary"
+                              textColor="primary"
+                              centered
+                            >
+                              {tabsData.map((tab, index) => (
+                                <Tab
+                                  key={index}
+                                  label={capitalizeFirstLetter(tab.label)}
+                                  style={{
+                                    ...tabStyle,
+                                    ...(tabValue === index
+                                      ? activeTabStyle
+                                      : {}),
+                                  }}
+                                />
+                              ))}
+                            </Tabs>
 
-      {/* Conteúdo da primeira aba (Informações do Fornecedor) */}
-      <TabPanel value={tabValue} index={0}>
-        <Box
-          p={3}
-          display="grid"
-          gridTemplateColumns="1fr 1fr"
-          gap={16}
-        >
-          <div>
-            <Typography variant="h6">Nome</Typography>
-            <input
-              type="text"
-              value={updatedName}
-              onChange={(e) => setUpdatedName(e.target.value)}
-              placeholder="Nome"
-              style={{
-                width: "30vw",
-              }}
-            />
-          </div>
+                            {/* Conteúdo da primeira aba (Informações do Fornecedor) */}
+                            <TabPanel value={tabValue} index={0}>
+                              <Box
+                                p={3}
+                                display="grid"
+                                gridTemplateColumns="1fr 1fr"
+                                gap={16}
+                              >
+                                <div>
+                                  <Typography variant="h6">Nome</Typography>
+                                  <input
+                                    type="text"
+                                    value={updatedName}
+                                    onChange={(e) =>
+                                      setUpdatedName(e.target.value)
+                                    }
+                                    placeholder="Nome"
+                                    style={{
+                                      width: "30vw",
+                                    }}
+                                  />
+                                </div>
 
-          <div>
-            <Typography variant="h6">CPF/CNPJ</Typography>
-            <input
-              type="text"
-              value={updatedTaxpayerIDNumber}
-              onChange={(e) => setUpdatedTaxpayerIDNumber(e.target.value)}
-              placeholder="CPF/CNPJ"
-            />
-          </div>
+                                <div>
+                                  <Typography variant="h6">CPF/CNPJ</Typography>
+                                  <input
+                                    type="text"
+                                    value={updatedTaxpayerIDNumber}
+                                    onChange={(e) =>
+                                      setUpdatedTaxpayerIDNumber(e.target.value)
+                                    }
+                                    placeholder="CPF/CNPJ"
+                                  />
+                                </div>
 
-          {/* Adicione mais colunas conforme necessário */}
-        </Box>
+                                {/* Adicione mais colunas conforme necessário */}
+                              </Box>
 
-        {/* Segunda fileira */}
-        <Box
-          p={3}
-          display="grid"
-          gridTemplateColumns="1fr 1fr"
-          gap={16}
-        >
-          <div>
-            <Typography variant="h6">Telefone</Typography>
-            <input
-              type="text"
-              value={updatedPhoneNumber}
-              onChange={(e) => setUpdatedPhoneNumber(e.target.value)}
-              placeholder="Telefone"
-              style={{
-                width: "30vw",
-              }}
-            />
-          </div>
+                              {/* Segunda fileira */}
+                              <Box
+                                p={3}
+                                display="grid"
+                                gridTemplateColumns="1fr 1fr"
+                                gap={16}
+                              >
+                                <div>
+                                  <Typography variant="h6">Telefone</Typography>
+                                  <input
+                                    type="text"
+                                    value={updatedPhoneNumber}
+                                    onChange={(e) =>
+                                      setUpdatedPhoneNumber(e.target.value)
+                                    }
+                                    placeholder="Telefone"
+                                    style={{
+                                      width: "30vw",
+                                    }}
+                                  />
+                                </div>
 
-          <div>
-            <Typography variant="h6">Email</Typography>
-            <input
-              type="text"
-              value={updatedEmail}
-              onChange={(e) => setUpdatedEmail(e.target.value)}
-              placeholder="Email"
-            />
-          </div>
-        </Box>
-      </TabPanel>
+                                <div>
+                                  <Typography variant="h6">Email</Typography>
+                                  <input
+                                    type="text"
+                                    value={updatedEmail}
+                                    onChange={(e) =>
+                                      setUpdatedEmail(e.target.value)
+                                    }
+                                    placeholder="Email"
+                                  />
+                                </div>
+                              </Box>
+                            </TabPanel>
 
-      {/* Conteúdo da segunda aba (Outras Configurações) */}
-      <TabPanel value={tabValue} index={1}>
-        <Box p={3}>
-          {/* Conteúdo específico da segunda aba */}
-        </Box>
-      </TabPanel>
+                            {/* Conteúdo da segunda aba (Outras Configurações) */}
+                            <TabPanel value={tabValue} index={1}>
+                              <Box p={3}>
+                                {/* Conteúdo específico da segunda aba */}
+                              </Box>
+                            </TabPanel>
 
-      {/* Conteúdo da terceira aba (Detalhes de Contato) */}
-      <TabPanel value={tabValue} index={2}>
-        <Box p={3}>
-          {/* Conteúdo específico da terceira aba */}
-        </Box>
-      </TabPanel>
+                            {/* Conteúdo da terceira aba (Detalhes de Contato) */}
+                            <TabPanel value={tabValue} index={2}>
+                              <Box p={3}>
+                                {/* Conteúdo específico da terceira aba */}
+                              </Box>
+                            </TabPanel>
 
-      {/* Conteúdo da quarta aba (Configurações Avançadas) */}
-      <TabPanel value={tabValue} index={3}>
-        <Box p={3}>
-          {/* Conteúdo específico da quarta aba */}
-        </Box>
-      </TabPanel>
+                            {/* Conteúdo da quarta aba (Configurações Avançadas) */}
+                            <TabPanel value={tabValue} index={3}>
+                              <Box p={3}>
+                                {/* Conteúdo específico da quarta aba */}
+                              </Box>
+                            </TabPanel>
 
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => handleEdit(editingProduct._id)}
-        style={{
-          backgroundColor: "#0B6BCB",
-          color: "#ffffff",
-          width: "15vw",
-          height: "7dvh",
-          fontSize: "1.1rem",
-          position: "absolute",
-          bottom: "20px",
-          right: "20px",
-        }}
-      >
-        Salvar
-      </Button>
-    </DialogContent>
-  </ModalDialog>
-</Modal>
-
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              onClick={() => handleEdit(editingProduct._id)}
+                              style={{
+                                backgroundColor: "#0B6BCB",
+                                color: "#ffffff",
+                                width: "15vw",
+                                height: "7dvh",
+                                fontSize: "1.1rem",
+                                position: "absolute",
+                                bottom: "20px",
+                                right: "20px",
+                              }}
+                            >
+                              Salvar
+                            </Button>
+                          </DialogContent>
+                        </ModalDialog>
+                      </Modal>
                     </React.Fragment>
 
                     <DeleteIcon
