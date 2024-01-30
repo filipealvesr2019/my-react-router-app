@@ -6,7 +6,6 @@ import ModelProducts from "../../components/ModelProducts";
 import DeleteModal from "../../components/DeleteModal";
 import CloseIcon from "@mui/icons-material/Close";
 import Pagination from "@mui/material/Pagination";
-import AlertDialogModal from "./AlertDialogModal";
 import { useAuth } from "../../context/AuthContext";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
