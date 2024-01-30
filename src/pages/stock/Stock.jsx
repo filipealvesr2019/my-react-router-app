@@ -29,7 +29,7 @@ const Stock = () => {
     const renderPage = () => {
       switch (activeNavItem) {
         case 0:
-          return <><ProductHistoryComponent/></>;
+          return <><ProductStock/></>;
         case 1:
             return <></>;
         case 2:
