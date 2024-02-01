@@ -5,7 +5,8 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: {
-    host: 'http://localhost:7000/', // Substitua 'seu-novo-host' pelo host desejado
+    host: 'localhost', // Substitua 'localhost' pelo host desejado
+    port: 7000, // Substitua pelo número da porta desejado
   },
   
 })
