@@ -22,32 +22,35 @@ export const AuthProvider = ({ children }) => {
 
 
   useEffect(() => {
+    console.log('Token recuperado:', storedToken);
+
     setLoggedIn(Boolean(storedToken));
     setIsAdmin(storedRole === 'administrador');
   }, [storedToken, storedRole]);
 
+  
   const login = async (email, password) => {
     try {
       const response = await axios.post('https://serveradmin-whhj.onrender.com/login', {
         email: email,
         password: password
       });
-
-      
+  
       if (response.data.user.role === 'administrador') {
         setLoggedIn(true);
         setIsAdmin(true);
-        setIsManager(false); // Certifique-se de definir isManager como false para administradores
+        setIsManager(false);
       } else if (response.data.user.role === 'funcionario') {
         setLoggedIn(true);
         setIsAdmin(false);
-        setIsManager(false); // Certifique-se de definir isManager como false para funcionários
+        setIsManager(false);
       } else if (response.data.user.role === 'Gerente') {
         setLoggedIn(true);
         setIsAdmin(false);
         setIsManager(true);
       } else {
         alert('Credenciais inválidas');
+        return; // Saia da função se as credenciais forem inválidas
       }
   
       Cookies.set('token', response.data.user.token);
@@ -59,10 +62,9 @@ export const AuthProvider = ({ children }) => {
       } else {
         console.error('Erro na solicitação de login', error);
       }
-    
-      
     }
   };
+  
   
   const logout = () => {
     Cookies.remove('token');

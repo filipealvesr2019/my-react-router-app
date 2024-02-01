@@ -9,6 +9,7 @@ import Pagination from "@mui/material/Pagination";
 import { useAuth } from "../../context/AuthContext";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Cookies from "js-cookie";
 const Products = () => {
   const { isAdmin, isManager } = useAuth();
 
@@ -43,40 +44,62 @@ const Products = () => {
     // ... other necessary fields
     // ... outros campos necessários
   });
+  const { authToken } = useAuth();
 
   useEffect(() => {
     getProducts();
-  }, [currentPage, searchTerm]);
+  }, [currentPage, searchTerm, authToken]);
 
-  const handleDeleteProduct = async (productId) => {
-    try {
-      if (!isAdmin && !isManager) {
-        toast.error("Você não tem permissão para excluir produtos.", {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 2000,
-        });
-        return;
-      }
-      const response = await axios.delete(
-        `http://localhost:3001/api/admin/product/${productId}`
-      );
 
-      if (response.data.success) {
-        const updatedProducts = products.filter(
-          (product) => product._id !== productId
-        );
-        setProducts(updatedProducts);
-        console.log("Produto excluído com sucesso");
-      } else {
-        console.error(
-          "Erro ao excluir produto. Mensagem do servidor:",
-          response.data.error
-        );
-      }
-    } catch (error) {
-      console.error("Erro ao excluir produto. Detalhes do erro:", error);
+  const token = Cookies.get('token');
+console.log('Token enviado na requisição:', token);
+
+
+
+const handleDeleteProduct = async (productId) => {
+  const { isAdmin, isManager } = useAuth();
+
+  try {
+    if (!isAdmin && !isManager) {
+      toast.error("Você não tem permissão para excluir produtos.", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000,
+      });
+      return;
     }
-  };
+
+    const token = Cookies.get('token');
+    console.log('Token enviado na requisição:', token);
+
+    if (!token) {
+      console.error("Token não encontrado");
+      return;
+    }
+
+    const response = await axios.delete(`http://localhost:3001/api/admin/product/${productId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.data.success) {
+      const updatedProducts = products.filter(
+        (product) => product._id !== productId
+      );
+      setProducts(updatedProducts);
+      console.log("Produto excluído com sucesso");
+    } else {
+      console.error(
+        "Erro ao excluir produto. Mensagem do servidor:",
+        response.data.error
+      );
+    }
+  } catch (error) {
+    console.error("Erro ao excluir produto. Detalhes do erro:", error);
+    console.log('Erro Axios:', error.response);
+  }
+};
+
 
   const getProducts = async () => {
     try {
