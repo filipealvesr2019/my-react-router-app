@@ -51,14 +51,22 @@ const Products = () => {
   }, [currentPage, searchTerm, authToken]);
 
 
-  const token = Cookies.get('token');
-console.log('Token enviado na requisição:', token);
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 const handleDeleteProduct = async (productId) => {
-  const { isAdmin, isManager } = useAuth();
-
   try {
     if (!isAdmin && !isManager) {
       toast.error("Você não tem permissão para excluir produtos.", {
@@ -67,20 +75,9 @@ const handleDeleteProduct = async (productId) => {
       });
       return;
     }
-
-    const token = Cookies.get('token');
-    console.log('Token enviado na requisição:', token);
-
-    if (!token) {
-      console.error("Token não encontrado");
-      return;
-    }
-
-    const response = await axios.delete(`http://localhost:3001/api/admin/product/${productId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.delete(
+      `http://localhost:3001/api/admin/product/${productId}`
+    );
 
     if (response.data.success) {
       const updatedProducts = products.filter(
@@ -96,9 +93,17 @@ const handleDeleteProduct = async (productId) => {
     }
   } catch (error) {
     console.error("Erro ao excluir produto. Detalhes do erro:", error);
-    console.log('Erro Axios:', error.response);
   }
 };
+
+
+
+
+
+
+
+
+
 
 
   const getProducts = async () => {

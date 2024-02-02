@@ -50,7 +50,6 @@ export const AuthProvider = ({ children }) => {
         setIsManager(true);
       } else {
         alert('Credenciais inválidas');
-        return; // Saia da função se as credenciais forem inválidas
       }
   
       Cookies.set('token', response.data.user.token);
