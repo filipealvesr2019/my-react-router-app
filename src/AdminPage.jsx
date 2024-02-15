@@ -9,7 +9,7 @@ import Categories from "./pages/Cadastros/Categories";
 import Configuration from "./pages/Cadastros/Configuration";
 import Sales from "./pages/Cadastros/Sales";
 import Home from "./pages/Home/Home";
-import Financial from "./pages/Financial";
+import Financial from "./pages/Financial/Financial";
 import Stock from "./pages/stock/Stock";
 import Fiscal from "./pages/Fiscal/Fiscal";
 import Reports from "./pages/Reports/Reports";
