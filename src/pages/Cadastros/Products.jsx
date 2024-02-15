@@ -375,7 +375,7 @@ const handleDeleteProduct = async (productId) => {
           justifyContent: "center",
           alignItems: "center",
           height: "55vh",
-          position: "sticky",
+
           width: "100%",
           borderCollapse: "collapse",
         }}
