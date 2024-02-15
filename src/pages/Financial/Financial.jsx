@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Transations from '../Financial/transations/Transations';
-import Revenues from '../Financial/FinancialNavItems/Revenues.JSX';
+import Revenues from '../Financial/FinancialNavItems/Revenues.jsx';
 import Expenses from '../Financial/expenses/expenses';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
