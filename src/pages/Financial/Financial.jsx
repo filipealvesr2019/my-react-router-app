@@ -1,12 +1,6 @@
 import React, { useState } from 'react'
-import Transations from '../Financial/transations/Transations';
-import Revenues from '../Financial/FinancialNavItems/Revenues.jsx';
-import Expenses from '../Financial/expenses/expenses';
 import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import Menu from '@mui/material/Menu';
 
 const Financial = () => {
