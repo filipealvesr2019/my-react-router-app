@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
         email: email,
         password: password
       });
-  
+      
       if (response.data.user.role === 'administrador') {
         setLoggedIn(true);
         setIsAdmin(true);
@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }) => {
         alert('Credenciais inválidas');
       }
   
-      Cookies.set('token', response.data.user.token);
+      Cookies.set('token', response.data.token);
       Cookies.set('role', response.data.user.role);
       
     } catch (error) {
