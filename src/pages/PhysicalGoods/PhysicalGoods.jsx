@@ -7,6 +7,8 @@ import GoodsCategories from "./GoodsCategories";
 import Suppliers from "./Suppliers";
 import UnitsofMeasure from "./UnitsofMeasure";
 import Calculators from "./Calculators";
+import { MenuItem } from "@mui/material";
+
 const PhysicalGoods = () => {
   const [age, setAge] = useState(""); // Declare o estado age
   // Declare a função handleChange
