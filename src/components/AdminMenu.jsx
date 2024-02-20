@@ -3,6 +3,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './AdminMenu.css';
+import Cookies from 'js-cookie';
 
 
 
@@ -33,17 +34,17 @@ const UserForm = ({ closeForm }) => {
       const token = Cookies.get('token'); // Obtenha o token do cookie
       const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
   
-      const response = await axios.post('https://serveradmin-whhj.onrender.com/user', {
-        email: email,
-        password: password,
-        role: role,
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Credentials: credentials,
-        },
-      });
-
+      // Send the POST request to the server with the token and credentials in the headers
+    const response = await axios.post('https://serveradmin-whhj.onrender.com/user', {
+      email: email,
+      password: password,
+      role: role,
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Credentials: credentials,
+      },
+    });
 
 
 
