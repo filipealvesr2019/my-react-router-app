@@ -11,6 +11,7 @@ import DeleteForever from "@mui/icons-material/DeleteForever";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Cookies from "js-cookie";
 const Categories = () => {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
@@ -117,10 +118,19 @@ const Categories = () => {
       return;
     }
     try {
+      const token = Cookies.get('token'); // Obtenha o token do cookie
+      const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
+  
       const response = await axios.post(
         "http://localhost:3001/api/admin/category/new",
         {
           name: newCategory,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Credentials: credentials,
+          },
         }
       );
 
@@ -180,7 +190,13 @@ const Categories = () => {
   const handleDeleteCategory = async (category) => {
     try {
       const response = await axios.delete(
-        `http://localhost:3001/api/admin/categories/${category._id}`
+        `http://localhost:3001/api/admin/categories/${category._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Credentials: credentials,
+          },
+        }
       );
 
       if (response.data.success) {
@@ -232,11 +248,19 @@ const Categories = () => {
         // Limpa a mensagem de erro se o campo não estiver vazio
         setEditCategoryNameInputError("");
       }
+      const token = Cookies.get('token'); // Obtenha o token do cookie
+      const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
 
       const response = await axios.put(
         `http://localhost:3001/api/admin/categories/${category._id}`,
         {
           name: editCategoryName,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Credentials: credentials,
+          },
         }
       );
 

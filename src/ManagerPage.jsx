@@ -1,5 +1,7 @@
 import React from "react";
 import Products from "./pages/Cadastros/Products";
+import Categories from "./pages/Cadastros/Categories";
+
 
 const ManagerPage = () => {
   return (
@@ -22,6 +24,14 @@ const ManagerPage = () => {
 
       <div >
         <Products></Products>
+      </div>
+      <div style={
+        {
+          marginTop:"20rem"
+        }
+      }>
+      <Categories/>
+ 
       </div>
     </div>
   );
