@@ -14,6 +14,7 @@ import InputLabel from "@mui/material/InputLabel";
 import Grid from "@mui/material/Grid";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Cookies from "js-cookie";
 
 const CreateProductForm = () => {
   const [categories, setCategories] = useState([]);
@@ -223,12 +224,28 @@ const CreateProductForm = () => {
     try {
       const { sizes, ...productData } = productInfo;
       productData.size = sizes.join(", "); // Certifique-se de que você está usando 'size' e não 'sizes'
-
+      
+      const token = Cookies.get('token'); // Obtenha o token do cookie
+      const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
+      console.log('Token:', token);
       // Send the product data to the server for further processing
       const response = await axios.post(
         "http://localhost:3001/api/admin/product/new",
-        productData
+        productData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Credentials: credentials,
+          },
+        }
+          
       );
+
+
+  
+
+
+
 
       if (response.status === 201) {
         setProductInfo({

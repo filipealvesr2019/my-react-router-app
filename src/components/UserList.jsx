@@ -3,6 +3,7 @@ import axios from "axios";
 import "./UserList.css";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CloseIcon from "@mui/icons-material/Close";
+import Cookies from "js-cookie";
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
@@ -28,7 +29,18 @@ const UserList = () => {
 
   const handleDelete = async (userId) => {
     try {
-      await axios.delete(`https://serveradmin-whhj.onrender.com/user/${userId}`);
+      const token = Cookies.get('token'); // Obtenha o token do cookie
+      const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
+  
+      // Send the DELETE request to the server with the token and credentials in the headers
+      await axios.delete(`https://serveradmin-whhj.onrender.com/user/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Credentials: credentials,
+        },
+      });
+  
+      // Remove the deleted user from the users state
       setUsers(users.filter((user) => user._id !== userId));
     } catch (error) {
       setError("Erro ao deletar usuário.");
@@ -37,7 +49,7 @@ const UserList = () => {
       setDeleteModalOpen(false); // Fecha o modal
     }
   };
-
+  
   const handleDeleteIconClick = (userId) => {
     setDeleteUserId(userId);
     setDeleteModalOpen(true);

@@ -29,12 +29,27 @@ const UserForm = ({ closeForm }) => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log('Dados enviados:', { email, password, role });
+
+      const token = Cookies.get('token'); // Obtenha o token do cookie
+      const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
+  
       const response = await axios.post('https://serveradmin-whhj.onrender.com/user', {
         email: email,
         password: password,
         role: role,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Credentials: credentials,
+        },
       });
+
+
+
+
+
+
+
     
       if (role === 'administrador' || role === 'funcionario' || role === "Gerente") {
         // Armazenar informações no localStorage
