@@ -63,40 +63,47 @@ const Products = () => {
 
 
 
+  const handleDeleteProduct = async (productId) => {
+    try {
+      if (!isAdmin && !isManager) {
+        toast.error("Você não tem permissão para excluir produtos.", {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 2000,
+        });
+        return;
+      }
+  
+      const token = Cookies.get('token'); // Obtenha o token do cookie
+      const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
+      console.log('Token:', token);
 
-
-
-const handleDeleteProduct = async (productId) => {
-  try {
-    if (!isAdmin && !isManager) {
-      toast.error("Você não tem permissão para excluir produtos.", {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 2000,
-      });
-      return;
-    }
-    const response = await axios.delete(
-      `http://localhost:3001/api/admin/product/${productId}`
-    );
-
-    if (response.data.success) {
-      const updatedProducts = products.filter(
-        (product) => product._id !== productId
+      const response = await axios.delete(
+        `http://localhost:3001/api/admin/product/${productId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Credentials: credentials,
+          },
+        }
       );
-      setProducts(updatedProducts);
-      console.log("Produto excluído com sucesso");
-    } else {
-      console.error(
-        "Erro ao excluir produto. Mensagem do servidor:",
-        response.data.error
-      );
+  
+      if (response.data.success) {
+        const updatedProducts = products.filter(
+          (product) => product._id !== productId
+        );
+        setProducts(updatedProducts);
+        console.log("Produto excluído com sucesso");
+      } else {
+        console.error(
+          "Erro ao excluir produto. Mensagem do servidor:",
+          response.data.error
+        );
+      }
+    } catch (error) {
+      console.error("Erro ao excluir produto. Detalhes do erro:", error);
     }
-  } catch (error) {
-    console.error("Erro ao excluir produto. Detalhes do erro:", error);
-  }
-};
-
-
+  };
+  
 
 
 
@@ -158,13 +165,32 @@ const handleDeleteProduct = async (productId) => {
         });
         return;
       }
+
+      
+      const token = Cookies.get('token'); // Obtenha o token do cookie
+      const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
+      console.log('Token:', token);
+
+      
+
       const response = await axios.put(
         `http://localhost:3001/api/update/product/${productId}`,
         {
           ...formData,
           newColorName: newColorName, // Adicione o novo nome da cor aos dados do formulário
+        },   {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Credentials: credentials,
+          },
         }
       );
+
+
+
+
+
+
 
       if (response.data._id) {
         console.log("Produto atualizado com sucesso");
