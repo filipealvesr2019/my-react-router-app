@@ -189,6 +189,9 @@ const Categories = () => {
 
   const handleDeleteCategory = async (category) => {
     try {
+      const token = Cookies.get('token'); // Obtenha o token do cookie
+      const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
+
       const response = await axios.delete(
         `http://localhost:3001/api/admin/categories/${category._id}`,
         {
@@ -217,8 +220,17 @@ const Categories = () => {
 
   const handleDeleteSubcategory = async (sub) => {
     try {
+      const token = Cookies.get('token'); // Obtenha o token do cookie
+      const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
+
       const response = await axios.delete(
-        `http://localhost:3001/api/admin/subcategories/${sub._id}`
+        `http://localhost:3001/api/admin/subcategories/${sub._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Credentials: credentials,
+          },
+        }
       );
 
       if (response.data.success) {
