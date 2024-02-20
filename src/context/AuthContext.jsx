@@ -22,7 +22,6 @@ export const AuthProvider = ({ children }) => {
 
 
   useEffect(() => {
-    console.log('Token recuperado:', storedToken);
 
     setLoggedIn(Boolean(storedToken));
     setIsAdmin(storedRole === 'administrador');
