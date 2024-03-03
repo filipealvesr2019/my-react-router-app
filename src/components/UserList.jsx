@@ -14,6 +14,9 @@ const UserList = () => {
 
   const fetchUsers = async () => {
     try {
+      const token = Cookies.get('token'); // Obtenha o token do cookie
+      const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
+  
       const response = await axios.get("https://serveradmin-whhj.onrender.com/users",   {
         headers: {
           Authorization: `Bearer ${token}`,
