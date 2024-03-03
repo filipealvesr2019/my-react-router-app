@@ -14,7 +14,12 @@ const UserList = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("https://serveradmin-whhj.onrender.com/users");
+      const response = await axios.get("https://serveradmin-whhj.onrender.com/users",   {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Credentials: credentials,
+        },
+      });
       setUsers(response.data);
     } catch (error) {
       setError("Erro ao buscar usuários.");
