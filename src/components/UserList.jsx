@@ -17,7 +17,7 @@ const UserList = () => {
       const token = Cookies.get('token'); // Obtenha o token do cookie
       const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
   
-      const response = await axios.get("https://serveradmin-whhj.onrender.com/users",   {
+      const response = await axios.get("http://localhost:3001/users",   {
         headers: {
           Authorization: `Bearer ${token}`,
           Credentials: credentials,
@@ -41,7 +41,7 @@ const UserList = () => {
       const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
   
       // Send the DELETE request to the server with the token and credentials in the headers
-      await axios.delete(`https://serveradmin-whhj.onrender.com/user/${userId}`, {
+      await axios.delete(`http://localhost:3001/user/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           Credentials: credentials,
