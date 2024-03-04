@@ -16,11 +16,11 @@ const UserList = () => {
     try {
       const token = Cookies.get('token'); // Obtenha o token do cookie
       const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
-  
-      const response = await axios.get("https://serveradmin-whhj.onrender.com/users",   {
+     console.log(token)
+      const response = await axios.get("https://serveradmin-whhj.onrender.com/users", {
         headers: {
           Authorization: `Bearer ${token}`,
-          Credentials: credentials,
+          // Credentials: credentials, // Não é necessário
         },
       });
       setUsers(response.data);
@@ -30,6 +30,7 @@ const UserList = () => {
       setLoading(false);
     }
   };
+  
 
   useEffect(() => {
     fetchUsers();
