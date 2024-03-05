@@ -115,12 +115,16 @@ const Products = () => {
 
   const getProducts = async () => {
     try {
+      const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
+
       const token = Cookies.get('token'); // Obtenha o token do cookie
 
       const response = await axios.get(
         `http://localhost:3001/api/products?page=${currentPage}&keyword=${searchTerm}`,
         {
         headers: {
+          Credentials: credentials,
+
           Authorization: `Bearer ${token}`,
         },
       } 
