@@ -41,7 +41,7 @@ const UserList = () => {
       const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
   
       // Send the DELETE request to the server with the token and credentials in the headers
-      await axios.delete(`http://localhost:3001/user/${userId}`, {
+      await axios.delete(`https://serveradmin-whhj.onrender.com/user/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           Credentials: credentials,

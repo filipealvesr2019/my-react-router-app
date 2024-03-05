@@ -72,9 +72,9 @@ const Products = () => {
         });
         return;
       }
-  
-      const token = Cookies.get('token'); // Obtenha o token do cookie
       const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
+
+      const token = Cookies.get('token'); // Obtenha o token do cookie
       console.log('Token:', token);
 
       const response = await axios.delete(
@@ -115,16 +115,15 @@ const Products = () => {
 
   const getProducts = async () => {
     try {
+      const token = Cookies.get('token'); // Obtenha o token do cookie
+
       const response = await axios.get(
         `http://localhost:3001/api/products?page=${currentPage}&keyword=${searchTerm}`,
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Credentials: credentials,
-          },
-        }
-        
-      
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      } 
         );
 
       const totalProducts = response.data.totalPages * itemsPerPage;
@@ -201,7 +200,8 @@ const Products = () => {
       if (response.data._id) {
         console.log("Produto atualizado com sucesso");
         const updatedProductsResponse = await axios.get(
-          "http://localhost:3001/api/products"
+          "http://localhost:3001/api/products",
+          
         );
         const updatedProducts = updatedProductsResponse.data.products;
         setProducts(updatedProducts);
