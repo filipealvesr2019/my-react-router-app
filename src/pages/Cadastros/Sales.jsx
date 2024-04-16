@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const Sales = () => {
   const [boletos, setBoletos] = useState([]);
@@ -29,7 +30,7 @@ const Sales = () => {
     axios
       .get(`http://localhost:3001/api/creditCard`)
       .then((response) => {
-        setPix(response.data);
+        setCreditCard(response.data);
         console.log(response.data);
       })
       .catch((error) => {
@@ -56,7 +57,6 @@ const Sales = () => {
             <th>Tamanho</th>
             <th>Quantidade</th>
             <th>Total</th>
-
           </tr>
         </thead>
         <tbody>
@@ -65,11 +65,13 @@ const Sales = () => {
               <td>
                 {order.products.map((product, prodIndex) => (
                   <div key={prodIndex}>
-                    <img
-                      src={product.image}
-                      alt={`Produto ${product.productId}`}
-                      style={{ width: "10vw" }}
-                    />
+                    <Link to={`/boleto/${order._id}`}>
+                      <img
+                        src={product.image}
+                        alt={`Produto ${product.productId}`}
+                        style={{ width: "10vw" }}
+                      />
+                    </Link>
                   </div>
                 ))}
               </td>
@@ -86,7 +88,6 @@ const Sales = () => {
                 ))}
               </td>
               <td>R${order.value}</td>
-
             </tr>
           ))}
           {pix.map((order, index) => (
@@ -94,11 +95,13 @@ const Sales = () => {
               <td>
                 {order.products.map((product, prodIndex) => (
                   <div key={prodIndex}>
-                    <img
-                      src={product.image}
-                      alt={`Produto ${product.productId}`}
-                      style={{ width: "10vw" }}
-                    />
+                    <Link to={`/pix/${order._id}`}>
+                      <img
+                        src={product.image}
+                        alt={`Produto ${product.productId}`}
+                        style={{ width: "10vw" }}
+                      />
+                    </Link>
                   </div>
                 ))}
               </td>
@@ -115,24 +118,26 @@ const Sales = () => {
                 ))}
               </td>
               <td>R${order.value}</td>
-
             </tr>
           ))}
-           {creditCard.map((order, index) => (
-            <tr key={order._id}>
+          {creditCard.map((order, index) => (
+            <tr key={index}>
               <td>
-                {order.products.map((product, prodIndex) => (
-                  <div key={prodIndex}>
-                    <img
-                      src={product.image}
-                      alt={`Produto ${product.productId}`}
-                      style={{ width: "10vw" }}
-                    />
+                {order.products.map((product, index) => (
+                  <div key={index}>
+                    <Link to={`/boleto/${order._id}`}>
+                      <img
+                        src={product.image}
+                        alt={`Produto ${product.productId}`}
+                        style={{ width: "10vw" }}
+                      />
+                    </Link>
                   </div>
                 ))}
               </td>
               <td>{/* Renderizar nome do pix */}</td>
               <td>{order.billingType}</td>
+              <td>R${order.value}</td>
               <td>
                 {order.products.map((product, prodIndex) => (
                   <div key={prodIndex}>{product.size}</div>
@@ -143,8 +148,6 @@ const Sales = () => {
                   <div key={prodIndex}>{product.quantity}</div>
                 ))}
               </td>
-              <td>R${order.value}</td>
-
             </tr>
           ))}
         </tbody>
