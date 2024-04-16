@@ -433,7 +433,7 @@ const Products = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredProducts.map((product) => (
+                {filteredProducts && filteredProducts.map((product) => (
                   <tr className={styles.td} key={product._id}>
                     <td className={styles.td}>{product.name}</td>
                     <td>
