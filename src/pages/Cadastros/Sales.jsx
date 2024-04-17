@@ -83,7 +83,7 @@ const Sales = () => {
                 </Link>
               </td>
               <td>
-  {order.billingType === "CREDIT_CARD" && "Cartão de Crédito"}
+  {order.billingType }
 </td>
 
           
@@ -108,7 +108,7 @@ const Sales = () => {
                 </Link>
               </td>
               <td>
-  {order.billingType === "CREDIT_CARD" && "Cartão de Crédito"}
+  {order.billingType}
 </td>
 
 
