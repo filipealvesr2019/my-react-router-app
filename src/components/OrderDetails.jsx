@@ -128,11 +128,12 @@ const OrderDetails = () => {
           >
             <thead>
               <tr style={{ padding: "1rem" }}>
+              <th style={{ width: "15vw" }}>logo</th>
                 <th style={{ padding: ".8rem", width: "15vw" }}>
                   transportadora
                 </th>
 
-                <th style={{ width: "15vw" }}>logo</th>
+           
                 <th style={{ width: "40vw" }}>Preço do frete</th>
               </tr>
             </thead>
@@ -256,11 +257,12 @@ const OrderDetails = () => {
           >
             <thead>
               <tr style={{ padding: "1rem" }}>
+              <th style={{ width: "15vw" }}>logo</th>
                 <th style={{ padding: ".8rem", width: "15vw" }}>
                   transportadora
                 </th>
 
-                <th style={{ width: "15vw" }}>logo</th>
+     
                 <th style={{ width: "40vw" }}>Preço do frete</th>
               </tr>
             </thead>
@@ -384,11 +386,12 @@ const OrderDetails = () => {
           >
             <thead>
               <tr style={{ padding: "1rem" }}>
+              <th style={{ width: "15vw" }}>logo</th>
                 <th style={{ padding: ".8rem", width: "15vw" }}>
                   transportadora
                 </th>
 
-                <th style={{ width: "15vw" }}>logo</th>
+            
                 <th style={{ width: "40vw" }}>Preço do frete</th>
               </tr>
             </thead>
