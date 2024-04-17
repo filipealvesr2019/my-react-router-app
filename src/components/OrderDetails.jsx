@@ -63,8 +63,8 @@ const OrderDetails = () => {
               <tr style={{ padding: "1rem" }}>
                 <th style={{ padding: ".8rem", width: "15vw" }}>produtos</th>
                 <th style={{ width: "40vw" }}>Tamanho</th>
-                <th style={{ whiteSpace: "nowrap" }}>Tipo</th>
-                <th style={{ width: "15vw" }}>quantidade</th>
+                <th style={{ whiteSpace: "nowrap" }}>pagamento</th>
+                <th style={{ width: "15vw" }}>Unidade</th>
               </tr>
             </thead>
             <tbody>
@@ -166,7 +166,7 @@ const OrderDetails = () => {
                       padding: "1rem",
                     }}
                   >
-                    {boleto.shippingFeeData.shippingFeePrice}
+                    R${boleto.shippingFeeData.shippingFeePrice}
                   </td>
                 </tr>
               )}
@@ -192,8 +192,8 @@ const OrderDetails = () => {
               <tr style={{ padding: "1rem" }}>
                 <th style={{ padding: ".8rem", width: "15vw" }}>produtos</th>
                 <th style={{ width: "40vw" }}>Tamanho</th>
-                <th style={{ whiteSpace: "nowrap" }}>Tipo</th>
-                <th style={{ width: "15vw" }}>quantidade</th>
+                <th style={{ whiteSpace: "nowrap" }}>pagamento</th>
+                <th style={{ width: "15vw" }}>Unidade</th>
               </tr>
             </thead>
             <tbody>
@@ -295,7 +295,7 @@ const OrderDetails = () => {
                       padding: "1rem",
                     }}
                   >
-                    {pix.shippingFeeData.shippingFeePrice}
+                     R${pix.shippingFeeData.shippingFeePrice}
                   </td>
                 </tr>
               )}
@@ -321,8 +321,8 @@ const OrderDetails = () => {
               <tr style={{ padding: "1rem" }}>
                 <th style={{ padding: ".8rem", width: "15vw" }}>produtos</th>
                 <th style={{ width: "40vw" }}>Tamanho</th>
-                <th style={{ whiteSpace: "nowrap" }}>Tipo</th>
-                <th style={{ width: "15vw" }}>quantidade</th>
+                <th style={{ whiteSpace: "nowrap" }}>pagamento</th>
+                <th style={{ width: "15vw" }}>Unidade</th>
               </tr>
             </thead>
             <tbody>
@@ -424,7 +424,7 @@ const OrderDetails = () => {
                       padding: "1rem",
                     }}
                   >
-                    {creditCard.shippingFeeData.shippingFeePrice}
+                     R${creditCard.shippingFeeData.shippingFeePrice}
                   </td>
                 </tr>
               )}

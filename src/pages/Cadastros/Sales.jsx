@@ -82,17 +82,12 @@ const Sales = () => {
                   {order.name}
                 </Link>
               </td>
-              <td>
-  {order.billingType }
-</td>
+              <td>{order.billingType}</td>
 
-          
               <td>
-              
-                  <div >{order.totalQuantity}</div>
-         
+                <div> <span style={{marginLeft:"2rem"}}>{order.totalQuantity} </span></div>
               </td>
-              <td>R${order.value}</td>
+              <td > <span style={{marginLeft:"2rem"}}>R${order.value}</span> </td>
             </tr>
           ))}
           {pix.map((order, index) => (
@@ -107,14 +102,11 @@ const Sales = () => {
                   {order.name}
                 </Link>
               </td>
-              <td>
-  {order.billingType}
-</td>
+              <td>{order.billingType}</td>
 
+              <td><span style={{marginLeft:"2rem"}}>{order.totalQuantity}</span> </td>
 
-              <td>{order.totalQuantity}</td>
-
-              <td>R${order.value}</td>
+              <td > <span style={{marginLeft:"2rem"}}>R${order.value}</span> </td>
             </tr>
           ))}
           {creditCard.map((order, index) => (
@@ -130,14 +122,11 @@ const Sales = () => {
                 </Link>
               </td>
               <td>
-  {order.billingType === "CREDIT_CARD" && "Cartão de Crédito"}
-</td>
+                {order.billingType === "CREDIT_CARD" && "Cartão de Crédito"}
+              </td>
 
-              <td>{order.totalQuantity}</td>
-              <td>R${order.value}</td>
-
-         
-
+              <td> <span style={{marginLeft:"2rem"}}>{order.totalQuantity}</span></td>
+              <td > <span style={{marginLeft:"2rem"}}>R${order.value}</span> </td>
             </tr>
           ))}
         </tbody>
