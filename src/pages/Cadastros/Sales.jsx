@@ -82,8 +82,11 @@ const Sales = () => {
                   {order.name}
                 </Link>
               </td>
-              <td>{order.billingType}</td>
-           
+              <td>
+  {order.billingType === "CREDIT_CARD" && "Cartão de Crédito"}
+</td>
+
+          
               <td>
               
                   <div >{order.totalQuantity}</div>
@@ -104,7 +107,10 @@ const Sales = () => {
                   {order.name}
                 </Link>
               </td>
-              <td>{order.billingType}</td>
+              <td>
+  {order.billingType === "CREDIT_CARD" && "Cartão de Crédito"}
+</td>
+
 
               <td>{order.totalQuantity}</td>
 
@@ -123,7 +129,10 @@ const Sales = () => {
                   {order.name}
                 </Link>
               </td>
-              <td>{order.billingType}</td>
+              <td>
+  {order.billingType === "CREDIT_CARD" && "Cartão de Crédito"}
+</td>
+
               <td>{order.totalQuantity}</td>
               <td>R${order.value}</td>
 
