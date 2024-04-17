@@ -38,6 +38,19 @@ const Sales = () => {
       });
   }, []);
 
+  const renderFirstImage = (products) => {
+    if (products.length > 0) {
+      return (
+        <img
+          src={products[0].image}
+          alt={`Produto ${products[0].productId}`}
+          style={{ width: "5vw" }}
+        />
+      );
+    } else {
+      return null;
+    }
+  };
   return (
     <div>
       <table
@@ -45,8 +58,8 @@ const Sales = () => {
           margin: "0 auto",
           width: "90vw",
           marginTop: "3rem",
-          borderRight: "1px solid #dddddd",
-          borderLeft: "1px solid #dddddd",
+   
+     
         }}
       >
         <thead>
@@ -62,20 +75,15 @@ const Sales = () => {
         <tbody>
           {boletos.map((order, index) => (
             <tr key={order._id}>
-              <td>
-                {order.products.map((product, prodIndex) => (
-                  <div key={prodIndex}>
-                    <Link to={`/boleto/${order._id}`}>
-                      <img
-                        src={product.image}
-                        alt={`Produto ${product.productId}`}
-                        style={{ width: "10vw" }}
-                      />
-                    </Link>
-                  </div>
-                ))}
+               <td>
+              <Link to={`/boleto/${order._id}`}>
+               {renderFirstImage(order.products)}
+              </Link>
               </td>
-              <td>{/* Renderizar nome do boleto */}</td>
+              <td><Link to={`/customers/data/${order.customer}`}>
+             {order.name}
+
+                </Link></td>
               <td>{order.billingType}</td>
               <td>
                 {order.products.map((product, prodIndex) => (
@@ -92,20 +100,15 @@ const Sales = () => {
           ))}
           {pix.map((order, index) => (
             <tr key={order._id}>
-              <td>
-                {order.products.map((product, prodIndex) => (
-                  <div key={prodIndex}>
-                    <Link to={`/pix/${order._id}`}>
-                      <img
-                        src={product.image}
-                        alt={`Produto ${product.productId}`}
-                        style={{ width: "10vw" }}
-                      />
-                    </Link>
-                  </div>
-                ))}
+               <td>
+              <Link to={`/pix/${order._id}`}>
+               {renderFirstImage(order.products)}
+              </Link>
               </td>
-              <td>{/* Renderizar nome do pix */}</td>
+              <td><Link to={`/customers/data/${order.customer}`}>
+             {order.customer}
+
+                </Link></td>
               <td>{order.billingType}</td>
               <td>
                 {order.products.map((product, prodIndex) => (
@@ -123,19 +126,14 @@ const Sales = () => {
           {creditCard.map((order, index) => (
             <tr key={index}>
               <td>
-                {order.products.map((product, index) => (
-                  <div key={index}>
-                    <Link to={`/boleto/${order._id}`}>
-                      <img
-                        src={product.image}
-                        alt={`Produto ${product.productId}`}
-                        style={{ width: "10vw" }}
-                      />
-                    </Link>
-                  </div>
-                ))}
+              <Link to={`/creditCard/${order._id}`}>
+                {renderFirstImage(order.products)}
+              </Link>
               </td>
-              <td>{/* Renderizar nome do pix */}</td>
+              <td><Link to={`/customers/data/${order.customer}`}>
+             {order.name}
+
+                </Link></td>
               <td>{order.billingType}</td>
               <td>R${order.value}</td>
               <td>

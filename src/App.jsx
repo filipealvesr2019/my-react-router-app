@@ -7,6 +7,7 @@ import Login from "./components/Login";
 import AdminPage from "./AdminPage";
 import EmployeePage from "./EmployeePage";
 import OrderDetails from "./components/OrderDetails";
+import CustomerDetails from "./components/CustomerDetails";
 function App() {
   return (
     <>
@@ -29,6 +30,8 @@ function App() {
               <Route path={"/creditCard/:id"} element={<OrderDetails  />} />{" "}
 
               <Route path={"/pix/:id"} element={<OrderDetails  />} />{" "}
+              <Route path={"/pix/:id"} element={<OrderDetails  />} />{" "}
+              <Route path={"/customers/data/:customer"} element={<CustomerDetails  />} />{" "}
 
 
             </Routes>
