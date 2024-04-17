@@ -58,8 +58,6 @@ const Sales = () => {
           margin: "0 auto",
           width: "90vw",
           marginTop: "3rem",
-   
-     
         }}
       >
         <thead>
@@ -67,7 +65,6 @@ const Sales = () => {
             <th>Produtos</th>
             <th>Nome</th>
             <th>pagamento</th>
-            <th>Tamanho</th>
             <th>Quantidade</th>
             <th>Total</th>
           </tr>
@@ -75,77 +72,63 @@ const Sales = () => {
         <tbody>
           {boletos.map((order, index) => (
             <tr key={order._id}>
-               <td>
-              <Link to={`/boleto/${order._id}`}>
-               {renderFirstImage(order.products)}
-              </Link>
+              <td>
+                <Link to={`/boleto/${order._id}`}>
+                  {renderFirstImage(order.products)}
+                </Link>
               </td>
-              <td><Link to={`/customers/data/${order.customer}`}>
-             {order.name}
-
-                </Link></td>
+              <td>
+                <Link to={`/customers/data/${order.customer}`}>
+                  {order.name}
+                </Link>
+              </td>
               <td>{order.billingType}</td>
+           
               <td>
-                {order.products.map((product, prodIndex) => (
-                  <div key={prodIndex}>{product.size}</div>
-                ))}
-              </td>
-              <td>
-                {order.products.map((product, prodIndex) => (
-                  <div key={prodIndex}>{product.quantity}</div>
-                ))}
+              
+                  <div >{order.totalQuantity}</div>
+         
               </td>
               <td>R${order.value}</td>
             </tr>
           ))}
           {pix.map((order, index) => (
             <tr key={order._id}>
-               <td>
-              <Link to={`/pix/${order._id}`}>
-               {renderFirstImage(order.products)}
-              </Link>
+              <td>
+                <Link to={`/pix/${order._id}`}>
+                  {renderFirstImage(order.products)}
+                </Link>
               </td>
-              <td><Link to={`/customers/data/${order.customer}`}>
-             {order.customer}
-
-                </Link></td>
+              <td>
+                <Link to={`/customers/data/${order.customer}`}>
+                  {order.name}
+                </Link>
+              </td>
               <td>{order.billingType}</td>
-              <td>
-                {order.products.map((product, prodIndex) => (
-                  <div key={prodIndex}>{product.size}</div>
-                ))}
-              </td>
-              <td>
-                {order.products.map((product, prodIndex) => (
-                  <div key={prodIndex}>{product.quantity}</div>
-                ))}
-              </td>
+
+              <td>{order.totalQuantity}</td>
+
               <td>R${order.value}</td>
             </tr>
           ))}
           {creditCard.map((order, index) => (
             <tr key={index}>
               <td>
-              <Link to={`/creditCard/${order._id}`}>
-                {renderFirstImage(order.products)}
-              </Link>
+                <Link to={`/creditCard/${order._id}`}>
+                  {renderFirstImage(order.products)}
+                </Link>
               </td>
-              <td><Link to={`/customers/data/${order.customer}`}>
-             {order.name}
-
-                </Link></td>
+              <td>
+                <Link to={`/customers/data/${order.customer}`}>
+                  {order.name}
+                </Link>
+              </td>
               <td>{order.billingType}</td>
+              <td>{order.totalQuantity}</td>
               <td>R${order.value}</td>
-              <td>
-                {order.products.map((product, prodIndex) => (
-                  <div key={prodIndex}>{product.size}</div>
-                ))}
-              </td>
-              <td>
-                {order.products.map((product, prodIndex) => (
-                  <div key={prodIndex}>{product.quantity}</div>
-                ))}
-              </td>
+
+         
+
             </tr>
           ))}
         </tbody>

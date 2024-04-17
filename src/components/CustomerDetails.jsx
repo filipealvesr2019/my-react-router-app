@@ -21,7 +21,7 @@ const CustomerDetails = () => {
   }, [customer]);
 
   return (
-    <div style={{backgroundColor:"white"}}> 
+    <div> 
 
       {custumer && (
         <div
