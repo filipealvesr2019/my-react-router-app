@@ -59,3 +59,32 @@
     border: 1px solid #ccc;
   }
   
+
+
+  .pending {
+    color: rgb(236, 162, 23); /* Cor para estado Pendente */
+  }
+  
+  .received {
+    color: green; /* Cor para estado Pago */
+  }
+  
+  .overdue {
+    color: rgb(236, 62, 62); /* Cor para estado Cobrança vencida */
+  }
+  
+  .confirmed {
+    color: #5454c5; /* Cor para estado Cobrança confirmada */
+  }
+  
+  .unknown {
+    color: gray; /* Cor para estado Desconhecido */
+  }
+
+  .status{
+    font-family: Urbanist, sans-serif;
+    font-weight: 500;
+    font-size: 1.3rem;
+  }
+
+  

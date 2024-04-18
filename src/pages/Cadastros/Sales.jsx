@@ -82,7 +82,30 @@ const Sales = () => {
                   {renderFirstImage(order.products)}
                 </Link>
               </td>
-              <td>{order.status}</td>
+              <td>
+                {" "}
+                <p
+                  className={`${styles.status} ${
+                    styles[order.status.toLowerCase()]
+                  }`}
+                >
+                  {" "}
+                  {(() => {
+                    switch (order.status) {
+                      case "RECEIVED":
+                        return "pago";
+                      case "CONFIRMED":
+                        return "Cobrança confirmada";
+                      case "PENDING":
+                        return "Pendente";
+                      case "OVERDUE":
+                        return "Cobrança vencida";
+                      default:
+                        return;
+                    }
+                  })()}
+                </p>
+              </td>
               <td>
                 <Link to={`/customers/data/${order.customer}`}>
                   <span className={styles.span}>{order.name}</span>
@@ -147,7 +170,28 @@ const Sales = () => {
                   {renderFirstImage(order.products)}
                 </Link>
               </td>
-              <td>{order.status}</td>
+              <td>
+                <p
+                  className={`${styles.status} ${
+                    styles[order.status.toLowerCase()]
+                  }`}
+                >
+                  {(() => {
+                    switch (order.status) {
+                      case "RECEIVED":
+                        return "pago";
+                      case "CONFIRMED":
+                        return "Cobrança confirmada";
+                      case "PENDING":
+                        return "Pendente";
+                      case "OVERDUE":
+                        return "Cobrança vencida";
+                      default:
+                        return;
+                    }
+                  })()}
+                </p>
+              </td>
               <td>
                 <Link to={`/customers/data/${order.customer}`}>
                   {order.name}
@@ -216,7 +260,28 @@ const Sales = () => {
                   {renderFirstImage(order.products)}
                 </Link>
               </td>
-              <td>{order.status}</td>
+              <td>
+                <p
+                  className={`${styles.status} ${
+                    styles[order.status.toLowerCase()]
+                  }`}
+                >
+                  {(() => {
+                    switch (order.status) {
+                      case "RECEIVED":
+                        return "pago";
+                      case "CONFIRMED":
+                        return "Cobrança confirmada";
+                      case "PENDING":
+                        return "Pendente";
+                      case "OVERDUE":
+                        return "Cobrança vencida";
+                      default:
+                        return;
+                    }
+                  })()}
+                </p>
+              </td>
               <td>
                 <Link to={`/customers/data/${order.customer}`}>
                   {order.name}
