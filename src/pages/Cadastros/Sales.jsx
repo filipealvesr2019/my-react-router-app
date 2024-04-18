@@ -2,12 +2,13 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Sales.module.css";
+import BasicModal from "./BasicModal";
 
 const Sales = () => {
   const [boletos, setBoletos] = useState([]);
   const [pix, setPix] = useState([]);
   const [creditCard, setCreditCard] = useState([]);
-  
+
   useEffect(() => {
     axios
       .get(`http://localhost:3001/api/boletos`)
@@ -52,29 +53,6 @@ const Sales = () => {
       return null;
     }
   };
-
-
-  
-  const handleTrackingCode = (orderId) => {
-    const trackingCode = prompt("Insira o código de rastreamento:");
-  
-    if (trackingCode) {
-      axios
-        .post(`http://localhost:3001/api/traking/code/${orderId}`, { trackingCode })
-        .then((response) => {
-          console.log(response.data.message);
-          // Se necessário, atualize o estado ou forneça feedback visual ao usuário
-        })
-        .catch((error) => {
-          console.error("Erro ao adicionar código de rastreamento:", error);
-          // Se necessário, forneça feedback visual ao usuário sobre o erro
-        });
-    } else {
-      // Se o usuário cancelar ou não fornecer um código de rastreamento
-      console.log("Operação cancelada ou código de rastreamento vazio.");
-    }
-  };
-  
 
   return (
     <div>
@@ -123,13 +101,7 @@ const Sales = () => {
                 <span style={{ marginLeft: "2rem" }}>R${order.value}</span>{" "}
               </td>
               <td>
-              <button
-            className={styles.button}
-            onClick={() => handleTrackingCode(order._id)}
-          >
-            Adicionar código de rastreio
-          </button>
-              {console.log(order._id)}
+                <BasicModal orderId={order._id} tracking={order.trackingCode} />
               </td>
             </tr>
           ))}
@@ -160,9 +132,8 @@ const Sales = () => {
               <td>
                 {" "}
                 <span style={{ marginLeft: "2rem" }}>
-                  <button className={styles.button}>
-                    adicioanar codigo de rastreio
-                  </button>
+                <BasicModal orderId={order._id} tracking={order.trackingCode} />
+
                 </span>{" "}
               </td>
             </tr>
@@ -196,9 +167,8 @@ const Sales = () => {
               <td>
                 {" "}
                 <span style={{ marginLeft: "2rem" }}>
-                  <button className={styles.button}>
-                    adicioanar codigo de rastreio
-                  </button>
+                <BasicModal orderId={order._id} tracking={order.trackingCode} />
+
                 </span>{" "}
               </td>
             </tr>
