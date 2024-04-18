@@ -1,12 +1,14 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import styles from "./Sales.module.css"
+import styles from "./Sales.module.css";
+import BasicModal from "./BasicModal";
+
 const Sales = () => {
+  const modalRef = useRef(null);
   const [boletos, setBoletos] = useState([]);
   const [pix, setPix] = useState([]);
   const [creditCard, setCreditCard] = useState([]);
-
   useEffect(() => {
     axios
       .get(`http://localhost:3001/api/boletos`)
@@ -51,6 +53,8 @@ const Sales = () => {
       return null;
     }
   };
+
+
   return (
     <div>
       <table
@@ -67,6 +71,7 @@ const Sales = () => {
             <th className={styles.th}>pagamento</th>
             <th className={styles.th}>Quantidade</th>
             <th className={styles.th}>Total</th>
+            <th className={styles.th}>Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -79,15 +84,27 @@ const Sales = () => {
               </td>
               <td>
                 <Link to={`/customers/data/${order.customer}`}>
-                  <span className={styles.span}>{order.name}</span> 
+                  <span className={styles.span}>{order.name}</span>
                 </Link>
               </td>
               <td>{order.billingType}</td>
 
               <td>
-                <div> <span style={{marginLeft:"2rem"}}>{order.totalQuantity} </span></div>
+                <div>
+                  {" "}
+                  <span style={{ marginLeft: "2rem" }}>
+                    {order.totalQuantity}{" "}
+                  </span>
+                </div>
               </td>
-              <td > <span style={{marginLeft:"2rem"}}>R${order.value}</span> </td>
+              <td>
+                {" "}
+                <span style={{ marginLeft: "2rem" }}>R${order.value}</span>{" "}
+              </td>
+              <td>
+               
+                <BasicModal/>
+              </td>
             </tr>
           ))}
           {pix.map((order, index) => (
@@ -104,9 +121,24 @@ const Sales = () => {
               </td>
               <td>{order.billingType}</td>
 
-              <td><span style={{marginLeft:"2rem"}}>{order.totalQuantity}</span> </td>
+              <td>
+                <span style={{ marginLeft: "2rem" }}>
+                  {order.totalQuantity}
+                </span>{" "}
+              </td>
 
-              <td > <span style={{marginLeft:"2rem"}}>R${order.value}</span> </td>
+              <td>
+                {" "}
+                <span style={{ marginLeft: "2rem" }}>R${order.value}</span>{" "}
+              </td>
+              <td>
+                {" "}
+                <span style={{ marginLeft: "2rem" }}>
+                  <button className={styles.button}>
+                    adicioanar codigo de rastreio
+                  </button>
+                </span>{" "}
+              </td>
             </tr>
           ))}
           {creditCard.map((order, index) => (
@@ -125,8 +157,24 @@ const Sales = () => {
                 {order.billingType === "CREDIT_CARD" && "Cartão de Crédito"}
               </td>
 
-              <td> <span style={{marginLeft:"2rem"}}>{order.totalQuantity}</span></td>
-              <td > <span style={{marginLeft:"2rem"}}>R${order.value}</span> </td>
+              <td>
+                {" "}
+                <span style={{ marginLeft: "2rem" }}>
+                  {order.totalQuantity}
+                </span>
+              </td>
+              <td>
+                {" "}
+                <span style={{ marginLeft: "2rem" }}>R${order.value}</span>{" "}
+              </td>
+              <td>
+                {" "}
+                <span style={{ marginLeft: "2rem" }}>
+                  <button className={styles.button}>
+                    adicioanar codigo de rastreio
+                  </button>
+                </span>{" "}
+              </td>
             </tr>
           ))}
         </tbody>
