@@ -62,6 +62,7 @@ const OrderDetails = () => {
             <thead>
               <tr style={{ padding: "1rem" }}>
                 <th style={{ padding: ".8rem", width: "15vw" }}>produtos</th>
+                <th style={{ width: "40vw" }}>Nome</th>
                 <th style={{ width: "40vw" }}>Tamanho</th>
                 <th style={{ whiteSpace: "nowrap" }}>pagamento</th>
                 <th style={{ width: "15vw" }}>Unidade</th>
@@ -82,6 +83,16 @@ const OrderDetails = () => {
                       alt={`Produto ${order.productId}`}
                       style={{ width: "10vw" }}
                     />
+                    <span>{order.name}</span>
+                  </td>
+                  <td
+                    style={{
+                      borderLeft: "1px solid #dddddd",
+                      borderBottom: "1px solid #dddddd",
+                      padding: "1rem",
+                    }}
+                  >
+                    {order.name}
                   </td>
                   <td
                     style={{

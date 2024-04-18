@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
+import styles from "./Sales.module.css"
 const Sales = () => {
   const [boletos, setBoletos] = useState([]);
   const [pix, setPix] = useState([]);
@@ -62,11 +62,11 @@ const Sales = () => {
       >
         <thead>
           <tr>
-            <th>Produtos</th>
-            <th>Nome</th>
-            <th>pagamento</th>
-            <th>Quantidade</th>
-            <th>Total</th>
+            <th className={styles.th}>Produtos</th>
+            <th className={styles.th}>Cliente</th>
+            <th className={styles.th}>pagamento</th>
+            <th className={styles.th}>Quantidade</th>
+            <th className={styles.th}>Total</th>
           </tr>
         </thead>
         <tbody>
@@ -79,7 +79,7 @@ const Sales = () => {
               </td>
               <td>
                 <Link to={`/customers/data/${order.customer}`}>
-                  {order.name}
+                  <span className={styles.span}>{order.name}</span> 
                 </Link>
               </td>
               <td>{order.billingType}</td>
