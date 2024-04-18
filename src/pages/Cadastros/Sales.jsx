@@ -66,6 +66,7 @@ const Sales = () => {
         <thead>
           <tr>
             <th className={styles.th}>Produtos</th>
+            <th className={styles.th}>Status</th>
             <th className={styles.th}>Cliente</th>
             <th className={styles.th}>pagamento</th>
             <th className={styles.th}>Quantidade</th>
@@ -81,12 +82,46 @@ const Sales = () => {
                   {renderFirstImage(order.products)}
                 </Link>
               </td>
+              <td>{order.status}</td>
               <td>
                 <Link to={`/customers/data/${order.customer}`}>
                   <span className={styles.span}>{order.name}</span>
                 </Link>
               </td>
-              <td>{order.billingType}</td>
+              <td>
+                <p
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: ".5rem",
+                  }}
+                >
+                  {order.billingType === "PIX" && (
+                    <img
+                      src="https://i.ibb.co/dfvK4s0/icons8-foto-48.png"
+                      alt=""
+                      style={{
+                        maxWidth: "14vw",
+                      }}
+                    />
+                  )}
+                  {order.billingType === "BOLETO" && (
+                    <img
+                      src="https://i.ibb.co/LNrSsZt/icons8-boleto-bankario-48.png"
+                      alt=""
+                      style={{ maxWidth: "14vw" }}
+                    />
+                  )}
+
+                  {order.billingType === "CREDIT_CARD" && (
+                    <img
+                      src="https://i.ibb.co/HtWhHR0/icons8-emoji-de-cart-o-de-cr-dito-48.png"
+                      alt=""
+                    />
+                  )}
+                  {order.billingType}
+                </p>
+              </td>
 
               <td>
                 <div>
@@ -112,12 +147,46 @@ const Sales = () => {
                   {renderFirstImage(order.products)}
                 </Link>
               </td>
+              <td>{order.status}</td>
               <td>
                 <Link to={`/customers/data/${order.customer}`}>
                   {order.name}
                 </Link>
               </td>
-              <td>{order.billingType}</td>
+              <td>
+                <p
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: ".5rem",
+                  }}
+                >
+                  {order.billingType === "PIX" && (
+                    <img
+                      src="https://i.ibb.co/dfvK4s0/icons8-foto-48.png"
+                      alt=""
+                      style={{
+                        maxWidth: "14vw",
+                      }}
+                    />
+                  )}
+                  {order.billingType === "BOLETO" && (
+                    <img
+                      src="https://i.ibb.co/LNrSsZt/icons8-boleto-bankario-48.png"
+                      alt=""
+                      style={{ maxWidth: "14vw" }}
+                    />
+                  )}
+
+                  {order.billingType === "CREDIT_CARD" && (
+                    <img
+                      src="https://i.ibb.co/HtWhHR0/icons8-emoji-de-cart-o-de-cr-dito-48.png"
+                      alt=""
+                    />
+                  )}
+                  {order.billingType}
+                </p>
+              </td>
 
               <td>
                 <span style={{ marginLeft: "2rem" }}>
@@ -132,8 +201,10 @@ const Sales = () => {
               <td>
                 {" "}
                 <span style={{ marginLeft: "2rem" }}>
-                <BasicModal orderId={order._id} tracking={order.trackingCode} />
-
+                  <BasicModal
+                    orderId={order._id}
+                    tracking={order.trackingCode}
+                  />
                 </span>{" "}
               </td>
             </tr>
@@ -145,13 +216,45 @@ const Sales = () => {
                   {renderFirstImage(order.products)}
                 </Link>
               </td>
+              <td>{order.status}</td>
               <td>
                 <Link to={`/customers/data/${order.customer}`}>
                   {order.name}
                 </Link>
               </td>
               <td>
-                {order.billingType === "CREDIT_CARD" && "Cartão de Crédito"}
+                <p
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: ".5rem",
+                  }}
+                >
+                  {order.billingType === "PIX" && (
+                    <img
+                      src="https://i.ibb.co/dfvK4s0/icons8-foto-48.png"
+                      alt=""
+                      style={{
+                        maxWidth: "14vw",
+                      }}
+                    />
+                  )}
+                  {order.billingType === "BOLETO" && (
+                    <img
+                      src="https://i.ibb.co/LNrSsZt/icons8-boleto-bankario-48.png"
+                      alt=""
+                      style={{ maxWidth: "14vw" }}
+                    />
+                  )}
+
+                  {order.billingType === "CREDIT_CARD" && (
+                    <img
+                      src="https://i.ibb.co/HtWhHR0/icons8-emoji-de-cart-o-de-cr-dito-48.png"
+                      alt=""
+                    />
+                  )}
+                  {order.billingType === "CREDIT_CARD" && "Cartão de Crédito"}
+                </p>
               </td>
 
               <td>
@@ -167,8 +270,10 @@ const Sales = () => {
               <td>
                 {" "}
                 <span style={{ marginLeft: "2rem" }}>
-                <BasicModal orderId={order._id} tracking={order.trackingCode} />
-
+                  <BasicModal
+                    orderId={order._id}
+                    tracking={order.trackingCode}
+                  />
                 </span>{" "}
               </td>
             </tr>
