@@ -110,7 +110,7 @@ const OrderDetails = () => {
                       padding: "1rem",
                     }}
                   >
-                    {boleto.billingType}
+                    {boleto.billingType === "CREDIT_CARD" && "Cartão de Crédito"}
                   </td>
                   <td
                     style={{
@@ -239,7 +239,7 @@ const OrderDetails = () => {
                       padding: "1rem",
                     }}
                   >
-                    {pix.billingType}
+                    {pix.billingType === "CREDIT_CARD" && "Cartão de Crédito"}
                   </td>
                   <td
                     style={{
@@ -368,7 +368,7 @@ const OrderDetails = () => {
                       padding: "1rem",
                     }}
                   >
-                    {creditCard.billingType}
+                    {creditCard.billingType === "CREDIT_CARD" && "Cartão de Crédito"}
                   </td>
                   <td
                     style={{

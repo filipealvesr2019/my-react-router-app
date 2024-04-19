@@ -64,15 +64,20 @@ const Sales = () => {
         }}
       >
         <thead>
-          <tr>
+        {boletos.map((order, index) => (<>
+        
+          <tr key={index}>
             <th className={styles.th}>Produtos</th>
             <th className={styles.th}>Status</th>
             <th className={styles.th}>Cliente</th>
             <th className={styles.th}>pagamento</th>
             <th className={styles.th}>Quantidade</th>
+            <th className={styles.th}> Parcelas</th>
+
             <th className={styles.th}>Total</th>
             <th className={styles.th}>Ações</th>
           </tr>
+          </>))}
         </thead>
         <tbody>
           {boletos.map((order, index) => (
@@ -328,6 +333,7 @@ const Sales = () => {
                   {order.totalQuantity}
                 </span>
               </td>
+              <td>{order.installmentNumber}</td>
               <td>
                 {" "}
                 <span style={{ marginLeft: "2rem" }}>R${order.value}</span>{" "}
@@ -341,6 +347,7 @@ const Sales = () => {
                   />
                 </span>{" "}
               </td>
+           
             </tr>
           ))}
         </tbody>
