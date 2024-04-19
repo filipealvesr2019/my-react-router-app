@@ -64,20 +64,20 @@ const Sales = () => {
         }}
       >
         <thead>
-        {boletos.map((order, index) => (<>
+
         
-          <tr key={index}>
+          <tr >
             <th className={styles.th}>Produtos</th>
             <th className={styles.th}>Status</th>
             <th className={styles.th}>Cliente</th>
             <th className={styles.th}>pagamento</th>
-            <th className={styles.th}>Quantidade</th>
             <th className={styles.th}> Parcelas</th>
+            <th className={styles.th}>Quantidade</th>
 
             <th className={styles.th}>Total</th>
             <th className={styles.th}>Ações</th>
           </tr>
-          </>))}
+
         </thead>
         <tbody>
           {boletos.map((order, index) => (
@@ -150,7 +150,7 @@ const Sales = () => {
                   {order.billingType}
                 </p>
               </td>
-
+              <td></td>
               <td>
                 <div>
                   {" "}
@@ -236,6 +236,7 @@ const Sales = () => {
                   {order.billingType}
                 </p>
               </td>
+              <td></td>
 
               <td>
                 <span style={{ marginLeft: "2rem" }}>
@@ -249,7 +250,7 @@ const Sales = () => {
               </td>
               <td>
                 {" "}
-                <span style={{ marginLeft: "2rem" }}>
+                <span >
                   <BasicModal
                     orderId={order._id}
                     tracking={order.trackingCode}
@@ -340,7 +341,7 @@ const Sales = () => {
               </td>
               <td>
                 {" "}
-                <span style={{ marginLeft: "2rem" }}>
+                <span >
                   <BasicModal
                     orderId={order._id}
                     tracking={order.trackingCode}
