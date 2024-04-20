@@ -150,7 +150,7 @@ const Sales = () => {
                   {order.billingType}
                 </p>
               </td>
-              <td></td>
+              <td>0</td>
               <td>
                 <div>
                   {" "}
@@ -236,7 +236,7 @@ const Sales = () => {
                   {order.billingType}
                 </p>
               </td>
-              <td></td>
+              <td>0</td>
 
               <td>
                 <span style={{ marginLeft: "2rem" }}>
@@ -328,13 +328,13 @@ const Sales = () => {
                 </p>
               </td>
 
+              <td>{order.installmentNumber}</td>
               <td>
                 {" "}
                 <span style={{ marginLeft: "2rem" }}>
                   {order.totalQuantity}
                 </span>
               </td>
-              <td>{order.installmentNumber}</td>
               <td>
                 {" "}
                 <span style={{ marginLeft: "2rem" }}>R${order.value}</span>{" "}

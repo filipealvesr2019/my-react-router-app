@@ -146,6 +146,7 @@ const OrderDetails = () => {
 
            
                 <th style={{ width: "40vw" }}>Preço do frete</th>
+                <th>codigo de ratreio</th>
               </tr>
             </thead>
             <tbody>
@@ -179,6 +180,7 @@ const OrderDetails = () => {
                   >
                     R${boleto.shippingFeeData.shippingFeePrice}
                   </td>
+                  <td>{boleto.trackingCode}</td>
                 </tr>
               )}
             </tbody>
@@ -275,6 +277,8 @@ const OrderDetails = () => {
 
      
                 <th style={{ width: "40vw" }}>Preço do frete</th>
+                <th>codigo de ratreio</th>
+
               </tr>
             </thead>
             <tbody>
@@ -308,6 +312,8 @@ const OrderDetails = () => {
                   >
                      R${pix.shippingFeeData.shippingFeePrice}
                   </td>
+                  <td>{pix.trackingCode}</td>
+
                 </tr>
               )}
             </tbody>
@@ -404,6 +410,8 @@ const OrderDetails = () => {
 
             
                 <th style={{ width: "40vw" }}>Preço do frete</th>
+                <th>codigo de ratreio</th>
+
               </tr>
             </thead>
             <tbody>
@@ -437,6 +445,8 @@ const OrderDetails = () => {
                   >
                      R${creditCard.shippingFeeData.shippingFeePrice}
                   </td>
+                  <td>{creditCard.trackingCode}
+</td>
                 </tr>
               )}
             </tbody>
