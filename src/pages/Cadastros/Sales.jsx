@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Sales.module.css";
 import BasicModal from "./BasicModal";
+import BasicSelect from "../../components/BasicSelect";
 
 const Sales = () => {
   const [boletos, setBoletos] = useState([]);
@@ -55,18 +56,19 @@ const Sales = () => {
   };
 
   return (
-    <div>
-      <table
-        style={{
-          margin: "0 auto",
-          width: "90vw",
-          marginTop: "3rem",
-        }}
-      >
+    <div style={{ position: "relative" }}>
+    <div style={{ position: "absolute", top: "-80px", right: "50px", zIndex: "1" }}>
+      <BasicSelect />
+    </div>
+    <table
+      style={{
+        position: "relative", // Alterado para 'relative'
+        margin: "5rem auto 0", // Centralizando verticalmente
+        width: "90vw",
+      }}
+    >
         <thead>
-
-        
-          <tr >
+          <tr>
             <th className={styles.th}>Produtos</th>
             <th className={styles.th}>Status</th>
             <th className={styles.th}>Cliente</th>
@@ -77,7 +79,6 @@ const Sales = () => {
             <th className={styles.th}>Total</th>
             <th className={styles.th}>Ações</th>
           </tr>
-
         </thead>
         <tbody>
           {boletos.map((order, index) => (
@@ -250,7 +251,7 @@ const Sales = () => {
               </td>
               <td>
                 {" "}
-                <span >
+                <span>
                   <BasicModal
                     orderId={order._id}
                     tracking={order.trackingCode}
@@ -341,14 +342,13 @@ const Sales = () => {
               </td>
               <td>
                 {" "}
-                <span >
+                <span>
                   <BasicModal
                     orderId={order._id}
                     tracking={order.trackingCode}
                   />
                 </span>{" "}
               </td>
-           
             </tr>
           ))}
         </tbody>

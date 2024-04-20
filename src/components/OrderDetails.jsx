@@ -12,7 +12,7 @@ const OrderDetails = () => {
   useEffect(() => {
     // Requisição para detalhes do boleto
     axios
-      .get(`http://localhost:3001/api/boleto/${id}`)
+      .get(`http://localhost:3001/api/orders/${id}`)
       .then((response) => {
         setBoleto(response.data);
         console.log(response.data);
@@ -45,6 +45,7 @@ const OrderDetails = () => {
 
   return (
     <div>
+    
       {boleto && (
         <div>
           <h2 style={{ marginLeft: "4rem" }}>Detalhes do Pedido</h2>
@@ -111,6 +112,8 @@ const OrderDetails = () => {
                     }}
                   >
                     {boleto.billingType === "CREDIT_CARD" && "Cartão de Crédito"}
+                    {boleto.billingType === "BOLETO" }
+              
                   </td>
                   <td
                     style={{
