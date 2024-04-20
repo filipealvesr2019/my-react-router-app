@@ -14,7 +14,7 @@ export default function BasicSelect() {
   return (
     <div>
       <FormControl sx={{ m: 1, minWidth: 150, height:30 }}>
-        <InputLabel id="demo-simple-select-autowidth-label" style={{marginTop:"1rem"}}>Age</InputLabel>
+        <InputLabel id="demo-simple-select-autowidth-label" style={{marginTop:"1rem"}}>Filtrar</InputLabel>
         <Select
           labelId="demo-simple-select-autowidth-label"
           id="demo-simple-select-autowidth"

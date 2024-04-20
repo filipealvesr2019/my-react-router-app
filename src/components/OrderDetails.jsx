@@ -112,7 +112,6 @@ const OrderDetails = () => {
                     }}
                   >
                     {boleto.billingType === "CREDIT_CARD" && "Cartão de Crédito"}
-                    {boleto.billingType === "BOLETO" }
               
                   </td>
                   <td

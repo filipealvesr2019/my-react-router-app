@@ -59,6 +59,7 @@ const Sales = () => {
     <div style={{ position: "relative" }}>
     <div style={{ position: "absolute", top: "-80px", right: "50px", zIndex: "1" }}>
       <BasicSelect />
+    
     </div>
     <table
       style={{
@@ -81,6 +82,7 @@ const Sales = () => {
           </tr>
         </thead>
         <tbody>
+       
           {boletos.map((order, index) => (
             <tr key={order._id}>
               <td>
@@ -149,6 +151,7 @@ const Sales = () => {
                     />
                   )}
                   {order.billingType}
+
                 </p>
               </td>
               <td>0</td>
