@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Sales.module.css";
 import BasicModal from "./BasicModal";
-import BasicSelect from "../../components/BasicSelect";
+import CustomTabPanel from "../../components/CustomTabPanel";
 
 const Sales = () => {
   const [boletos, setBoletos] = useState([]);
@@ -58,7 +58,7 @@ const Sales = () => {
   return (
     <div style={{ position: "relative" }}>
     <div style={{ position: "absolute", top: "-80px", right: "50px", zIndex: "1" }}>
-      <BasicSelect />
+      <CustomTabPanel />
     
     </div>
     <table
