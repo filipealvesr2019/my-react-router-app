@@ -91,12 +91,12 @@ const Sales = () => {
       });
   };
 
-
-
   const handleBoletoSearch = () => {
     // Realiza a pesquisa com base no termo de pesquisa (pixSearchTerm)
     axios
-      .get(`http://localhost:3001/api/boletos?page=${page}&name=${pixSearchTerm}`)
+      .get(
+        `http://localhost:3001/api/boletos?page=${page}&name=${pixSearchTerm}`
+      )
       .then((response) => {
         // Atualiza o estado do componente com os resultados da pesquisa
         setBoletos(response.data);
@@ -106,14 +106,13 @@ const Sales = () => {
         console.error("Erro ao realizar a pesquisa:", error);
       });
   };
- 
-
-  
 
   const handleCreditCardSearch = () => {
     // Realiza a pesquisa com base no termo de pesquisa (pixSearchTerm)
     axios
-      .get(`http://localhost:3001/api/creditCard?page=${page}&name=${pixSearchTerm}`)
+      .get(
+        `http://localhost:3001/api/creditCard?page=${page}&name=${pixSearchTerm}`
+      )
       .then((response) => {
         // Atualiza o estado do componente com os resultados da pesquisa
         setCreditCard(response.data);
@@ -123,20 +122,16 @@ const Sales = () => {
         console.error("Erro ao realizar a pesquisa:", error);
       });
   };
- 
+
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
-      
-      
       handlePixSearch(); // Chama a função de pesquisa quando a tecla "Enter" for pressionada
       handleBoletoSearch(); // Chama a função de pesquisa quando a tecla "Enter" for pressionada
 
       handleCreditCardSearch(); // Chama a função de pesquisa quando a tecla "Enter" for pressionada
-
     }
   };
 
-  
   return (
     <div
       style={{
@@ -324,7 +319,7 @@ const Sales = () => {
             )}
             {activeTab === 1 && (
               <div>
-                  <input
+                <input
                   type="text"
                   placeholder="Pesquisar por nome..."
                   value={pixSearchTerm}
@@ -461,7 +456,7 @@ const Sales = () => {
             )}
             {activeTab === 2 && (
               <div>
-                  <input
+                <input
                   type="text"
                   placeholder="Pesquisar por nome..."
                   value={pixSearchTerm}
