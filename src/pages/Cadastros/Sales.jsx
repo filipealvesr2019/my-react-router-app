@@ -173,11 +173,11 @@ const Sales = () => {
                           </p>
                         </td>
                         <td>
-                          <Link
+                        <Link
                             to={`/customers/data/${order.customer}`}
                             className={styles.link}
                           >
-                            {order.name}
+                            <span className={styles.span}>{order.name}</span>
                           </Link>
                         </td>
                         <td>
@@ -305,6 +305,8 @@ const Sales = () => {
                             className={styles.link}
                           >
                             <span className={styles.span}>{order.name}</span>
+                            {console.log("Customer ID:", order.customer)
+}
                           </Link>
                         </td>
                         <td>

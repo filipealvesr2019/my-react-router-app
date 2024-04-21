@@ -32,6 +32,7 @@ function App() {
               <Route path={"/creditCard/:id"} element={<CreditCardOrderDetails  />} />{" "}
 
               <Route path={"/pix/:id"} element={<PixOrderDetails  />} />{" "}
+              
               <Route path={"/customers/data/:customer"} element={<CustomerDetails  />} />{" "}
 
 
