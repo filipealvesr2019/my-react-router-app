@@ -12,6 +12,7 @@ const Sales = () => {
   const [creditCard, setCreditCard] = useState([]);
   const [activeTab, setActiveTab] = useState(0);
   const [page, setPage] = useState(1);
+  const [pixSearchTerm, setPixSearchTerm] = useState("");
 
   useEffect(() => {
     axios
@@ -25,7 +26,7 @@ const Sales = () => {
       });
 
     axios
-      .get(`http://localhost:3001/api/pix?page=${page}`)
+      .get(`http://localhost:3001/api/pix?page=${page}&name=${pixSearchTerm}`)
       .then((response) => {
         setPix(response.data);
         console.log(response.data);
@@ -44,6 +45,10 @@ const Sales = () => {
         console.error("Erro ao obter os pix:", error);
       });
   }, [page]);
+
+  const handleSearchChange = (event) => {
+    setPixSearchTerm(event.target.value);
+  };
 
   const handleChange = (event, value) => {
     setPage(value);
@@ -70,6 +75,25 @@ const Sales = () => {
   const tabStyle = {
     color: "#2196F3", // Cor de fundo das tabs ativas
     // Outros estilos conforme necessário
+  };
+
+  const handleSearch = () => {
+    // Realiza a pesquisa com base no termo de pesquisa (pixSearchTerm)
+    axios
+      .get(`http://localhost:3001/api/pix?page=${page}&name=${pixSearchTerm}`)
+      .then((response) => {
+        // Atualiza o estado do componente com os resultados da pesquisa
+        setPix(response.data);
+        console.log("Resultados da pesquisa:", response.data);
+      })
+      .catch((error) => {
+        console.error("Erro ao realizar a pesquisa:", error);
+      });
+  };
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleSearch(); // Chama a função de pesquisa quando a tecla "Enter" for pressionada
+    }
   };
 
   return (
@@ -123,6 +147,15 @@ const Sales = () => {
           <div className={styles.tabContent}>
             {activeTab === 0 && (
               <div>
+                <input
+                  type="text"
+                  placeholder="Pesquisar por nome..."
+                  value={pixSearchTerm}
+                  onChange={handleSearchChange}
+                  onKeyDown={handleKeyDown} // Chama a função handleKeyDown quando uma tecla é pressionada
+                />
+                <button onClick={handleSearch}>Pesquisar</button>
+
                 <table
                   style={{
                     position: "relative",
@@ -173,7 +206,7 @@ const Sales = () => {
                           </p>
                         </td>
                         <td>
-                        <Link
+                          <Link
                             to={`/customers/data/${order.customer}`}
                             className={styles.link}
                           >
@@ -305,8 +338,7 @@ const Sales = () => {
                             className={styles.link}
                           >
                             <span className={styles.span}>{order.name}</span>
-                            {console.log("Customer ID:", order.customer)
-}
+                            {console.log("Customer ID:", order.customer)}
                           </Link>
                         </td>
                         <td>
@@ -501,7 +533,7 @@ const Sales = () => {
                   count={10} // Número total de páginas
                   page={page} // Página atual
                   onChange={handleChange} // Função para manipular a mudança de página
-                  color="primary" 
+                  color="primary"
                   style={{ marginTop: "2rem", marginBottom: " 2rem" }}
                 />
               </div>
