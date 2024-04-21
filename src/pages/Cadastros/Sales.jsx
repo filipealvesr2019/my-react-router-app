@@ -1,19 +1,21 @@
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Sales.module.css";
 import BasicModal from "./BasicModal";
-import CustomTabPanel from "../../components/CustomTabPanel";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 
 const Sales = () => {
   const [boletos, setBoletos] = useState([]);
   const [pix, setPix] = useState([]);
   const [creditCard, setCreditCard] = useState([]);
   const [activeTab, setActiveTab] = useState(0);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/api/boletos`)
+      .get(`http://localhost:3001/api/boletos?page=${page}`)
       .then((response) => {
         setBoletos(response.data);
         console.log(response.data);
@@ -23,7 +25,7 @@ const Sales = () => {
       });
 
     axios
-      .get(`http://localhost:3001/api/pix`)
+      .get(`http://localhost:3001/api/pix?page=${page}`)
       .then((response) => {
         setPix(response.data);
         console.log(response.data);
@@ -31,8 +33,9 @@ const Sales = () => {
       .catch((error) => {
         console.error("Erro ao obter os pix:", error);
       });
+
     axios
-      .get(`http://localhost:3001/api/creditCard`)
+      .get(`http://localhost:3001/api/creditCard?page=${page}`)
       .then((response) => {
         setCreditCard(response.data);
         console.log(response.data);
@@ -40,7 +43,11 @@ const Sales = () => {
       .catch((error) => {
         console.error("Erro ao obter os pix:", error);
       });
-  }, []);
+  }, [page]);
+
+  const handleChange = (event, value) => {
+    setPage(value);
+  };
 
   const renderFirstImage = (products) => {
     if (products.length > 0) {
@@ -80,7 +87,6 @@ const Sales = () => {
           position: "absolute",
           top: "50px",
           margin: "0 auto",
-     
         }}
       >
         <div>
@@ -91,8 +97,8 @@ const Sales = () => {
               fontSize: "1.2rem",
               fontWeight: "500",
               fontFamily: "poppins",
-              margin:"0 auto",
-              justifyContent:"center"
+              margin: "0 auto",
+              justifyContent: "center",
             }}
           >
             <span
@@ -119,11 +125,9 @@ const Sales = () => {
               <div>
                 <table
                   style={{
-                    position: "relative", // Alterado para 'relative'
+                    position: "relative",
                     width: "90vw",
                     marginTop: "3rem",
-                    // Se desejar espaço entre o componente e a tabela,
-                    // você pode ajustar a margem superior aqui
                   }}
                 >
                   <thead>
@@ -131,10 +135,9 @@ const Sales = () => {
                       <th className={styles.th}>Produtos</th>
                       <th className={styles.th}>Status</th>
                       <th className={styles.th}>Cliente</th>
-                      <th className={styles.th}>pagamento</th>
-                      <th className={styles.th}> Parcelas</th>
+                      <th className={styles.th}>Pagamento</th>
+                      <th className={styles.th}>Parcelas</th>
                       <th className={styles.th}>Quantidade</th>
-
                       <th className={styles.th}>Total</th>
                       <th className={styles.th}>Ações</th>
                     </tr>
@@ -170,7 +173,10 @@ const Sales = () => {
                           </p>
                         </td>
                         <td>
-                          <Link to={`/customers/data/${order.customer}`}>
+                          <Link
+                            to={`/customers/data/${order.customer}`}
+                            className={styles.link}
+                          >
                             {order.name}
                           </Link>
                         </td>
@@ -209,13 +215,11 @@ const Sales = () => {
                           </p>
                         </td>
                         <td>0</td>
-
                         <td>
                           <span style={{ marginLeft: "2rem" }}>
                             {order.totalQuantity}
                           </span>{" "}
                         </td>
-
                         <td>
                           {" "}
                           <span style={{ marginLeft: "2rem" }}>
@@ -235,143 +239,22 @@ const Sales = () => {
                     ))}
                   </tbody>
                 </table>
+                <Pagination
+                  count={10} // Número total de páginas
+                  page={page} // Página atual
+                  onChange={handleChange} // Função para manipular a mudança de página
+                  color="primary"
+                  style={{ marginTop: "2rem", marginBottom: " 2rem" }}
+                />
               </div>
             )}
             {activeTab === 1 && (
               <div>
-                {" "}
-                <div>
-                  <table
-                    style={{
-                      position: "relative", // Alterado para 'relative'
-                      width: "90vw",
-                      marginTop: "10rem",
-                      // Se desejar espaço entre o componente e a tabela,
-                      // você pode ajustar a margem superior aqui
-                    }}
-                  >
-                    <thead>
-                      <tr>
-                        <th className={styles.th}>Produtos</th>
-                        <th className={styles.th}>Status</th>
-                        <th className={styles.th}>Cliente</th>
-                        <th className={styles.th}>pagamento</th>
-                        <th className={styles.th}> Parcelas</th>
-                        <th className={styles.th}>Quantidade</th>
-
-                        <th className={styles.th}>Total</th>
-                        <th className={styles.th}>Ações</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {boletos.map((order, index) => (
-                        <tr key={order._id}>
-                          <td>
-                            <Link to={`/boleto/${order._id}`}>
-                              {renderFirstImage(order.products)}
-                            </Link>
-                          </td>
-                          <td>
-                            {" "}
-                            <p
-                              className={`${styles.status} ${
-                                styles[order.status.toLowerCase()]
-                              }`}
-                            >
-                              {" "}
-                              {(() => {
-                                switch (order.status) {
-                                  case "RECEIVED":
-                                    return "pago";
-                                  case "CONFIRMED":
-                                    return "Cobrança confirmada";
-                                  case "PENDING":
-                                    return "Pendente";
-                                  case "OVERDUE":
-                                    return "Cobrança vencida";
-                                  default:
-                                    return;
-                                }
-                              })()}
-                            </p>
-                          </td>
-                          <td>
-                            <Link to={`/customers/data/${order.customer}`}>
-                              <span className={styles.span}>{order.name}</span>
-                            </Link>
-                          </td>
-                          <td>
-                            <p
-                              style={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: ".5rem",
-                              }}
-                            >
-                              {order.billingType === "PIX" && (
-                                <img
-                                  src="https://i.ibb.co/dfvK4s0/icons8-foto-48.png"
-                                  alt=""
-                                  style={{
-                                    maxWidth: "14vw",
-                                  }}
-                                />
-                              )}
-                              {order.billingType === "BOLETO" && (
-                                <img
-                                  src="https://i.ibb.co/LNrSsZt/icons8-boleto-bankario-48.png"
-                                  alt=""
-                                  style={{ maxWidth: "14vw" }}
-                                />
-                              )}
-
-                              {order.billingType === "CREDIT_CARD" && (
-                                <img
-                                  src="https://i.ibb.co/HtWhHR0/icons8-emoji-de-cart-o-de-cr-dito-48.png"
-                                  alt=""
-                                />
-                              )}
-                              {order.billingType}
-                            </p>
-                          </td>
-                          <td>0</td>
-                          <td>
-                            <div>
-                              {" "}
-                              <span style={{ marginLeft: "2rem" }}>
-                                {order.totalQuantity}{" "}
-                              </span>
-                            </div>
-                          </td>
-                          <td>
-                            {" "}
-                            <span style={{ marginLeft: "2rem" }}>
-                              R${order.value}
-                            </span>{" "}
-                          </td>
-                          <td>
-                            <BasicModal
-                              orderId={order._id}
-                              tracking={order.trackingCode}
-                            />
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            )}
-            {activeTab === 2 && (
-              <div>
-                {" "}
                 <table
                   style={{
-                    position: "relative", // Alterado para 'relative'
+                    position: "relative",
                     width: "90vw",
                     marginTop: "10rem",
-                    // Se desejar espaço entre o componente e a tabela,
-                    // você pode ajustar a margem superior aqui
                   }}
                 >
                   <thead>
@@ -379,10 +262,136 @@ const Sales = () => {
                       <th className={styles.th}>Produtos</th>
                       <th className={styles.th}>Status</th>
                       <th className={styles.th}>Cliente</th>
-                      <th className={styles.th}>pagamento</th>
-                      <th className={styles.th}> Parcelas</th>
+                      <th className={styles.th}>Pagamento</th>
+                      <th className={styles.th}>Parcelas</th>
                       <th className={styles.th}>Quantidade</th>
+                      <th className={styles.th}>Total</th>
+                      <th className={styles.th}>Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {boletos.map((order, index) => (
+                      <tr key={order._id}>
+                        <td>
+                          <Link to={`/boleto/${order._id}`}>
+                            {renderFirstImage(order.products)}
+                          </Link>
+                        </td>
+                        <td>
+                          <p
+                            className={`${styles.status} ${
+                              styles[order.status.toLowerCase()]
+                            }`}
+                          >
+                            {(() => {
+                              switch (order.status) {
+                                case "RECEIVED":
+                                  return "pago";
+                                case "CONFIRMED":
+                                  return "Cobrança confirmada";
+                                case "PENDING":
+                                  return "Pendente";
+                                case "OVERDUE":
+                                  return "Cobrança vencida";
+                                default:
+                                  return;
+                              }
+                            })()}
+                          </p>
+                        </td>
+                        <td>
+                          <Link
+                            to={`/customers/data/${order.customer}`}
+                            className={styles.link}
+                          >
+                            <span className={styles.span}>{order.name}</span>
+                          </Link>
+                        </td>
+                        <td>
+                          <p
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: ".5rem",
+                            }}
+                          >
+                            {order.billingType === "PIX" && (
+                              <img
+                                src="https://i.ibb.co/dfvK4s0/icons8-foto-48.png"
+                                alt=""
+                                style={{
+                                  maxWidth: "14vw",
+                                }}
+                              />
+                            )}
+                            {order.billingType === "BOLETO" && (
+                              <img
+                                src="https://i.ibb.co/LNrSsZt/icons8-boleto-bankario-48.png"
+                                alt=""
+                                style={{ maxWidth: "14vw" }}
+                              />
+                            )}
 
+                            {order.billingType === "CREDIT_CARD" && (
+                              <img
+                                src="https://i.ibb.co/HtWhHR0/icons8-emoji-de-cart-o-de-cr-dito-48.png"
+                                alt=""
+                              />
+                            )}
+                            {order.billingType}
+                          </p>
+                        </td>
+                        <td>0</td>
+                        <td>
+                          <span style={{ marginLeft: "2rem" }}>
+                            {order.totalQuantity}
+                          </span>{" "}
+                        </td>
+                        <td>
+                          {" "}
+                          <span style={{ marginLeft: "2rem" }}>
+                            R${order.value}
+                          </span>{" "}
+                        </td>
+                        <td>
+                          {" "}
+                          <span>
+                            <BasicModal
+                              orderId={order._id}
+                              tracking={order.trackingCode}
+                            />
+                          </span>{" "}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <Pagination
+                  count={10} // Número total de páginas
+                  page={page} // Página atual
+                  onChange={handleChange} // Função para manipular a mudança de página
+                  color="primary"
+                  style={{ marginTop: "2rem", marginBottom: " 2rem" }}
+                />
+              </div>
+            )}
+            {activeTab === 2 && (
+              <div>
+                <table
+                  style={{
+                    position: "relative",
+                    width: "90vw",
+                    marginTop: "3rem",
+                  }}
+                >
+                  <thead>
+                    <tr>
+                      <th className={styles.th}>Produtos</th>
+                      <th className={styles.th}>Status</th>
+                      <th className={styles.th}>Cliente</th>
+                      <th className={styles.th}>Pagamento</th>
+                      <th className={styles.th}>Parcelas</th>
+                      <th className={styles.th}>Quantidade</th>
                       <th className={styles.th}>Total</th>
                       <th className={styles.th}>Ações</th>
                     </tr>
@@ -418,7 +427,10 @@ const Sales = () => {
                           </p>
                         </td>
                         <td>
-                          <Link to={`/customers/data/${order.customer}`}>
+                          <Link
+                            to={`/customers/data/${order.customer}`}
+                            className={styles.link}
+                          >
                             {order.name}
                           </Link>
                         </td>
@@ -457,7 +469,6 @@ const Sales = () => {
                               "Cartão de Crédito"}
                           </p>
                         </td>
-
                         <td>{order.installmentNumber}</td>
                         <td>
                           {" "}
@@ -484,6 +495,13 @@ const Sales = () => {
                     ))}
                   </tbody>
                 </table>
+                <Pagination
+                  count={10} // Número total de páginas
+                  page={page} // Página atual
+                  onChange={handleChange} // Função para manipular a mudança de página
+                  variant="outlined"
+                  style={{ marginTop: "2rem", marginBottom: " 2rem" }}
+                />
               </div>
             )}
           </div>
