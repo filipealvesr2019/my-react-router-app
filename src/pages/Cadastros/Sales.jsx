@@ -77,7 +77,7 @@ const Sales = () => {
     // Outros estilos conforme necessário
   };
 
-  const handleSearch = () => {
+  const handlePixSearch = () => {
     // Realiza a pesquisa com base no termo de pesquisa (pixSearchTerm)
     axios
       .get(`http://localhost:3001/api/pix?page=${page}&name=${pixSearchTerm}`)
@@ -90,12 +90,53 @@ const Sales = () => {
         console.error("Erro ao realizar a pesquisa:", error);
       });
   };
+
+
+
+  const handleBoletoSearch = () => {
+    // Realiza a pesquisa com base no termo de pesquisa (pixSearchTerm)
+    axios
+      .get(`http://localhost:3001/api/boletos?page=${page}&name=${pixSearchTerm}`)
+      .then((response) => {
+        // Atualiza o estado do componente com os resultados da pesquisa
+        setBoletos(response.data);
+        console.log("Resultados da pesquisa:", response.data);
+      })
+      .catch((error) => {
+        console.error("Erro ao realizar a pesquisa:", error);
+      });
+  };
+ 
+
+  
+
+  const handleCreditCardSearch = () => {
+    // Realiza a pesquisa com base no termo de pesquisa (pixSearchTerm)
+    axios
+      .get(`http://localhost:3001/api/creditCard?page=${page}&name=${pixSearchTerm}`)
+      .then((response) => {
+        // Atualiza o estado do componente com os resultados da pesquisa
+        setCreditCard(response.data);
+        console.log("Resultados da pesquisa:", response.data);
+      })
+      .catch((error) => {
+        console.error("Erro ao realizar a pesquisa:", error);
+      });
+  };
+ 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
-      handleSearch(); // Chama a função de pesquisa quando a tecla "Enter" for pressionada
+      
+      
+      handlePixSearch(); // Chama a função de pesquisa quando a tecla "Enter" for pressionada
+      handleBoletoSearch(); // Chama a função de pesquisa quando a tecla "Enter" for pressionada
+
+      handleCreditCardSearch(); // Chama a função de pesquisa quando a tecla "Enter" for pressionada
+
     }
   };
 
+  
   return (
     <div
       style={{
@@ -154,7 +195,7 @@ const Sales = () => {
                   onChange={handleSearchChange}
                   onKeyDown={handleKeyDown} // Chama a função handleKeyDown quando uma tecla é pressionada
                 />
-                <button onClick={handleSearch}>Pesquisar</button>
+                <button onClick={handlePixSearch}>Pesquisar</button>
 
                 <table
                   style={{
@@ -283,6 +324,15 @@ const Sales = () => {
             )}
             {activeTab === 1 && (
               <div>
+                  <input
+                  type="text"
+                  placeholder="Pesquisar por nome..."
+                  value={pixSearchTerm}
+                  onChange={handleSearchChange}
+                  onKeyDown={handleKeyDown} // Chama a função handleKeyDown quando uma tecla é pressionada
+                />
+                <button onClick={handleBoletoSearch}>Pesquisar</button>
+
                 <table
                   style={{
                     position: "relative",
@@ -411,6 +461,15 @@ const Sales = () => {
             )}
             {activeTab === 2 && (
               <div>
+                  <input
+                  type="text"
+                  placeholder="Pesquisar por nome..."
+                  value={pixSearchTerm}
+                  onChange={handleSearchChange}
+                  onKeyDown={handleKeyDown} // Chama a função handleKeyDown quando uma tecla é pressionada
+                />
+                <button onClick={handleCreditCardSearch}>Pesquisar</button>
+
                 <table
                   style={{
                     position: "relative",
