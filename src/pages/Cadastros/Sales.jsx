@@ -123,12 +123,22 @@ const Sales = () => {
       });
   };
 
-  const handleKeyDown = (event) => {
+  const handleBoletoKeyDown = (event) => {
     if (event.key === "Enter") {
-      handlePixSearch(); // Chama a função de pesquisa quando a tecla "Enter" for pressionada
       handleBoletoSearch(); // Chama a função de pesquisa quando a tecla "Enter" for pressionada
 
+    }
+  };
+  const handleCreditCardKeyDown = (event) => {
+    if (event.key === "Enter") {
+     
       handleCreditCardSearch(); // Chama a função de pesquisa quando a tecla "Enter" for pressionada
+    }
+  };
+  const handlePixKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handlePixSearch(); // Chama a função de pesquisa quando a tecla "Enter" for pressionada
+
     }
   };
 
@@ -188,7 +198,7 @@ const Sales = () => {
                   placeholder="Pesquisar por nome..."
                   value={pixSearchTerm}
                   onChange={handleSearchChange}
-                  onKeyDown={handleKeyDown} // Chama a função handleKeyDown quando uma tecla é pressionada
+                  onKeyDown={handlePixKeyDown} // Chama a função handleKeyDown quando uma tecla é pressionada
                 />
                 <button onClick={handlePixSearch}>Pesquisar</button>
 
@@ -324,7 +334,7 @@ const Sales = () => {
                   placeholder="Pesquisar por nome..."
                   value={pixSearchTerm}
                   onChange={handleSearchChange}
-                  onKeyDown={handleKeyDown} // Chama a função handleKeyDown quando uma tecla é pressionada
+                  onKeyDown={handleBoletoKeyDown} // Chama a função handleKeyDown quando uma tecla é pressionada
                 />
                 <button onClick={handleBoletoSearch}>Pesquisar</button>
 
@@ -461,7 +471,7 @@ const Sales = () => {
                   placeholder="Pesquisar por nome..."
                   value={pixSearchTerm}
                   onChange={handleSearchChange}
-                  onKeyDown={handleKeyDown} // Chama a função handleKeyDown quando uma tecla é pressionada
+                  onKeyDown={handleCreditCardKeyDown} // Chama a função handleKeyDown quando uma tecla é pressionada
                 />
                 <button onClick={handleCreditCardSearch}>Pesquisar</button>
 
