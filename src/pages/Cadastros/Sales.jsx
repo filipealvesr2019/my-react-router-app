@@ -499,7 +499,7 @@ const Sales = () => {
                   count={10} // Número total de páginas
                   page={page} // Página atual
                   onChange={handleChange} // Função para manipular a mudança de página
-                  variant="outlined"
+                  color="primary" 
                   style={{ marginTop: "2rem", marginBottom: " 2rem" }}
                 />
               </div>
