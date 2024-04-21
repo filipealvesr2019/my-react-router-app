@@ -9,6 +9,7 @@ const Sales = () => {
   const [boletos, setBoletos] = useState([]);
   const [pix, setPix] = useState([]);
   const [creditCard, setCreditCard] = useState([]);
+  const [activeTab, setActiveTab] = useState(0);
 
   useEffect(() => {
     axios
@@ -55,307 +56,439 @@ const Sales = () => {
     }
   };
 
+  const handleTabClick = (index) => {
+    setActiveTab(index);
+  };
+
+  const tabStyle = {
+    color: "#2196F3", // Cor de fundo das tabs ativas
+    // Outros estilos conforme necessário
+  };
+
   return (
-    <div style={{ position: "relative" }}>
-    <div style={{ position: "absolute", top: "-80px", right: "50px", zIndex: "1" }}>
-      <CustomTabPanel />
-    
-    </div>
-    <table
+    <div
       style={{
-        position: "relative", // Alterado para 'relative'
-        margin: "5rem auto 0", // Centralizando verticalmente
-        width: "90vw",
+        position: "relative",
+        display: "flex", // Centraliza horizontalmente
+        justifyContent: "center", // Centraliza horizontalmente
+        alignItems: "center", // Centraliza verticalmente
+        gap: "1rem",
       }}
     >
-        <thead>
-          <tr>
-            <th className={styles.th}>Produtos</th>
-            <th className={styles.th}>Status</th>
-            <th className={styles.th}>Cliente</th>
-            <th className={styles.th}>pagamento</th>
-            <th className={styles.th}> Parcelas</th>
-            <th className={styles.th}>Quantidade</th>
-
-            <th className={styles.th}>Total</th>
-            <th className={styles.th}>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-       
-          {boletos.map((order, index) => (
-            <tr key={order._id}>
-              <td>
-                <Link to={`/boleto/${order._id}`}>
-                  {renderFirstImage(order.products)}
-                </Link>
-              </td>
-              <td>
-                {" "}
-                <p
-                  className={`${styles.status} ${
-                    styles[order.status.toLowerCase()]
-                  }`}
-                >
-                  {" "}
-                  {(() => {
-                    switch (order.status) {
-                      case "RECEIVED":
-                        return "pago";
-                      case "CONFIRMED":
-                        return "Cobrança confirmada";
-                      case "PENDING":
-                        return "Pendente";
-                      case "OVERDUE":
-                        return "Cobrança vencida";
-                      default:
-                        return;
-                    }
-                  })()}
-                </p>
-              </td>
-              <td>
-                <Link to={`/customers/data/${order.customer}`}>
-                  <span className={styles.span}>{order.name}</span>
-                </Link>
-              </td>
-              <td>
-                <p
+      <div
+        style={{
+          position: "absolute",
+          top: "50px",
+          margin: "0 auto",
+     
+        }}
+      >
+        <div>
+          <div
+            style={{
+              display: "flex",
+              gap: "1rem",
+              fontSize: "1.2rem",
+              fontWeight: "500",
+              fontFamily: "poppins",
+              margin:"0 auto",
+              justifyContent:"center"
+            }}
+          >
+            <span
+              style={activeTab === 0 ? tabStyle : {}}
+              onClick={() => handleTabClick(0)}
+            >
+              Pix
+            </span>
+            <span
+              style={activeTab === 1 ? tabStyle : {}}
+              onClick={() => handleTabClick(1)}
+            >
+              Boleto
+            </span>
+            <span
+              style={activeTab === 2 ? tabStyle : {}}
+              onClick={() => handleTabClick(2)}
+            >
+              Cartão de Crédito
+            </span>
+          </div>
+          <div className={styles.tabContent}>
+            {activeTab === 0 && (
+              <div>
+                <table
                   style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: ".5rem",
+                    position: "relative", // Alterado para 'relative'
+                    width: "90vw",
+                    marginTop: "3rem",
+                    // Se desejar espaço entre o componente e a tabela,
+                    // você pode ajustar a margem superior aqui
                   }}
                 >
-                  {order.billingType === "PIX" && (
-                    <img
-                      src="https://i.ibb.co/dfvK4s0/icons8-foto-48.png"
-                      alt=""
-                      style={{
-                        maxWidth: "14vw",
-                      }}
-                    />
-                  )}
-                  {order.billingType === "BOLETO" && (
-                    <img
-                      src="https://i.ibb.co/LNrSsZt/icons8-boleto-bankario-48.png"
-                      alt=""
-                      style={{ maxWidth: "14vw" }}
-                    />
-                  )}
+                  <thead>
+                    <tr>
+                      <th className={styles.th}>Produtos</th>
+                      <th className={styles.th}>Status</th>
+                      <th className={styles.th}>Cliente</th>
+                      <th className={styles.th}>pagamento</th>
+                      <th className={styles.th}> Parcelas</th>
+                      <th className={styles.th}>Quantidade</th>
 
-                  {order.billingType === "CREDIT_CARD" && (
-                    <img
-                      src="https://i.ibb.co/HtWhHR0/icons8-emoji-de-cart-o-de-cr-dito-48.png"
-                      alt=""
-                    />
-                  )}
-                  {order.billingType}
+                      <th className={styles.th}>Total</th>
+                      <th className={styles.th}>Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {pix.map((order, index) => (
+                      <tr key={order._id}>
+                        <td>
+                          <Link to={`/pix/${order._id}`}>
+                            {renderFirstImage(order.products)}
+                          </Link>
+                        </td>
+                        <td>
+                          <p
+                            className={`${styles.status} ${
+                              styles[order.status.toLowerCase()]
+                            }`}
+                          >
+                            {(() => {
+                              switch (order.status) {
+                                case "RECEIVED":
+                                  return "pago";
+                                case "CONFIRMED":
+                                  return "Cobrança confirmada";
+                                case "PENDING":
+                                  return "Pendente";
+                                case "OVERDUE":
+                                  return "Cobrança vencida";
+                                default:
+                                  return;
+                              }
+                            })()}
+                          </p>
+                        </td>
+                        <td>
+                          <Link to={`/customers/data/${order.customer}`}>
+                            {order.name}
+                          </Link>
+                        </td>
+                        <td>
+                          <p
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: ".5rem",
+                            }}
+                          >
+                            {order.billingType === "PIX" && (
+                              <img
+                                src="https://i.ibb.co/dfvK4s0/icons8-foto-48.png"
+                                alt=""
+                                style={{
+                                  maxWidth: "14vw",
+                                }}
+                              />
+                            )}
+                            {order.billingType === "BOLETO" && (
+                              <img
+                                src="https://i.ibb.co/LNrSsZt/icons8-boleto-bankario-48.png"
+                                alt=""
+                                style={{ maxWidth: "14vw" }}
+                              />
+                            )}
 
-                </p>
-              </td>
-              <td>0</td>
-              <td>
+                            {order.billingType === "CREDIT_CARD" && (
+                              <img
+                                src="https://i.ibb.co/HtWhHR0/icons8-emoji-de-cart-o-de-cr-dito-48.png"
+                                alt=""
+                              />
+                            )}
+                            {order.billingType}
+                          </p>
+                        </td>
+                        <td>0</td>
+
+                        <td>
+                          <span style={{ marginLeft: "2rem" }}>
+                            {order.totalQuantity}
+                          </span>{" "}
+                        </td>
+
+                        <td>
+                          {" "}
+                          <span style={{ marginLeft: "2rem" }}>
+                            R${order.value}
+                          </span>{" "}
+                        </td>
+                        <td>
+                          {" "}
+                          <span>
+                            <BasicModal
+                              orderId={order._id}
+                              tracking={order.trackingCode}
+                            />
+                          </span>{" "}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+            {activeTab === 1 && (
+              <div>
+                {" "}
                 <div>
-                  {" "}
-                  <span style={{ marginLeft: "2rem" }}>
-                    {order.totalQuantity}{" "}
-                  </span>
+                  <table
+                    style={{
+                      position: "relative", // Alterado para 'relative'
+                      width: "90vw",
+                      marginTop: "10rem",
+                      // Se desejar espaço entre o componente e a tabela,
+                      // você pode ajustar a margem superior aqui
+                    }}
+                  >
+                    <thead>
+                      <tr>
+                        <th className={styles.th}>Produtos</th>
+                        <th className={styles.th}>Status</th>
+                        <th className={styles.th}>Cliente</th>
+                        <th className={styles.th}>pagamento</th>
+                        <th className={styles.th}> Parcelas</th>
+                        <th className={styles.th}>Quantidade</th>
+
+                        <th className={styles.th}>Total</th>
+                        <th className={styles.th}>Ações</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {boletos.map((order, index) => (
+                        <tr key={order._id}>
+                          <td>
+                            <Link to={`/boleto/${order._id}`}>
+                              {renderFirstImage(order.products)}
+                            </Link>
+                          </td>
+                          <td>
+                            {" "}
+                            <p
+                              className={`${styles.status} ${
+                                styles[order.status.toLowerCase()]
+                              }`}
+                            >
+                              {" "}
+                              {(() => {
+                                switch (order.status) {
+                                  case "RECEIVED":
+                                    return "pago";
+                                  case "CONFIRMED":
+                                    return "Cobrança confirmada";
+                                  case "PENDING":
+                                    return "Pendente";
+                                  case "OVERDUE":
+                                    return "Cobrança vencida";
+                                  default:
+                                    return;
+                                }
+                              })()}
+                            </p>
+                          </td>
+                          <td>
+                            <Link to={`/customers/data/${order.customer}`}>
+                              <span className={styles.span}>{order.name}</span>
+                            </Link>
+                          </td>
+                          <td>
+                            <p
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: ".5rem",
+                              }}
+                            >
+                              {order.billingType === "PIX" && (
+                                <img
+                                  src="https://i.ibb.co/dfvK4s0/icons8-foto-48.png"
+                                  alt=""
+                                  style={{
+                                    maxWidth: "14vw",
+                                  }}
+                                />
+                              )}
+                              {order.billingType === "BOLETO" && (
+                                <img
+                                  src="https://i.ibb.co/LNrSsZt/icons8-boleto-bankario-48.png"
+                                  alt=""
+                                  style={{ maxWidth: "14vw" }}
+                                />
+                              )}
+
+                              {order.billingType === "CREDIT_CARD" && (
+                                <img
+                                  src="https://i.ibb.co/HtWhHR0/icons8-emoji-de-cart-o-de-cr-dito-48.png"
+                                  alt=""
+                                />
+                              )}
+                              {order.billingType}
+                            </p>
+                          </td>
+                          <td>0</td>
+                          <td>
+                            <div>
+                              {" "}
+                              <span style={{ marginLeft: "2rem" }}>
+                                {order.totalQuantity}{" "}
+                              </span>
+                            </div>
+                          </td>
+                          <td>
+                            {" "}
+                            <span style={{ marginLeft: "2rem" }}>
+                              R${order.value}
+                            </span>{" "}
+                          </td>
+                          <td>
+                            <BasicModal
+                              orderId={order._id}
+                              tracking={order.trackingCode}
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
-              </td>
-              <td>
+              </div>
+            )}
+            {activeTab === 2 && (
+              <div>
                 {" "}
-                <span style={{ marginLeft: "2rem" }}>R${order.value}</span>{" "}
-              </td>
-              <td>
-                <BasicModal orderId={order._id} tracking={order.trackingCode} />
-              </td>
-            </tr>
-          ))}
-          {pix.map((order, index) => (
-            <tr key={order._id}>
-              <td>
-                <Link to={`/pix/${order._id}`}>
-                  {renderFirstImage(order.products)}
-                </Link>
-              </td>
-              <td>
-                <p
-                  className={`${styles.status} ${
-                    styles[order.status.toLowerCase()]
-                  }`}
-                >
-                  {(() => {
-                    switch (order.status) {
-                      case "RECEIVED":
-                        return "pago";
-                      case "CONFIRMED":
-                        return "Cobrança confirmada";
-                      case "PENDING":
-                        return "Pendente";
-                      case "OVERDUE":
-                        return "Cobrança vencida";
-                      default:
-                        return;
-                    }
-                  })()}
-                </p>
-              </td>
-              <td>
-                <Link to={`/customers/data/${order.customer}`}>
-                  {order.name}
-                </Link>
-              </td>
-              <td>
-                <p
+                <table
                   style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: ".5rem",
+                    position: "relative", // Alterado para 'relative'
+                    width: "90vw",
+                    marginTop: "10rem",
+                    // Se desejar espaço entre o componente e a tabela,
+                    // você pode ajustar a margem superior aqui
                   }}
                 >
-                  {order.billingType === "PIX" && (
-                    <img
-                      src="https://i.ibb.co/dfvK4s0/icons8-foto-48.png"
-                      alt=""
-                      style={{
-                        maxWidth: "14vw",
-                      }}
-                    />
-                  )}
-                  {order.billingType === "BOLETO" && (
-                    <img
-                      src="https://i.ibb.co/LNrSsZt/icons8-boleto-bankario-48.png"
-                      alt=""
-                      style={{ maxWidth: "14vw" }}
-                    />
-                  )}
+                  <thead>
+                    <tr>
+                      <th className={styles.th}>Produtos</th>
+                      <th className={styles.th}>Status</th>
+                      <th className={styles.th}>Cliente</th>
+                      <th className={styles.th}>pagamento</th>
+                      <th className={styles.th}> Parcelas</th>
+                      <th className={styles.th}>Quantidade</th>
 
-                  {order.billingType === "CREDIT_CARD" && (
-                    <img
-                      src="https://i.ibb.co/HtWhHR0/icons8-emoji-de-cart-o-de-cr-dito-48.png"
-                      alt=""
-                    />
-                  )}
-                  {order.billingType}
-                </p>
-              </td>
-              <td>0</td>
+                      <th className={styles.th}>Total</th>
+                      <th className={styles.th}>Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {creditCard.map((order, index) => (
+                      <tr key={index}>
+                        <td>
+                          <Link to={`/creditCard/${order._id}`}>
+                            {renderFirstImage(order.products)}
+                          </Link>
+                        </td>
+                        <td>
+                          <p
+                            className={`${styles.status} ${
+                              styles[order.status.toLowerCase()]
+                            }`}
+                          >
+                            {(() => {
+                              switch (order.status) {
+                                case "RECEIVED":
+                                  return "pago";
+                                case "CONFIRMED":
+                                  return "Cobrança confirmada";
+                                case "PENDING":
+                                  return "Pendente";
+                                case "OVERDUE":
+                                  return "Cobrança vencida";
+                                default:
+                                  return;
+                              }
+                            })()}
+                          </p>
+                        </td>
+                        <td>
+                          <Link to={`/customers/data/${order.customer}`}>
+                            {order.name}
+                          </Link>
+                        </td>
+                        <td>
+                          <p
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: ".5rem",
+                            }}
+                          >
+                            {order.billingType === "PIX" && (
+                              <img
+                                src="https://i.ibb.co/dfvK4s0/icons8-foto-48.png"
+                                alt=""
+                                style={{
+                                  maxWidth: "14vw",
+                                }}
+                              />
+                            )}
+                            {order.billingType === "BOLETO" && (
+                              <img
+                                src="https://i.ibb.co/LNrSsZt/icons8-boleto-bankario-48.png"
+                                alt=""
+                                style={{ maxWidth: "14vw" }}
+                              />
+                            )}
 
-              <td>
-                <span style={{ marginLeft: "2rem" }}>
-                  {order.totalQuantity}
-                </span>{" "}
-              </td>
+                            {order.billingType === "CREDIT_CARD" && (
+                              <img
+                                src="https://i.ibb.co/HtWhHR0/icons8-emoji-de-cart-o-de-cr-dito-48.png"
+                                alt=""
+                              />
+                            )}
+                            {order.billingType === "CREDIT_CARD" &&
+                              "Cartão de Crédito"}
+                          </p>
+                        </td>
 
-              <td>
-                {" "}
-                <span style={{ marginLeft: "2rem" }}>R${order.value}</span>{" "}
-              </td>
-              <td>
-                {" "}
-                <span>
-                  <BasicModal
-                    orderId={order._id}
-                    tracking={order.trackingCode}
-                  />
-                </span>{" "}
-              </td>
-            </tr>
-          ))}
-          {creditCard.map((order, index) => (
-            <tr key={index}>
-              <td>
-                <Link to={`/creditCard/${order._id}`}>
-                  {renderFirstImage(order.products)}
-                </Link>
-              </td>
-              <td>
-                <p
-                  className={`${styles.status} ${
-                    styles[order.status.toLowerCase()]
-                  }`}
-                >
-                  {(() => {
-                    switch (order.status) {
-                      case "RECEIVED":
-                        return "pago";
-                      case "CONFIRMED":
-                        return "Cobrança confirmada";
-                      case "PENDING":
-                        return "Pendente";
-                      case "OVERDUE":
-                        return "Cobrança vencida";
-                      default:
-                        return;
-                    }
-                  })()}
-                </p>
-              </td>
-              <td>
-                <Link to={`/customers/data/${order.customer}`}>
-                  {order.name}
-                </Link>
-              </td>
-              <td>
-                <p
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: ".5rem",
-                  }}
-                >
-                  {order.billingType === "PIX" && (
-                    <img
-                      src="https://i.ibb.co/dfvK4s0/icons8-foto-48.png"
-                      alt=""
-                      style={{
-                        maxWidth: "14vw",
-                      }}
-                    />
-                  )}
-                  {order.billingType === "BOLETO" && (
-                    <img
-                      src="https://i.ibb.co/LNrSsZt/icons8-boleto-bankario-48.png"
-                      alt=""
-                      style={{ maxWidth: "14vw" }}
-                    />
-                  )}
-
-                  {order.billingType === "CREDIT_CARD" && (
-                    <img
-                      src="https://i.ibb.co/HtWhHR0/icons8-emoji-de-cart-o-de-cr-dito-48.png"
-                      alt=""
-                    />
-                  )}
-                  {order.billingType === "CREDIT_CARD" && "Cartão de Crédito"}
-                </p>
-              </td>
-
-              <td>{order.installmentNumber}</td>
-              <td>
-                {" "}
-                <span style={{ marginLeft: "2rem" }}>
-                  {order.totalQuantity}
-                </span>
-              </td>
-              <td>
-                {" "}
-                <span style={{ marginLeft: "2rem" }}>R${order.value}</span>{" "}
-              </td>
-              <td>
-                {" "}
-                <span>
-                  <BasicModal
-                    orderId={order._id}
-                    tracking={order.trackingCode}
-                  />
-                </span>{" "}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                        <td>{order.installmentNumber}</td>
+                        <td>
+                          {" "}
+                          <span style={{ marginLeft: "2rem" }}>
+                            {order.totalQuantity}
+                          </span>
+                        </td>
+                        <td>
+                          {" "}
+                          <span style={{ marginLeft: "2rem" }}>
+                            R${order.value}
+                          </span>{" "}
+                        </td>
+                        <td>
+                          {" "}
+                          <span>
+                            <BasicModal
+                              orderId={order._id}
+                              tracking={order.trackingCode}
+                            />
+                          </span>{" "}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

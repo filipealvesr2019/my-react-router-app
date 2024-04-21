@@ -6,7 +6,6 @@ import Login from "./components/Login";
 
 import AdminPage from "./AdminPage";
 import EmployeePage from "./EmployeePage";
-import OrderDetails from "./components/OrderDetails";
 import CustomerDetails from "./components/CustomerDetails";
 import BoletoOrderDetails from "./components/BoletoOrderDetails";
 import PixOrderDetails from "./components/PixOrderDetails";
