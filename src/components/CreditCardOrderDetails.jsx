@@ -1,16 +1,26 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import Cookies from "js-cookie";
+
 const CreditCardOrderDetails = () => {
     const [creditCard, setCreditCard] = useState(null);
 
     const { id } = useParams();
+    const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
 
+    const token = Cookies.get('token'); // Obtenha o token do cookie
     useEffect(() => {
     
       // Requisição para detalhes do pix
       axios
-        .get(`http://localhost:3001/api/creditCard/${id}`)
+        .get(`http://localhost:3001/api/creditCard/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Credentials: credentials,
+          },
+        })
         .then((response) => {
           setCreditCard(response.data);
           console.log(response.data);

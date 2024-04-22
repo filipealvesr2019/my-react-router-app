@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import Cookies from "js-cookie";
+
 const PixOrderDetails = () => {
     const [pix, setPix] = useState(null);
+    const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
 
+    const token = Cookies.get('token'); // Obtenha o token do cookie
     const { id } = useParams();
 
     useEffect(() => {
@@ -11,7 +15,13 @@ const PixOrderDetails = () => {
   
       // Requisição para detalhes do pix
       axios
-        .get(`http://localhost:3001/api/pix/${id}`)
+        .get(`http://localhost:3001/api/pix/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Credentials: credentials,
+          },
+        })
         .then((response) => {
           setPix(response.data);
           console.log(response.data);

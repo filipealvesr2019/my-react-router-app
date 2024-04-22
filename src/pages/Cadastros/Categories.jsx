@@ -22,7 +22,9 @@ const Categories = () => {
 
   const [editCategoryName, setEditCategoryName] = useState("");
   const [editSubcategoryName, setEditSubcategoryName] = useState("");
+  const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
 
+  const token = Cookies.get('token'); 
   // Adicione esses estados ao início do componente
 
   // ... (outros estados)
@@ -67,7 +69,13 @@ const Categories = () => {
 
   const getCategories = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/api/categories");
+      const response = await axios.get("http://localhost:3001/api/categories",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Credentials: credentials,
+        },
+      });
       setCategories(response.data.categories);
     } catch (error) {
       console.error("Erro ao obter categorias", error);
@@ -77,7 +85,13 @@ const Categories = () => {
   const getSubcategories = async (categoryId) => {
     try {
       const response = await axios.get(
-        `http://localhost:3001/api/admin/subcategories?category=${categoryId}`
+        `http://localhost:3001/api/admin/subcategories?category=${categoryId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Credentials: credentials,
+          },
+        }
       );
       setSubcategories(response.data.subcategories);
       setSelectedCategoryId(categoryId);
@@ -93,7 +107,13 @@ const Categories = () => {
   const loadAvailableSubcategories = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3001/api/admin/subcategories`
+        `http://localhost:3001/api/admin/subcategories`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Credentials: credentials,
+          },
+        }
       );
       setAvailableSubcategories(response.data.subcategories);
     } catch (error) {
@@ -104,7 +124,13 @@ const Categories = () => {
   const getAddedSubcategories = async (categoryId) => {
     try {
       const response = await axios.get(
-        `http://localhost:3001/api/admin/subcategories?category=${categoryId}`
+        `http://localhost:3001/api/admin/subcategories?category=${categoryId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Credentials: credentials,
+          },
+        }
       );
       setAddedSubcategories(response.data.subcategories);
     } catch (error) {
@@ -163,6 +189,12 @@ const Categories = () => {
         {
           name: newSubcategory,
           category: selectedCategoryId, // Adicione a categoria associada à subcategoria
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Credentials: credentials,
+          },
         }
       );
 
@@ -307,6 +339,13 @@ const Categories = () => {
         `http://localhost:3001/api/admin/subcategories/${sub._id}`,
         {
           name: editSubcategoryName,
+        },
+        
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Credentials: credentials,
+          },
         }
       );
 

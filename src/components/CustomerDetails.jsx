@@ -2,15 +2,25 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import styles from "./CustomerDetails.module.css"
+import Cookies from "js-cookie";
+
 const CustomerDetails = () => {
   const [custumer, setCustumer] = useState(null);
 
   const { customer } = useParams();
+  const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
 
+  const token = Cookies.get('token'); // Obtenha o token do cookie
   useEffect(() => {
     // Request for customer details
     axios
-      .get(`http://localhost:3001/api/customers/data/${customer}`)
+      .get(`http://localhost:3001/api/customers/data/${customer}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Credentials: credentials,
+        },
+      })
       .then((response) => {
         setCustumer(response.data.customers);
         console.log(response.data);

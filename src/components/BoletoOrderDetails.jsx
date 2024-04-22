@@ -1,16 +1,25 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const BoletoOrderDetails = () => {
   const [boleto, setBoleto] = useState(null);
  
   const { id } = useParams();
+  const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
 
+  const token = Cookies.get('token'); // Obtenha o token do cookie
   useEffect(() => {
     // Requisição para detalhes do boleto
     axios
-      .get(`http://localhost:3001/api/boleto/${id}`)
+      .get(`http://localhost:3001/api/boleto/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Credentials: credentials,
+        },
+      })
       .then((response) => {
         setBoleto(response.data);
         console.log(response.data);
@@ -19,26 +28,7 @@ const BoletoOrderDetails = () => {
         console.error("Erro ao obter os detalhes do boleto:", error);
       });
 
-    // Requisição para detalhes do pix
-    axios
-      .get(`http://localhost:3001/api/pix/${id}`)
-      .then((response) => {
-        setPix(response.data);
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error("Erro ao obter os detalhes do pix:", error);
-      });
-    // Requisição para detalhes do pix
-    axios
-      .get(`http://localhost:3001/api/creditCard/${id}`)
-      .then((response) => {
-        setCreditCard(response.data);
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error("Erro ao obter os detalhes do pix:", error);
-      });
+   
   }, [id]);
 
   return (
