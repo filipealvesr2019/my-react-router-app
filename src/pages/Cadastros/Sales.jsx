@@ -386,7 +386,7 @@ const Sales = () => {
                             <td>
                               {" "}
                               <span style={{ marginLeft: "2rem" }}>
-                                R${order.value}
+                                R${order.value.toFixed(2)}
                               </span>{" "}
                             </td>
                             <td>
@@ -573,7 +573,7 @@ const Sales = () => {
                             <td>
                               {" "}
                               <span style={{ marginLeft: "2rem" }}>
-                                R${order.value}
+                                R${order.value.toFixed(2)}
                               </span>{" "}
                             </td>
                             <td>
@@ -745,7 +745,7 @@ const Sales = () => {
                             <td>
                               {" "}
                               <span style={{ marginLeft: "2rem" }}>
-                                R${order.value}
+                                R${order.value.toFixed(2)}
                               </span>{" "}
                             </td>
                             <td>
