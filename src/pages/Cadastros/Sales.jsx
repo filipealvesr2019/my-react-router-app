@@ -5,7 +5,7 @@ import styles from "./Sales.module.css";
 import BasicModal from "./BasicModal";
 import Pagination from "@mui/material/Pagination";
 import CircularIndeterminate from "./CircularIndeterminate";
-import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from "@mui/icons-material/Search";
 
 const Sales = () => {
   const [boletos, setBoletos] = useState([]);
@@ -14,6 +14,7 @@ const Sales = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [page, setPage] = useState(1);
   const [pixSearchTerm, setPixSearchTerm] = useState("");
+  
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -56,6 +57,8 @@ const Sales = () => {
   const handleSearchChange = (event) => {
     setPixSearchTerm(event.target.value);
   };
+
+
 
   const handleChange = (event, value) => {
     setPage(value);
@@ -207,7 +210,6 @@ const Sales = () => {
           <div className={styles.tabContent}>
             {activeTab === 0 && (
               <div>
-               
                 {loading ? (
                   <div
                     style={{
@@ -220,25 +222,34 @@ const Sales = () => {
                   </div>
                 ) : (
                   <>
-                   <div style={{ display: "flex", alignItems: "center", position: "relative", width: "30vw", top:"4rem", left:"50rem" }}>
-  <input
-    type="text"
-    placeholder="Pesquisar por nome do cliente..."
-    value={pixSearchTerm}
-    onChange={handleSearchChange}
-    onKeyDown={handlePixKeyDown}
-    style={{ width: "100%", paddingRight: "2rem"}} // Adiciona um padding à direita para acomodar o ícone de pesquisa
-  />
-  <SearchIcon
-    onClick={handlePixSearch}
-    style={{
-      position: "absolute",
-      right: "0.5rem", // Define a posição do ícone em relação à direita do input
-      color: "#707070",
-      cursor: "pointer" // Adiciona um estilo de cursor para indicar que o ícone é clicável
-    }}
-  />
-</div>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        position: "relative",
+                        width: "30vw",
+                        top: "4rem",
+                        left: "50rem",
+                      }}
+                    >
+                      <input
+                        type="text"
+                        placeholder="Pesquisar por nome do cliente..."
+                        value={pixSearchTerm}
+                        onChange={handleSearchChange}
+                        onKeyDown={handlePixKeyDown}
+                        style={{ width: "100%", paddingRight: "2rem" }} // Adiciona um padding à direita para acomodar o ícone de pesquisa
+                      />
+                      <SearchIcon
+                        onClick={handlePixSearch}
+                        style={{
+                          position: "absolute",
+                          right: "0.5rem", // Define a posição do ícone em relação à direita do input
+                          color: "#707070",
+                          cursor: "pointer", // Adiciona um estilo de cursor para indicar que o ícone é clicável
+                        }}
+                      />
+                    </div>
                     <table
                       style={{
                         position: "relative",
@@ -366,178 +377,11 @@ const Sales = () => {
                     />
                   </>
                 )}
-
               </div>
             )}
 
             {activeTab === 1 && (
               <div>
-           
-             
-                {loading ? (
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      marginTop: "10rem",
-                    }}
-                  >
-                    <CircularIndeterminate />;
-                  </div>
-                ) : (<>
-                
-                
-                  <div style={{ display: "flex", alignItems: "center", position: "relative", width: "30vw", top:"4rem", left:"50rem" }}>
-                  <input
-                    type="text"
-                    placeholder="Pesquisar por nome do cliente..."
-                    value={pixSearchTerm}
-                    onChange={handleSearchChange}
-                    onKeyDown={handleBoletoKeyDown} 
-                    style={{ width: "100%", paddingRight: "2rem"}} // Adiciona um padding à direita para acomodar o ícone de pesquisa
-                  />
-                  <SearchIcon
-                    onClick={handleBoletoSearch}
-                    style={{
-                      position: "absolute",
-                      right: "0.5rem", // Define a posição do ícone em relação à direita do input
-                      color: "#707070",
-                      cursor: "pointer" // Adiciona um estilo de cursor para indicar que o ícone é clicável
-                    }}
-                  />
-                </div>
-                  <table
-                    style={{
-                      position: "relative",
-                      width: "90vw",
-                      marginTop: "5rem",
-                    }}
-                  >
-                    <thead>
-                      <tr>
-                        <th className={styles.th}>Produtos</th>
-                        <th className={styles.th}>Status</th>
-                        <th className={styles.th}>Cliente</th>
-                        <th className={styles.th}>Pagamento</th>
-                        <th className={styles.th}>Parcelas</th>
-                        <th className={styles.th}>Quantidade</th>
-                        <th className={styles.th}>Total</th>
-                        <th className={styles.th}>Ações</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {boletos.map((order, index) => (
-                        <tr key={order._id}>
-                          <td>
-                            <Link to={`/boleto/${order._id}`}>
-                              {renderFirstImage(order.products)}
-                            </Link>
-                          </td>
-                          <td>
-                            <p
-                              className={`${styles.status} ${
-                                styles[order.status.toLowerCase()]
-                              }`}
-                            >
-                              {(() => {
-                                switch (order.status) {
-                                  case "RECEIVED":
-                                    return "pago";
-                                  case "CONFIRMED":
-                                    return "Cobrança confirmada";
-                                  case "PENDING":
-                                    return "Pendente";
-                                  case "OVERDUE":
-                                    return "Cobrança vencida";
-                                  default:
-                                    return;
-                                }
-                              })()}
-                            </p>
-                          </td>
-                          <td>
-                            <Link
-                              to={`/customers/data/${order.customer}`}
-                              className={styles.link}
-                            >
-                              <span className={styles.span}>{order.name}</span>
-                              {console.log("Customer ID:", order.customer)}
-                            </Link>
-                          </td>
-                          <td>
-                            <p
-                              style={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: ".5rem",
-                              }}
-                            >
-                              {order.billingType === "PIX" && (
-                                <img
-                                  src="https://i.ibb.co/dfvK4s0/icons8-foto-48.png"
-                                  alt=""
-                                  style={{
-                                    maxWidth: "14vw",
-                                  }}
-                                />
-                              )}
-                              {order.billingType === "BOLETO" && (
-                                <img
-                                  src="https://i.ibb.co/LNrSsZt/icons8-boleto-bankario-48.png"
-                                  alt=""
-                                  style={{ maxWidth: "14vw" }}
-                                />
-                              )}
-
-                              {order.billingType === "CREDIT_CARD" && (
-                                <img
-                                  src="https://i.ibb.co/HtWhHR0/icons8-emoji-de-cart-o-de-cr-dito-48.png"
-                                  alt=""
-                                />
-                              )}
-                              {order.billingType}
-                            </p>
-                          </td>
-                          <td>0</td>
-                          <td>
-                            <span style={{ marginLeft: "2rem" }}>
-                              {order.totalQuantity}
-                            </span>{" "}
-                          </td>
-                          <td>
-                            {" "}
-                            <span style={{ marginLeft: "2rem" }}>
-                              R${order.value}
-                            </span>{" "}
-                          </td>
-                          <td>
-                            {" "}
-                            <span>
-                              <BasicModal
-                                orderId={order._id}
-                                tracking={order.trackingCode}
-                              />
-                            </span>{" "}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                  <Pagination
-                    count={10} // Número total de páginas
-                    page={page} // Página atual
-                    onChange={handleChange} // Função para manipular a mudança de página
-                    color="primary"
-                    style={{ marginTop: "2rem", marginBottom: " 2rem" }}
-                  />{" "}
-                  </>
-                )}
-              </div>
-            )}
-
-            {activeTab === 2 && (
-              <div  >
-     
                 {loading ? (
                   <div
                     style={{
@@ -550,25 +394,221 @@ const Sales = () => {
                   </div>
                 ) : (
                   <>
-                          <div style={{ display: "flex", alignItems: "center", position: "relative", width: "30vw", top:"4rem", left:"50rem" }}>
-  <input
-    type="text"
-    placeholder="Pesquisar por nome do cliente..."
-    value={pixSearchTerm}
-    onChange={handleSearchChange}
-    onKeyDown={handleCreditCardKeyDown}
-    style={{ width: "100%", paddingRight: "2rem"}} // Adiciona um padding à direita para acomodar o ícone de pesquisa
-  />
-  <SearchIcon
-    onClick={handleCreditCardSearch}
-    style={{
-      position: "absolute",
-      right: "0.5rem", // Define a posição do ícone em relação à direita do input
-      color: "#707070",
-      cursor: "pointer" // Adiciona um estilo de cursor para indicar que o ícone é clicável
-    }}
-  />
-</div>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        position: "relative",
+                        width: "30vw",
+                        top: "4rem",
+                        left: "50rem",
+                      }}
+                    >
+                      <input
+                        type="text"
+                        placeholder="Pesquisar por nome do cliente..."
+                        value={pixSearchTerm}
+                        onChange={handleSearchChange}
+                        onKeyDown={handleBoletoKeyDown}
+                        style={{ width: "100%", paddingRight: "2rem" }} // Adiciona um padding à direita para acomodar o ícone de pesquisa
+                      />
+                      <SearchIcon
+                        onClick={handleBoletoSearch}
+                        style={{
+                          position: "absolute",
+                          right: "0.5rem", // Define a posição do ícone em relação à direita do input
+                          color: "#707070",
+                          cursor: "pointer", // Adiciona um estilo de cursor para indicar que o ícone é clicável
+                        }}
+                      />
+                    </div>
+                    {loading ? (
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      marginTop: "10rem",
+                    }}
+                  >
+                    <CircularIndeterminate />;
+                  </div>
+                ) : (<>
+                
+                
+                </>)}
+                    <table
+                      style={{
+                        position: "relative",
+                        width: "90vw",
+                        marginTop: "5rem",
+                      }}
+                    >
+                      <thead>
+                        <tr>
+                          <th className={styles.th}>Produtos</th>
+                          <th className={styles.th}>Status</th>
+                          <th className={styles.th}>Cliente</th>
+                          <th className={styles.th}>Pagamento</th>
+                          <th className={styles.th}>Parcelas</th>
+                          <th className={styles.th}>Quantidade</th>
+                          <th className={styles.th}>Total</th>
+                          <th className={styles.th}>Ações</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {boletos.map((order, index) => (
+                          <tr key={order._id}>
+                            <td>
+                              <Link to={`/boleto/${order._id}`}>
+                                {renderFirstImage(order.products)}
+                              </Link>
+                            </td>
+                            <td>
+                              <p
+                                className={`${styles.status} ${
+                                  styles[order.status.toLowerCase()]
+                                }`}
+                              >
+                                {(() => {
+                                  switch (order.status) {
+                                    case "RECEIVED":
+                                      return "pago";
+                                    case "CONFIRMED":
+                                      return "Cobrança confirmada";
+                                    case "PENDING":
+                                      return "Pendente";
+                                    case "OVERDUE":
+                                      return "Cobrança vencida";
+                                    default:
+                                      return;
+                                  }
+                                })()}
+                              </p>
+                            </td>
+                            <td>
+                              <Link
+                                to={`/customers/data/${order.customer}`}
+                                className={styles.link}
+                              >
+                                <span className={styles.span}>
+                                  {order.name}
+                                </span>
+                                {console.log("Customer ID:", order.customer)}
+                              </Link>
+                            </td>
+                            <td>
+                              <p
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: ".5rem",
+                                }}
+                              >
+                                {order.billingType === "PIX" && (
+                                  <img
+                                    src="https://i.ibb.co/dfvK4s0/icons8-foto-48.png"
+                                    alt=""
+                                    style={{
+                                      maxWidth: "14vw",
+                                    }}
+                                  />
+                                )}
+                                {order.billingType === "BOLETO" && (
+                                  <img
+                                    src="https://i.ibb.co/LNrSsZt/icons8-boleto-bankario-48.png"
+                                    alt=""
+                                    style={{ maxWidth: "14vw" }}
+                                  />
+                                )}
+
+                                {order.billingType === "CREDIT_CARD" && (
+                                  <img
+                                    src="https://i.ibb.co/HtWhHR0/icons8-emoji-de-cart-o-de-cr-dito-48.png"
+                                    alt=""
+                                  />
+                                )}
+                                {order.billingType}
+                              </p>
+                            </td>
+                            <td>0</td>
+                            <td>
+                              <span style={{ marginLeft: "2rem" }}>
+                                {order.totalQuantity}
+                              </span>{" "}
+                            </td>
+                            <td>
+                              {" "}
+                              <span style={{ marginLeft: "2rem" }}>
+                                R${order.value}
+                              </span>{" "}
+                            </td>
+                            <td>
+                              {" "}
+                              <span>
+                                <BasicModal
+                                  orderId={order._id}
+                                  tracking={order.trackingCode}
+                                />
+                              </span>{" "}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                    <Pagination
+                      count={10} // Número total de páginas
+                      page={page} // Página atual
+                      onChange={handleChange} // Função para manipular a mudança de página
+                      color="primary"
+                      style={{ marginTop: "2rem", marginBottom: " 2rem" }}
+                    />{" "}
+                  </>
+                )}
+              </div>
+            )}
+
+            {activeTab === 2 && (
+              <div>
+                {loading ? (
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      marginTop: "10rem",
+                    }}
+                  >
+                    <CircularIndeterminate />;
+                  </div>
+                ) : (
+                  <>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        position: "relative",
+                        width: "30vw",
+                        top: "4rem",
+                        left: "50rem",
+                      }}
+                    >
+                      <input
+                        type="text"
+                        placeholder="Pesquisar por nome do cliente..."
+                        value={pixSearchTerm}
+                        onChange={handleSearchChange}
+                        onKeyDown={handleCreditCardKeyDown}
+                        style={{ width: "100%", paddingRight: "2rem" }} // Adiciona um padding à direita para acomodar o ícone de pesquisa
+                      />
+                      <SearchIcon
+                        onClick={handleCreditCardSearch}
+                        style={{
+                          position: "absolute",
+                          right: "0.5rem", // Define a posição do ícone em relação à direita do input
+                          color: "#707070",
+                          cursor: "pointer", // Adiciona um estilo de cursor para indicar que o ícone é clicável
+                        }}
+                      />
+                    </div>
                     <table
                       style={{
                         position: "relative",
