@@ -6,6 +6,7 @@ import BasicModal from "./BasicModal";
 import Pagination from "@mui/material/Pagination";
 import CircularIndeterminate from "./CircularIndeterminate";
 import SearchIcon from "@mui/icons-material/Search";
+import Cookies from "js-cookie";
 
 const Sales = () => {
   const [boletos, setBoletos] = useState([]);
@@ -16,12 +17,19 @@ const Sales = () => {
   const [pixSearchTerm, setPixSearchTerm] = useState("");
   
   const [loading, setLoading] = useState(true);
+  const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
 
+      const token = Cookies.get('token'); // Obtenha o token do cookie
   useEffect(() => {
     setLoading(true); // Define o estado de carregamento como true antes de fazer a chamada à API
 
     axios
-      .get(`http://localhost:3001/api/boletos?page=${page}`)
+      .get(`http://localhost:3001/api/boletos?page=${page}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Credentials: credentials,
+        },
+      })
       .then((response) => {
         setBoletos(response.data);
         console.log(response.data);
@@ -32,7 +40,12 @@ const Sales = () => {
       });
 
     axios
-      .get(`http://localhost:3001/api/pix?page=${page}&name=${pixSearchTerm}`)
+      .get(`http://localhost:3001/api/pix?page=${page}&name=${pixSearchTerm}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Credentials: credentials,
+        },
+      })
       .then((response) => {
         setPix(response.data);
         console.log(response.data);
@@ -43,7 +56,12 @@ const Sales = () => {
       });
 
     axios
-      .get(`http://localhost:3001/api/creditCard?page=${page}`)
+      .get(`http://localhost:3001/api/creditCard?page=${page}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Credentials: credentials,
+        },
+      })
       .then((response) => {
         setCreditCard(response.data);
         console.log(response.data);
@@ -83,8 +101,7 @@ const Sales = () => {
   };
 
   const tabStyle = {
-    color: "#2196F3", // Cor de fundo das tabs ativas
-    // Outros estilos conforme necessário
+    color: "#2196F3", 
   };
 
   const handlePixSearch = () => {
@@ -92,7 +109,12 @@ const Sales = () => {
 
     // Realiza a pesquisa com base no termo de pesquisa (pixSearchTerm)
     axios
-      .get(`http://localhost:3001/api/pix?page=${page}&name=${pixSearchTerm}`)
+      .get(`http://localhost:3001/api/pix?page=${page}&name=${pixSearchTerm}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Credentials: credentials,
+        },
+      })
       .then((response) => {
         // Atualiza o estado do componente com os resultados da pesquisa
         setPix(response.data);
@@ -111,7 +133,12 @@ const Sales = () => {
     // Realiza a pesquisa com base no termo de pesquisa (pixSearchTerm)
     axios
       .get(
-        `http://localhost:3001/api/boletos?page=${page}&name=${pixSearchTerm}`
+        `http://localhost:3001/api/boletos?page=${page}&name=${pixSearchTerm}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Credentials: credentials,
+          },
+        }
       )
       .then((response) => {
         // Atualiza o estado do componente com os resultados da pesquisa
@@ -130,7 +157,12 @@ const Sales = () => {
     // Realiza a pesquisa com base no termo de pesquisa (pixSearchTerm)
     axios
       .get(
-        `http://localhost:3001/api/creditCard?page=${page}&name=${pixSearchTerm}`
+        `http://localhost:3001/api/creditCard?page=${page}&name=${pixSearchTerm}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Credentials: credentials,
+          },
+        }
       )
       .then((response) => {
         // Atualiza o estado do componente com os resultados da pesquisa
@@ -186,6 +218,8 @@ const Sales = () => {
               fontFamily: "poppins",
               margin: "0 auto",
               justifyContent: "center",
+              cursor:"pointer"
+
             }}
           >
             <span
