@@ -150,7 +150,7 @@ const Products = () => {
   };
 
   const filteredProducts = products.filter((product) =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  product.name && product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleFormChange = (event) => {
