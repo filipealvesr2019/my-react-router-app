@@ -22,7 +22,7 @@ const CreateProductForm = () => {
 
   const [productInfo, setProductInfo] = useState({
     name: "",
-    price: 0.0,
+
     description: "",
     sizes: [], // Change from size to sizes
     category: "",
@@ -36,7 +36,8 @@ const CreateProductForm = () => {
     imageUrl: "", // Adicione este campo para armazenar a URL da imagem
     color: "",
     QuantityPerUnit: "",
-    size: ""
+    size: "",
+    price: ""
   });
 
   // Novo estado para rastrear os erros
@@ -145,7 +146,7 @@ const CreateProductForm = () => {
   };
 
   const handleAddVariation = () => {
-    const { color, imageUrl, QuantityPerUnit, size } = productInfo;
+    const { color, imageUrl, QuantityPerUnit, size, price } = productInfo;
 
     console.log(
       "Color and Image URL before adding variation:",
@@ -161,7 +162,7 @@ const CreateProductForm = () => {
       setProductInfo((prevProductInfo) => {
         const updatedVariations = [
           ...prevProductInfo.variations,
-          { color, urls: [imageUrl], QuantityPerUnit, size }, // Adjusted structure to match your model
+          { color, urls: [imageUrl], QuantityPerUnit, size, price }, // Adjusted structure to match your model
         ];
         return {
           ...prevProductInfo,
@@ -169,6 +170,7 @@ const CreateProductForm = () => {
           imageUrl: "",
           QuantityPerUnit: "",
           size: "",
+          price:"", 
           variations: updatedVariations,
 
         };
@@ -338,7 +340,11 @@ const CreateProductForm = () => {
 
 
 
-          <div >
+          <div style={{
+            display:"flex",
+            flexDirection:"column",
+            marginRight:"10rem"
+          }} >
             <Grid item xs={12} sm={6}>
               <TextField
                 label="Nome do Produto"
@@ -354,22 +360,7 @@ const CreateProductForm = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                label="Preço"
-                variant="outlined"
-                fullWidth
-                type="number"
-                name="price"
-                value={productInfo.price}
-                onChange={handleInputChange}
-                error={formErrors.price !== undefined}
-                helperText={formErrors.price}
-                InputProps={{
-                  style: { marginTop: "10px" },
-                }}
-              />
-            </Grid>
+         
             <Grid item xs={12} >
               <TextField
                 label="Descrição"
@@ -386,69 +377,6 @@ const CreateProductForm = () => {
                   style: { marginTop: "10px",      maxWidth: 300 },
                 }}
            
-              />
-            </Grid>
-            <div
-              style={{
-                display: "flex",
-                gap: "1rem",
-          
-                alignItems: "center",
-                marginTop: "1rem",
-              }}
-            >
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  label="Tamanho"
-                  variant="outlined"
-                  fullWidth
-                  name="size"
-                  value={productInfo.size}
-                  onChange={handleInputChange}
-                  error={formErrors.size !== undefined}
-                  helperText={formErrors.size}
-                  inputProps={{
-                    style: {
-                      marginTop: "10px",
-                    },
-                  }}
-                />
-              </Grid>
-              <Button onClick={handleAddSize} style={{ height: "5dvh" }}>
-                Adicionar Tamanho
-              </Button>
-            </div>
-          </div>
-
-
-
-
-
-
-
-
-          <div style={{
-            display:"flex",
-            flexDirection:"column",
-            marginRight:"10rem"
-          }}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                label="Quantidade"
-                variant="outlined"
-                fullWidth
-                type="number"
-                name="quantity"
-                value={productInfo.quantity}
-                onChange={handleInputChange}
-                error={formErrors.quantity !== undefined}
-                helperText={formErrors.quantity}
-                InputProps={{
-                  style: { marginTop: "10px", width:"10vw"},
-                }}
-                sx={{
-                  width:"10vw"
-                }}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -509,6 +437,13 @@ const CreateProductForm = () => {
             </Grid>
           </div>
 
+
+
+
+
+
+
+
           <div >
             <Grid item xs={12} sm={6}>
               <TextField
@@ -532,6 +467,21 @@ const CreateProductForm = () => {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
+                label="Preço"
+                variant="outlined"
+                fullWidth
+                type="number"
+                name="price"
+                value={productInfo.price}
+                onChange={handleInputChange}
+              
+                InputProps={{
+                  style: { marginTop: "10px" },
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
                 label="URL da Imagem"
                 variant="outlined"
                 fullWidth
@@ -548,7 +498,9 @@ const CreateProductForm = () => {
                 }}
               />
             </Grid>
+            
             <Grid item xs={12} sm={6}>
+              
               <TextField
                 label="quatidade por unidade"
                 variant="outlined"
@@ -588,6 +540,7 @@ const CreateProductForm = () => {
                 }}
               />
             </Grid>
+            
             <Grid item xs={12} sm={6}>
               <Button
                 onClick={handleAddVariation}
