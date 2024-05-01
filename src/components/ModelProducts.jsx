@@ -35,8 +35,8 @@ const CreateProductForm = () => {
     imageUrls: [],
     imageUrl: "", // Adicione este campo para armazenar a URL da imagem
     color: "",
+    QuantityPerUnit: "",
   });
-
 
   // Novo estado para rastrear os erros
   const [formErrors, setFormErrors] = useState({});
@@ -65,7 +65,7 @@ const CreateProductForm = () => {
     if (!productInfo.colorPortuguese.trim()) {
       errors.colorPortuguese = "";
     }
-    
+
     if (!productInfo.imageUrl.length === 0) {
       errors.imageUrl = "";
     }
@@ -92,9 +92,7 @@ const CreateProductForm = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:3001/api/categories"
-      );
+      const response = await axios.get("http://localhost:3001/api/categories");
       const { success, categories } = response.data;
 
       if (success) {
@@ -146,7 +144,7 @@ const CreateProductForm = () => {
   };
 
   const handleAddVariation = () => {
-    const { color, imageUrl } = productInfo;
+    const { color, imageUrl, QuantityPerUnit } = productInfo;
 
     console.log(
       "Color and Image URL before adding variation:",
@@ -162,18 +160,18 @@ const CreateProductForm = () => {
       setProductInfo((prevProductInfo) => {
         const updatedVariations = [
           ...prevProductInfo.variations,
-          { color, urls: [imageUrl] }, // Adjusted structure to match your model
+          { color, urls: [imageUrl], QuantityPerUnit }, // Adjusted structure to match your model
         ];
         return {
           ...prevProductInfo,
           color: "",
           imageUrl: "",
+          QuantityPerUnit: "",
           variations: updatedVariations,
         };
       });
 
       // Clear the fields and states
-
 
       // Display success message
       toast.success("Cor e Imagem adicionadas com sucesso!", {
@@ -224,10 +222,10 @@ const CreateProductForm = () => {
     try {
       const { sizes, ...productData } = productInfo;
       productData.size = sizes.join(", "); // Certifique-se de que você está usando 'size' e não 'sizes'
-      
-      const token = Cookies.get('token'); // Obtenha o token do cookie
-      const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
-      console.log('Token:', token);
+
+      const token = Cookies.get("token"); // Obtenha o token do cookie
+      const credentials = Cookies.get("role"); // Obtenha as credenciais do cookie
+      console.log("Token:", token);
       // Send the product data to the server for further processing
       const response = await axios.post(
         "http://localhost:3001/api/admin/product/new",
@@ -238,14 +236,7 @@ const CreateProductForm = () => {
             Credentials: credentials,
           },
         }
-          
       );
-
-
-  
-
-
-
 
       if (response.status === 201) {
         setProductInfo({
@@ -262,8 +253,7 @@ const CreateProductForm = () => {
 
         console.log("Product created successfully");
 
-        setTimeout(() => {
-        }, 4000);
+        setTimeout(() => {}, 4000);
 
         // Configuration to display the success message
         // setIsProductCreated(true);
@@ -339,205 +329,274 @@ const CreateProductForm = () => {
           {formErrors.variations}
         </Typography>
       )}
+      <div style={{ display: "flex", alignItems: "center", justifyContent:"center", marginTop:"3rem",
+    gap:"5rem" }}>
+        <Grid container spacing={2} >
 
-      <Grid container spacing={2} style={{ marginTop: "-2rem" }}>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            label="Nome do Produto"
-            variant="outlined"
-            fullWidth
-            name="name"
-            value={productInfo.name}
-            onChange={handleInputChange}
-            error={formErrors.name !== undefined}
-            helperText={formErrors.name}
-            InputProps={{
-              style: { marginTop: "10px" },
-            }}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            label="Preço"
-            variant="outlined"
-            fullWidth
-            type="number"
-            name="price"
-            value={productInfo.price}
-            onChange={handleInputChange}
-            error={formErrors.price !== undefined}
-            helperText={formErrors.price}
-            InputProps={{
-              style: { marginTop: "10px" },
-            }}
-          />
-        </Grid>
-        <Grid item xs={12} style={{ marginTop: "-1rem" }}>
-          <TextField
-            label="Descrição"
-            variant="outlined"
-            fullWidth
-            multiline
-            rows={3}
-            name="description"
-            value={productInfo.description}
-            onChange={handleInputChange}
-            error={formErrors.description !== undefined}
-            helperText={formErrors.description}
-            InputProps={{
-              style: { marginTop: "10px" },
-            }}
-          />
-        </Grid>
-        <div
-          style={{
-            display: "flex",
-            gap: "1rem",
-            marginLeft: "1rem",
-            alignItems: "center",
-            marginTop: "1rem",
-          }}
-        >
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label="Tamanho"
-              variant="outlined"
-              fullWidth
-              name="size"
-              value={productInfo.size}
-              onChange={handleInputChange}
-              error={formErrors.size !== undefined}
-              helperText={formErrors.size}
-              inputProps={{
-                style: {
-                  marginTop: "10px",
-                },
-              }}
-            />
-          </Grid>
-          <Button onClick={handleAddSize} style={{ height: "5dvh" }}>
-            Adicionar Tamanho
-          </Button>
-        </div>
 
-        <Grid item xs={12} sm={6} style={{ marginTop: "-1rem" }}>
-          <TextField
-            label="Quantidade"
-            variant="outlined"
-            fullWidth
-            type="number"
-            name="quantity"
-            value={productInfo.quantity}
-            onChange={handleInputChange}
-            error={formErrors.quantity !== undefined}
-            helperText={formErrors.quantity}
-            InputProps={{
-              style: { marginTop: "10px" },
-            }}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <FormControl fullWidth variant="outlined">
-            <InputLabel>Categoria</InputLabel>
-            <Select
-              label="Categoria"
-              value={productInfo.category}
-              onChange={handleCategoryChange}
-              error={formErrors.category !== undefined}
-              helperText={formErrors.category}
-              InputProps={{
-                style: { marginTop: "10px" },
+
+          <div >
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Nome do Produto"
+                variant="outlined"
+                fullWidth
+                name="name"
+                value={productInfo.name}
+                onChange={handleInputChange}
+                error={formErrors.name !== undefined}
+                helperText={formErrors.name}
+                InputProps={{
+                  style: { marginTop: "10px" },
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Preço"
+                variant="outlined"
+                fullWidth
+                type="number"
+                name="price"
+                value={productInfo.price}
+                onChange={handleInputChange}
+                error={formErrors.price !== undefined}
+                helperText={formErrors.price}
+                InputProps={{
+                  style: { marginTop: "10px" },
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} >
+              <TextField
+                label="Descrição"
+                variant="outlined"
+                fullWidth
+                multiline
+                rows={3}
+                name="description"
+                value={productInfo.description}
+                onChange={handleInputChange}
+                error={formErrors.description !== undefined}
+                helperText={formErrors.description}
+                InputProps={{
+                  style: { marginTop: "10px",      maxWidth: 300 },
+                }}
+           
+              />
+            </Grid>
+            <div
+              style={{
+                display: "flex",
+                gap: "1rem",
+          
+                alignItems: "center",
+                marginTop: "1rem",
               }}
             >
-              <MenuItem value="" disabled>
-                Escolha uma categoria
-              </MenuItem>
-              {categories.map((category) => (
-                <MenuItem key={category._id} value={category.name}>
-                  {category.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  label="Tamanho"
+                  variant="outlined"
+                  fullWidth
+                  name="size"
+                  value={productInfo.size}
+                  onChange={handleInputChange}
+                  error={formErrors.size !== undefined}
+                  helperText={formErrors.size}
+                  inputProps={{
+                    style: {
+                      marginTop: "10px",
+                    },
+                  }}
+                />
+              </Grid>
+              <Button onClick={handleAddSize} style={{ height: "5dvh" }}>
+                Adicionar Tamanho
+              </Button>
+            </div>
+          </div>
+
+
+
+
+
+
+
+
+          <div style={{
+            display:"flex",
+            flexDirection:"column",
+            marginRight:"10rem"
+          }}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Quantidade"
+                variant="outlined"
+                fullWidth
+                type="number"
+                name="quantity"
+                value={productInfo.quantity}
+                onChange={handleInputChange}
+                error={formErrors.quantity !== undefined}
+                helperText={formErrors.quantity}
+                InputProps={{
+                  style: { marginTop: "10px", width:"10vw"},
+                }}
+                sx={{
+                  width:"10vw"
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormControl fullWidth variant="outlined">
+                <InputLabel>Categoria</InputLabel>
+                <Select
+                  label="Categoria"
+                  value={productInfo.category}
+                  onChange={handleCategoryChange}
+                  error={formErrors.category !== undefined}
+                  helperText={formErrors.category}
+                  InputProps={{
+                    style: { marginTop: "10px" },
+                  }}
+                  sx={{
+                    width:"15vw"
+
+       
+                  }}
+                >
+                  <MenuItem value="" disabled>
+                    Escolha uma categoria
+                  </MenuItem>
+                  {categories.map((category) => (
+                    <MenuItem key={category._id} value={category.name}>
+                      {category.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={6} >
+              <FormControl fullWidth variant="outlined">
+                <InputLabel sx={{width:"30vw"}}>Subcategoria</InputLabel>
+                <Select
+                  label="Subcategoria"
+                  value={productInfo.subcategory}
+                  onChange={handleSubcategoryChange}
+                  error={formErrors.subcategory !== undefined}
+                  helperText={formErrors.subcategory}
+                  InputProps={{
+                    style: { marginTop: "10px" },
+                  }}
+                  sx={{
+                    width:"15vw"
+                  }}
+                >
+                  <MenuItem value="" disabled>
+                    Escolha uma subcategoria
+                  </MenuItem>
+                  {subcategories.map((subcategory) => (
+                    <MenuItem key={subcategory._id} value={subcategory.name}>
+                      {subcategory.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+          </div>
+
+          <div >
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Cor em Português"
+                variant="outlined"
+                fullWidth
+                name="colorPortuguese"
+                value={productInfo.color}
+                onChange={handleInputChange}
+                error={formErrors.colorPortuguese !== undefined}
+                helperText={formErrors.colorPortuguese}
+                InputProps={{
+                  style: {
+                    marginTop: "10px",
+                  },
+                }}
+                sx={{
+                  width:"15vw"
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="URL da Imagem"
+                variant="outlined"
+                fullWidth
+                name="imageUrl"
+                value={productInfo.imageUrl}
+                error={formErrors.imageUrl !== undefined}
+                helperText={formErrors.imageUrl}
+                onChange={handleImageUrlsChange}
+                InputProps={{
+                  style: { marginTop: "10px" },
+                }}
+                sx={{
+                  width:"15vw"
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="quatidade por unidade"
+                variant="outlined"
+                fullWidth
+                name="QuantityPerUnit"
+                value={productInfo.QuantityPerUnit}
+                onChange={handleInputChange}
+                error={formErrors.colorPortuguese !== undefined}
+                helperText={formErrors.colorPortuguese}
+                InputProps={{
+                  style: {
+                    marginTop: "10px",
+                  },
+                }}
+                sx={{
+                  width:"15vw"
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Button
+                onClick={handleAddVariation}
+                style={{
+                  backgroundColor: "#14337C",
+                  color: "white",
+                  border: "none",
+                  padding: ".5rem",
+                  borderRadius: "1rem",
+                  width: "15dvw",
+                  fontFamily: "poppins",
+                  fontWeight: 500,
+                  cursor: "pointer",
+                  fontSize: ".8rem",
+                  whiteSpace: "nowrap",
+                  marginTop: "1.3rem",
+                }}
+              >
+                Adicionar foto a Cor
+              </Button>
+            </Grid>
+          </div>
+
+
+
+
+
+
+
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <FormControl fullWidth variant="outlined">
-            <InputLabel>Subcategoria</InputLabel>
-            <Select
-              label="Subcategoria"
-              value={productInfo.subcategory}
-              onChange={handleSubcategoryChange}
-              error={formErrors.subcategory !== undefined}
-              helperText={formErrors.subcategory}
-              InputProps={{
-                style: { marginTop: "10px" },
-              }}
-            >
-              <MenuItem value="" disabled>
-                Escolha uma subcategoria
-              </MenuItem>
-              {subcategories.map((subcategory) => (
-                <MenuItem key={subcategory._id} value={subcategory.name}>
-                  {subcategory.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            label="Cor em Português"
-            variant="outlined"
-            fullWidth
-            name="colorPortuguese"
-            value={productInfo.color}
-            onChange={handleInputChange}
-            error={formErrors.colorPortuguese !== undefined}
-            helperText={formErrors.colorPortuguese}
-            InputProps={{
-              style: {
-                marginTop: "10px",
-              },
-            }}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            label="URL da Imagem"
-            variant="outlined"
-            fullWidth
-            name="imageUrl"
-            value={productInfo.imageUrl}
-            error={formErrors.imageUrl !== undefined}
-            helperText={formErrors.imageUrl}
-            onChange={handleImageUrlsChange}
-            InputProps={{
-              style: { marginTop: "10px" },
-            }}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Button
-            onClick={handleAddVariation}
-            style={{
-              backgroundColor: "#14337C",
-              color: "white",
-              border: "none",
-              padding: ".5rem",
-              borderRadius: "1rem",
-              width: "15dvw",
-              fontFamily: "poppins",
-              fontWeight: 500,
-              cursor: "pointer",
-              fontSize: ".8rem",
-              whiteSpace: "nowrap",
-              marginTop: "1.3rem",
-            }}
-          >
-            Adicionar foto a Cor
-          </Button>
-        </Grid>
-      </Grid>
+      </div>
+
       <Button
         style={{
           backgroundColor: "#185ea5",
@@ -550,7 +609,7 @@ const CreateProductForm = () => {
           fontWeight: 500,
           cursor: "pointer",
           fontSize: ".8rem",
-          marginTop: ".4rem",
+          marginTop: "5rem",
         }}
         type="submit"
       >
@@ -601,7 +660,8 @@ export default function BasicModal() {
         <Sheet
           variant="outlined"
           sx={{
-            maxWidth: 500,
+            width: "90vw",
+            height:"90vh",
             borderRadius: "md",
             p: 3,
             boxShadow: "lg",
@@ -617,10 +677,12 @@ export default function BasicModal() {
             textColor="inherit"
             fontWeight="lg"
             mb={1}
-            marginTop={"-rem"}
+            marginBottom={"1rem"}
           >
             Criar Novo Produto
           </Typography>
+
+          
           <ToastContainer
             position="top-center"
             autoClose={3000}
