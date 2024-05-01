@@ -43,49 +43,47 @@ const CreateProductForm = () => {
   // Novo estado para rastrear os erros
   const [formErrors, setFormErrors] = useState({});
 
-  // Função para verificar se há campos obrigatórios não preenchidos
-  const validateForm = () => {
-    const errors = {};
-
-    // Adicione validações para outros campos conforme necessário
-    if (!productInfo.name.trim()) {
-      errors.name = "";
-    }
-    if (productInfo.price <= 0) {
-      errors.price = "";
-    }
-    if (!productInfo.description.trim()) {
-      errors.description = "";
-    }
-    // Adicione validações para outros campos conforme necessário
-    if (!(productInfo.quantity > 0)) {
-      errors.quantity = "";
-    }
-    if (productInfo.sizes.length === 0) {
-      errors.size = "";
-    }
-    if (!productInfo.colorPortuguese.trim()) {
-      errors.colorPortuguese = "";
-    }
-
-    if (!productInfo.imageUrl.length === 0) {
-      errors.imageUrl = "";
-    }
-    // Verificar se há variações adicionadas
-
-    if (!productInfo.category) {
-      errors.category = "";
-    }
-
-    if (!productInfo.subcategory) {
-      errors.subcategory = "";
-    }
-
-    setFormErrors(errors);
-
-    // Retorna verdadeiro se não houver erros
-    return Object.keys(errors).length === 0;
-  };
+  // // Função para verificar se há campos obrigatórios não preenchidos
+  // const validateForm = () => {
+  //   const errors = {};
+  
+  //   if (!productInfo.name.trim()) {
+  //     errors.name = "O nome do produto é obrigatório.";
+  //   }
+  //   if (productInfo.price <= 0) {
+  //     errors.price = "O preço deve ser maior que zero.";
+  //   }
+  //   if (!productInfo.description.trim()) {
+  //     errors.description = "A descrição do produto é obrigatória.";
+  //   }
+  //   if (!(productInfo.quantity > 0)) {
+  //     errors.quantity = "A quantidade deve ser maior que zero.";
+  //   }
+  //   if (productInfo.sizes.length === 0) {
+  //     errors.size = "Pelo menos um tamanho deve ser selecionado.";
+  //   }
+  //   if (!productInfo.colorPortuguese.trim()) {
+  //     errors.colorPortuguese = "A cor em português é obrigatória.";
+  //   }
+  //   if (productInfo.imageUrl.length === 0) {
+  //     errors.imageUrl = "A URL da imagem é obrigatória.";
+  //   }
+  //   if (productInfo.variations.length === 0) {
+  //     errors.variations = "Pelo menos uma variação deve ser adicionada.";
+  //   }
+  //   if (!productInfo.category) {
+  //     errors.category = "A categoria é obrigatória.";
+  //   }
+  //   if (!productInfo.subcategory) {
+  //     errors.subcategory = "A subcategoria é obrigatória.";
+  //   }
+  
+  //   setFormErrors(errors);
+  
+  //   // Retorna verdadeiro se não houver erros
+  //   return Object.keys(errors).length === 0;
+  // };
+  
 
   useEffect(() => {
     // Carregar categorias ao montar o componente
@@ -216,13 +214,13 @@ const CreateProductForm = () => {
     event.preventDefault();
 
     // Validate the form before proceeding
-    if (!validateForm()) {
-      toast.error("Todos os campos devem ser preenchidos!", {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 2000,
-      });
-      return;
-    }
+    // if (!validateForm()) {
+    //   toast.error("Todos os campos devem ser preenchidos!", {
+    //     position: toast.POSITION.TOP_CENTER,
+    //     autoClose: 2000,
+    //   });
+    //   return;
+    // }
 
     try {
       const { sizes, ...productData } = productInfo;
