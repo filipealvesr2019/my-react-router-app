@@ -36,6 +36,7 @@ const CreateProductForm = () => {
     imageUrl: "", // Adicione este campo para armazenar a URL da imagem
     color: "",
     QuantityPerUnit: "",
+    size: ""
   });
 
   // Novo estado para rastrear os erros
@@ -144,7 +145,7 @@ const CreateProductForm = () => {
   };
 
   const handleAddVariation = () => {
-    const { color, imageUrl, QuantityPerUnit } = productInfo;
+    const { color, imageUrl, QuantityPerUnit, size } = productInfo;
 
     console.log(
       "Color and Image URL before adding variation:",
@@ -160,14 +161,16 @@ const CreateProductForm = () => {
       setProductInfo((prevProductInfo) => {
         const updatedVariations = [
           ...prevProductInfo.variations,
-          { color, urls: [imageUrl], QuantityPerUnit }, // Adjusted structure to match your model
+          { color, urls: [imageUrl], QuantityPerUnit, size }, // Adjusted structure to match your model
         ];
         return {
           ...prevProductInfo,
           color: "",
           imageUrl: "",
           QuantityPerUnit: "",
+          size: "",
           variations: updatedVariations,
+
         };
       });
 
@@ -552,6 +555,26 @@ const CreateProductForm = () => {
                 fullWidth
                 name="QuantityPerUnit"
                 value={productInfo.QuantityPerUnit}
+                onChange={handleInputChange}
+                error={formErrors.colorPortuguese !== undefined}
+                helperText={formErrors.colorPortuguese}
+                InputProps={{
+                  style: {
+                    marginTop: "10px",
+                  },
+                }}
+                sx={{
+                  width:"15vw"
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="tamanho por unidade"
+                variant="outlined"
+                fullWidth
+                name="size"
+                value={productInfo.size}
                 onChange={handleInputChange}
                 error={formErrors.colorPortuguese !== undefined}
                 helperText={formErrors.colorPortuguese}
