@@ -514,7 +514,7 @@ const Products = () => {
                                                 type="number"
                                                 name={`quantityPerUnit-${index}`}
                                                 value={
-                                                  variation.quantityPerUnit
+                                                  variation.QuantityPerUnit
                                                 }
                                                 onChange={(e) =>
                                                   handleVariationChange(
