@@ -416,6 +416,7 @@ const Products = () => {
                                       <label htmlFor="">
                                         Produto em Estoque
                                       </label>
+                                      <div>
                                       <select
                                         value={inStock ? "true" : "false"}
                                         onChange={(e) =>
@@ -425,6 +426,8 @@ const Products = () => {
                                         <option value="true">Sim</option>
                                         <option value="false">Não</option>
                                       </select>
+
+                                      </div>
                                     </div>
 
                                     <div
@@ -530,6 +533,13 @@ const Products = () => {
                                                 }}
                                               />
                                             </label>
+
+                                            <div style={{
+                                              borderBottom:"1px solid #ddd",
+                                              marginBottom:"5rem"
+                                            }}>
+
+                                            </div>
                                           </div>
                                         )
                                       )}
