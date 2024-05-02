@@ -27,19 +27,26 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 3;
 }
 .modalContent {
   background-color: #fefefe;
   padding: 20px;
   border-radius: 5px;
   position: relative;
-  width: 95dvw;
-  height: 78vh;
+  width: 95vw;
+  height: 95vh;
   z-index: 9999; /* ou qualquer valor que seja suficientemente alto para garantir que esteja acima de outros elementos na página */
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  margin-top: 4rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+
+
+ 
+
 }
+
+
 
 .close {
   color: #aaa;

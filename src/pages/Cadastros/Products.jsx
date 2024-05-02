@@ -7,25 +7,21 @@ import DeleteModal from "../../components/DeleteModal";
 import CloseIcon from "@mui/icons-material/Close";
 import Pagination from "@mui/material/Pagination";
 import { useAuth } from "../../context/AuthContext";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
 const Products = () => {
   const { isAdmin, isManager } = useAuth();
   const [inStock, setInStock] = useState(false); // Inicializado como "sim", mas pode ser "não" dependendo da sua necessidade
 
   const [products, setProducts] = useState([]);
-  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
   const [newColorName, setNewColorName] = useState("");
-  const [selectedColor, setSelectedColor] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [productId, setProductId] = useState(""); // Certifique-se de definir corretamente o valor inicial
-  const [novaUrl, setNovaUrl] = useState("");
 
   const [formData, setFormData] = useState({
     _id: null,
@@ -38,31 +34,20 @@ const Products = () => {
     subcategory: "",
     variations: [
       {
-        color: "", // Assuming color is a string
-        urls: [], // Make sure this is an array
+        color: "",
+        urls: [],
+        size: "",
+        price: 0,
+        QuantityPerUnit: 0,
       },
     ],
-    // ... other necessary fields
-    // ... outros campos necessários
   });
+
   const { authToken } = useAuth();
 
   useEffect(() => {
     getProducts();
   }, [currentPage, searchTerm, authToken]);
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   const handleDeleteProduct = async (productId) => {
     try {
@@ -73,10 +58,10 @@ const Products = () => {
         });
         return;
       }
-      const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
+      const credentials = Cookies.get("role"); // Obtenha as credenciais do cookie
 
-      const token = Cookies.get('token'); // Obtenha o token do cookie
-      console.log('Token:', token);
+      const token = Cookies.get("token"); // Obtenha o token do cookie
+      console.log("Token:", token);
 
       const response = await axios.delete(
         `http://localhost:3001/api/admin/product/${productId}`,
@@ -87,7 +72,7 @@ const Products = () => {
           },
         }
       );
-  
+
       if (response.data.success) {
         const updatedProducts = products.filter(
           (product) => product._id !== productId
@@ -104,32 +89,23 @@ const Products = () => {
       console.error("Erro ao excluir produto. Detalhes do erro:", error);
     }
   };
-  
-
-
-
-
-
-
-
-
 
   const getProducts = async () => {
     try {
-      const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
+      const credentials = Cookies.get("role"); // Obtenha as credenciais do cookie
 
-      const token = Cookies.get('token'); // Obtenha o token do cookie
+      const token = Cookies.get("token"); // Obtenha o token do cookie
 
       const response = await axios.get(
         `http://localhost:3001/api/products?page=${currentPage}&keyword=${searchTerm}`,
         {
-        headers: {
-          Credentials: credentials,
+          headers: {
+            Credentials: credentials,
 
-          Authorization: `Bearer ${token}`,
-        },
-      } 
-        );
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       const totalProducts = response.data.totalPages * itemsPerPage;
       setTotalPages(response.data.totalPages);
@@ -150,24 +126,54 @@ const Products = () => {
     setSearchTerm(event.target.value);
   };
 
-  const filteredProducts = products.filter((product) =>
-  product.name && product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredProducts = products.filter(
+    (product) =>
+      product.name &&
+      product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleFormChange = (event) => {
     const { name, value } = event.target;
+
+    // Se o campo que está sendo alterado não estiver aninhado dentro de um array, atualize diretamente
+    if (!name.includes(".")) {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+      return;
+    }
+
+    // Se o campo que está sendo alterado estiver aninhado dentro de um array, atualize corretamente
+    const [variationIndex, fieldName] = name.split(".");
+    const updatedVariations = [...formData.variations];
+    updatedVariations[variationIndex] = {
+      ...updatedVariations[variationIndex],
+      [fieldName]: value,
+    };
+
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      variations: updatedVariations,
     }));
   };
+  const handleVariationChange = (field, value) => {
+    // Clone o estado atual de formData
+    const updatedFormData = { ...formData };
+
+    // Atualize o campo específico da variação com o novo valor
+    updatedFormData.variations[0][field] = value;
+
+    // Defina o novo estado de formData
+    setFormData(updatedFormData);
+  };
+
   // Update the handleUpdateProduct function to close the modal after updating
   // Restante do código...
 
   // Update the handleUpdateProduct function to close the modal after updating
   const handleUpdateProduct = async (productId) => {
     try {
-
       if (!isAdmin && !isManager) {
         toast.error("Você não tem permissão para editar produtos.", {
           position: toast.POSITION.TOP_CENTER,
@@ -176,12 +182,9 @@ const Products = () => {
         return;
       }
 
-      
-      const token = Cookies.get('token'); // Obtenha o token do cookie
-      const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
-      console.log('Token:', token);
-
-      
+      const token = Cookies.get("token"); // Obtenha o token do cookie
+      const credentials = Cookies.get("role"); // Obtenha as credenciais do cookie
+      console.log("Token:", token);
 
       const response = await axios.put(
         `http://localhost:3001/api/update/product/${productId}`,
@@ -189,8 +192,8 @@ const Products = () => {
           ...formData,
           newColorName: newColorName, // Adicione o novo nome da cor aos dados do formulário
           inStock: inStock, // Atualize o campo inStock
-
-        },   {
+        },
+        {
           headers: {
             Authorization: `Bearer ${token}`,
             Credentials: credentials,
@@ -198,17 +201,10 @@ const Products = () => {
         }
       );
 
-
-
-
-
-
-
       if (response.data._id) {
         console.log("Produto atualizado com sucesso");
         const updatedProductsResponse = await axios.get(
-          "http://localhost:3001/api/products",
-          
+          "http://localhost:3001/api/products"
         );
         const updatedProducts = updatedProductsResponse.data.products;
         setProducts(updatedProducts);
@@ -224,10 +220,9 @@ const Products = () => {
       setFormData({
         _id: null,
         name: "",
-        price: 0,
-        quantity: 0,
+
         description: "",
-        size: "",
+
         category: "",
         subcategory: "",
         variations: [
@@ -237,143 +232,11 @@ const Products = () => {
           },
         ],
       });
-      setNewColorName("");
     } catch (error) {
       console.error("Erro ao atualizar produto. Detalhes do erro:", error);
       if (error.response) {
         console.error("Response data:", error.response.data);
       }
-    }
-  };
-
-  // Restante do código...
-  const handleEditUrl = (productId, color, index, newUrl) => {
-    setProducts((prevProducts) => {
-      const updatedProducts = prevProducts.map((product) => {
-        if (product._id === productId) {
-          const updatedVariations = product.variations.map((variation) => {
-            if (variation.color === color) {
-              return {
-                ...variation,
-                urls: variation.urls.map((url, i) =>
-                  i === index ? newUrl : url
-                ),
-              };
-            }
-            return variation;
-          });
-
-          return {
-            ...product,
-            variations: updatedVariations,
-          };
-        }
-        return product;
-      });
-
-      return updatedProducts;
-    });
-  };
-
-  const getImagesByColor = (product, color) => {
-    const updatedProduct =
-      products.find((p) => p._id === product._id) || product;
-
-    return updatedProduct.variations
-      .filter((variation) => variation.color === color)
-      .map((variation) => (
-        <div key={variation._id}>
-          <p>Cor: {variation.color}</p>
-          <ul>
-            {variation.urls.map((url, index) => (
-              <li key={index}>
-                <img
-                  src={url}
-                  alt={`Thumbnail ${index + 1}`}
-                  style={{ maxWidth: "100px", maxHeight: "100px" }}
-                />
-                <label>
-                  Editar URL:
-                  <input
-                    type="text"
-                    value={url}
-                    onChange={(e) =>
-                      handleEditUrl(product._id, color, index, e.target.value)
-                    }
-                  />
-                </label>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ));
-  };
-
-  const handleAddNewColor = async (productId) => {
-    try {
-      const response = await axios.post(
-        `http://localhost:3001/api/product/${productId}/add-color`,
-        {
-          color: newColorName,
-        }
-      );
-
-      if (response.data.success) {
-        console.log("Nova cor adicionada com sucesso");
-      } else {
-        console.error("Erro ao adicionar nova cor:", response.data.message);
-      }
-    } catch (error) {
-      console.error("Erro ao adicionar nova cor:", error);
-    }
-  };
-
-  // Função para excluir uma URL de uma cor específica de um produto
-  const handleDeleteUrl = async (productId, color, urlId) => {
-    try {
-      const response = await axios.delete(
-        `http://localhost:3001/api/product/${productId}/color/${color}/url/${urlId}`
-      );
-
-      if (response.data.success) {
-        console.log("URL excluída com sucesso");
-        // Atualize o estado ou realize outras ações necessárias
-      } else {
-        console.error("Erro ao excluir URL:", response.data.message);
-      }
-    } catch (error) {
-      console.error("Erro ao excluir URL:", error);
-    }
-  };
-
-  const handleAddNewUrl = async (productId) => {
-    try {
-      // Resto do código...
-
-      const response = await axios.post(
-        `http://localhost:3001/api/product/${productId}/color/${selectedColor}/add-url`,
-        { url: novaUrl }
-      );
-
-      console.log("Resposta do servidor:", response);
-
-      // Resto do código...
-    } catch (error) {
-      console.error("Erro ao adicionar URL:", error);
-    }
-  };
-
-  const handleDeleteColor = async (productId, colorName) => {
-    try {
-      const response = await axios.delete(
-        `http://localhost:3001/api/product/${productId}/color/${colorName}`
-      );
-
-      console.log("Resposta do servidor:", response);
-
-      // Atualize o estado ou qualquer outra lógica necessária após a exclusão da cor
-    } catch (error) {
-      console.error("Erro ao excluir cor:", error);
     }
   };
 
@@ -436,384 +299,247 @@ const Products = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredProducts && filteredProducts.map((product) => (
-                  <tr className={styles.td} key={product._id}>
-                    <td className={styles.td}>{product.name}</td>
-                    <td>
-                      <div className={styles.spanContainer}>
-                        <div
-                          className={`${styles.container} ${styles.modalContainer}`}
-                        >
-                          {formData._id === product._id && (
-                            <form
-                              onSubmit={(e) => {
-                                e.preventDefault();
-                                handleUpdateProduct(product._id);
-                                // Clear the form after submission
-                                setFormData({
-                                  _id: null,
-                                  name: "",
-                                  price: 0,
-                                  quantity: 0,
-                                  description: "",
-                                  size: "",
-                                  category: "",
-                                  subcategory: "",
-                                  variations: [
-                                    {
-                                      color: "", // Assuming color is a string
-                                      urls: [], // Assuming urls is a string
-                                    },
-                                  ],
-                                  // ... other necessary fields
-                                  // ... outros campos necessários
-                                });
-                                setSelectedImageIndex(null);
+                {filteredProducts &&
+                  filteredProducts.map((product) => (
+                    <tr className={styles.td} key={product._id}>
+                      <td className={styles.td}>{product.name}</td>
+                      <td>
+                        <div className={styles.spanContainer}>
+                          <div
+                            className={`${styles.container} ${styles.modalContainer}`}
+                          >
+                            {formData._id === product._id && (
+                              <form
+                                onSubmit={(e) => {
+                                  e.preventDefault();
+                                  handleUpdateProduct(product._id);
+                                  // Clear the form after submission
+                                  setFormData({
+                                    _id: null,
+                                    name: "",
+
+                                    description: "",
+
+                                    category: "",
+                                    subcategory: "",
+                                    variations: [
+                                      {
+                                        color: "", // Assuming color is a string
+                                        urls: [], // Assuming urls is a string
+                                        price: 0,
+                                        size: "",
+                                        QuantityPerUnit: 0,
+                                      },
+                                    ],
+                                    // ... other necessary fields
+                                    // ... outros campos necessários
+                                  });
+                                }}
+                              >
+                                <div className={styles.modalOverlay}>
+                                  <div className={styles.modalContent}>
+                                    <button
+                                      className={styles.closeButton}
+                                      onClick={() => setIsModalOpen(false)}
+                                    >
+                                      <CloseIcon />
+                                    </button>
+
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                      }}
+                                    >
+                                      <label>
+                                        Nome:
+                                        <input
+                                          type="text"
+                                          name="name"
+                                          value={formData.name}
+                                          onChange={handleFormChange}
+                                        />
+                                      </label>
+
+                                      <label className={styles.label}>
+                                        Descrição:
+                                        <input
+                                          type="text"
+                                          name="description"
+                                          value={formData.description}
+                                          onChange={handleFormChange}
+                                          className={styles.description}
+                                        />
+                                      </label>
+
+                                      <label>
+                                        Categoria:
+                                        <input
+                                          type="text"
+                                          name="category"
+                                          value={formData.category}
+                                          onChange={handleFormChange}
+                                        />
+                                      </label>
+                                      <label>
+                                        Subcategoria:
+                                        <input
+                                          type="text"
+                                          name="subcategory"
+                                          value={formData.subcategory}
+                                          onChange={handleFormChange}
+                                        />
+                                      </label>
+                                    </div>
+
+                                    <div>
+                                      <label>
+                                        Cor:
+                                        <input
+                                          type="text"
+                                          name="color"
+                                          value={formData.variations[0].color}
+                                          onChange={(e) =>
+                                            handleVariationChange(
+                                              "color",
+                                              e.target.value
+                                            )
+                                          }
+                                        />
+                                      </label>
+
+                                      <label>
+                                        URLs:
+                                        <input
+                                          type="text"
+                                          name="urls"
+                                          value={formData.variations[0].urls.join(
+                                            ","
+                                          )} // Assumindo que as URLs são armazenadas como uma string separada por vírgulas
+                                          onChange={(e) =>
+                                            handleVariationChange(
+                                              "urls",
+                                              e.target.value.split(",")
+                                            )
+                                          }
+                                        />
+                                      </label>
+
+                                      <label>
+                                        Tamanho:
+                                        <input
+                                          type="text"
+                                          name="size"
+                                          value={formData.variations[0].size}
+                                          onChange={(e) =>
+                                            handleVariationChange(
+                                              "size",
+                                              e.target.value
+                                            )
+                                          }
+                                        />
+                                      </label>
+
+                                      <label>
+                                        Preço:
+                                        <input
+                                          type="number"
+                                          name="price"
+                                          value={formData.variations[0].price}
+                                          onChange={(e) =>
+                                            handleVariationChange(
+                                              "price",
+                                              parseFloat(e.target.value)
+                                            )
+                                          }
+                                        />
+                                      </label>
+
+                                      <label>
+                                        Quantidade por unidade:
+                                        <input
+                                          type="number"
+                                          name="QuantityPerUnit"
+                                          value={
+                                            formData.variations[0]
+                                              .QuantityPerUnit
+                                          }
+                                          onChange={(e) =>
+                                            handleVariationChange(
+                                              "QuantityPerUnit",
+                                              parseInt(e.target.value)
+                                            )
+                                          }
+                                        />
+                                      </label>
+
+                                      <label htmlFor="">
+                                        Produto em Estoque
+                                      </label>
+                                      <select
+                                        value={inStock ? "true" : "false"}
+                                        onChange={(e) =>
+                                          setInStock(e.target.value === "true")
+                                        }
+                                      >
+                                        <option value="true">Sim</option>
+                                        <option value="false">Não</option>
+                                      </select>
+                                    </div>
+
+                                    <br></br>
+                                    <button
+                                      type="submit"
+                                      className={styles.button}
+                                    >
+                                      Atualisar Produto
+                                    </button>
+                                  </div>
+                                </div>
+                              </form>
+                            )}
+
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "1rem",
                               }}
                             >
-                              <div className={styles.modalOverlay}>
-                                <div className={styles.modalContent}>
-                                  <button
-                                    className={styles.closeButton}
-                                    onClick={() => setIsModalOpen(false)}
-                                  >
-                                    <CloseIcon />
-                                  </button>
-                                  <label>
-                                    Nome:
-                                    <input
-                                      type="text"
-                                      name="name"
-                                      value={formData.name}
-                                      onChange={handleFormChange}
-                                    />
-                                  </label>
-                                  <label>
-                                    Preço:
-                                    <input
-                                      type="number"
-                                      name="price"
-                                      value={formData.price}
-                                      onChange={handleFormChange}
-                                    />
-                                  </label>
-                                  <label className={styles.label}>
-                                    Descrição:
-                                    <input
-                                      type="text"
-                                      name="description"
-                                      value={formData.description}
-                                      onChange={handleFormChange}
-                                      className={styles.description}
-                                    />
-                                  </label>
-                                  <label>
-                                    Tamanho:
-                                    <input
-                                      type="text"
-                                      name="size"
-                                      value={formData.size}
-                                      onChange={handleFormChange}
-                                    />
-                                  </label>
-                                  <label>
-                                    Quantidade:
-                                    <input
-                                      type="number"
-                                      name="quantity"
-                                      value={formData.quantity}
-                                      onChange={handleFormChange}
-                                    />
-                                  </label>
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      flexDirection: "column",
-                                      marginTop: "-5rem",
-                                    }}
-                                  >
-                                    <label>
-                                      Categoria:
-                                      <input
-                                        type="text"
-                                        name="category"
-                                        value={formData.category}
-                                        onChange={handleFormChange}
-                                      />
-                                    </label>
-                                    <label>
-                                      Subcategoria:
-                                      <input
-                                        type="text"
-                                        name="subcategory"
-                                        value={formData.subcategory}
-                                        onChange={handleFormChange}
-                                      />
-                                    </label>
-                                  </div>
+                              <button
+                                className={styles.buttonUpdate}
+                                onClick={() => setFormData(product)}
+                              >
+                                <img
+                                  src="https://i.ibb.co/5R1QnT7/edit-1.png"
+                                  alt=""
+                                />
+                                Editar
+                              </button>
 
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      flexDirection: "column",
-                                      left: "25%",
-                                      top: "22%",
-                                      position: "absolute",
-                                    }}
-                                  >
-                                    {" "}
-                                    <div style={{ display: "inline-block" }}>
-                                      <label>
-                                        Selecione a cor:
-                                        <select
-                                          value={selectedColor}
-                                          onChange={(e) =>
-                                            setSelectedColor(e.target.value)
-                                          }
-                                        >
-                                          <option value="">
-                                            Escolher a Cor
-                                          </option>
-                                          {Array.from(
-                                            new Set(
-                                              product.variations.map(
-                                                (variation) => variation.color
-                                              )
-                                            )
-                                          ).map((color) => (
-                                            <option key={color} value={color}>
-                                              {color}
-                                            </option>
-                                          ))}
-                                        </select>
-                                      </label>
-                                      {/* Botão para excluir cor */}
-                                      <button
-                                        onClick={() =>
-                                          handleDeleteColor(
-                                            product._id,
-                                            selectedColor
-                                          )
-                                        }
-                                        style={{
-                                          width: "8vw",
-                                          height: "5vh",
-                                          backgroundColor: "#14337c",
-                                          color: "#fefefe",
-                                          border: "medium",
-                                          padding: ".5rem",
-                                          borderRadius: "5px",
-                                        }}
-                                      >
-                                        Excluir Cor
-                                      </button>
-                                    </div>
-                                    {product.variations
-                                      .filter(
-                                        (variation) =>
-                                          variation.color === selectedColor
-                                      )
-                                      .map((variation) => (
-                                        <div key={variation._id}>
-                                          <p>Cor: {variation.color}</p>
-                                          <ul
-                                            style={{
-                                              listStyle: "none",
-                                              display: "flex",
-                                              gap: "10px",
-                                            }}
-                                          >
-                                            {variation.urls.map(
-                                              (url, index) => (
-                                                <li
-                                                  key={index}
-                                                  style={{
-                                                    display: "inline-block",
-                                                  }}
-                                                >
-                                                  <img
-                                                    src={url}
-                                                    alt={`Thumbnail ${
-                                                      index + 1
-                                                    }`}
-                                                    style={{
-                                                      maxWidth: "100px",
-                                                      maxHeight: "100px",
-                                                    }}
-                                                  />
-                                                  <div
-                                                    style={{
-                                                      display: "flex",
-                                                      flexDirection: "column",
-                                                    }}
-                                                  >
-                                                    <button
-                                                      onClick={() =>
-                                                        handleDeleteUrl(
-                                                          product._id,
-                                                          selectedColor,
-                                                          index
-                                                        )
-                                                      }
-                                                      style={{
-                                                        width: "15vh",
-                                                        backgroundColor:
-                                                          "#14337c",
-                                                        color: "#fefefe",
-                                                        border: "medium",
-                                                        padding: ".5rem",
-                                                        borderRadius: "5px",
-                                                      }}
-                                                    >
-                                                      Excluir URL
-                                                    </button>
-
-
-                                                    
-                                                  </div>
-                                                </li>
-                                              )
-                                            )}
-                                          </ul>
-                                        </div>
-                                      ))}
-                                  </div>
-                                  <div
-                                    style={{
-                                      position: "absolute",
-                                      right: "25%",
-                                      top: "35%",
-                                    }}
-                                  >
-                                    <label>
-                                      <input
-                                        type="text"
-                                        value={novaUrl}
-                                        onChange={(e) =>
-                                          setNovaUrl(e.target.value)
-                                        }
-                                        style={{ width: "12vw", height: "5vh" }}
-                                        placeholder="Nova Url..."
-                                      />
-                                    </label>
-                                    <button
+                              <div className={styles.deleteBtn}>
+                                {!isModalOpen && !formData._id && (
+                                  <>
+                                    <span
                                       onClick={() =>
-                                        handleAddNewUrl(product._id)
+                                        handleDeleteProduct(product._id)
                                       }
-                                      style={{
-                                        backgroundColor: "#14337c",
-                                        color: "#fefefe",
-                                        border: "medium",
-                                        padding: ".5rem",
-                                        borderRadius: "5px",
-                                      }}
-                                    >
-                                      Adicionar Nova URL
-                                    </button>
-                                  </div>
-
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      flexDirection: "column",
-                                      position: "absolute",
-                                      left: "80%",
-                                      top: "30%",
-                                    }}
-                                  >
-                                    <label>
-                                      Novo Nome da Cor:
-                                      <input
-                                        type="text"
-                                        name="newColorName"
-                                        value={newColorName}
-                                        onChange={(e) =>
-                                          setNewColorName(e.target.value)
-                                        }
-                                        style={{ width: "15vw", height: "5vh" }}
-                                      />
-                                    </label>
-                                    <button
-                                      style={{
-                                        width: "11vw",
-                                        height: "5vh",
-                                        backgroundColor: "#14337c",
-                                        color: "#fefefe",
-                                        border: "medium",
-                                        padding: ".5rem",
-                                        borderRadius: "5px",
-                                      }}
-                                      onClick={() =>
-                                        handleAddNewColor(product._id)
+                                      className={styles.span}
+                                    ></span>
+                                    <DeleteModal
+                                      onDelete={() =>
+                                        handleDeleteProduct(product._id)
                                       }
-                                    >
-                                      Adicionar Nova Cor
-                                    </button>
-                                    <select
-  value={inStock ? 'true' : 'false'}
-  onChange={(e) => setInStock(e.target.value === 'true')}
->
-  <option value="true">Sim</option>
-  <option value="false">Não</option>
-</select>
-
-
-
-                                  </div>
-                                  <br></br>
-                                  <button
-                                    type="submit"
-                                    className={styles.button}
-                                  >
-                                    Atualisar Produto
-                                  </button>
-                                </div>
+                                    />
+                                  </>
+                                )}
                               </div>
-                            </form>
-                          )}
-
-                          <div
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: "1rem",
-                            }}
-                          >
-                            <button
-                              className={styles.buttonUpdate}
-                              onClick={() => setFormData(product)}
-                            >
-                              <img
-                                src="https://i.ibb.co/5R1QnT7/edit-1.png"
-                                alt=""
-                              />
-                              Editar
-                            </button>
-
-                            <div className={styles.deleteBtn}>
-                              {!isModalOpen && !formData._id && (
-                                <>
-                                  <span
-                                    onClick={() =>
-                                      handleDeleteProduct(product._id)
-                                    }
-                                    className={styles.span}
-                                  ></span>
-                                  <DeleteModal
-                                    onDelete={() =>
-                                      handleDeleteProduct(product._id)
-                                    }
-                                  />
-                                </>
-                              )}
                             </div>
-                            
                           </div>
                         </div>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
 
