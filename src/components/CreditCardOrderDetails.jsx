@@ -83,9 +83,30 @@ const CreditCardOrderDetails = () => {
                       borderLeft: "1px solid #dddddd",
                       borderBottom: "1px solid #dddddd",
                       padding: "1rem",
+                 
                     }}
                   >
+                 <p  style={{
+                
+                      display: "flex",
+                      alignItems: "center",
+                      gap: ".5rem",
+                    }}>
+
+                                {creditCard.billingType === "CREDIT_CARD" && (
+                                  <img
+                                    src="https://i.ibb.co/HtWhHR0/icons8-emoji-de-cart-o-de-cr-dito-48.png"
+                                    alt=""
+                                  />
+                                )}
+
+
+                      
+                     
                     {creditCard.billingType === "CREDIT_CARD" && "Cartão de Crédito"}
+
+                 </p>
+                             
                   </td>
                   <td
                     style={{

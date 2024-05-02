@@ -98,10 +98,25 @@ const BoletoOrderDetails = () => {
                       borderLeft: "1px solid #dddddd",
                       borderBottom: "1px solid #dddddd",
                       padding: "1rem",
+                    
                     }}
                   >
-                    {boleto.billingType === "CREDIT_CARD" && "Cartão de Crédito"}
-              
+                    <p    style={{
+                    
+                      display: "flex",
+                      alignItems: "center",
+                      gap: ".5rem",
+                    }}>
+                       {boleto.billingType === "BOLETO" && (
+                                  <img
+                                    src="https://i.ibb.co/LNrSsZt/icons8-boleto-bankario-48.png"
+                                    alt=""
+                                    style={{ maxWidth: "14vw" }}
+                                  />
+                                )}
+                       {boleto.billingType}
+
+                    </p>
                   </td>
                   <td
                     style={{

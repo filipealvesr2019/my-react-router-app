@@ -86,9 +86,29 @@ const PixOrderDetails = () => {
                       borderLeft: "1px solid #dddddd",
                       borderBottom: "1px solid #dddddd",
                       padding: "1rem",
+                   
+                      
                     }}
                   >
-                    {pix.billingType === "CREDIT_CARD" && "Cartão de Crédito"}
+                    <p style={{
+                         display:"flex",
+                         alignItems:"center",
+                         gap:".5rem"
+                    }}>
+                       {pix.billingType === "PIX" && (
+                                  <img
+                                    src="https://i.ibb.co/dfvK4s0/icons8-foto-48.png"
+                                    alt=""
+                                    style={{
+                                      maxWidth: "14vw",
+                                    }}
+                                  />
+                                )}
+
+           
+
+                    {pix.billingType }
+                    </p>
                   </td>
                   <td
                     style={{
