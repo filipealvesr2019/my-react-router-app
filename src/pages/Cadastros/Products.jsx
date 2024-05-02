@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Cookies from "js-cookie";
 const Products = () => {
   const { isAdmin, isManager } = useAuth();
+  const [inStock, setInStock] = useState(false); // Inicializado como "sim", mas pode ser "não" dependendo da sua necessidade
 
   const [products, setProducts] = useState([]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
@@ -187,6 +188,8 @@ const Products = () => {
         {
           ...formData,
           newColorName: newColorName, // Adicione o novo nome da cor aos dados do formulário
+          inStock: inStock, // Atualize o campo inStock
+
         },   {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -746,6 +749,16 @@ const Products = () => {
                                     >
                                       Adicionar Nova Cor
                                     </button>
+                                    <select
+  value={inStock ? 'true' : 'false'}
+  onChange={(e) => setInStock(e.target.value === 'true')}
+>
+  <option value="true">Sim</option>
+  <option value="false">Não</option>
+</select>
+
+
+
                                   </div>
                                   <br></br>
                                   <button

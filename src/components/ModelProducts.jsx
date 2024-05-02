@@ -15,14 +15,14 @@ import Grid from "@mui/material/Grid";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
-
+import Box from '@mui/material/Box';
 const CreateProductForm = () => {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
+  const [inStock, setInStock] = useState(false);
 
   const [productInfo, setProductInfo] = useState({
     name: "",
-
     description: "",
     sizes: [], // Change from size to sizes
     category: "",
@@ -37,9 +37,18 @@ const CreateProductForm = () => {
     color: "",
     QuantityPerUnit: "",
     size: "",
-    price: ""
-  });
+    price: "",
+    inStock: true || false // Defina inStock como false por padrão
 
+
+  });
+  const handleInStockChange = (event) => {
+    const value = event.target.value === 'true' || event.target.value  ; // Converte a string recebida para booleano
+    setInStock(value);
+  };
+  
+  
+  
   // Novo estado para rastrear os erros
   const [formErrors, setFormErrors] = useState({});
 
@@ -223,8 +232,9 @@ const CreateProductForm = () => {
     // }
 
     try {
-      const { sizes, ...productData } = productInfo;
+      const { sizes, inStock, ...productData } = productInfo;
       productData.size = sizes.join(", "); // Certifique-se de que você está usando 'size' e não 'sizes'
+productData.inStock = inStock; // Adicione isso ao objeto productData
 
       const token = Cookies.get("token"); // Obtenha o token do cookie
       const credentials = Cookies.get("role"); // Obtenha as credenciais do cookie
@@ -433,6 +443,22 @@ const CreateProductForm = () => {
                 </Select>
               </FormControl>
             </Grid>
+
+            <Box sx={{ minWidth: 120 }}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Produto em Estoque?</InputLabel>
+        <Select
+  labelId="demo-simple-select-label"
+  id="demo-simple-select"
+  value={inStock ? 'true' : 'false'} // Defina o valor selecionado com base no estado inStock
+  onChange={handleInStockChange}
+>
+  <MenuItem value={'true'}>SIM</MenuItem> // Defina os valores das opções como strings 'true' e 'false'
+  <MenuItem value={'false'}>NÃO</MenuItem>
+</Select>
+
+      </FormControl>
+    </Box>
           </div>
 
 
@@ -583,7 +609,7 @@ const CreateProductForm = () => {
           fontWeight: 500,
           cursor: "pointer",
           fontSize: ".8rem",
-          marginTop: "5rem",
+          marginTop: "2rem",
         }}
         type="submit"
       >
