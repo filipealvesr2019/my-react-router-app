@@ -417,16 +417,17 @@ const Products = () => {
                                         Produto em Estoque
                                       </label>
                                       <div>
-                                      <select
-                                        value={inStock ? "true" : "false"}
-                                        onChange={(e) =>
-                                          setInStock(e.target.value === "true")
-                                        }
-                                      >
-                                        <option value="true">Sim</option>
-                                        <option value="false">Não</option>
-                                      </select>
-
+                                        <select
+                                          value={inStock ? "true" : "false"}
+                                          onChange={(e) =>
+                                            setInStock(
+                                              e.target.value === "true"
+                                            )
+                                          }
+                                        >
+                                          <option value="true">Sim</option>
+                                          <option value="false">Não</option>
+                                        </select>
                                       </div>
                                     </div>
 
@@ -443,102 +444,109 @@ const Products = () => {
                                             style={{
                                               display: "flex",
                                               flexDirection: "column",
+                                              alignItems: "center",
                                               margin: "0 10px",
                                               // borderBottom:"1px solid #ddd",
                                               // borderLeft:"1px solid #ddd",
                                               gap: "1rem",
+                                              border: "2px solid #ddd",
+                                              borderRadius: "5px",
+                                              marginBottom: "4rem",
+                                              padding:"3rem"
                                             }}
                                           >
-                                            <label>
-                                              Cor:
-                                              <input
-                                                type="text"
-                                                name={`colorindex}`}
-                                                value={variation.color}
-                                                onChange={(e) =>
-                                                  handleVariationChange(
-                                                    index,
-                                                    "color",
-                                                    e.target.value
-                                                  )
-                                                }
-                                              />
-                                            </label>
+                                            <div style={{width:"20vw"}}>
+                                              <label>
+                                                Cor:
+                                                <input
+                                                  type="text"
+                                                  name={`colorindex}`}
+                                                  value={variation.color}
+                                                  onChange={(e) =>
+                                                    handleVariationChange(
+                                                      index,
+                                                      "color",
+                                                      e.target.value
+                                                    )
+                                                  }
+                                                />
+                                              </label>
+                                            </div>
 
-                                            <label>
-                                              URLs:
-                                              <input
-                                                type="text"
-                                                name={`urls-${index}`}
-                                                value={variation.urls.join(",")}
-                                                onChange={(e) =>
-                                                  handleVariationChange(
-                                                    index,
-                                                    "urls",
-                                                    e.target.value.split(",")
-                                                  )
-                                                }
-                                              />
-                                            </label>
+                                            <div  style={{width:"20vw"}}>
+                                              <label>
+                                                URLs:
+                                                <input
+                                                  type="text"
+                                                  name={`urls-${index}`}
+                                                  value={variation.urls.join(
+                                                    ","
+                                                  )}
+                                                  onChange={(e) =>
+                                                    handleVariationChange(
+                                                      index,
+                                                      "urls",
+                                                      e.target.value.split(",")
+                                                    )
+                                                  }
+                                                />
+                                              </label>
+                                            </div>
 
-                                            <label>
-                                              Tamanho:
-                                              <input
-                                                type="text"
-                                                name={`size-${index}`}
-                                                value={variation.size}
-                                                onChange={(e) =>
-                                                  handleVariationChange(
-                                                    index,
-                                                    "size",
-                                                    e.target.value
-                                                  )
-                                                }
-                                              />
-                                            </label>
+                                            <div  style={{width:"20vw"}}>
+                                              <label>
+                                                Tamanho:
+                                                <input
+                                                  type="text"
+                                                  name={`size-${index}`}
+                                                  value={variation.size}
+                                                  onChange={(e) =>
+                                                    handleVariationChange(
+                                                      index,
+                                                      "size",
+                                                      e.target.value
+                                                    )
+                                                  }
+                                                />
+                                              </label>
+                                            </div>
 
-                                            <label>
-                                              Preço:
-                                              <input
-                                                type="number"
-                                                name={`price-${index}`}
-                                                value={variation.price}
-                                                onChange={(e) =>
-                                                  handleVariationChange(
-                                                    index,
-                                                    "price",
-                                                    parseFloat(e.target.value)
-                                                  )
-                                                }
-                                              />
-                                            </label>
+                                            <div  style={{width:"20vw"}}>
+                                              <label>
+                                                Preço:
+                                                <input
+                                                  type="number"
+                                                  name={`price-${index}`}
+                                                  value={variation.price}
+                                                  onChange={(e) =>
+                                                    handleVariationChange(
+                                                      index,
+                                                      "price",
+                                                      parseFloat(e.target.value)
+                                                    )
+                                                  }
+                                                />
+                                              </label>
+                                            </div>
 
-                                            <label>
-                                              Quantidade por unidade:
-                                              <input
-                                                type="number"
-                                                name={`quantityPerUnit-${index}`}
-                                                value={
-                                                  variation.QuantityPerUnit
-                                                }
-                                                onChange={(e) =>
-                                                  handleVariationChange(
-                                                    index,
-                                                    "quantityPerUnit",
-                                                    parseInt(e.target.value)
-                                                  )
-                                                }
-                                                style={{
-                                                  marginBottom: "5rem",
-                                                }}
-                                              />
-                                            </label>
-
-                                            <div style={{
-                                              borderBottom:"1px solid #ddd",
-                                              marginBottom:"5rem"
-                                            }}>
-
+                                            <div  style={{width:"20vw"}}>
+                                              <label>
+                                                Quantidade por unidade:
+                                                <input
+                                                  type="number"
+                                                  name={`quantityPerUnit-${index}`}
+                                                  value={
+                                                    variation.QuantityPerUnit
+                                                  }
+                                                  onChange={(e) =>
+                                                    handleVariationChange(
+                                                      index,
+                                                      "quantityPerUnit",
+                                                      parseInt(e.target.value)
+                                                    )
+                                                  }
+                                                />
+                                              </label>
                                             </div>
                                           </div>
                                         )
