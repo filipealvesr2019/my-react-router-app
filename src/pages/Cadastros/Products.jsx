@@ -10,6 +10,7 @@ import { useAuth } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
+import ColorPicker from "./ColorPicker";
 const Products = () => {
   const { isAdmin, isManager } = useAuth();
   const [inStock, setInStock] = useState(false); // Inicializado como "sim", mas pode ser "não" dependendo da sua necessidade
@@ -44,6 +45,12 @@ const Products = () => {
   });
 
   const { authToken } = useAuth();
+
+  const [selectedColor, setSelectedColor] = useState(""); // Estado para armazenar a cor selecionada
+
+  const handleColorChange = (color) => {
+    setSelectedColor(color); // Atualiza o estado com a cor selecionada
+  };
 
   useEffect(() => {
     getProducts();
@@ -134,7 +141,7 @@ const Products = () => {
 
   const handleFormChange = (event) => {
     const { name, value } = event.target;
-  
+
     // Se o campo que está sendo alterado não estiver aninhado dentro de um array, atualize diretamente
     if (!name.includes(".")) {
       setFormData((prevData) => ({
@@ -143,7 +150,7 @@ const Products = () => {
       }));
       return;
     }
-  
+
     // Se o campo que está sendo alterado estiver aninhado dentro de um array, atualize corretamente
     const [variationIndex, fieldName] = name.split(".");
     const updatedVariations = [...formData.variations];
@@ -151,24 +158,24 @@ const Products = () => {
       ...updatedVariations[variationIndex],
       [fieldName]: value,
     };
-  
+
     setFormData((prevData) => ({
       ...prevData,
       variations: updatedVariations,
     }));
   };
-  
+
   const handleVariationChange = (index, field, value) => {
     // Clone o estado atual de formData
     const updatedFormData = { ...formData };
-  
+
     // Atualize o campo específico da variação com o novo valor
     updatedFormData.variations[index][field] = value;
-  
+
     // Defina o novo estado de formData
     setFormData(updatedFormData);
   };
-  
+
   const handleEditProduct = (product) => {
     setFormData({
       _id: product._id,
@@ -182,7 +189,7 @@ const Products = () => {
       })),
     });
   };
-  
+
   // Update the handleUpdateProduct function to close the modal after updating
   // Restante do código...
 
@@ -254,11 +261,7 @@ const Products = () => {
       }
     }
   };
-// Dentro do componente Products
-
-
-
-
+  // Dentro do componente Products
 
   return (
     <div className={styles.container}>
@@ -436,19 +439,18 @@ const Products = () => {
                                             key={index}
                                             style={{
                                               display: "flex",
-                                              flexDirection:"column",
+                                              flexDirection: "column",
                                               margin: "0 10px",
-                                              borderBottom:"1px solid #ddd",
-                                              borderLeft:"1px solid #ddd",
-                                              gap:"1rem"
-
+                                              // borderBottom:"1px solid #ddd",
+                                              // borderLeft:"1px solid #ddd",
+                                              gap: "1rem",
                                             }}
                                           >
                                             <label>
                                               Cor:
                                               <input
                                                 type="text"
-                                                name={`color-${index}`}
+                                                name={`colorindex}`}
                                                 value={variation.color}
                                                 onChange={(e) =>
                                                   handleVariationChange(
@@ -523,13 +525,14 @@ const Products = () => {
                                                     parseInt(e.target.value)
                                                   )
                                                 }
+                                                style={{
+                                                  marginBottom: "5rem",
+                                                }}
                                               />
                                             </label>
                                           </div>
                                         )
                                       )}
-
-                                   
                                     </div>
 
                                     <br></br>
@@ -551,13 +554,16 @@ const Products = () => {
                                 gap: "1rem",
                               }}
                             >
-                           <button
-  className={styles.buttonUpdate}
-  onClick={() => handleEditProduct(product)}
->
-  <img src="https://i.ibb.co/5R1QnT7/edit-1.png" alt="" />
-  Editar
-</button>
+                              <button
+                                className={styles.buttonUpdate}
+                                onClick={() => handleEditProduct(product)}
+                              >
+                                <img
+                                  src="https://i.ibb.co/5R1QnT7/edit-1.png"
+                                  alt=""
+                                />
+                                Editar
+                              </button>
 
                               <div className={styles.deleteBtn}>
                                 {!isModalOpen && !formData._id && (
