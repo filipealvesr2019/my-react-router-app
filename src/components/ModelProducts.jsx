@@ -15,7 +15,7 @@ import Grid from "@mui/material/Grid";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
-import Box from '@mui/material/Box';
+import Box from "@mui/material/Box";
 const CreateProductForm = () => {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
@@ -38,24 +38,20 @@ const CreateProductForm = () => {
     QuantityPerUnit: "",
     size: "",
     price: "",
-    inStock: true || false // Defina inStock como false por padrão
-
-
+    inStock: true || false, // Defina inStock como false por padrão
   });
   const handleInStockChange = (event) => {
-    const value = event.target.value === 'true' || event.target.value  ; // Converte a string recebida para booleano
+    const value = event.target.value === "true" || event.target.value; // Converte a string recebida para booleano
     setInStock(value);
   };
-  
-  
-  
+
   // Novo estado para rastrear os erros
   const [formErrors, setFormErrors] = useState({});
 
   // // Função para verificar se há campos obrigatórios não preenchidos
   // const validateForm = () => {
   //   const errors = {};
-  
+
   //   if (!productInfo.name.trim()) {
   //     errors.name = "O nome do produto é obrigatório.";
   //   }
@@ -86,13 +82,12 @@ const CreateProductForm = () => {
   //   if (!productInfo.subcategory) {
   //     errors.subcategory = "A subcategoria é obrigatória.";
   //   }
-  
+
   //   setFormErrors(errors);
-  
+
   //   // Retorna verdadeiro se não houver erros
   //   return Object.keys(errors).length === 0;
   // };
-  
 
   useEffect(() => {
     // Carregar categorias ao montar o componente
@@ -177,9 +172,8 @@ const CreateProductForm = () => {
           imageUrl: "",
           QuantityPerUnit: "",
           size: "",
-          price:"", 
+          price: "",
           variations: updatedVariations,
-
         };
       });
 
@@ -234,7 +228,7 @@ const CreateProductForm = () => {
     try {
       const { sizes, inStock, ...productData } = productInfo;
       productData.size = sizes.join(", "); // Certifique-se de que você está usando 'size' e não 'sizes'
-productData.inStock = inStock; // Adicione isso ao objeto productData
+      productData.inStock = inStock; // Adicione isso ao objeto productData
 
       const token = Cookies.get("token"); // Obtenha o token do cookie
       const credentials = Cookies.get("role"); // Obtenha as credenciais do cookie
@@ -342,17 +336,23 @@ productData.inStock = inStock; // Adicione isso ao objeto productData
           {formErrors.variations}
         </Typography>
       )}
-      <div style={{ display: "flex", alignItems: "center", justifyContent:"center", marginTop:"3rem",
-    gap:"5rem" }}>
-        <Grid container spacing={2} >
-
-
-
-          <div style={{
-            display:"flex",
-            flexDirection:"column",
-            marginRight:"10rem"
-          }} >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop: "3rem",
+          gap: "5rem",
+        }}
+      >
+        <Grid container spacing={2}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              marginRight: "10rem",
+            }}
+          >
             <Grid item xs={12} sm={6}>
               <TextField
                 label="Nome do Produto"
@@ -368,8 +368,8 @@ productData.inStock = inStock; // Adicione isso ao objeto productData
                 }}
               />
             </Grid>
-         
-            <Grid item xs={12} >
+
+            <Grid item xs={12}>
               <TextField
                 label="Descrição"
                 variant="outlined"
@@ -382,9 +382,8 @@ productData.inStock = inStock; // Adicione isso ao objeto productData
                 error={formErrors.description !== undefined}
                 helperText={formErrors.description}
                 InputProps={{
-                  style: { marginTop: "10px",      maxWidth: 300 },
+                  style: { marginTop: "10px", maxWidth: 300 },
                 }}
-           
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -400,9 +399,7 @@ productData.inStock = inStock; // Adicione isso ao objeto productData
                     style: { marginTop: "10px" },
                   }}
                   sx={{
-                    width:"15vw"
-
-       
+                    width: "15vw",
                   }}
                 >
                   <MenuItem value="" disabled>
@@ -416,9 +413,9 @@ productData.inStock = inStock; // Adicione isso ao objeto productData
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6} >
+            <Grid item xs={12} sm={6}>
               <FormControl fullWidth variant="outlined">
-                <InputLabel sx={{width:"30vw"}}>Subcategoria</InputLabel>
+                <InputLabel sx={{ width: "30vw" }}>Subcategoria</InputLabel>
                 <Select
                   label="Subcategoria"
                   value={productInfo.subcategory}
@@ -429,7 +426,7 @@ productData.inStock = inStock; // Adicione isso ao objeto productData
                     style: { marginTop: "10px" },
                   }}
                   sx={{
-                    width:"15vw"
+                    width: "15vw",
                   }}
                 >
                   <MenuItem value="" disabled>
@@ -445,30 +442,25 @@ productData.inStock = inStock; // Adicione isso ao objeto productData
             </Grid>
 
             <Box sx={{ minWidth: 120 }}>
-      <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Produto em Estoque?</InputLabel>
-        <Select
-  labelId="demo-simple-select-label"
-  id="demo-simple-select"
-  value={inStock ? 'true' : 'false'} // Defina o valor selecionado com base no estado inStock
-  onChange={handleInStockChange}
->
-  <MenuItem value={'true'}>SIM</MenuItem> // Defina os valores das opções como strings 'true' e 'false'
-  <MenuItem value={'false'}>NÃO</MenuItem>
-</Select>
-
-      </FormControl>
-    </Box>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">
+                  Produto em Estoque?
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={inStock ? "true" : "false"} // Defina o valor selecionado com base no estado inStock
+                  onChange={handleInStockChange}
+                >
+                  <MenuItem value={"true"}>SIM</MenuItem> // Defina os valores
+                  das opções como strings 'true' e 'false'
+                  <MenuItem value={"false"}>NÃO</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
           </div>
 
-
-
-
-
-
-
-
-          <div >
+          <div>
             <Grid item xs={12} sm={6}>
               <TextField
                 label="Cor em Português"
@@ -485,7 +477,7 @@ productData.inStock = inStock; // Adicione isso ao objeto productData
                   },
                 }}
                 sx={{
-                  width:"15vw"
+                  width: "15vw",
                 }}
               />
             </Grid>
@@ -498,7 +490,6 @@ productData.inStock = inStock; // Adicione isso ao objeto productData
                 name="price"
                 value={productInfo.price}
                 onChange={handleInputChange}
-              
                 InputProps={{
                   style: { marginTop: "10px" },
                 }}
@@ -518,13 +509,12 @@ productData.inStock = inStock; // Adicione isso ao objeto productData
                   style: { marginTop: "10px" },
                 }}
                 sx={{
-                  width:"15vw"
+                  width: "15vw",
                 }}
               />
             </Grid>
-            
+
             <Grid item xs={12} sm={6}>
-              
               <TextField
                 label="quatidade por unidade"
                 variant="outlined"
@@ -540,7 +530,7 @@ productData.inStock = inStock; // Adicione isso ao objeto productData
                   },
                 }}
                 sx={{
-                  width:"15vw"
+                  width: "15vw",
                 }}
               />
             </Grid>
@@ -560,11 +550,11 @@ productData.inStock = inStock; // Adicione isso ao objeto productData
                   },
                 }}
                 sx={{
-                  width:"15vw"
+                  width: "15vw",
                 }}
               />
             </Grid>
-            
+
             <Grid item xs={12} sm={6}>
               <Button
                 onClick={handleAddVariation}
@@ -587,13 +577,6 @@ productData.inStock = inStock; // Adicione isso ao objeto productData
               </Button>
             </Grid>
           </div>
-
-
-
-
-
-
-
         </Grid>
       </div>
 
@@ -621,6 +604,7 @@ productData.inStock = inStock; // Adicione isso ao objeto productData
 
 export default function BasicModal() {
   const [open, setOpen] = useState(false);
+  const [inStock, setInStock] = useState(false); // Adicione o estado inStock e sua função de atualização
 
   const handleClose = () => {
     setOpen(false);
@@ -628,6 +612,8 @@ export default function BasicModal() {
 
   const handleOpen = () => {
     setOpen(true);
+    setInStock(productInfo.inStock); // Inicialize o estado inStock com base no valor atual de inStock em productInfo
+
   };
 
   return (
@@ -661,7 +647,7 @@ export default function BasicModal() {
           variant="outlined"
           sx={{
             width: "90vw",
-            height:"90vh",
+            height: "90vh",
             borderRadius: "md",
             p: 3,
             boxShadow: "lg",
@@ -682,7 +668,6 @@ export default function BasicModal() {
             Criar Novo Produto
           </Typography>
 
-          
           <ToastContainer
             position="top-center"
             autoClose={3000}
