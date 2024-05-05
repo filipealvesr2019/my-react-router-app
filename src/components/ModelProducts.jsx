@@ -387,7 +387,6 @@ const CreateProductForm = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          marginTop: "3rem",
           gap: "5rem",
         }}
       >
@@ -428,7 +427,7 @@ const CreateProductForm = () => {
                 error={formErrors.description !== undefined}
                 helperText={formErrors.description}
                 InputProps={{
-                  style: { marginTop: "10px", maxWidth: 300 },
+                  style: { maxWidth: 300 },
                 }}
               />
             </Grid>
@@ -442,7 +441,7 @@ const CreateProductForm = () => {
                   error={formErrors.category !== undefined}
                   helperText={formErrors.category}
                   InputProps={{
-                    style: { marginTop: "10px" },
+           
                   }}
                   sx={{
                     width: "15vw",
@@ -469,7 +468,7 @@ const CreateProductForm = () => {
                   error={formErrors.subcategory !== undefined}
                   helperText={formErrors.subcategory}
                   InputProps={{
-                    style: { marginTop: "10px" },
+                   
                   }}
                   sx={{
                     width: "15vw",
@@ -709,6 +708,7 @@ const CreateProductForm = () => {
           fontWeight: 500,
           cursor: "pointer",
           fontSize: ".8rem",
+          marginTop:"-5rem"
         }}
         type="submit"
       >
