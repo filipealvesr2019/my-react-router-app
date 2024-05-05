@@ -146,20 +146,19 @@ const CreateProductForm = () => {
     }
   };
 
- 
   const handleAddVariation = () => {
     const { color, imageUrls, sizes, quantityAvailable, price } = productInfo;
-  
+
     console.log(
       "Color and Image URLs before adding variation:",
       color,
       imageUrls
     );
-  
+
     // Verificar se todas as URLs da imagem estão preenchidas
-    if (color && imageUrls.every(url => url) && sizes.every(size => size)) {
+    if (color && imageUrls.every((url) => url) && sizes.every((size) => size)) {
       // Continuar com o processamento, como adicionar cor e URL à sua lista de variações
-  
+
       // Exemplo: Adicionar à lista de variações
       setProductInfo((prevProductInfo) => {
         const updatedVariations = [
@@ -176,7 +175,7 @@ const CreateProductForm = () => {
           variations: updatedVariations,
         };
       });
-  
+
       // Exibir mensagem de sucesso
       toast.success("Cor e imagens adicionadas com sucesso!", {
         position: toast.POSITION.TOP_CENTER,
@@ -186,8 +185,7 @@ const CreateProductForm = () => {
       console.error("Color or image URLs are empty");
     }
   };
-  
-  
+
   // Update the handleInputChange function to handle the size input
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -301,7 +299,7 @@ const CreateProductForm = () => {
 
   const handleImageUrlsChange = (event, index) => {
     const { value } = event.target;
-  
+
     // Atualizar a URL da imagem no estado
     setProductInfo((prevProductInfo) => {
       const updatedUrls = [...prevProductInfo.imageUrls];
@@ -312,15 +310,14 @@ const CreateProductForm = () => {
       };
     });
   };
-  
+
   const handleAddImageUrlField = () => {
     setProductInfo((prevProductInfo) => ({
       ...prevProductInfo,
       imageUrls: [...prevProductInfo.imageUrls, ""], // Adiciona um novo campo vazio para a URL da imagem
     }));
   };
-  
-  
+
   const handleRemoveImageUrlField = (index) => {
     setProductInfo((prevProductInfo) => {
       const updatedUrls = [...prevProductInfo.imageUrls];
@@ -332,48 +329,33 @@ const CreateProductForm = () => {
     });
   };
 
+  // Atualização da função handleSizeInputChange
+  // Atualização da função handleSizeInputChange
+  const handleSizeInputChange = (event, index) => {
+    const { name, value } = event.target;
 
-
-
-
-
-
-
-
-
-
-
-
- // Atualização da função handleSizeInputChange
-// Atualização da função handleSizeInputChange
-const handleSizeInputChange = (event, index) => {
-  const { name, value } = event.target;
-
-  // Atualizar o tamanho no estado
-  setProductInfo((prevProductInfo) => {
-    const updatedSizes = [...prevProductInfo.sizes];
-    // Verificar se o índice está dentro do intervalo
-    if (index >= 0 && index < updatedSizes.length) {
-      // Verificar se o objeto de tamanho está inicializado corretamente
-      if (!updatedSizes[index]) {
-        updatedSizes[index] = {
-          size: "",
-          price: 0,
-          quantityAvailable: 0
-        };
+    // Atualizar o tamanho no estado
+    setProductInfo((prevProductInfo) => {
+      const updatedSizes = [...prevProductInfo.sizes];
+      // Verificar se o índice está dentro do intervalo
+      if (index >= 0 && index < updatedSizes.length) {
+        // Verificar se o objeto de tamanho está inicializado corretamente
+        if (!updatedSizes[index]) {
+          updatedSizes[index] = {
+            size: "",
+            price: 0,
+            quantityAvailable: 0,
+          };
+        }
+        // Atualizar o valor do campo específico
+        updatedSizes[index][name] = value;
       }
-      // Atualizar o valor do campo específico
-      updatedSizes[index][name] = value;
-    }
-    return {
-      ...prevProductInfo,
-      sizes: updatedSizes,
-    };
-  });
-};
-
-
-  
+      return {
+        ...prevProductInfo,
+        sizes: updatedSizes,
+      };
+    });
+  };
 
   const handleAddSizeField = () => {
     setProductInfo((prevProductInfo) => ({
@@ -381,17 +363,17 @@ const handleSizeInputChange = (event, index) => {
       sizes: [...prevProductInfo.sizes, ""], // Adiciona um novo campo vazio para a URL da imagem
     }));
   };
-// Modificação da função handleRemoveSizeField
-const handleRemoveSizeField = (index) => {
-  setProductInfo((prevProductInfo) => {
-    const updatedSizes = [...prevProductInfo.sizes];
-    updatedSizes.splice(index, 1); // Remover o tamanho com o índice fornecido
-    return {
-      ...prevProductInfo,
-      sizes: updatedSizes,
-    };
-  });
-};
+  // Modificação da função handleRemoveSizeField
+  const handleRemoveSizeField = (index) => {
+    setProductInfo((prevProductInfo) => {
+      const updatedSizes = [...prevProductInfo.sizes];
+      updatedSizes.splice(index, 1); // Remover o tamanho com o índice fornecido
+      return {
+        ...prevProductInfo,
+        sizes: updatedSizes,
+      };
+    });
+  };
   // ...
   return (
     <form onSubmit={handleSubmit}>
@@ -523,89 +505,86 @@ const handleRemoveSizeField = (index) => {
               </FormControl>
             </Box>
           </div>
-
-  
-
-          
         </Grid>
 
         <div>
           <Grid item xs={12} sm={6}>
-              <TextField
-                label="Cor em Português"
-                variant="outlined"
-                fullWidth
-                name="colorPortuguese"
-                value={productInfo.color}
-                onChange={handleInputChange}
-                error={formErrors.colorPortuguese !== undefined}
-                helperText={formErrors.colorPortuguese}
-                InputProps={{
-                  style: {
-                    marginTop: "10px",
-                  },
-                }}
-                sx={{
-                  width: "15vw",
-                }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-  {productInfo.imageUrls && productInfo.imageUrls.map((url, index) => (
-    <div key={index}>
-      <TextField
-        label={`URL da Imagem ${index + 1}`}
-        variant="outlined"
-        fullWidth
-        value={url}
-        onChange={(event) => handleImageUrlsChange(event, index)}
-        InputProps={{
-          style: { marginTop: "10px" },
-        }}
-        sx={{
-          width: "15vw",
-        }}
-      />
-      <Button
-        onClick={() => handleRemoveImageUrlField(index)}
-        style={{
-          marginLeft: "10px",
-          backgroundColor: "#DC143C",
-          color: "white",
-          border: "none",
-          padding: ".5rem",
-          borderRadius: "1rem",
-          fontFamily: "poppins",
-          fontWeight: 500,
-          cursor: "pointer",
-          fontSize: ".8rem",
-          whiteSpace: "nowrap",
-          marginTop: "10px",
-        }}
-      >
-        Remover
-      </Button>
-    </div>
-  ))}
-  <Button
-    onClick={handleAddImageUrlField}
-    style={{
-      backgroundColor: "#14337C",
-      color: "white",
-      border: "none",
-      padding: ".5rem",
-      borderRadius: "1rem",
-      fontFamily: "poppins",
-      fontWeight: 500,
-      cursor: "pointer",
-      fontSize: ".8rem",
-      whiteSpace: "nowrap",
-      marginTop: "10px",
-    }}
-  >
-    Adicionar URL da Imagem
-  </Button>
-  <Grid item xs={12} sm={6}>
+            <TextField
+              label="Cor em Português"
+              variant="outlined"
+              fullWidth
+              name="colorPortuguese"
+              value={productInfo.color}
+              onChange={handleInputChange}
+              error={formErrors.colorPortuguese !== undefined}
+              helperText={formErrors.colorPortuguese}
+              InputProps={{
+                style: {
+                  marginTop: "10px",
+                },
+              }}
+              sx={{
+                width: "15vw",
+              }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            {productInfo.imageUrls &&
+              productInfo.imageUrls.map((url, index) => (
+                <div key={index}>
+                  <TextField
+                    label={`URL da Imagem ${index + 1}`}
+                    variant="outlined"
+                    fullWidth
+                    value={url}
+                    onChange={(event) => handleImageUrlsChange(event, index)}
+                    InputProps={{
+                      style: { marginTop: "10px" },
+                    }}
+                    sx={{
+                      width: "15vw",
+                    }}
+                  />
+                  <Button
+                    onClick={() => handleRemoveImageUrlField(index)}
+                    style={{
+                      marginLeft: "10px",
+                      backgroundColor: "#DC143C",
+                      color: "white",
+                      border: "none",
+                      padding: ".5rem",
+                      borderRadius: "1rem",
+                      fontFamily: "poppins",
+                      fontWeight: 500,
+                      cursor: "pointer",
+                      fontSize: ".8rem",
+                      whiteSpace: "nowrap",
+                      marginTop: "10px",
+                    }}
+                  >
+                    Remover
+                  </Button>
+                </div>
+              ))}
+            <Button
+              onClick={handleAddImageUrlField}
+              style={{
+                backgroundColor: "#14337C",
+                color: "white",
+                border: "none",
+                padding: ".5rem",
+                borderRadius: "1rem",
+                fontFamily: "poppins",
+                fontWeight: 500,
+                cursor: "pointer",
+                fontSize: ".8rem",
+                whiteSpace: "nowrap",
+                marginTop: "10px",
+              }}
+            >
+              Adicionar URL da Imagem
+            </Button>
+            <Grid item xs={12} sm={6}>
               <Button
                 onClick={handleAddVariation}
                 style={{
@@ -626,98 +605,96 @@ const handleRemoveSizeField = (index) => {
                 Adicionar foto a Cor
               </Button>
             </Grid>
-</Grid>
-          </div>
+          </Grid>
+        </div>
 
-          <div style={{ maxHeight: 'calc(100vh - 200px)', overflowY: 'scroll' }}>
+        <div style={{ maxHeight: "calc(100vh - 200px)", overflowY: "scroll" }}>
           // Renderização dos campos de tamanho no formulário
-{productInfo.sizes.map((size, index) => (
-  <div key={index} style={{ marginBottom: '10px' }}>
-    <Grid container spacing={2}>
-      <Grid item xs={12} sm={6}>
-        <TextField
-          label="Preço"
-          variant="outlined"
-          fullWidth
-          type="number"
-          name="price"
-          value={size.price}
-          onChange={(event) => handleSizeInputChange(event, index)}
-          InputProps={{ style: { marginTop: "10px" } }}
-        />
-      </Grid>
-      <Grid item xs={12} sm={6}>
-        <TextField
-          label="Quantidade por unidade"
-          variant="outlined"
-          fullWidth
-          name="quantityAvailable"
-          value={size.quantityAvailable}
-          onChange={(event) => handleSizeInputChange(event, index)}
-          error={formErrors.colorPortuguese !== undefined}
-          helperText={formErrors.colorPortuguese}
-          InputProps={{ style: { marginTop: "10px" } }}
-          sx={{ width: "15vw" }}
-        />
-      </Grid>
-      <Grid item xs={12} sm={6}>
-        <TextField
-          label="Tamanho por unidade"
-          variant="outlined"
-          fullWidth
-          name="size"
-          value={size.size}
-          onChange={(event) => handleSizeInputChange(event, index)}
-          error={formErrors.colorPortuguese !== undefined}
-          helperText={formErrors.colorPortuguese}
-          InputProps={{ style: { marginTop: "10px" } }}
-          sx={{ width: "15vw" }}
-        />
-      </Grid>
-      <Grid item xs={12} sm={6}>
-      </Grid>
-    </Grid>
-    <Button
-      onClick={() => handleRemoveSizeField(index)}
-      style={{
-        marginLeft: "10px",
-        backgroundColor: "#DC143C",
-        color: "white",
-        border: "none",
-        padding: ".5rem",
-        borderRadius: "1rem",
-        fontFamily: "poppins",
-        fontWeight: 500,
-        cursor: "pointer",
-        fontSize: ".8rem",
-        whiteSpace: "nowrap",
-        marginTop: "10px",
-      }}
-    >
-      Remover
-    </Button>
-  </div>
-))}
-<Button
-  onClick={handleAddSizeField}
-  style={{
-    backgroundColor: "#14337C",
-    color: "white",
-    border: "none",
-    padding: ".5rem",
-    borderRadius: "1rem",
-    fontFamily: "poppins",
-    fontWeight: 500,
-    cursor: "pointer",
-    fontSize: ".8rem",
-    whiteSpace: "nowrap",
-    marginTop: "10px",
-  }}
->
-  Adicionar tamanho
-</Button>
-</div>
-
+          {productInfo.sizes.map((size, index) => (
+            <div key={index} style={{ marginBottom: "10px" }}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="Preço"
+                    variant="outlined"
+                    fullWidth
+                    type="number"
+                    name="price"
+                    value={size.price}
+                    onChange={(event) => handleSizeInputChange(event, index)}
+                    InputProps={{ style: { marginTop: "10px" } }}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="Quantidade por unidade"
+                    variant="outlined"
+                    fullWidth
+                    name="quantityAvailable"
+                    value={size.quantityAvailable}
+                    onChange={(event) => handleSizeInputChange(event, index)}
+                    error={formErrors.colorPortuguese !== undefined}
+                    helperText={formErrors.colorPortuguese}
+                    InputProps={{ style: { marginTop: "10px" } }}
+                    sx={{ width: "15vw" }}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="Tamanho por unidade"
+                    variant="outlined"
+                    fullWidth
+                    name="size"
+                    value={size.size}
+                    onChange={(event) => handleSizeInputChange(event, index)}
+                    error={formErrors.colorPortuguese !== undefined}
+                    helperText={formErrors.colorPortuguese}
+                    InputProps={{ style: { marginTop: "10px" } }}
+                    sx={{ width: "15vw" }}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}></Grid>
+              </Grid>
+              <Button
+                onClick={() => handleRemoveSizeField(index)}
+                style={{
+                  marginLeft: "10px",
+                  backgroundColor: "#DC143C",
+                  color: "white",
+                  border: "none",
+                  padding: ".5rem",
+                  borderRadius: "1rem",
+                  fontFamily: "poppins",
+                  fontWeight: 500,
+                  cursor: "pointer",
+                  fontSize: ".8rem",
+                  whiteSpace: "nowrap",
+                  marginTop: "10px",
+                }}
+              >
+                Remover
+              </Button>
+            </div>
+          ))}
+          <Button
+            onClick={handleAddSizeField}
+            style={{
+              backgroundColor: "#14337C",
+              color: "white",
+              border: "none",
+              padding: ".5rem",
+              borderRadius: "1rem",
+              fontFamily: "poppins",
+              fontWeight: 500,
+              cursor: "pointer",
+              fontSize: ".8rem",
+              whiteSpace: "nowrap",
+              marginTop: "10px",
+            }}
+          >
+            Adicionar tamanho
+          </Button>
+        </div>
       </div>
 
       <Button
@@ -732,7 +709,6 @@ const handleRemoveSizeField = (index) => {
           fontWeight: 500,
           cursor: "pointer",
           fontSize: ".8rem",
-
         }}
         type="submit"
       >
@@ -753,7 +729,6 @@ export default function BasicModal() {
   const handleOpen = () => {
     setOpen(true);
     setInStock(productInfo.inStock); // Inicialize o estado inStock com base no valor atual de inStock em productInfo
-
   };
 
   return (
