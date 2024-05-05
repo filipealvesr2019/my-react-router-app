@@ -651,8 +651,8 @@ const handleRemoveSizeField = (index) => {
           label="Quantidade por unidade"
           variant="outlined"
           fullWidth
-          name="QuantityPerUnit"
-          value={size.QuantityPerUnit}
+          name="quantityAvailable"
+          value={size.quantityAvailable}
           onChange={(event) => handleSizeInputChange(event, index)}
           error={formErrors.colorPortuguese !== undefined}
           helperText={formErrors.colorPortuguese}
