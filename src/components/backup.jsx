@@ -146,7 +146,6 @@ const CreateProductForm = () => {
     }
   };
 
- 
   const handleAddVariation = () => {
     const { color, imageUrls, QuantityPerUnit, size, price } = productInfo;
   
@@ -187,7 +186,6 @@ const CreateProductForm = () => {
     }
   };
   
-  
   // Update the handleInputChange function to handle the size input
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -212,85 +210,45 @@ const CreateProductForm = () => {
     }
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-
-    // Validate the form before proceeding
-    // if (!validateForm()) {
-    //   toast.error("Todos os campos devem ser preenchidos!", {
-    //     position: toast.POSITION.TOP_CENTER,
-    //     autoClose: 2000,
-    //   });
-    //   return;
-    // }
-
-    try {
-      const { sizes, inStock, ...productData } = productInfo;
-      productData.size = sizes.join(", "); // Certifique-se de que você está usando 'size' e não 'sizes'
-      productData.inStock = inStock; // Adicione isso ao objeto productData
-
-      const token = Cookies.get("token"); // Obtenha o token do cookie
-      const credentials = Cookies.get("role"); // Obtenha as credenciais do cookie
-      console.log("Token:", token);
-      // Send the product data to the server for further processing
-      const response = await axios.post(
-        "http://localhost:3001/api/admin/product/new",
-        productData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Credentials: credentials,
-          },
-        }
-      );
-
-      if (response.status === 201) {
-        setProductInfo({
-          name: "",
-          price: 0.0,
-          description: "",
-          sizes: sizes,
-          category: "",
-          subcategory: "",
-          quantity: 0,
-          variations: [],
-          imageUrl: "", // Clear the image URL
-        });
-
-        console.log("Product created successfully");
-
-        setTimeout(() => {}, 4000);
-
-        // Configuration to display the success message
-        // setIsProductCreated(true);
-
-        // Display success message
-        toast.success("Produto criado com sucesso!", {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 2000,
-        });
-      } else {
-        // Handle the case where the server returns an error status
-        console.error("Erro ao criar produto!:", response.statusText);
-
-        // Display an error message
-        toast.error("Erro ao criar produto. Tente novamente mais tarde.", {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 2000,
-        });
-      }
-    } catch (error) {
-      // Handle network or unexpected errors
-      console.error("Erro ao criar produto:", error.message);
-
-      // Display an error message
-      toast.error("Erro inesperado. Tente novamente mais tarde.", {
+  
+    const { color, imageUrls, QuantityPerUnit, size, price, name, description, category, subcategory, inStock } = productInfo;
+  
+    // Verificar se todas as informações obrigatórias foram preenchidas
+    if (color && imageUrls.every(url => url) && QuantityPerUnit && size && price && name && description && category && subcategory && inStock !== null) {
+      // Aqui você pode enviar os dados do produto para a API ou realizar outras operações necessárias
+      console.log("Dados do produto:", productInfo);
+  
+      // Exibir mensagem de sucesso
+      toast.success("Produto criado com sucesso!", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000,
+      });
+  
+      // Limpar o estado do formulário após o envio bem-sucedido
+      setProductInfo({
+        color: "",
+        imageUrls: [],
+        QuantityPerUnit: "",
+        size: "",
+        price: "",
+        name: "",
+        description: "",
+        category: "",
+        subcategory: "",
+        inStock: null,
+        variations: [],
+      });
+    } else {
+      // Exibir mensagem de erro se algum campo obrigatório estiver vazio
+      toast.error("Por favor, preencha todos os campos obrigatórios.", {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 2000,
       });
     }
   };
-
+  
   const handleSubcategoryChange = (event) => {
     const subcategoryName = event.target.value;
     setProductInfo((prevProductInfo) => ({
@@ -319,7 +277,6 @@ const CreateProductForm = () => {
       imageUrls: [...prevProductInfo.imageUrls, ""], // Adiciona um novo campo vazio para a URL da imagem
     }));
   };
-  
   
   const handleRemoveImageUrlField = (index) => {
     setProductInfo((prevProductInfo) => {
@@ -484,7 +441,7 @@ const CreateProductForm = () => {
           </div>
 
           <div>
-          <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 label="Cor em Português"
                 variant="outlined"
@@ -501,6 +458,20 @@ const CreateProductForm = () => {
                 }}
                 sx={{
                   width: "15vw",
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Preço"
+                variant="outlined"
+                fullWidth
+                type="number"
+                name="price"
+                value={productInfo.price}
+                onChange={handleInputChange}
+                InputProps={{
+                  style: { marginTop: "10px" },
                 }}
               />
             </Grid>
@@ -581,25 +552,8 @@ const CreateProductForm = () => {
               </Button>
             </Grid>
 </Grid>
-          </div>
 
-          <div>
-          
             <Grid item xs={12} sm={6}>
-              <TextField
-                label="Preço"
-                variant="outlined"
-                fullWidth
-                type="number"
-                name="price"
-                value={productInfo.price}
-                onChange={handleInputChange}
-                InputProps={{
-                  style: { marginTop: "10px" },
-                }}
-              />
-            </Grid>
-              <Grid item xs={12} sm={6}>
               <TextField
                 label="quatidade por unidade"
                 variant="outlined"
