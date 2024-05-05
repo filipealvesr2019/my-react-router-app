@@ -34,7 +34,7 @@ const CreateProductForm = () => {
     colorPortuguese: "",
     imageUrls: [],
     color: "",
-    QuantityPerUnit: "",
+    quantityAvailable: "",
     size: "",
     price: "",
     inStock: true || false, // Defina inStock como false por padrão
@@ -148,7 +148,7 @@ const CreateProductForm = () => {
 
  
   const handleAddVariation = () => {
-    const { color, imageUrls, QuantityPerUnit, size, price } = productInfo;
+    const { color, imageUrls, sizes, quantityAvailable, price } = productInfo;
   
     console.log(
       "Color and Image URLs before adding variation:",
@@ -157,21 +157,21 @@ const CreateProductForm = () => {
     );
   
     // Verificar se todas as URLs da imagem estão preenchidas
-    if (color && imageUrls.every(url => url)) {
+    if (color && imageUrls.every(url => url) && sizes.every(size => size)) {
       // Continuar com o processamento, como adicionar cor e URL à sua lista de variações
   
       // Exemplo: Adicionar à lista de variações
       setProductInfo((prevProductInfo) => {
         const updatedVariations = [
           ...prevProductInfo.variations,
-          { color, urls: imageUrls, QuantityPerUnit, size, price },
+          { color, urls: imageUrls, quantityAvailable, sizes, price },
         ];
         return {
           ...prevProductInfo,
           color: "",
           imageUrls: [], // Limpar as URLs da imagem após adicionar a variação
-          QuantityPerUnit: "",
-          size: "",
+          quantityAvailable: "",
+          sizes: [],
           price: "",
           variations: updatedVariations,
         };
@@ -331,26 +331,67 @@ const CreateProductForm = () => {
       };
     });
   };
-  
-  const handleAddSize = () => {
-    const { size } = productInfo;
-    if (size.trim() !== "") {
-      setProductInfo((prevProductInfo) => ({
-        ...prevProductInfo,
-        sizes: [...prevProductInfo.sizes, size],
-      }));
-      // Limpe o campo de tamanho após adicionar
-      setProductInfo((prevProductInfo) => ({
-        ...prevProductInfo,
-        size: "",
-      }));
-      toast.success("Tamanho adicionado com sucesso!", {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 2000,
-      });
-    }
-  };
 
+
+
+
+
+
+
+
+
+
+
+
+
+ // Atualização da função handleSizeInputChange
+// Atualização da função handleSizeInputChange
+const handleSizeInputChange = (event, index) => {
+  const { name, value } = event.target;
+
+  // Atualizar o tamanho no estado
+  setProductInfo((prevProductInfo) => {
+    const updatedSizes = [...prevProductInfo.sizes];
+    // Verificar se o índice está dentro do intervalo
+    if (index >= 0 && index < updatedSizes.length) {
+      // Verificar se o objeto de tamanho está inicializado corretamente
+      if (!updatedSizes[index]) {
+        updatedSizes[index] = {
+          size: "",
+          price: 0,
+          quantityAvailable: 0
+        };
+      }
+      // Atualizar o valor do campo específico
+      updatedSizes[index][name] = value;
+    }
+    return {
+      ...prevProductInfo,
+      sizes: updatedSizes,
+    };
+  });
+};
+
+
+  
+
+  const handleAddSizeField = () => {
+    setProductInfo((prevProductInfo) => ({
+      ...prevProductInfo,
+      sizes: [...prevProductInfo.sizes, ""], // Adiciona um novo campo vazio para a URL da imagem
+    }));
+  };
+// Modificação da função handleRemoveSizeField
+const handleRemoveSizeField = (index) => {
+  setProductInfo((prevProductInfo) => {
+    const updatedSizes = [...prevProductInfo.sizes];
+    updatedSizes.splice(index, 1); // Remover o tamanho com o índice fornecido
+    return {
+      ...prevProductInfo,
+      sizes: updatedSizes,
+    };
+  });
+};
   // ...
   return (
     <form onSubmit={handleSubmit}>
@@ -483,7 +524,12 @@ const CreateProductForm = () => {
             </Box>
           </div>
 
-          <div>
+  
+
+          
+        </Grid>
+
+        <div>
           <Grid item xs={12} sm={6}>
               <TextField
                 label="Cor em Português"
@@ -583,69 +629,95 @@ const CreateProductForm = () => {
 </Grid>
           </div>
 
-          <div>
-          
-            <Grid item xs={12} sm={6}>
-              <TextField
-                label="Preço"
-                variant="outlined"
-                fullWidth
-                type="number"
-                name="price"
-                value={productInfo.price}
-                onChange={handleInputChange}
-                InputProps={{
-                  style: { marginTop: "10px" },
-                }}
-              />
-            </Grid>
-              <Grid item xs={12} sm={6}>
-              <TextField
-                label="quatidade por unidade"
-                variant="outlined"
-                fullWidth
-                name="QuantityPerUnit"
-                value={productInfo.QuantityPerUnit}
-                onChange={handleInputChange}
-                error={formErrors.colorPortuguese !== undefined}
-                helperText={formErrors.colorPortuguese}
-                InputProps={{
-                  style: {
-                    marginTop: "10px",
-                  },
-                }}
-                sx={{
-                  width: "15vw",
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                label="tamanho por unidade"
-                variant="outlined"
-                fullWidth
-                name="size"
-                value={productInfo.size}
-                onChange={handleInputChange}
-                error={formErrors.colorPortuguese !== undefined}
-                helperText={formErrors.colorPortuguese}
-                InputProps={{
-                  style: {
-                    marginTop: "10px",
-                  },
-                }}
-                sx={{
-                  width: "15vw",
-                }}
-              />
-            </Grid>
+          <div style={{ maxHeight: 'calc(100vh - 200px)', overflowY: 'scroll' }}>
+          // Renderização dos campos de tamanho no formulário
+{productInfo.sizes.map((size, index) => (
+  <div key={index} style={{ marginBottom: '10px' }}>
+    <Grid container spacing={2}>
+      <Grid item xs={12} sm={6}>
+        <TextField
+          label="Preço"
+          variant="outlined"
+          fullWidth
+          type="number"
+          name="price"
+          value={size.price}
+          onChange={(event) => handleSizeInputChange(event, index)}
+          InputProps={{ style: { marginTop: "10px" } }}
+        />
+      </Grid>
+      <Grid item xs={12} sm={6}>
+        <TextField
+          label="Quantidade por unidade"
+          variant="outlined"
+          fullWidth
+          name="QuantityPerUnit"
+          value={size.QuantityPerUnit}
+          onChange={(event) => handleSizeInputChange(event, index)}
+          error={formErrors.colorPortuguese !== undefined}
+          helperText={formErrors.colorPortuguese}
+          InputProps={{ style: { marginTop: "10px" } }}
+          sx={{ width: "15vw" }}
+        />
+      </Grid>
+      <Grid item xs={12} sm={6}>
+        <TextField
+          label="Tamanho por unidade"
+          variant="outlined"
+          fullWidth
+          name="size"
+          value={size.size}
+          onChange={(event) => handleSizeInputChange(event, index)}
+          error={formErrors.colorPortuguese !== undefined}
+          helperText={formErrors.colorPortuguese}
+          InputProps={{ style: { marginTop: "10px" } }}
+          sx={{ width: "15vw" }}
+        />
+      </Grid>
+      <Grid item xs={12} sm={6}>
+      </Grid>
+    </Grid>
+    <Button
+      onClick={() => handleRemoveSizeField(index)}
+      style={{
+        marginLeft: "10px",
+        backgroundColor: "#DC143C",
+        color: "white",
+        border: "none",
+        padding: ".5rem",
+        borderRadius: "1rem",
+        fontFamily: "poppins",
+        fontWeight: 500,
+        cursor: "pointer",
+        fontSize: ".8rem",
+        whiteSpace: "nowrap",
+        marginTop: "10px",
+      }}
+    >
+      Remover
+    </Button>
+  </div>
+))}
+<Button
+  onClick={handleAddSizeField}
+  style={{
+    backgroundColor: "#14337C",
+    color: "white",
+    border: "none",
+    padding: ".5rem",
+    borderRadius: "1rem",
+    fontFamily: "poppins",
+    fontWeight: 500,
+    cursor: "pointer",
+    fontSize: ".8rem",
+    whiteSpace: "nowrap",
+    marginTop: "10px",
+  }}
+>
+  Adicionar tamanho
+</Button>
+</div>
 
-            <Grid item xs={12} sm={6}>
-    
-
-            </Grid>
-          </div>
-        </Grid>
       </div>
 
       <Button
