@@ -27,19 +27,22 @@ const Products = () => {
   const [formData, setFormData] = useState({
     _id: null,
     name: "",
-    price: 0,
-    quantity: 0,
+
     description: "",
-    size: "",
+
     category: "",
     subcategory: "",
     variations: [
       {
         color: "",
         urls: [],
-        size: "",
-        price: 0,
-        QuantityPerUnit: 0,
+        sizes: [
+          {
+            size: "",
+            price: 0,
+            quantityAvailable: 0,
+          },
+        ],
       },
     ],
   });
@@ -165,15 +168,23 @@ const Products = () => {
     }));
   };
 
-  const handleVariationChange = (index, field, value) => {
-    // Clone o estado atual de formData
-    const updatedFormData = { ...formData };
-
-    // Atualize o campo específico da variação com o novo valor
-    updatedFormData.variations[index][field] = value;
-
-    // Defina o novo estado de formData
-    setFormData(updatedFormData);
+  const handleVariationChange = (variationIndex, sizeIndex, field, value) => {
+    setFormData((prevFormData) => {
+      const updatedVariations = [...prevFormData.variations];
+      if (
+        field === "size" ||
+        field === "price" ||
+        field === "quantityAvailable"
+      ) {
+        updatedVariations[variationIndex].sizes[sizeIndex][field] = value;
+      } else {
+        updatedVariations[variationIndex][field] = value;
+      }
+      return {
+        ...prevFormData,
+        variations: updatedVariations,
+      };
+    });
   };
 
   const handleEditProduct = (product) => {
@@ -349,9 +360,14 @@ const Products = () => {
                                       {
                                         color: "", // Assuming color is a string
                                         urls: [], // Assuming urls is a string
-                                        price: 0,
-                                        size: "",
-                                        QuantityPerUnit: 0,
+
+                                        sizes: [
+                                          {
+                                            size: "",
+                                            price: 0,
+                                            quantityAvailable: 0,
+                                          },
+                                        ],
                                       },
                                     ],
                                     // ... other necessary fields
@@ -438,53 +454,54 @@ const Products = () => {
                                       }}
                                     >
                                       {formData.variations.map(
-                                        (variation, index) => (
+                                        (variation, variationIndex) => (
                                           <div
-                                            key={index}
+                                            key={variationIndex}
                                             style={{
                                               display: "flex",
                                               flexDirection: "column",
                                               alignItems: "center",
                                               margin: "0 10px",
-                                              // borderBottom:"1px solid #ddd",
-                                              // borderLeft:"1px solid #ddd",
                                               gap: "1rem",
                                               border: "2px solid #ddd",
                                               borderRadius: "5px",
                                               marginBottom: "4rem",
-                                              padding:"3rem"
+                                              padding: "3rem",
                                             }}
                                           >
-                                            <div style={{width:"20vw"}}>
+                                            <div style={{ width: "20vw" }}>
                                               <label>
                                                 Cor:
                                                 <input
                                                   type="text"
-                                                  name={`colorindex}`}
+                                                  name={`color-${variationIndex}`}
                                                   value={variation.color}
                                                   onChange={(e) =>
                                                     handleVariationChange(
-                                                      index,
+                                                      variationIndex,
+                                                      null, // ou algum valor para sizeIndex
                                                       "color",
                                                       e.target.value
-                                                    )
+                                                  )
                                                   }
                                                 />
                                               </label>
                                             </div>
 
-                                            <div  style={{width:"20vw"}}>
+                                            <div style={{ width: "20vw" }}>
                                               <label>
                                                 URLs:
                                                 <input
                                                   type="text"
-                                                  name={`urls-${index}`}
+                                                  name={`urls-${variationIndex}`}
                                                   value={variation.urls.join(
                                                     ","
                                                   )}
                                                   onChange={(e) =>
                                                     handleVariationChange(
-                                                      index,
+                                                      variationIndex,
+                                                      null, // ou algum valor para sizeIndex
+
                                                       "urls",
                                                       e.target.value.split(",")
                                                     )
@@ -493,66 +510,88 @@ const Products = () => {
                                               </label>
                                             </div>
 
-                                            <div  style={{width:"20vw"}}>
-                                              <label>
-                                                Tamanho:
-                                                <input
-                                                  type="text"
-                                                  name={`size-${index}`}
-                                                  value={variation.size}
-                                                  onChange={(e) =>
-                                                    handleVariationChange(
-                                                      index,
-                                                      "size",
-                                                      e.target.value
-                                                    )
-                                                  }
-                                                />
-                                              </label>
-                                            </div>
+                                            {variation.sizes.map(
+                                              (size, sizeIndex) => (
+                                                <div
+                                                  key={sizeIndex}
+                                                  style={{
+                                                    padding: "1rem",
+                                                    borderRadius: "5px",
+                                                    border: "2px solid #ddd",
+                                                  }}
+                                                >
+                                                  <div
+                                                    style={{ width: "20vw" }}
+                                                  >
+                                                    <label>
+                                                      Tamanho:
+                                                      <input
+                                                        type="text"
+                                                        value={size.size}
+                                                        onChange={(e) =>
+                                                          handleVariationChange(
+                                                            variationIndex,
+                                                            sizeIndex,
+                                                            "size",
+                                                            e.target.value
+                                                          )
+                                                        }
+                                                      />
+                                                    </label>
+                                                  </div>
 
-                                            <div  style={{width:"20vw"}}>
-                                              <label>
-                                                Preço:
-                                                <input
-                                                  type="number"
-                                                  name={`price-${index}`}
-                                                  value={variation.price}
-                                                  onChange={(e) =>
-                                                    handleVariationChange(
-                                                      index,
-                                                      "price",
-                                                      parseFloat(e.target.value)
-                                                    )
-                                                  }
-                                                />
-                                              </label>
-                                            </div>
+                                                  <div
+                                                    style={{ width: "20vw" }}
+                                                  >
+                                                    <label>
+                                                      Preço:
+                                                      <input
+                                                        type="number"
+                                                        value={size.price}
+                                                        onChange={(e) =>
+                                                          handleVariationChange(
+                                                            variationIndex,
+                                                            sizeIndex,
+                                                            "price",
+                                                            parseFloat(
+                                                              e.target.value
+                                                            )
+                                                          )
+                                                        }
+                                                      />
+                                                    </label>
+                                                  </div>
 
-                                            <div  style={{width:"20vw"}}>
-                                              <label>
-                                                Quantidade por unidade:
-                                                <input
-                                                  type="number"
-                                                  name={`quantityPerUnit-${index}`}
-                                                  value={
-                                                    variation.QuantityPerUnit
-                                                  }
-                                                  onChange={(e) =>
-                                                    handleVariationChange(
-                                                      index,
-                                                      "quantityPerUnit",
-                                                      parseInt(e.target.value)
-                                                    )
-                                                  }
-                                                />
-                                              </label>
-                                            </div>
+                                                  <div
+                                                    style={{ width: "20vw" }}
+                                                  >
+                                                    <label>
+                                                      Quantidade por unidade:
+                                                      <input
+                                                        type="number"
+                                                        value={
+                                                          size.quantityAvailable
+                                                        }
+                                                        onChange={(e) =>
+                                                          handleVariationChange(
+                                                            variationIndex,
+                                                            sizeIndex,
+                                                            "quantityAvailable",
+                                                            parseInt(
+                                                              e.target.value
+                                                            )
+                                                          )
+                                                        }
+                                                      />
+                                                    </label>
+                                                  </div>
+                                                </div>
+                                              )
+                                            )}
                                           </div>
                                         )
                                       )}
                                     </div>
-
                                     <br></br>
                                     <button
                                       type="submit"
