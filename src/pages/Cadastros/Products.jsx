@@ -390,6 +390,7 @@ const Products = () => {
                                         flexDirection: "column",
                                       }}
                                     >
+                                   
                                       <label>
                                         Nome:
                                         <input
@@ -445,6 +446,12 @@ const Products = () => {
                                           <option value="false">Não</option>
                                         </select>
                                       </div>
+                                      <button
+                                      type="submit"
+                                      className={styles.button}
+                                    >
+                                      Atualisar Produto
+                                    </button>
                                     </div>
 
                                     <div
@@ -592,13 +599,8 @@ const Products = () => {
                                         )
                                       )}
                                     </div>
-                                    <br></br>
-                                    <button
-                                      type="submit"
-                                      className={styles.button}
-                                    >
-                                      Atualisar Produto
-                                    </button>
+                                
+                                  
                                   </div>
                                 </div>
                               </form>

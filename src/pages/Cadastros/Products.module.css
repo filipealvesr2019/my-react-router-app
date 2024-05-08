@@ -75,18 +75,15 @@
   background-color: #14337c;
   color: #fefefe;
   border: medium;
-  padding: 0.5rem;
+  padding: 1rem;
   border-radius: 1rem;
-  width: 12dvw;
-  height: 9dvh;
+
   font-family: "poppins";
   font-weight: 500;
   cursor: pointer;
-  font-size: 0.9rem;
-  bottom: 10%;
-  left: 2%;
+  width: 11vw;
 
-  position: absolute;
+
 }
 /* Adicione esta classe para estilizar a caixa de seleção de cor */
 .colorPickerPreview {
