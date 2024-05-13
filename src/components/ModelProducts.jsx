@@ -510,7 +510,7 @@ const CreateProductForm = () => {
           style={{
             maxHeight: "calc(100vh - 200px)",
             overflowY: "scroll",
-            width: "40vw",
+            width: "45vw",
           }}
         >
           <div
@@ -590,7 +590,7 @@ const CreateProductForm = () => {
             </div>
           </div>
           {productInfo.sizes.map((size, index) => (
-            <div key={index} style={{ marginBottom: "10px" }}>
+            <div key={index} style={{ marginBottom: "10px", marginTop:"2rem", display:"flex", flexDirection:"row" }}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
@@ -615,7 +615,7 @@ const CreateProductForm = () => {
                     error={formErrors.colorPortuguese !== undefined}
                     helperText={formErrors.colorPortuguese}
                     InputProps={{ style: { marginTop: "10px" } }}
-                    sx={{ width: "15vw" }}
+                    sx={{ width: "10vw" }}
                   />
                 </Grid>
                 <div style={{
