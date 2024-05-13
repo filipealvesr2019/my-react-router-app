@@ -581,11 +581,11 @@ const CreateProductForm = () => {
               <div
                 style={{
                   display: "flex",
-                  justifyContent: "space-between",
+                  alignItems:"center",
                   width: "15vw",
                 }}
               >
-                <AddIcon onClick={handleAddImageUrlField}></AddIcon>
+                <AddIcon onClick={handleAddImageUrlField}></AddIcon> <span>Adicionar Imagem</span>
               </div>
             </div>
           </div>
@@ -618,6 +618,12 @@ const CreateProductForm = () => {
                     sx={{ width: "15vw" }}
                   />
                 </Grid>
+                <div style={{
+                  display:"flex",
+                  alignItems:"center",
+                  gap:"3rem",
+                  marginLeft:"1rem"
+                }}>
                 <Grid item xs={12} sm={6}>
                   <TextField
                     label="Tamanho por unidade"
@@ -632,9 +638,7 @@ const CreateProductForm = () => {
                     sx={{ width: "15vw" }}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}></Grid>
-              </Grid>
-              <Button
+                <Button
                 onClick={() => handleRemoveSizeField(index)}
                 style={{
                   marginLeft: "10px",
@@ -653,6 +657,11 @@ const CreateProductForm = () => {
               >
                 Remover
               </Button>
+                </div>
+            
+                <Grid item xs={12} sm={6}></Grid>
+              </Grid>
+            
             </div>
           ))}
           <div
@@ -660,7 +669,14 @@ const CreateProductForm = () => {
               width: "5vw",
             }}
           ></div>
-          <AddIcon onClick={handleAddSizeField}></AddIcon>
+          <div style={{
+            display:"flex",
+            alignItems:"center"
+          }}>
+          <AddIcon onClick={handleAddSizeField}></AddIcon> <span>Adicionar Tamanho</span>  
+
+
+          </div>
           <Grid
             item
             xs={12}

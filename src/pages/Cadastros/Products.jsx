@@ -500,6 +500,7 @@ const Products = () => {
                                                 URLs:
                                                 {variation.urls.map((url, index ) => (
                                                   <div key={index}>
+                                                    <img src={url} alt="" />
                                                   <input type="text"  value={url} onChange={(event) => {
                                                     const newUrls = [...variation.urls];
                                                     newUrls[index] = event.target.value;
