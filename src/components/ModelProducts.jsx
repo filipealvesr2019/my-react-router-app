@@ -583,6 +583,7 @@ const CreateProductForm = () => {
                   display: "flex",
                   alignItems:"center",
                   width: "15vw",
+                  cursor:"pointer"
                 }}
               >
                 <AddIcon onClick={handleAddImageUrlField}></AddIcon> <span onClick={handleAddImageUrlField}>Adicionar Imagem</span>
@@ -671,7 +672,8 @@ const CreateProductForm = () => {
           ></div>
           <div style={{
             display:"flex",
-            alignItems:"center"
+            alignItems:"center",
+            cursor:"pointer"
           }}>
           <AddIcon onClick={handleAddSizeField}></AddIcon> <span onClick={handleAddSizeField}>Adicionar Tamanho</span>  
 
