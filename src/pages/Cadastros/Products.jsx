@@ -498,22 +498,20 @@ const Products = () => {
                                             <div style={{ width: "20vw" }}>
                                               <label>
                                                 URLs:
-                                                <input
-                                                  type="text"
-                                                  name={`urls-${variationIndex}`}
-                                                  value={variation.urls.join(
-                                                    ","
-                                                  )}
-                                                  onChange={(e) =>
-                                                    handleVariationChange(
-                                                      variationIndex,
-                                                      null, // ou algum valor para sizeIndex
+                                                {variation.urls.map((url, index ) => (
+                                                  <div key={index}>
+                                                  <input type="text"  value={url} onChange={(event) => {
+                                                    const newUrls = [...variation.urls];
+                                                    newUrls[index] = event.target.value;
+                                                    handleVariationChange(variationIndex, null, "urls", newUrls )
+                                                  }}/>
+                                                  
+                                                  </div>
+                                                ))
 
-                                                      "urls",
-                                                      e.target.value.split(",")
-                                                    )
-                                                  }
-                                                />
+                                                }
+                                                
+                                              
                                               </label>
                                             </div>
 

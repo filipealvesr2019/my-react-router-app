@@ -16,8 +16,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
 import Box from "@mui/material/Box";
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 import { Label } from "recharts";
 const CreateProductForm = () => {
   const [categories, setCategories] = useState([]);
@@ -390,9 +390,6 @@ const CreateProductForm = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-     
-        
-          
         }}
       >
         <Grid container spacing={2}>
@@ -400,8 +397,7 @@ const CreateProductForm = () => {
             style={{
               display: "flex",
               flexDirection: "column",
-             width:"20vw" 
-       
+              width: "20vw",
             }}
           >
             <Grid item xs={12} sm={6}>
@@ -433,7 +429,7 @@ const CreateProductForm = () => {
                 error={formErrors.description !== undefined}
                 helperText={formErrors.description}
                 InputProps={{
-                  style: {    marginTop: "10px", maxWidth: 300 },
+                  style: { marginTop: "10px", maxWidth: 300 },
                 }}
               />
             </Grid>
@@ -446,11 +442,10 @@ const CreateProductForm = () => {
                   onChange={handleCategoryChange}
                   error={formErrors.category !== undefined}
                   helperText={formErrors.category}
-                  InputProps={{
-           
-                  }}
+                  InputProps={{}}
                   sx={{
-                    marginTop: "10px",  width: "15vw",
+                    marginTop: "10px",
+                    width: "15vw",
                   }}
                 >
                   <MenuItem value="" disabled>
@@ -473,11 +468,10 @@ const CreateProductForm = () => {
                   onChange={handleSubcategoryChange}
                   error={formErrors.subcategory !== undefined}
                   helperText={formErrors.subcategory}
-                  InputProps={{
-                   
-                  }}
+                  InputProps={{}}
                   sx={{
-                    marginTop: "10px",   width: "15vw",
+                    marginTop: "10px",
+                    width: "15vw",
                   }}
                 >
                   <MenuItem value="" disabled>
@@ -492,7 +486,7 @@ const CreateProductForm = () => {
               </FormControl>
             </Grid>
 
-            <Box sx={{    marginTop: "10px", minWidth: 120 }}>
+            <Box sx={{ marginTop: "10px", minWidth: 120 }}>
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">
                   Produto em Estoque?
@@ -512,91 +506,91 @@ const CreateProductForm = () => {
           </div>
         </Grid>
 
-       
+        <div
+          style={{
+            maxHeight: "calc(100vh - 200px)",
+            overflowY: "scroll",
+            width: "40vw",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <div
+              style={{
+                borderRadius: "5px",
+                padding: "2rem",
 
-        <div style={{ maxHeight: "calc(100vh - 200px)", overflowY: "scroll", width:"40vw"  }}>
-        <div style={{
-          display:"flex",
-          justifyContent:"center",
-        }}>
-<div style={{
-  borderRadius: "5px",
-  padding:"2rem",
-
-         border:"2px solid rgb(221, 221, 221)"
-
-}}>
-
-
-<Grid item xs={12} sm={6}>
-            <label>Adicionar cor e foto</label>
-            <TextField
-              label="Cor em Português"
-              variant="outlined"
-              fullWidth
-              name="colorPortuguese"
-              value={productInfo.color}
-              onChange={handleInputChange}
-              error={formErrors.colorPortuguese !== undefined}
-              helperText={formErrors.colorPortuguese}
-              InputProps={{
-                style: {
-                  marginTop: "10px",
-                },
+                border: "2px solid rgb(221, 221, 221)",
               }}
-              sx={{
-                width: "15vw",
-              }}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            {productInfo.imageUrls &&
-              productInfo.imageUrls.map((url, index) => (
-                <div key={index} style={{display:"flex", alignItems:"center"}}>
-                  <TextField
-                    label={`URL da Imagem ${index + 1}`}
-                    variant="outlined"
-                    fullWidth
-                    value={url}
-                    onChange={(event) => handleImageUrlsChange(event, index)}
-                    InputProps={{
-                      style: { marginTop: "10px", },
-                    }}
-                    sx={{
-                      width: "15vw",
-                    }}
-                  />
-                   <RemoveIcon
-                    onClick={() => handleRemoveImageUrlField(index)}
-                  
-                  >
-                    Remover
-                  </RemoveIcon>
-                </div>
-              ))}
-                </Grid> 
-                <div style={{
-                display:"flex",
-                justifyContent:"space-between",
-                width:"15vw"
-              }}>
-              <AddIcon
-              onClick={handleAddImageUrlField}
-          
             >
-            </AddIcon>
-         
+              <Grid item xs={12} sm={6}>
+                <label>Adicionar cor e foto</label>
+                <TextField
+                  label="Cor em Português"
+                  variant="outlined"
+                  fullWidth
+                  name="colorPortuguese"
+                  value={productInfo.color}
+                  onChange={handleInputChange}
+                  error={formErrors.colorPortuguese !== undefined}
+                  helperText={formErrors.colorPortuguese}
+                  InputProps={{
+                    style: {
+                      marginTop: "10px",
+                    },
+                  }}
+                  sx={{
+                    width: "15vw",
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                {productInfo.imageUrls &&
+                  productInfo.imageUrls.map((url, index) => (
+                    <div
+                      key={index}
+                      style={{ display: "flex", alignItems: "center" }}
+                    >
+                      <TextField
+                        label={`URL da Imagem ${index + 1}`}
+                        variant="outlined"
+                        fullWidth
+                        value={url}
+                        onChange={(event) =>
+                          handleImageUrlsChange(event, index)
+                        }
+                        InputProps={{
+                          style: { marginTop: "10px" },
+                        }}
+                        sx={{
+                          width: "15vw",
+                        }}
+                      />
+                      <RemoveIcon
+                        onClick={() => handleRemoveImageUrlField(index)}
+                      >
+                        Remover
+                      </RemoveIcon>
+                    </div>
+                  ))}
+              </Grid>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  width: "15vw",
+                }}
+              >
+                <AddIcon onClick={handleAddImageUrlField}></AddIcon>
               </div>
-</div>
-
-             
-        
-            
-   
-        </div>
+            </div>
+          </div>
           {productInfo.sizes.map((size, index) => (
             <div key={index} style={{ marginBottom: "10px" }}>
-              
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
@@ -661,42 +655,43 @@ const CreateProductForm = () => {
               </Button>
             </div>
           ))}
-          <div style={{
-            width:"5vw"
-          }}></div>
-          <AddIcon
-            onClick={handleAddSizeField}
-       
+          <div
+            style={{
+              width: "5vw",
+            }}
+          ></div>
+          <AddIcon onClick={handleAddSizeField}></AddIcon>
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginBottom: "1rem",
+            }}
           >
- 
-          </AddIcon>
-          <Grid item xs={12} sm={6} style={{
-            display:"flex",
-            justifyContent:"center",
-            marginBottom:"1rem"
-          }}>
-              <Button
-                onClick={handleAddVariation}
-                style={{
-                  backgroundColor: "#14337C",
-                  color: "white",
-                  border: "none",
-                  padding: ".5rem",
-                  borderRadius: "1rem",
-                  width: "15dvw",
-                  fontFamily: "poppins",
-                  fontWeight: 500,
-                  cursor: "pointer",
-                  fontSize: ".8rem",
-                  whiteSpace: "nowrap",
-                  marginTop: "1.3rem",
-                }}
-              >
-                Adicionar Variação
-              </Button>
-            </Grid>
+            <Button
+              onClick={handleAddVariation}
+              style={{
+                backgroundColor: "#14337C",
+                color: "white",
+                border: "none",
+                padding: ".5rem",
+                borderRadius: "1rem",
+                width: "15dvw",
+                fontFamily: "poppins",
+                fontWeight: 500,
+                cursor: "pointer",
+                fontSize: ".8rem",
+                whiteSpace: "nowrap",
+                marginTop: "1.3rem",
+              }}
+            >
+              Adicionar Variação
+            </Button>
+          </Grid>
         </div>
-        
       </div>
 
       <Button
@@ -711,7 +706,7 @@ const CreateProductForm = () => {
           fontWeight: 500,
           cursor: "pointer",
           fontSize: ".8rem",
-          marginTop:"-5rem"
+          marginTop: "-5rem",
         }}
         type="submit"
       >
