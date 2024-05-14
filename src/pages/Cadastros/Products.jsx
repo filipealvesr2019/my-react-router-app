@@ -10,7 +10,15 @@ import { useAuth } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
-import ColorPicker from "./ColorPicker";
+import AddIcon from '@mui/icons-material/Add';
+import Grid from "@mui/material/Grid";
+import Button from "@mui/joy/Button";
+import TextField from "@mui/material/TextField";
+import RemoveIcon from "@mui/icons-material/Remove";
+import AddVariationForm from "./AddVariationForm";
+
+
+
 const Products = () => {
   const { isAdmin, isManager } = useAuth();
   const [inStock, setInStock] = useState(false); // Inicializado como "sim", mas pode ser "não" dependendo da sua necessidade
@@ -23,7 +31,22 @@ const Products = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [newColorName, setNewColorName] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [productInfo, setProductInfo] = useState({
 
+    sizes: [], // Change from size to sizes
+   
+
+  
+    variations: [], // Array de variações (cores e imagens)
+    imageFiles: [], // Novo campo para arquivos de imagem
+    colorPickerOpen: false,
+    colorPortuguese: "",
+    imageUrls: [],
+    color: "",
+    quantityAvailable: "",
+    size: "",
+    price: "",
+  });
   const [formData, setFormData] = useState({
     _id: null,
     name: "",
@@ -274,6 +297,29 @@ const Products = () => {
   };
   // Dentro do componente Products
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   return (
     <div className={styles.container}>
       <div
@@ -453,7 +499,7 @@ const Products = () => {
                                       Atualisar Produto
                                     </button>
                                     </div>
-
+                                  
                                     <div
                                       style={{
                                         overflowX: "auto",
@@ -500,7 +546,9 @@ const Products = () => {
                                                 URLs:
                                                 {variation.urls.map((url, index ) => (
                                                   <div key={index}>
-                                                    <img src={url} alt="" />
+                                                    <img src={url} alt="" style={{
+                                                      width:"20vw"
+                                                    }}/>
                                                   <input type="text"  value={url} onChange={(event) => {
                                                     const newUrls = [...variation.urls];
                                                     newUrls[index] = event.target.value;
@@ -597,6 +645,12 @@ const Products = () => {
                                           </div>
                                         )
                                       )}
+                                     
+                                     
+
+
+<AddVariationForm  productId={product._id}/>
+
                                     </div>
                                 
                                   
