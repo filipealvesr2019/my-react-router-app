@@ -506,7 +506,7 @@ const Products = () => {
                                         maxHeight: "500px",
                                       }}
                                     >
-                                      {formData.variations.map(
+                                      {formData.variations && formData.variations.map(
                                         (variation, variationIndex) => (
                                           <div
                                             key={variationIndex}
@@ -564,7 +564,7 @@ const Products = () => {
                                               </label>
                                             </div>
 
-                                            {variation.sizes.map(
+                                            {variation.sizes && variation.sizes.map(
                                               (size, sizeIndex) => (
                                                 <div
                                                   key={sizeIndex}

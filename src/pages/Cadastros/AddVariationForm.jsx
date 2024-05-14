@@ -5,8 +5,11 @@ const AddVariationForm = ({ productId }) => {
   const [color, setColor] = useState('');
   const [urls, setUrls] = useState([]);
   const [currentUrl, setCurrentUrl] = useState(''); // Para controlar a entrada atual
+  const [sizes, setSizes] = useState([]);
   const [size, setSize] = useState('');
+  const [prices, setPrices] = useState([]); // Adicionei o estado para os preços
   const [price, setPrice] = useState('');
+  const [quantities, setQuantities] = useState([]);
   const [quantityAvailable, setQuantityAvailable] = useState('');
 
   const handleAddVariation = async () => {
@@ -14,7 +17,11 @@ const AddVariationForm = ({ productId }) => {
       const newVariation = {
         color,
         urls,
-        sizes: [{ size, price, quantityAvailable }]
+        sizes: sizes.map((size, index) => ({
+          size,
+          price: prices[index],
+          quantityAvailable: quantities[index]
+        }))
       };
 
       // Faz a requisição POST para adicionar a variação
@@ -26,10 +33,13 @@ const AddVariationForm = ({ productId }) => {
         // Limpa os campos após adicionar uma variação, se necessário
         setColor('');
         setUrls([]);
+        setCurrentUrl('');
+        setSizes([]);
+        setPrices([]); // Limpa também os preços
+        setQuantities([]);
         setSize('');
         setPrice('');
         setQuantityAvailable('');
-        setCurrentUrl('');
       } else {
         console.error("Erro ao adicionar variação:", response.data.message);
       }
@@ -42,6 +52,15 @@ const AddVariationForm = ({ productId }) => {
     e.preventDefault();
     setUrls([...urls, currentUrl]); // Adiciona a URL atual à lista de URLs
     setCurrentUrl(''); // Limpa a entrada atual
+  };
+
+  const handleAddSizePriceQuantity = () => {
+    setSizes([...sizes, size]);
+    setPrices([...prices, price]);
+    setQuantities([...quantities, quantityAvailable]);
+    setSize('');
+    setPrice('');
+    setQuantityAvailable('');
   };
 
   return (
@@ -64,12 +83,12 @@ const AddVariationForm = ({ productId }) => {
       <button onClick={handleAddUrl}>Adicionar URL</button>
       <ul>
         {urls.map((url, index) => (
-            <>
-            {url &&  <img src={url} alt=""  key={index} style={{width:"20vw"}}/>}
-           
-            <li key={index}>{url}</li>
-            
-            </>
+         <>
+         {url &&  <img src={url} alt=""  key={index} style={{width:"20vw"}}/>}
+        
+         <li key={index}>{url}</li>
+         
+         </>
         ))}
       </ul>
       <label htmlFor="size">Tamanho:</label>
@@ -93,6 +112,7 @@ const AddVariationForm = ({ productId }) => {
         value={quantityAvailable}
         onChange={(e) => setQuantityAvailable(e.target.value)}
       />
+      <button type="button" onClick={handleAddSizePriceQuantity}>Adicionar Tamanho/Preço/Quantidade</button>
       <button onClick={handleAddVariation}>Adicionar Variação</button>
     </div>
   );

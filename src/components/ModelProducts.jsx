@@ -631,7 +631,7 @@ const CreateProductForm = () => {
                     variant="outlined"
                     fullWidth
                     name="size"
-                    value={size.size}
+                    value={ size.size && size.size}
                     onChange={(event) => handleSizeInputChange(event, index)}
                     error={formErrors.colorPortuguese !== undefined}
                     helperText={formErrors.colorPortuguese}
