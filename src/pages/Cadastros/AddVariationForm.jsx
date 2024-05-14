@@ -11,6 +11,7 @@ const AddVariationForm = ({ productId }) => {
   const [price, setPrice] = useState('');
   const [quantities, setQuantities] = useState([]);
   const [quantityAvailable, setQuantityAvailable] = useState('');
+  const [feedback, setFeedback] = useState([]);
 
   const handleAddVariation = async () => {
     try {
@@ -40,6 +41,8 @@ const AddVariationForm = ({ productId }) => {
         setSize('');
         setPrice('');
         setQuantityAvailable('');
+        setFeedback([]); // Limpa o feedback
+
       } else {
         console.error("Erro ao adicionar variação:", response.data.message);
       }
@@ -61,6 +64,8 @@ const AddVariationForm = ({ productId }) => {
     setSize('');
     setPrice('');
     setQuantityAvailable('');
+    setFeedback([...feedback, `Tamanho: ${size}, Preço: ${price}, Quantidade: ${quantityAvailable}`]); // Adiciona feedback
+
   };
 
   return (
@@ -113,6 +118,16 @@ const AddVariationForm = ({ productId }) => {
         onChange={(e) => setQuantityAvailable(e.target.value)}
       />
       <button type="button" onClick={handleAddSizePriceQuantity}>Adicionar Tamanho/Preço/Quantidade</button>
+      {feedback.length > 0 && (
+        <div>
+          <h3>Adicionado recentemente:</h3>
+          <ul>
+            {feedback.map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+          </ul>
+        </div>
+      )}
       <button onClick={handleAddVariation}>Adicionar Variação</button>
     </div>
   );
