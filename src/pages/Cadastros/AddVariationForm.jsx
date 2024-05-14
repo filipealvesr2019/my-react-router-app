@@ -64,7 +64,12 @@ const AddVariationForm = ({ productId }) => {
       <button onClick={handleAddUrl}>Adicionar URL</button>
       <ul>
         {urls.map((url, index) => (
-          <li key={index}>{url}</li>
+            <>
+            {url &&  <img src={url} alt=""  key={index} style={{width:"20vw"}}/>}
+           
+            <li key={index}>{url}</li>
+            
+            </>
         ))}
       </ul>
       <label htmlFor="size">Tamanho:</label>
