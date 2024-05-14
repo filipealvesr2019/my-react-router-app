@@ -4,6 +4,7 @@ import axios from 'axios';
 const AddVariationForm = ({ productId }) => {
   const [color, setColor] = useState('');
   const [urls, setUrls] = useState([]);
+  const [currentUrl, setCurrentUrl] = useState(''); // Para controlar a entrada atual
   const [size, setSize] = useState('');
   const [price, setPrice] = useState('');
   const [quantityAvailable, setQuantityAvailable] = useState('');
@@ -28,6 +29,7 @@ const AddVariationForm = ({ productId }) => {
         setSize('');
         setPrice('');
         setQuantityAvailable('');
+        setCurrentUrl('');
       } else {
         console.error("Erro ao adicionar variação:", response.data.message);
       }
@@ -38,8 +40,8 @@ const AddVariationForm = ({ productId }) => {
 
   const handleAddUrl = (e) => {
     e.preventDefault();
-    const newUrl = e.target.value;
-    setUrls([...urls, newUrl]);
+    setUrls([...urls, currentUrl]); // Adiciona a URL atual à lista de URLs
+    setCurrentUrl(''); // Limpa a entrada atual
   };
 
   return (
@@ -56,9 +58,15 @@ const AddVariationForm = ({ productId }) => {
       <input
         type="text"
         id="url"
-        value={urls}
-        onChange={handleAddUrl}
+        value={currentUrl}
+        onChange={(e) => setCurrentUrl(e.target.value)}
       />
+      <button onClick={handleAddUrl}>Adicionar URL</button>
+      <ul>
+        {urls.map((url, index) => (
+          <li key={index}>{url}</li>
+        ))}
+      </ul>
       <label htmlFor="size">Tamanho:</label>
       <input
         type="text"
