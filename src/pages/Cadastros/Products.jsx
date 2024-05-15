@@ -145,9 +145,11 @@ const Products = () => {
         `http://localhost:3001/api/products?page=${currentPage}&keyword=${searchTerm}`,
         {
           headers: {
+              Authorization: `Bearer ${token}`,
+
             Credentials: credentials,
 
-            Authorization: `Bearer ${token}`,
+          
           },
         }
       );
@@ -272,7 +274,16 @@ const Products = () => {
       if (response.data._id) {
         console.log("Produto atualizado com sucesso");
         const updatedProductsResponse = await axios.get(
-          "http://localhost:3001/api/products"
+          "http://localhost:3001/api/products",
+          {
+            headers: {
+                Authorization: `Bearer ${token}`,
+  
+              Credentials: credentials,
+  
+            
+            },
+          }
         );
         const updatedProducts = updatedProductsResponse.data.products;
         setProducts(updatedProducts);
@@ -307,9 +318,15 @@ const Products = () => {
       }
     }
   };
-  // Dentro do componente Products
 
-  const handleDeleteVariation = async (productId) => {
+
+  const isValidObjectId = (id) => {
+    // Verifique se o ID possui o formato de um ObjectId válido
+    const ObjectIdRegex = /^[0-9a-fA-F]{24}$/;
+    return ObjectIdRegex.test(id);
+  };
+  // Dentro do componente Products
+  const handleDeleteVariation = async (productId, color) => {
     try {
       if (!isAdmin && !isManager) {
         toast.error("Você não tem permissão para excluir produtos.", {
@@ -319,12 +336,25 @@ const Products = () => {
         return;
       }
       const credentials = Cookies.get("role"); // Obtenha as credenciais do cookie
-
       const token = Cookies.get("token"); // Obtenha o token do cookie
       console.log("Token:", token);
+   // Verifique se productId e color são strings
+   if (typeof productId !== 'string' || typeof color !== 'string') {
+    console.error('Os parâmetros productId e color devem ser strings válidas.');
+    return;
+  }
+
+  // Se productId ou color não forem ObjectId válidos, retorne um erro
+  if (!isValidObjectId(productId) || !isValidObjectId(color)) {
+    console.error('Os parâmetros productId e color devem ser strings válidas ou ObjectId válidos.');
+    return;
+  }  
+
+  console.log(productId)
+  console.log(color)
 
       const response = await axios.delete(
-        `http://localhost:3001/api/admin/product/${productId}`,
+        `http://localhost:3001/api/product/${productId}/color/${color}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -334,19 +364,26 @@ const Products = () => {
       );
 
       if (response.data.success) {
-        const updatedProducts = products.filter(
-          (product) => product._id !== productId
+        const updatedProducts = products.map((product) =>
+          product._id === productId
+            ? {
+                ...product,
+                variations: product.variations.filter(
+                  (variation) => variation.color !== color
+                ),
+              }
+            : product
         );
         setProducts(updatedProducts);
-        console.log("Produto excluído com sucesso");
+        console.log("Variação excluída com sucesso");
       } else {
         console.error(
-          "Erro ao excluir produto. Mensagem do servidor:",
+          "Erro ao excluir variação. Mensagem do servidor:",
           response.data.error
         );
       }
     } catch (error) {
-      console.error("Erro ao excluir produto. Detalhes do erro:", error);
+      console.error("Erro ao excluir variação. Detalhes do erro:", error);
     }
   };
 
@@ -712,7 +749,11 @@ const Products = () => {
                                                 </span>
                                               </div>
 
-                                              {openModal && (
+                                            
+                                            </div>
+                                          )
+                                        )}
+  {openModal && (
                                                 <div className={styles.Modal}>
                                                   <div
                                                     ref={modalRef}
@@ -722,8 +763,8 @@ const Products = () => {
                                                   >
                                                     <span
                                                       className={styles.Close}
-                                                      onClick={
-                                                        handleClickCloseModal
+                                                      onClick={() => handleDeleteVariation(product._id, selectedColor)
+
                                                       }
                                                     >
                                                       <CloseIcon />
@@ -735,17 +776,13 @@ const Products = () => {
                                                       gap:"1.5rem",
                                                       marginTop:"3rem"
                                                     }}>
-                                                      <button style={{ backgroundColor:"#14337c", color:"white", border:"none", cursor:"pointer", width:"11vw", padding:"1rem", borderRadius:"5px", fontSize:"1.2rem"}}>SIM</button>
+                                                      <button onClick={handleDeleteVariation} style={{ backgroundColor:"#14337c", color:"white", border:"none", cursor:"pointer", width:"11vw", padding:"1rem", borderRadius:"5px", fontSize:"1.2rem"}}>SIM</button>
                                                       <button style={{ backgroundColor:"#14337c", color:"white", border:"none", cursor:"pointer", width:"11vw", padding:"1rem", borderRadius:"5px", fontSize:"1.2rem"}}>NÃO</button>
                                                     </div>
                                                   </div>
                                                 
                                                 </div>
                                               )}
-                                            </div>
-                                          )
-                                        )}
-
                                       <AddVariationForm
                                         productId={product._id}
                                       />
