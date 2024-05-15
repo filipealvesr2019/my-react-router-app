@@ -301,6 +301,7 @@ const Products = () => {
       }
 
       setIsModalOpen(false);
+      setOpenModal(false)
       setFormData({
         _id: null,
         name: "",
