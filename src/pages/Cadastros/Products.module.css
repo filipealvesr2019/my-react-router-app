@@ -439,15 +439,17 @@ margin-left: 3rem;
   margin: 15% auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%;
+  width: 50vw;
+  height: 40vh;
 }
 
 
 .Close {
   color: #aaa;
   float: right;
-  font-size: 28px;
+  font-size: 4rem;
   font-weight: bold;
+  margin-top: -2rem;
 }
 
 .Close:hover,

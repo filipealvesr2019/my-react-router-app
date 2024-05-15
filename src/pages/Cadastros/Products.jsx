@@ -726,14 +726,20 @@ const Products = () => {
                                                         handleClickCloseModal
                                                       }
                                                     >
-                                                      &times;
+                                                      <CloseIcon />
                                                     </span>
-                                                    <p>
-                                                      vc nao ainda nao cadastrou
-                                                      os dados necessarios pra
-                                                      compra se cadastre
-                                                    </p>
+                                                    <h1 style={{ fontSize:'1.5rem'}}>Essa ação e irreversível você quer Excluir essa Cor e todos os tamanhos?</h1>
+                                                    <div style={{
+                                                      display:"flex",
+                                                      justifyContent:"center",
+                                                      gap:"1.5rem",
+                                                      marginTop:"3rem"
+                                                    }}>
+                                                      <button style={{ backgroundColor:"#14337c", color:"white", border:"none", cursor:"pointer", width:"11vw", padding:"1rem", borderRadius:"5px", fontSize:"1.2rem"}}>SIM</button>
+                                                      <button style={{ backgroundColor:"#14337c", color:"white", border:"none", cursor:"pointer", width:"11vw", padding:"1rem", borderRadius:"5px", fontSize:"1.2rem"}}>NÃO</button>
+                                                    </div>
                                                   </div>
+                                                
                                                 </div>
                                               )}
                                             </div>
