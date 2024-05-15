@@ -89,7 +89,12 @@ const Products = () => {
   const handleColorChange = (color) => {
     setSelectedColor(color); // Atualiza o estado com a cor selecionada
   };
-
+  
+  const handleClickSelectedColor = (color) => {
+    setSelectedColor(color); // Atualiza o estado com a cor selecionada
+    handleDeleteVariation(product._id, color); // Chama a função para excluir a variação
+  };
+  
   useEffect(() => {
     getProducts();
   }, [currentPage, searchTerm, authToken]);
@@ -320,14 +325,12 @@ const Products = () => {
   };
 
 
-  const isValidObjectId = (id) => {
-    // Verifique se o ID possui o formato de um ObjectId válido
-    const ObjectIdRegex = /^[0-9a-fA-F]{24}$/;
-    return ObjectIdRegex.test(id);
-  };
+
   // Dentro do componente Products
   const handleDeleteVariation = async (productId, color) => {
     try {
+      console.log("Produto ID:", productId);
+      console.log("Cor:", color);
       if (!isAdmin && !isManager) {
         toast.error("Você não tem permissão para excluir produtos.", {
           position: toast.POSITION.TOP_CENTER,
@@ -339,19 +342,9 @@ const Products = () => {
       const token = Cookies.get("token"); // Obtenha o token do cookie
       console.log("Token:", token);
    // Verifique se productId e color são strings
-   if (typeof productId !== 'string' || typeof color !== 'string') {
-    console.error('Os parâmetros productId e color devem ser strings válidas.');
-    return;
-  }
 
-  // Se productId ou color não forem ObjectId válidos, retorne um erro
-  if (!isValidObjectId(productId) || !isValidObjectId(color)) {
-    console.error('Os parâmetros productId e color devem ser strings válidas ou ObjectId válidos.');
-    return;
-  }  
 
-  console.log(productId)
-  console.log(color)
+
 
       const response = await axios.delete(
         `http://localhost:3001/api/product/${productId}/color/${color}`,
@@ -374,8 +367,9 @@ const Products = () => {
               }
             : product
         );
+        
         setProducts(updatedProducts);
-        console.log("Variação excluída com sucesso");
+        console.log("Resposta da API:", response.data);
       } else {
         console.error(
           "Erro ao excluir variação. Mensagem do servidor:",
@@ -739,7 +733,10 @@ const Products = () => {
                                                   gap: ".5rem",
                                                   color: "rgb(236, 62, 62)",
                                                 }}
-                                                onClick={handleClickOpenModal}
+                                                onClick={() => {
+                                                  setSelectedColor(variation.color); // Atualiza a cor selecionada
+                                                  handleClickOpenModal(); // Abre o modal de confirmação
+                                                }}
                                               >
                                                 <DeleteIcon style={{}} />
                                                 <span
@@ -763,9 +760,8 @@ const Products = () => {
                                                   >
                                                     <span
                                                       className={styles.Close}
-                                                      onClick={() => handleDeleteVariation(product._id, selectedColor)
+                                                      onClick={() => handleDeleteVariation(product._id, selectedColor)}
 
-                                                      }
                                                     >
                                                       <CloseIcon />
                                                     </span>
@@ -776,7 +772,12 @@ const Products = () => {
                                                       gap:"1.5rem",
                                                       marginTop:"3rem"
                                                     }}>
-                                                      <button onClick={handleDeleteVariation} style={{ backgroundColor:"#14337c", color:"white", border:"none", cursor:"pointer", width:"11vw", padding:"1rem", borderRadius:"5px", fontSize:"1.2rem"}}>SIM</button>
+          <button onClick={() => handleDeleteVariation(product._id, selectedColor)} style={{ backgroundColor: "#14337c", color: "white", border: "none", cursor: "pointer", width: "11vw", padding: "1rem", borderRadius: "5px", fontSize: "1.2rem" }}>SIM</button>
+
+     {
+      console.log("handleDeleteVariation", product._id, selectedColor)
+     }
+
                                                       <button style={{ backgroundColor:"#14337c", color:"white", border:"none", cursor:"pointer", width:"11vw", padding:"1rem", borderRadius:"5px", fontSize:"1.2rem"}}>NÃO</button>
                                                     </div>
                                                   </div>
