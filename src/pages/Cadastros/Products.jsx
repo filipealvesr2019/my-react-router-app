@@ -16,6 +16,7 @@ import Button from "@mui/joy/Button";
 import TextField from "@mui/material/TextField";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddVariationForm from "./AddVariationForm";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 
 
@@ -642,6 +643,16 @@ const Products = () => {
                                                 </div>
                                               )
                                             )}
+
+                                            <div style={{
+                                              display:"flex",
+                                              alignItems:"center",
+                                              gap:".5rem",
+                                              color:'rgb(236, 62, 62)'
+                                            }}>
+                                            <DeleteIcon style={{}}/> 
+                                            <span style={{fontWeight:"600"}}>Excluir Variação</span>
+                                            </div>
                                           </div>
                                         )
                                       )}
