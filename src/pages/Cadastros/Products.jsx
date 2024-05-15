@@ -329,8 +329,7 @@ const Products = () => {
   // Dentro do componente Products
   const handleDeleteVariation = async (productId, color) => {
     try {
-      console.log("Produto ID:", productId);
-      console.log("Cor:", color);
+
       if (!isAdmin && !isManager) {
         toast.error("Você não tem permissão para excluir produtos.", {
           position: toast.POSITION.TOP_CENTER,
@@ -340,7 +339,7 @@ const Products = () => {
       }
       const credentials = Cookies.get("role"); // Obtenha as credenciais do cookie
       const token = Cookies.get("token"); // Obtenha o token do cookie
-      console.log("Token:", token);
+
    // Verifique se productId e color são strings
 
 
@@ -760,10 +759,9 @@ const Products = () => {
                                                   >
                                                     <span
                                                       className={styles.Close}
-                                                      onClick={() => handleDeleteVariation(product._id, selectedColor)}
-
+                                                      onClick={handleClickCloseModal}
                                                     >
-                                                      <CloseIcon />
+                                                      <CloseIcon  />
                                                     </span>
                                                     <h1 style={{ fontSize:'1.5rem'}}>Essa ação e irreversível você quer Excluir essa Cor e todos os tamanhos?</h1>
                                                     <div style={{
@@ -774,11 +772,9 @@ const Products = () => {
                                                     }}>
           <button onClick={() => handleDeleteVariation(product._id, selectedColor)} style={{ backgroundColor: "#14337c", color: "white", border: "none", cursor: "pointer", width: "11vw", padding: "1rem", borderRadius: "5px", fontSize: "1.2rem" }}>SIM</button>
 
-     {
-      console.log("handleDeleteVariation", product._id, selectedColor)
-     }
+    
 
-                                                      <button style={{ backgroundColor:"#14337c", color:"white", border:"none", cursor:"pointer", width:"11vw", padding:"1rem", borderRadius:"5px", fontSize:"1.2rem"}}>NÃO</button>
+                                                      <button type="button" onClick={handleClickCloseModal} style={{ backgroundColor:"#14337c", color:"white", border:"none", cursor:"pointer", width:"11vw", padding:"1rem", borderRadius:"5px", fontSize:"1.2rem"}}>NÃO</button>
                                                     </div>
                                                   </div>
                                                 
