@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./Products.module.css";
 
 import axios from "axios";
@@ -10,15 +10,13 @@ import { useAuth } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
-import AddIcon from '@mui/icons-material/Add';
+import AddIcon from "@mui/icons-material/Add";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/joy/Button";
 import TextField from "@mui/material/TextField";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddVariationForm from "./AddVariationForm";
-import DeleteIcon from '@mui/icons-material/Delete';
-
-
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const Products = () => {
   const { isAdmin, isManager } = useAuth();
@@ -32,22 +30,35 @@ const Products = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [newColorName, setNewColorName] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [productInfo, setProductInfo] = useState({
+  const [openModal, setOpenModal] = useState(false);
+  const modalRef = useRef(null);
 
-    sizes: [], // Change from size to sizes
-   
+  const handleClickOpenModal = () => {
+    setOpenModal(true);
+  };
 
-  
-    variations: [], // Array de variações (cores e imagens)
-    imageFiles: [], // Novo campo para arquivos de imagem
-    colorPickerOpen: false,
-    colorPortuguese: "",
-    imageUrls: [],
-    color: "",
-    quantityAvailable: "",
-    size: "",
-    price: "",
-  });
+  const handleClickCloseModal = () => {
+    setOpenModal(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target) &&
+        openModal
+      ) {
+        setOpenModal(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openModal]);
+
   const [formData, setFormData] = useState({
     _id: null,
     name: "",
@@ -298,28 +309,46 @@ const Products = () => {
   };
   // Dentro do componente Products
 
+  const handleDeleteVariation = async (productId) => {
+    try {
+      if (!isAdmin && !isManager) {
+        toast.error("Você não tem permissão para excluir produtos.", {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 2000,
+        });
+        return;
+      }
+      const credentials = Cookies.get("role"); // Obtenha as credenciais do cookie
 
+      const token = Cookies.get("token"); // Obtenha o token do cookie
+      console.log("Token:", token);
 
+      const response = await axios.delete(
+        `http://localhost:3001/api/admin/product/${productId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Credentials: credentials,
+          },
+        }
+      );
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      if (response.data.success) {
+        const updatedProducts = products.filter(
+          (product) => product._id !== productId
+        );
+        setProducts(updatedProducts);
+        console.log("Produto excluído com sucesso");
+      } else {
+        console.error(
+          "Erro ao excluir produto. Mensagem do servidor:",
+          response.data.error
+        );
+      }
+    } catch (error) {
+      console.error("Erro ao excluir produto. Detalhes do erro:", error);
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -437,7 +466,6 @@ const Products = () => {
                                         flexDirection: "column",
                                       }}
                                     >
-                                   
                                       <label>
                                         Nome:
                                         <input
@@ -494,177 +522,228 @@ const Products = () => {
                                         </select>
                                       </div>
                                       <button
-                                      type="submit"
-                                      className={styles.button}
-                                    >
-                                      Atualisar Produto
-                                    </button>
+                                        type="submit"
+                                        className={styles.button}
+                                      >
+                                        Atualisar Produto
+                                      </button>
                                     </div>
-                                  
+
                                     <div
                                       style={{
                                         overflowX: "auto",
                                         maxHeight: "500px",
                                       }}
                                     >
-                                      {formData.variations && formData.variations.map(
-                                        (variation, variationIndex) => (
-                                          <div
-                                            key={variationIndex}
-                                            style={{
-                                              display: "flex",
-                                              flexDirection: "column",
-                                              alignItems: "center",
-                                              margin: "0 10px",
-                                              gap: "1rem",
-                                              border: "2px solid #ddd",
-                                              borderRadius: "5px",
-                                              marginBottom: "4rem",
-                                              padding: "3rem",
-                                            }}
-                                          >
-                                            <div style={{ width: "20vw" }}>
-                                              <label>
-                                                Cor:
-                                                <input
-                                                  type="text"
-                                                  name={`color-${variationIndex}`}
-                                                  value={variation.color}
-                                                  onChange={(e) =>
-                                                    handleVariationChange(
-                                                      variationIndex,
-                                                      null, // ou algum valor para sizeIndex
-                                                      "color",
-                                                      e.target.value
+                                      {formData.variations &&
+                                        formData.variations.map(
+                                          (variation, variationIndex) => (
+                                            <div
+                                              key={variationIndex}
+                                              style={{
+                                                display: "flex",
+                                                flexDirection: "column",
+                                                alignItems: "center",
+                                                margin: "0 10px",
+                                                gap: "1rem",
+                                                border: "2px solid #ddd",
+                                                borderRadius: "5px",
+                                                marginBottom: "4rem",
+                                                padding: "3rem",
+                                              }}
+                                            >
+                                              <div style={{ width: "20vw" }}>
+                                                <label>
+                                                  Cor:
+                                                  <input
+                                                    type="text"
+                                                    name={`color-${variationIndex}`}
+                                                    value={variation.color}
+                                                    onChange={(e) =>
+                                                      handleVariationChange(
+                                                        variationIndex,
+                                                        null, // ou algum valor para sizeIndex
+                                                        "color",
+                                                        e.target.value
+                                                      )
+                                                    }
+                                                  />
+                                                </label>
+                                              </div>
+
+                                              <div style={{ width: "20vw" }}>
+                                                <label>
+                                                  URLs:
+                                                  {variation.urls.map(
+                                                    (url, index) => (
+                                                      <div key={index}>
+                                                        <img
+                                                          src={url}
+                                                          alt=""
+                                                          style={{
+                                                            width: "20vw",
+                                                          }}
+                                                        />
+                                                        <input
+                                                          type="text"
+                                                          value={url}
+                                                          onChange={(event) => {
+                                                            const newUrls = [
+                                                              ...variation.urls,
+                                                            ];
+                                                            newUrls[index] =
+                                                              event.target.value;
+                                                            handleVariationChange(
+                                                              variationIndex,
+                                                              null,
+                                                              "urls",
+                                                              newUrls
+                                                            );
+                                                          }}
+                                                        />
+                                                      </div>
+                                                    )
+                                                  )}
+                                                </label>
+                                              </div>
+
+                                              {variation.sizes &&
+                                                variation.sizes.map(
+                                                  (size, sizeIndex) => (
+                                                    <div
+                                                      key={sizeIndex}
+                                                      style={{
+                                                        padding: "1rem",
+                                                        borderRadius: "5px",
+                                                        border:
+                                                          "2px solid #ddd",
+                                                      }}
+                                                    >
+                                                      <div
+                                                        style={{
+                                                          width: "20vw",
+                                                        }}
+                                                      >
+                                                        <label>
+                                                          Tamanho:
+                                                          <input
+                                                            type="text"
+                                                            value={size.size}
+                                                            onChange={(e) =>
+                                                              handleVariationChange(
+                                                                variationIndex,
+                                                                sizeIndex,
+                                                                "size",
+                                                                e.target.value
+                                                              )
+                                                            }
+                                                          />
+                                                        </label>
+                                                      </div>
+
+                                                      <div
+                                                        style={{
+                                                          width: "20vw",
+                                                        }}
+                                                      >
+                                                        <label>
+                                                          Preço:
+                                                          <input
+                                                            type="number"
+                                                            value={size.price}
+                                                            onChange={(e) =>
+                                                              handleVariationChange(
+                                                                variationIndex,
+                                                                sizeIndex,
+                                                                "price",
+                                                                parseFloat(
+                                                                  e.target.value
+                                                                )
+                                                              )
+                                                            }
+                                                          />
+                                                        </label>
+                                                      </div>
+
+                                                      <div
+                                                        style={{
+                                                          width: "20vw",
+                                                        }}
+                                                      >
+                                                        <label>
+                                                          Quantidade por
+                                                          unidade:
+                                                          <input
+                                                            type="number"
+                                                            value={
+                                                              size.quantityAvailable
+                                                            }
+                                                            onChange={(e) =>
+                                                              handleVariationChange(
+                                                                variationIndex,
+                                                                sizeIndex,
+                                                                "quantityAvailable",
+                                                                parseInt(
+                                                                  e.target.value
+                                                                )
+                                                              )
+                                                            }
+                                                          />
+                                                        </label>
+                                                      </div>
+                                                    </div>
                                                   )
-                                                  }
-                                                />
-                                              </label>
-                                            </div>
+                                                )}
 
-                                            <div style={{ width: "20vw" }}>
-                                              <label>
-                                                URLs:
-                                                {variation.urls.map((url, index ) => (
-                                                  <div key={index}>
-                                                    <img src={url} alt="" style={{
-                                                      width:"20vw"
-                                                    }}/>
-                                                  <input type="text"  value={url} onChange={(event) => {
-                                                    const newUrls = [...variation.urls];
-                                                    newUrls[index] = event.target.value;
-                                                    handleVariationChange(variationIndex, null, "urls", newUrls )
-                                                  }}/>
-                                                  
-                                                  </div>
-                                                ))
-
-                                                }
-                                                
-                                              
-                                              </label>
-                                            </div>
-
-                                            {variation.sizes && variation.sizes.map(
-                                              (size, sizeIndex) => (
-                                                <div
-                                                  key={sizeIndex}
-                                                  style={{
-                                                    padding: "1rem",
-                                                    borderRadius: "5px",
-                                                    border: "2px solid #ddd",
-                                                  }}
+                                              <div
+                                                style={{
+                                                  display: "flex",
+                                                  alignItems: "center",
+                                                  gap: ".5rem",
+                                                  color: "rgb(236, 62, 62)",
+                                                }}
+                                                onClick={handleClickOpenModal}
+                                              >
+                                                <DeleteIcon style={{}} />
+                                                <span
+                                                  style={{ fontWeight: "600" }}
                                                 >
-                                                  <div
-                                                    style={{ width: "20vw" }}
-                                                  >
-                                                    <label>
-                                                      Tamanho:
-                                                      <input
-                                                        type="text"
-                                                        value={size.size}
-                                                        onChange={(e) =>
-                                                          handleVariationChange(
-                                                            variationIndex,
-                                                            sizeIndex,
-                                                            "size",
-                                                            e.target.value
-                                                          )
-                                                        }
-                                                      />
-                                                    </label>
-                                                  </div>
+                                                  Excluir Variação
+                                                </span>
+                                              </div>
 
+                                              {openModal && (
+                                                <div className={styles.Modal}>
                                                   <div
-                                                    style={{ width: "20vw" }}
+                                                    ref={modalRef}
+                                                    className={
+                                                      styles.ModalContent
+                                                    }
                                                   >
-                                                    <label>
-                                                      Preço:
-                                                      <input
-                                                        type="number"
-                                                        value={size.price}
-                                                        onChange={(e) =>
-                                                          handleVariationChange(
-                                                            variationIndex,
-                                                            sizeIndex,
-                                                            "price",
-                                                            parseFloat(
-                                                              e.target.value
-                                                            )
-                                                          )
-                                                        }
-                                                      />
-                                                    </label>
-                                                  </div>
-
-                                                  <div
-                                                    style={{ width: "20vw" }}
-                                                  >
-                                                    <label>
-                                                      Quantidade por unidade:
-                                                      <input
-                                                        type="number"
-                                                        value={
-                                                          size.quantityAvailable
-                                                        }
-                                                        onChange={(e) =>
-                                                          handleVariationChange(
-                                                            variationIndex,
-                                                            sizeIndex,
-                                                            "quantityAvailable",
-                                                            parseInt(
-                                                              e.target.value
-                                                            )
-                                                          )
-                                                        }
-                                                      />
-                                                    </label>
+                                                    <span
+                                                      className={styles.Close}
+                                                      onClick={
+                                                        handleClickCloseModal
+                                                      }
+                                                    >
+                                                      &times;
+                                                    </span>
+                                                    <p>
+                                                      vc nao ainda nao cadastrou
+                                                      os dados necessarios pra
+                                                      compra se cadastre
+                                                    </p>
                                                   </div>
                                                 </div>
-                                              )
-                                            )}
-
-                                            <div style={{
-                                              display:"flex",
-                                              alignItems:"center",
-                                              gap:".5rem",
-                                              color:'rgb(236, 62, 62)'
-                                            }}>
-                                            <DeleteIcon style={{}}/> 
-                                            <span style={{fontWeight:"600"}}>Excluir Variação</span>
+                                              )}
                                             </div>
-                                          </div>
-                                        )
-                                      )}
-                                     
-                                     
+                                          )
+                                        )}
 
-
-<AddVariationForm  productId={product._id}/>
-
+                                      <AddVariationForm
+                                        productId={product._id}
+                                      />
                                     </div>
-                                
-                                  
                                   </div>
                                 </div>
                               </form>
