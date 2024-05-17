@@ -72,7 +72,7 @@ const AddVariationForm = ({ productId }) => {
     <div >
 
        <div>
-       <h2>Adicionar Variação</h2>
+       <h2 className='h2Container'>Adicionar Variação</h2>
       <label htmlFor="color">Cor:</label>
       <input
         type="text"
