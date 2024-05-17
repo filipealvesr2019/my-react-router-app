@@ -680,26 +680,28 @@ const Products = () => {
                                                       <div
                                                         style={{
                                                           width: "20vw",
+                                                          
                                                         }}
                                                       >
-                                                        <label>
-                                                          Preço:
-                                                          <input
-                                                            type="number"
-                                                            value={size.price}
-                                                            onChange={(e) =>
-                                                              handleVariationChange(
-                                                                variationIndex,
-                                                                sizeIndex,
-                                                                "price",
-                                                                parseFloat(
-                                                                  e.target.value
-                                                                )
-                                                              )
-                                                            }
-
-                                                          />
-                                                        </label>
+       <label>
+    Preço:
+    <div style={{ position: "relative" }}>
+      <span style={{ position: "absolute", left: "10px", top: "50%", transform: "translateY(-50%)" }}>R$</span>
+      <input
+        type="number"
+        value={size.price}
+        onChange={(e) =>
+          handleVariationChange(
+            variationIndex,
+            sizeIndex,
+            "price",
+            parseFloat(e.target.value)
+          )
+        }
+        style={{ paddingLeft: "40px" }}
+      />
+    </div>
+  </label>
                                                       </div>
 
                                                       <div
