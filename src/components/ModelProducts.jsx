@@ -593,7 +593,7 @@ const CreateProductForm = () => {
           {productInfo.sizes.map((size, index) => (
             <div key={index} style={{ marginBottom: "10px", marginTop:"2rem", display:"flex", flexDirection:"row" }}>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12}>
                   <TextField
                     label="Preço(R$)"
                     variant="outlined"
@@ -602,10 +602,10 @@ const CreateProductForm = () => {
                     name="price"
                     value={`${size.price}`}
                     onChange={(event) => handleSizeInputChange(event, index)}
-                    InputProps={{ style: { marginTop: "10px" } }}
+                    InputProps={{ style: { marginTop: "10px", width: "15vw"  } }}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12}>
                   <TextField
                     label="Quantidade por unidade"
                     variant="outlined"
@@ -616,16 +616,16 @@ const CreateProductForm = () => {
                     error={formErrors.colorPortuguese !== undefined}
                     helperText={formErrors.colorPortuguese}
                     InputProps={{ style: { marginTop: "10px" } }}
-                    sx={{ width: "10vw" }}
+                    sx={{ width: "15vw" }}
                   />
                 </Grid>
                 <div style={{
                   display:"flex",
                   alignItems:"center",
-                  gap:"3rem",
+                  gap:"1rem",
                   marginLeft:"1rem"
                 }}>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12}>
                   <TextField
                     label="Tamanho por unidade"
                     variant="outlined"
