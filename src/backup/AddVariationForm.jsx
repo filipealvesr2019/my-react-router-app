@@ -102,8 +102,11 @@ const AddVariationForm = ({ productId }) => {
         id="size"
         value={size}
         onChange={(e) => setSize(e.target.value)}
+        style={{
+          width:"10vw"
+        }}
       />
-      <label htmlFor="price">Preço:</label>
+      <label htmlFor="price">Preço(R$):</label>
       <input
         type="text"
         id="price"

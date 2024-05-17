@@ -69,7 +69,16 @@ const AddVariationForm = ({ productId }) => {
   };
 
   return (
-    <div >
+    <div style={{
+      border:"2px solid  rgb(221, 221, 221) ", 
+      display:"flex",
+      flexDirection:"column",
+      justifyContent:"center",
+      alignItems:"center",
+      borderRadius:"5px",
+   
+
+    }}>
 
        <div>
        <h2 className='h2Container'>Adicionar Variação</h2>
@@ -79,6 +88,9 @@ const AddVariationForm = ({ productId }) => {
         id="color"
         value={color}
         onChange={(e) => setColor(e.target.value)}
+        style={{
+          width:"12vw"
+        }}
       />
       <label htmlFor="url">URLs:</label>
       <input
@@ -100,21 +112,38 @@ const AddVariationForm = ({ productId }) => {
       </ul>
        </div>
 
-      <div>
-     
+      <div style={{
+        border:"2px solid  rgb(221, 221, 221) ", 
+        display:"flex",
+        flexDirection:"column",
+        justifyContent:"center",
+        alignItems:"center",
+        borderRadius:"5px",
+        width:"25vw",
+        height:"70vh"
+
+      }}>
+     <div>
+
       <label htmlFor="size">Tamanho:</label>
       <input
         type="text"
         id="size"
         value={size}
         onChange={(e) => setSize(e.target.value)}
+        style={{
+          width:"15vw"
+        }}
       />
-      <label htmlFor="price">Preço:</label>
+      <label htmlFor="price">Preço(R$):</label>
       <input
         type="text"
         id="price"
         value={price}
         onChange={(e) => setPrice(e.target.value)}
+        style={{
+          width:"15vw"
+        }}
       />
       <label htmlFor="quantityAvailable">Quantidade Disponível:</label>
       <input
@@ -122,8 +151,12 @@ const AddVariationForm = ({ productId }) => {
         id="quantityAvailable"
         value={quantityAvailable}
         onChange={(e) => setQuantityAvailable(e.target.value)}
+        style={{
+          width:"15vw"
+        }}
       />
-      <button  type="button"  className='variationSizePriceQuantityButton' onClick={handleAddSizePriceQuantity}>Adicionar Tamanho/Preço/Quantidade</button>
+     </div>
+      <button  type="button"  className='variationSizePriceQuantityButton' onClick={handleAddSizePriceQuantity}>Adicionar</button>
       {feedback.length > 0 && (
         <div>
           <h3>Adicionado recentemente:</h3>

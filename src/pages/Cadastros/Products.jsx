@@ -669,7 +669,7 @@ const Products = () => {
                                                         }}
                                                       >
                                                         <label>
-                                                          Preço:
+                                                          Preço(R$):
                                                           <div
                                                             style={{
                                                               position:
