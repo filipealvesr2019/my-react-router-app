@@ -30,9 +30,6 @@ const Products = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [newColorName, setNewColorName] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  
-
-
 
   const [openModal, setOpenModal] = useState(false);
   const modalRef = useRef(null);
@@ -93,12 +90,12 @@ const Products = () => {
   const handleColorChange = (color) => {
     setSelectedColor(color); // Atualiza o estado com a cor selecionada
   };
-  
+
   const handleClickSelectedColor = (color) => {
     setSelectedColor(color); // Atualiza o estado com a cor selecionada
     handleDeleteVariation(product._id, color); // Chama a função para excluir a variação
   };
-  
+
   useEffect(() => {
     getProducts();
   }, [currentPage, searchTerm, authToken]);
@@ -154,11 +151,9 @@ const Products = () => {
         `http://localhost:3001/api/products?page=${currentPage}&keyword=${searchTerm}`,
         {
           headers: {
-              Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
 
             Credentials: credentials,
-
-          
           },
         }
       );
@@ -286,11 +281,9 @@ const Products = () => {
           "http://localhost:3001/api/products",
           {
             headers: {
-                Authorization: `Bearer ${token}`,
-  
+              Authorization: `Bearer ${token}`,
+
               Credentials: credentials,
-  
-            
             },
           }
         );
@@ -305,7 +298,7 @@ const Products = () => {
       }
 
       setIsModalOpen(false);
-      setOpenModal(false)
+      setOpenModal(false);
       setFormData({
         _id: null,
         name: "",
@@ -329,12 +322,9 @@ const Products = () => {
     }
   };
 
-
-
   // Dentro do componente Products
   const handleDeleteVariation = async (productId, color) => {
     try {
-
       if (!isAdmin && !isManager) {
         toast.error("Você não tem permissão para excluir produtos.", {
           position: toast.POSITION.TOP_CENTER,
@@ -345,10 +335,7 @@ const Products = () => {
       const credentials = Cookies.get("role"); // Obtenha as credenciais do cookie
       const token = Cookies.get("token"); // Obtenha o token do cookie
 
-   // Verifique se productId e color são strings
-
-
-
+      // Verifique se productId e color são strings
 
       const response = await axios.delete(
         `http://localhost:3001/api/product/${productId}/color/${color}`,
@@ -371,7 +358,7 @@ const Products = () => {
               }
             : product
         );
-        
+
         setProducts(updatedProducts);
         console.log("Resposta da API:", response.data);
       } else {
@@ -508,7 +495,6 @@ const Products = () => {
                                           name="name"
                                           value={formData.name}
                                           onChange={handleFormChange}
-                                         
                                         />
                                       </label>
 
@@ -680,28 +666,49 @@ const Products = () => {
                                                       <div
                                                         style={{
                                                           width: "20vw",
-                                                          
                                                         }}
                                                       >
-       <label>
-    Preço:
-    <div style={{ position: "relative" }}>
-      <span style={{ position: "absolute", left: "10px", top: "50%", transform: "translateY(-50%)" }}>R$</span>
-      <input
-        type="number"
-        value={size.price}
-        onChange={(e) =>
-          handleVariationChange(
-            variationIndex,
-            sizeIndex,
-            "price",
-            parseFloat(e.target.value)
-          )
-        }
-        style={{ paddingLeft: "40px" }}
-      />
-    </div>
-  </label>
+                                                        <label>
+                                                          Preço:
+                                                          <div
+                                                            style={{
+                                                              position:
+                                                                "relative",
+                                                            }}
+                                                          >
+                                                            <span
+                                                              style={{
+                                                                position:
+                                                                  "absolute",
+                                                                left: "10px",
+                                                                top: "50%",
+                                                                transform:
+                                                                  "translateY(-50%)",
+                                                              }}
+                                                            >
+                                                              R$
+                                                            </span>
+                                                            <input
+                                                              type="number"
+                                                              value={size.price}
+                                                              onChange={(e) =>
+                                                                handleVariationChange(
+                                                                  variationIndex,
+                                                                  sizeIndex,
+                                                                  "price",
+                                                                  parseFloat(
+                                                                    e.target
+                                                                      .value
+                                                                  )
+                                                                )
+                                                              }
+                                                              style={{
+                                                                paddingLeft:
+                                                                  "40px",
+                                                              }}
+                                                            />
+                                                          </div>
+                                                        </label>
                                                       </div>
 
                                                       <div
@@ -742,7 +749,9 @@ const Products = () => {
                                                   color: "rgb(236, 62, 62)",
                                                 }}
                                                 onClick={() => {
-                                                  setSelectedColor(variation.color); // Atualiza a cor selecionada
+                                                  setSelectedColor(
+                                                    variation.color
+                                                  ); // Atualiza a cor selecionada
                                                   handleClickOpenModal(); // Abre o modal de confirmação
                                                 }}
                                               >
@@ -753,42 +762,75 @@ const Products = () => {
                                                   Excluir Variação
                                                 </span>
                                               </div>
-
-                                            
                                             </div>
                                           )
                                         )}
-  {openModal && (
-                                                <div className={styles.Modal}>
-                                                  <div
-                                                    ref={modalRef}
-                                                    className={
-                                                      styles.ModalContent
-                                                    }
-                                                  >
-                                                    <span
-                                                      className={styles.Close}
-                                                      onClick={handleClickCloseModal}
-                                                    >
-                                                      <CloseIcon  />
-                                                    </span>
-                                                    <h1 style={{ fontSize:'1.5rem'}}>Essa ação e irreversível você quer Excluir essa Cor e todos os tamanhos?</h1>
-                                                    <div style={{
-                                                      display:"flex",
-                                                      justifyContent:"center",
-                                                      gap:"1.5rem",
-                                                      marginTop:"3rem"
-                                                    }}>
-          <button onClick={() => handleDeleteVariation(product._id, selectedColor)} style={{ backgroundColor: "#14337c", color: "white", border: "none", cursor: "pointer", width: "11vw", padding: "1rem", borderRadius: "5px", fontSize: "1.2rem" }}>SIM</button>
+                                      {openModal && (
+                                        <div className={styles.Modal}>
+                                          <div
+                                            ref={modalRef}
+                                            className={styles.ModalContent}
+                                          >
+                                            <span
+                                              className={styles.Close}
+                                              onClick={handleClickCloseModal}
+                                            >
+                                              <CloseIcon />
+                                            </span>
+                                            <h1 style={{ fontSize: "1.5rem" }}>
+                                              Essa ação e irreversível você quer
+                                              Excluir essa Cor e todos os
+                                              tamanhos?
+                                            </h1>
+                                            <div
+                                              style={{
+                                                display: "flex",
+                                                justifyContent: "center",
+                                                gap: "1.5rem",
+                                                marginTop: "3rem",
+                                              }}
+                                            >
+                                              <button
+                                                onClick={() =>
+                                                  handleDeleteVariation(
+                                                    product._id,
+                                                    selectedColor
+                                                  )
+                                                }
+                                                style={{
+                                                  backgroundColor: "#14337c",
+                                                  color: "white",
+                                                  border: "none",
+                                                  cursor: "pointer",
+                                                  width: "11vw",
+                                                  padding: "1rem",
+                                                  borderRadius: "5px",
+                                                  fontSize: "1.2rem",
+                                                }}
+                                              >
+                                                SIM
+                                              </button>
 
-    
-
-                                                      <button type="button" onClick={handleClickCloseModal} style={{ backgroundColor:"#14337c", color:"white", border:"none", cursor:"pointer", width:"11vw", padding:"1rem", borderRadius:"5px", fontSize:"1.2rem"}}>NÃO</button>
-                                                    </div>
-                                                  </div>
-                                                
-                                                </div>
-                                              )}
+                                              <button
+                                                type="button"
+                                                onClick={handleClickCloseModal}
+                                                style={{
+                                                  backgroundColor: "#14337c",
+                                                  color: "white",
+                                                  border: "none",
+                                                  cursor: "pointer",
+                                                  width: "11vw",
+                                                  padding: "1rem",
+                                                  borderRadius: "5px",
+                                                  fontSize: "1.2rem",
+                                                }}
+                                              >
+                                                NÃO
+                                              </button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      )}
                                       <AddVariationForm
                                         productId={product._id}
                                       />

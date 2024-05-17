@@ -595,12 +595,12 @@ const CreateProductForm = () => {
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    label="Preço"
+                    label="Preço(R$)"
                     variant="outlined"
                     fullWidth
                     type="number"
                     name="price"
-                    value={size.price}
+                    value={`${size.price}`}
                     onChange={(event) => handleSizeInputChange(event, index)}
                     InputProps={{ style: { marginTop: "10px" } }}
                   />
