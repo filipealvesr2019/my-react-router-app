@@ -2,6 +2,21 @@
     border: 1px solid red;
   }
   
+
+  .AddUrlButton{
+    background-color: #14337c;
+    color: white;
+    padding: 1rem;
+    border: 0;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+
+
 .variationSizePriceQuantityButton{
     background-color: #14337c;
     color: white;
@@ -10,6 +25,7 @@
     border-radius: 5px;
     font-size: 1rem;
     font-weight: 600;
+    margin-bottom: 3rem;
 }
 
 .AddVariationButton{
@@ -20,6 +36,13 @@
     border-radius: 5px;
     font-size: 1rem;
     font-weight: 600;
-    margin-top: 10rem;
+    margin-top: 5rem;
+   
+}
+
+.AddVariationButton__Container{
+    display: flex;
+    justify-content: center;
 
 }
+

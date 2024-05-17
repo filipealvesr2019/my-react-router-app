@@ -69,7 +69,9 @@ const AddVariationForm = ({ productId }) => {
   };
 
   return (
-    <div>
+    <div >
+
+      <div>
       <h2>Adicionar Variação</h2>
       <label htmlFor="color">Cor:</label>
       <input
@@ -85,7 +87,7 @@ const AddVariationForm = ({ productId }) => {
         value={currentUrl}
         onChange={(e) => setCurrentUrl(e.target.value)}
       />
-      <button onClick={handleAddUrl}>Adicionar URL</button>
+      <button className='AddUrlButton' onClick={handleAddUrl}>Adicionar URL</button>
       <ul>
         {urls.map((url, index) => (
          <>
@@ -128,7 +130,13 @@ const AddVariationForm = ({ productId }) => {
           </ul>
         </div>
       )}
+
+      </div>
+
+      <div className='AddVariationButton__Container'>
+
       <button className='AddVariationButton' onClick={handleAddVariation}>Adicionar Variação</button>
+      </div>
     </div>
   );
 };
