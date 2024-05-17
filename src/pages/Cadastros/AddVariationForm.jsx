@@ -71,8 +71,8 @@ const AddVariationForm = ({ productId }) => {
   return (
     <div >
 
-      <div>
-      <h2>Adicionar Variação</h2>
+       <div>
+       <h2>Adicionar Variação</h2>
       <label htmlFor="color">Cor:</label>
       <input
         type="text"
@@ -98,6 +98,10 @@ const AddVariationForm = ({ productId }) => {
          </>
         ))}
       </ul>
+       </div>
+
+      <div>
+     
       <label htmlFor="size">Tamanho:</label>
       <input
         type="text"
@@ -119,7 +123,7 @@ const AddVariationForm = ({ productId }) => {
         value={quantityAvailable}
         onChange={(e) => setQuantityAvailable(e.target.value)}
       />
-      <button  type="button"  className='AddVariationButton' onClick={handleAddSizePriceQuantity}>Adicionar Tamanho/Preço/Quantidade</button>
+      <button  type="button"  className='variationSizePriceQuantityButton' onClick={handleAddSizePriceQuantity}>Adicionar Tamanho/Preço/Quantidade</button>
       {feedback.length > 0 && (
         <div>
           <h3>Adicionado recentemente:</h3>
