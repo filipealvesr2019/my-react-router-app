@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import "./AddVariationForm.css"
+
 const AddVariationForm = ({ productId }) => {
   const [color, setColor] = useState('');
   const [urls, setUrls] = useState([]);
@@ -117,7 +117,7 @@ const AddVariationForm = ({ productId }) => {
         value={quantityAvailable}
         onChange={(e) => setQuantityAvailable(e.target.value)}
       />
-      <button  type="button"  className='AddVariationButton' onClick={handleAddSizePriceQuantity}>Adicionar Tamanho/Preço/Quantidade</button>
+      <button type="button" onClick={handleAddSizePriceQuantity}>Adicionar Tamanho/Preço/Quantidade</button>
       {feedback.length > 0 && (
         <div>
           <h3>Adicionado recentemente:</h3>
@@ -128,7 +128,7 @@ const AddVariationForm = ({ productId }) => {
           </ul>
         </div>
       )}
-      <button className='AddVariationButton' onClick={handleAddVariation}>Adicionar Variação</button>
+      <button onClick={handleAddVariation}>Adicionar Variação</button>
     </div>
   );
 };

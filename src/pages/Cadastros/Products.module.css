@@ -109,6 +109,7 @@ select {
 button {
   margin-top: 5px;
   cursor: pointer;
+  font-weight: 600;
 }
 
 /* Outros estilos conforme necessário */

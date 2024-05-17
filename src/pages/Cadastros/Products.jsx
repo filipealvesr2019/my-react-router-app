@@ -30,6 +30,10 @@ const Products = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [newColorName, setNewColorName] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  
+
+
+
   const [openModal, setOpenModal] = useState(false);
   const modalRef = useRef(null);
 
@@ -504,6 +508,7 @@ const Products = () => {
                                           name="name"
                                           value={formData.name}
                                           onChange={handleFormChange}
+                                         
                                         />
                                       </label>
 
@@ -692,6 +697,7 @@ const Products = () => {
                                                                 )
                                                               )
                                                             }
+
                                                           />
                                                         </label>
                                                       </div>
