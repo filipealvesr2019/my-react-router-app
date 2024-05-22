@@ -351,7 +351,7 @@ const CreateProductForm = () => {
           };
         }
         // Atualizar o valor do campo específico
-        updatedSizes[index][name] = value;
+        updatedSizes[index][name] = name === 'size' ? value.trim() : value;
       }
       return {
         ...prevProductInfo,
