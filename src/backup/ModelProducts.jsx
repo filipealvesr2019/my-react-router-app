@@ -548,22 +548,10 @@ const CreateProductForm = () => {
               <Grid item xs={12}>
                 {productInfo.imageUrls &&
                   productInfo.imageUrls.map((url, index) => (
-                    <div style={{
-                      display:"flex",
-                      flexDirection:"column",
-                      justifyContent:"center",
-                      alignItems:"center"
-                    }}>
-                         <img src={url} alt="" style={{
-                          width:"10vw",
-                          marginTop:"3rem",
-                          
-                         }}/>
                     <div
                       key={index}
                       style={{ display: "flex", alignItems: "center" }}
                     >
-                   
                       <TextField
                         label={`URL da Imagem ${index + 1}`}
                         variant="outlined"
@@ -585,13 +573,6 @@ const CreateProductForm = () => {
                         Remover
                       </RemoveIcon>
                     </div>
-                    
-                    </div>
-
-
-
-
-
                   ))}
               </Grid>
               <div
