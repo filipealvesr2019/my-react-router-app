@@ -108,7 +108,7 @@ const AddVariationForm = ({ productId }) => {
         type="text"
         id="url"
         value={currentUrl}
-        onChange={(e) => setCurrentUrl(e.target.value)}
+        onChange={(e) => setCurrentUrl(e.target.value.trim())}
       />
             <button className='AddUrlButton' onClick={handleAddUrl}>Adicionar URL</button>
 
@@ -148,7 +148,7 @@ const AddVariationForm = ({ productId }) => {
         type="text"
         id="size"
         value={size}
-        onChange={(e) => setSize(e.target.value)}
+        onChange={(e) => setSize(e.target.value.trim())}
         style={{
           width:"15vw"
         }}
@@ -158,7 +158,7 @@ const AddVariationForm = ({ productId }) => {
         type="text"
         id="price"
         value={price}
-        onChange={(e) => setPrice(e.target.value)}
+        onChange={(e) => setPrice(e.target.value.trim())}
         style={{
           width:"15vw"
         }}
@@ -168,7 +168,7 @@ const AddVariationForm = ({ productId }) => {
         type="text"
         id="quantityAvailable"
         value={quantityAvailable}
-        onChange={(e) => setQuantityAvailable(e.target.value)}
+        onChange={(e) => setQuantityAvailable(e.target.value.trim())}
         style={{
           width:"15vw"
         }}

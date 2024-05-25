@@ -544,7 +544,7 @@ const CreateProductForm = () => {
                   variant="outlined"
                   fullWidth
                   name="colorPortuguese"
-                  value={productInfo.color}
+                  value={productInfo.color.trim()}
                   onChange={handleInputChange}
                   error={formErrors.colorPortuguese !== undefined}
                   helperText={formErrors.colorPortuguese}
@@ -581,7 +581,7 @@ const CreateProductForm = () => {
                         label={`URL da Imagem ${index + 1}`}
                         variant="outlined"
                         fullWidth
-                        value={url}
+                        value={url.trim()}
                         onChange={(event) =>
                           handleImageUrlsChange(event, index)
                         }
@@ -661,7 +661,7 @@ const CreateProductForm = () => {
                   variant="outlined"
                   fullWidth
                   name="size"
-                  value={size.size}
+                  value={size.size.trim()}
                   onChange={(event) => handleSizeInputChange(event, index)}
                   error={formErrors.colorPortuguese !== undefined}
                   helperText={formErrors.colorPortuguese}
