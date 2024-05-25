@@ -393,6 +393,7 @@ const Products = () => {
             borderRadius: "4px",
             border: "1px solid #ccc",
             width: "50dvw",
+            zIndex:"3"
           }}
         />
       </div>

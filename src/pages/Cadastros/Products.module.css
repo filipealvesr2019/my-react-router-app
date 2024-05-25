@@ -410,6 +410,11 @@ margin-left: 3rem;
     width: 15dvw;
   }
 }
+@media (min-width: 1024px) {
+  .tableContainer{
+    margin-top: 20rem;
+  }
+}
 @media (min-width: 1280px) {
   .tableContainer{
     margin-top: 20rem;
