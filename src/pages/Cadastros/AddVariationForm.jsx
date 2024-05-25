@@ -25,6 +25,7 @@ const AddVariationForm = ({ productId }) => {
 
   const handleAddVariation = async () => {
     try {
+      
       const newVariation = {
         color,
         urls,
@@ -97,7 +98,7 @@ const AddVariationForm = ({ productId }) => {
         type="text"
         id="color"
         value={color}
-        onChange={(e) => setColor(e.target.value)}
+        onChange={(e) => setColor(e.target.value.trim())}
         style={{
           width:"12vw"
         }}
