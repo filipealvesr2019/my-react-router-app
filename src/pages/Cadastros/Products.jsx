@@ -374,7 +374,34 @@ const Products = () => {
 
   return (
     <div className={styles.container}>
+    
+
+      <div className={styles.Model}>
+        <ModelProducts />
+      </div>
+
+      {/* ... (other components) */}
+
       <div
+        style={{
+          display: "flex",
+          flexDirection:"column",
+
+          justifyContent: "center",
+          alignItems: "center",
+
+
+          width: "100%",
+          borderCollapse: "collapse",
+          marginTop:"-20rem"
+        }}
+      >
+        <div className={styles.h1Container}>
+            <h1 style={{ fontSize: "1.5rem", color: "#2A337C" }}>
+              Cadastro de produtos
+            </h1>
+          </div>
+          <div
         style={{
           display: "flex",
           alignItems: "center",
@@ -393,37 +420,16 @@ const Products = () => {
             borderRadius: "4px",
             border: "1px solid #ccc",
             width: "50dvw",
-            zIndex:"3"
+            marginBottom:"2rem"
           }}
         />
       </div>
-
-      <div className={styles.Model}>
-        <ModelProducts />
-      </div>
-
-      {/* ... (other components) */}
-
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "55vh",
-
-          width: "100%",
-          borderCollapse: "collapse",
-        }}
-      >
         <main className="main">
           {error && <div style={{ color: "red" }}>{error}</div>}
-          <div className={styles.h1Container}>
-            <h1 style={{ fontSize: "1.5rem", color: "#2A337C" }}>
-              Cadastro de produtos
-            </h1>
-          </div>
+      
 
           <div>
+          
             <table className={styles.tableContainer}>
               <thead>
                 <tr>
@@ -431,11 +437,13 @@ const Products = () => {
                   <th style={{ width: "25vw" }}>Ações</th>
                 </tr>
               </thead>
+
               <tbody>
                 {filteredProducts &&
                   filteredProducts.map((product) => (
                     <tr className={styles.td} key={product._id}>
                       <td className={styles.td}>{product.name}</td>
+                      
                       <td>
                         <div className={styles.spanContainer}>
                           <div

@@ -105,6 +105,8 @@ a:hover::after {
     text-decoration: none;
     margin-right: auto;
     display: flex;
+    
+
   }
   .logo{
     display: none;
