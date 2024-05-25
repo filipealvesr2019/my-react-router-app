@@ -99,17 +99,24 @@ const AddVariationForm = ({ productId }) => {
         value={currentUrl}
         onChange={(e) => setCurrentUrl(e.target.value)}
       />
-      <button className='AddUrlButton' onClick={handleAddUrl}>Adicionar URL</button>
-      <ul>
+            <button className='AddUrlButton' onClick={handleAddUrl}>Adicionar URL</button>
+
+        <ul style={{
+          display:"flex",
+          flexDirection:"column",
+          justifyContent:"center",
+          alignItems:"center"
+        }}>
         {urls.map((url, index) => (
          <>
-         {url &&  <img src={url} alt=""  key={index} style={{width:"20vw"}}/>}
+         {url &&  <img src={url} alt=""  key={index} style={{width:"10vw"}}/>}
         
-         <li key={index}>{url}</li>
+         <li key={index} style={{width:"30vw"}}>{url}</li>
          
          </>
         ))}
       </ul>
+    
        </div>
 
       <div style={{
