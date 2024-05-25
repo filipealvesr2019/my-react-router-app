@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import "./AddVariationForm.css"
 const AddVariationForm = ({ productId }) => {
@@ -12,6 +12,16 @@ const AddVariationForm = ({ productId }) => {
   const [quantities, setQuantities] = useState([]);
   const [quantityAvailable, setQuantityAvailable] = useState('');
   const [feedback, setFeedback] = useState([]);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  
+  useEffect(() => {
+    if(size && price && quantityAvailable){
+      setIsButtonDisabled(false)
+    } else{
+      setIsButtonDisabled(true)
+    }
+  }, [size, price, quantityAvailable]);
+
 
   const handleAddVariation = async () => {
     try {
@@ -163,7 +173,9 @@ const AddVariationForm = ({ productId }) => {
         }}
       />
      </div>
-      <button  type="button"  className='variationSizePriceQuantityButton' onClick={handleAddSizePriceQuantity}>Adicionar</button>
+      <button  type="button"  className='variationSizePriceQuantityButton' onClick={handleAddSizePriceQuantity} disabled={isButtonDisabled} style={{
+        backgroundColor: isButtonDisabled === true ? "#ccc" : "#185ea5" 
+      }} >Adicionar</button>
       {feedback.length > 0 && (
         <div>
           <h3>Adicionado recentemente:</h3>
