@@ -396,8 +396,10 @@ const Products = () => {
           marginTop:"-20rem"
         }}
       >
+   
+    
         <div className={styles.h1Container}>
-            <h1 style={{ fontSize: "1.5rem", color: "#2A337C" }}>
+            <h1 style={{ fontSize: "1.5rem", color: "#2A337C", marginLeft:"-22rem" }}>
               Cadastro de produtos
             </h1>
           </div>
@@ -433,17 +435,22 @@ const Products = () => {
             <table className={styles.tableContainer}>
               <thead>
                 <tr>
-                  <th>Produtos</th>
+                  
+                  <th style={{ width: "90vw" }}>produto</th>
                   <th style={{ width: "25vw" }}>Ações</th>
                 </tr>
               </thead>
-
-              <tbody>
+          <tbody>
                 {filteredProducts &&
                   filteredProducts.map((product) => (
                     <tr className={styles.td} key={product._id}>
-                      <td className={styles.td}>{product.name}</td>
-                      
+                      <td className={styles.td}>
+                      <div className={styles.imageContainer}>
+                      <img src={product.variations[0].urls[0]} alt="" style={{width:"10vw"}} /> 
+                     
+                      {product.name}
+                      </div>
+                      </td>
                       <td>
                         <div className={styles.spanContainer}>
                           <div
