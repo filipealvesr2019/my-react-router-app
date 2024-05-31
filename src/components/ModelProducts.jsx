@@ -544,7 +544,7 @@ const CreateProductForm = () => {
                   variant="outlined"
                   fullWidth
                   name="colorPortuguese"
-                  value={productInfo.color.trim()}
+                  value={productInfo.color}
                   onChange={handleInputChange}
                   error={formErrors.colorPortuguese !== undefined}
                   helperText={formErrors.colorPortuguese}
