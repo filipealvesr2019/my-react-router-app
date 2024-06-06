@@ -80,6 +80,8 @@ const Products = () => {
             size: "",
             price: 0,
             quantityAvailable: 0,
+            inStockSize: true,
+
           },
         ],
       },
@@ -213,24 +215,29 @@ const Products = () => {
   };
 
   const handleVariationChange = (variationIndex, sizeIndex, field, value) => {
+    console.log("Valor recebido:", value); // Verifique o valor recebido
+  
     setFormData((prevFormData) => {
       const updatedVariations = [...prevFormData.variations];
       if (
         field === "size" ||
         field === "price" ||
-        field === "quantityAvailable"
+        field === "quantityAvailable" ||
+        field === "inStockSize"
       ) {
-        updatedVariations[variationIndex].sizes[sizeIndex][field] = value;
+        updatedVariations[variationIndex].sizes[sizeIndex][field] = 
+          field === "inStockSize" ? value === "true" : value; // Trate inStockSize como booleano
       } else {
         updatedVariations[variationIndex][field] = value;
       }
+      console.log("Estado atualizado:", updatedVariations); // Verifique o estado atualizado
       return {
         ...prevFormData,
         variations: updatedVariations,
       };
     });
   };
-
+  
   const handleEditProduct = (product) => {
     setFormData({
       _id: product._id,
@@ -376,6 +383,17 @@ const Products = () => {
   };
 
 
+  const handleinStockSizeChange = (variationIndex, sizeIndex, field, value) => {
+    const newVariations = [...formData.variations];
+    if (sizeIndex !== null) {
+      newVariations[variationIndex].sizes[sizeIndex][field] = value;
+    } else {
+      newVariations[variationIndex][field] = value;
+    }
+    setFormData({ ...formData, variations: newVariations });
+  };
+
+
 
   return (
     <div className={styles.container}>
@@ -485,6 +503,8 @@ const Products = () => {
                                             size: "",
                                             price: 0,
                                             quantityAvailable: 0,
+                                            inStockSize: false,
+
                                           },
                                         ],
                                       },
@@ -758,21 +778,17 @@ const Products = () => {
                                                           />
                                                         </label>
                                                       </div>
-                                                      <Box sx={{ marginTop: "10px", minWidth: 120 }}>
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">
-                  ainda tem esse tamanho?
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={sizeInStock ? "true" : "false"} // Defina o valor selecionado com base no estado inStock
-                >
-                  <MenuItem value={"true"}>SIM</MenuItem> 
-                  <MenuItem value={"false"}>NÃO</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
+                                                      <select
+  name="inStockSize"
+  value={formData.variations[0].sizes[0].inStockSize} // Use o valor do estado para selecionar a opção correta
+  onChange={(e) =>
+    handleVariationChange(0, 0, "inStockSize", e.target.value === "true")
+  } // Converta o valor selecionado para booleano e passe para a função de mudança
+>
+  <option value={true}>Sim</option>
+  <option value={false}>Não</option>
+</select>
+
                                                     </div>
                                                   )
                                                 )}

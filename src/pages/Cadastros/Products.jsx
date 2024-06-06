@@ -80,6 +80,8 @@ const Products = () => {
             size: "",
             price: 0,
             quantityAvailable: 0,
+            inStockSize: false
+
           },
         ],
       },
@@ -212,25 +214,31 @@ const Products = () => {
     }));
   };
 
+  
   const handleVariationChange = (variationIndex, sizeIndex, field, value) => {
+    console.log("Valor recebido:", value); // Verifique o valor recebido
+  
     setFormData((prevFormData) => {
       const updatedVariations = [...prevFormData.variations];
       if (
         field === "size" ||
         field === "price" ||
-        field === "quantityAvailable"
+        field === "quantityAvailable" ||
+        field === "inStockSize"
       ) {
-        updatedVariations[variationIndex].sizes[sizeIndex][field] = value;
+        updatedVariations[variationIndex].sizes[sizeIndex][field] = 
+          field === "inStockSize" ? value === "true" : value; // Trate inStockSize como booleano
       } else {
         updatedVariations[variationIndex][field] = value;
       }
+      console.log("Estado atualizado:", updatedVariations); // Verifique o estado atualizado
       return {
         ...prevFormData,
         variations: updatedVariations,
       };
     });
   };
-
+  
   const handleEditProduct = (product) => {
     setFormData({
       _id: product._id,
@@ -485,6 +493,7 @@ const Products = () => {
                                             size: "",
                                             price: 0,
                                             quantityAvailable: 0,
+                                            inStockSize: false
                                           },
                                         ],
                                       },
@@ -758,21 +767,18 @@ const Products = () => {
                                                           />
                                                         </label>
                                                       </div>
-                                                      <Box sx={{ marginTop: "10px", minWidth: 120 }}>
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">
-                  ainda tem esse tamanho?
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={sizeInStock ? "true" : "false"} // Defina o valor selecionado com base no estado inStock
-                >
-                  <MenuItem value={"true"}>SIM</MenuItem> 
-                  <MenuItem value={"false"}>NÃO</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
+                                                      <select
+  name="inStockSize"
+  value={formData.variations[0].sizes[0].inStockSize.toString()} // Converta o valor do estado para string
+  onChange={(e) =>
+    handleVariationChange(0, 0, "inStockSize", e.target.value) // Passe o valor diretamente
+  }
+>
+  <option value="false">Sim</option> // Use strings como valores
+  <option  value="true">Não</option>
+</select>
+
+                
                                                     </div>
                                                   )
                                                 )}
