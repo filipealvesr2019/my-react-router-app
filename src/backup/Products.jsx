@@ -17,6 +17,8 @@ import TextField from "@mui/material/TextField";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddVariationForm from "./AddVariationForm";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { Box, FormControl, MenuItem, Select } from "@mui/joy";
+import { InputLabel } from "@mui/material";
 
 const Products = () => {
   const { isAdmin, isManager } = useAuth();
@@ -30,6 +32,7 @@ const Products = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [newColorName, setNewColorName] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [sizeInStock, setSizeInStock] = useState(true);
 
   const [openModal, setOpenModal] = useState(false);
   const modalRef = useRef(null);
@@ -372,9 +375,40 @@ const Products = () => {
     }
   };
 
+
+
   return (
     <div className={styles.container}>
+    
+
+      <div className={styles.Model}>
+        <ModelProducts />
+      </div>
+
+      {/* ... (other components) */}
+
       <div
+        style={{
+          display: "flex",
+          flexDirection:"column",
+
+          justifyContent: "center",
+          alignItems: "center",
+
+
+          width: "100%",
+          borderCollapse: "collapse",
+          marginTop:"-20rem"
+        }}
+      >
+   
+    
+        <div className={styles.h1Container}>
+            <h1 style={{ fontSize: "1.5rem", color: "#2A337C", marginLeft:"-22rem" }}>
+              Cadastro de produtos
+            </h1>
+          </div>
+          <div
         style={{
           display: "flex",
           alignItems: "center",
@@ -393,48 +427,35 @@ const Products = () => {
             borderRadius: "4px",
             border: "1px solid #ccc",
             width: "50dvw",
+            marginBottom:"2rem"
           }}
         />
       </div>
-
-      <div className={styles.Model}>
-        <ModelProducts />
-      </div>
-
-      {/* ... (other components) */}
-
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "55vh",
-
-          width: "100%",
-          borderCollapse: "collapse",
-        }}
-      >
         <main className="main">
           {error && <div style={{ color: "red" }}>{error}</div>}
-          <div className={styles.h1Container}>
-            <h1 style={{ fontSize: "1.5rem", color: "#2A337C" }}>
-              Cadastro de produtos
-            </h1>
-          </div>
+      
 
           <div>
+          
             <table className={styles.tableContainer}>
               <thead>
                 <tr>
-                  <th>Produtos</th>
+                  
+                  <th style={{ width: "90vw" }}>produto</th>
                   <th style={{ width: "25vw" }}>Ações</th>
                 </tr>
               </thead>
-              <tbody>
+          <tbody>
                 {filteredProducts &&
                   filteredProducts.map((product) => (
                     <tr className={styles.td} key={product._id}>
-                      <td className={styles.td}>{product.name}</td>
+                      <td className={styles.td}>
+                      <div className={styles.imageContainer}>
+                      <img src={product.variations[0].urls[0]} alt="" style={{width:"10vw"}} /> 
+                     
+                      {product.name}
+                      </div>
+                      </td>
                       <td>
                         <div className={styles.spanContainer}>
                           <div
@@ -737,10 +758,25 @@ const Products = () => {
                                                           />
                                                         </label>
                                                       </div>
+                                                      <Box sx={{ marginTop: "10px", minWidth: 120 }}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">
+                  ainda tem esse tamanho?
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={sizeInStock ? "true" : "false"} // Defina o valor selecionado com base no estado inStock
+                >
+                  <MenuItem value={"true"}>SIM</MenuItem> 
+                  <MenuItem value={"false"}>NÃO</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
                                                     </div>
                                                   )
                                                 )}
-
+  
                                               <div
                                                 style={{
                                                   display: "flex",

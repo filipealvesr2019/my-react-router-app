@@ -22,7 +22,7 @@ import { Label } from "recharts";
 const CreateProductForm = () => {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
-  const [inStock, setInStock] = useState(false);
+  const [inStock, setInStock] = useState(true);
 
   const [productInfo, setProductInfo] = useState({
     name: "",
@@ -766,10 +766,11 @@ const CreateProductForm = () => {
 
 export default function BasicModal() {
   const [open, setOpen] = useState(false);
-  const [inStock, setInStock] = useState(false); // Adicione o estado inStock e sua função de atualização
 
   const handleClose = () => {
     setOpen(false);
+    setInStock(productInfo.inStock); // Inicialize o estado inStock com base no valor atual de inStock em productInfo
+
   };
 
   const handleOpen = () => {

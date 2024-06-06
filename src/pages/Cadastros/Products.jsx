@@ -17,6 +17,8 @@ import TextField from "@mui/material/TextField";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddVariationForm from "./AddVariationForm";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { Box, FormControl, MenuItem, Select } from "@mui/joy";
+import { InputLabel } from "@mui/material";
 
 const Products = () => {
   const { isAdmin, isManager } = useAuth();
@@ -30,6 +32,7 @@ const Products = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [newColorName, setNewColorName] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [sizeInStock, setSizeInStock] = useState(true);
 
   const [openModal, setOpenModal] = useState(false);
   const modalRef = useRef(null);
@@ -371,6 +374,8 @@ const Products = () => {
       console.error("Erro ao excluir variação. Detalhes do erro:", error);
     }
   };
+
+
 
   return (
     <div className={styles.container}>
@@ -753,10 +758,25 @@ const Products = () => {
                                                           />
                                                         </label>
                                                       </div>
+                                                      <Box sx={{ marginTop: "10px", minWidth: 120 }}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">
+                  ainda tem esse tamanho?
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={sizeInStock ? "true" : "false"} // Defina o valor selecionado com base no estado inStock
+                >
+                  <MenuItem value={"true"}>SIM</MenuItem> 
+                  <MenuItem value={"false"}>NÃO</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
                                                     </div>
                                                   )
                                                 )}
-
+  
                                               <div
                                                 style={{
                                                   display: "flex",
