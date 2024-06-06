@@ -214,10 +214,7 @@ const Products = () => {
     }));
   };
 
-  
   const handleVariationChange = (variationIndex, sizeIndex, field, value) => {
-    console.log("Valor recebido:", value); // Verifique o valor recebido
-  
     setFormData((prevFormData) => {
       const updatedVariations = [...prevFormData.variations];
       if (
@@ -226,18 +223,21 @@ const Products = () => {
         field === "quantityAvailable" ||
         field === "inStockSize"
       ) {
-        updatedVariations[variationIndex].sizes[sizeIndex][field] = 
-          field === "inStockSize" ? value === "true" : value; // Trate inStockSize como booleano
-      } else {
-        updatedVariations[variationIndex][field] = value;
+        // Verifica se o tamanho está definido e atualiza o campo apenas para esse tamanho
+        if (sizeIndex !== null && sizeIndex !== undefined) {
+          updatedVariations[variationIndex].sizes[sizeIndex][field] = 
+            field === "inStockSize" ? value === "true" : value; // Trata inStockSize como booleano
+        } else {
+          updatedVariations[variationIndex][field] = value;
+        }
       }
-      console.log("Estado atualizado:", updatedVariations); // Verifique o estado atualizado
       return {
         ...prevFormData,
         variations: updatedVariations,
       };
     });
   };
+  
   
   const handleEditProduct = (product) => {
     setFormData({
@@ -766,18 +766,18 @@ const Products = () => {
                                                             }
                                                           />
                                                         </label>
+                                                        <div key={sizeIndex}>
+      <select
+        name="inStockSize"
+        value={size.inStockSize.toString()} // Converta o valor do estado para string
+        onChange={(e) => handleVariationChange(variationIndex, sizeIndex, "inStockSize", e.target.value)} // Passe o índice do tamanho
+      >
+        <option value="false">Sim</option>
+        <option value="true">Não</option>
+      </select>
+    </div>
                                                       </div>
-                                                      <select
-  name="inStockSize"
-  value={formData.variations[0].sizes[0].inStockSize.toString()} // Converta o valor do estado para string
-  onChange={(e) =>
-    handleVariationChange(0, 0, "inStockSize", e.target.value) // Passe o valor diretamente
-  }
->
-  <option value="false">Sim</option> // Use strings como valores
-  <option  value="true">Não</option>
-</select>
-
+                                                    
                 
                                                     </div>
                                                   )
