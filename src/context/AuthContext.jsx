@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useAtom(loggedInAtom);
   const [isAdmin, setIsAdmin] = useAtom(isAdminAtom);
   const [isManager, setIsManager] = useState(storedRole === 'Gerente');
+  const [error, setError] = useState(null); // Estado para armazenar a mensagem de erro
 
 
 
@@ -76,7 +77,9 @@ export const AuthProvider = ({ children }) => {
     isAdmin,
     isManager,
     login,
-    logout
+    logout,
+    error // Inclui o estado de erro no contexto de autenticação
+
   };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;

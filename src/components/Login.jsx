@@ -7,7 +7,7 @@ import './Login.css';
 import ManagerPage from '../ManagerPage';
 
 const Login = () => {
-  const { loggedIn, isAdmin, isManager, login, logout } = useAuth();
+  const { loggedIn, isAdmin, isManager, login, logout, error } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [formErrors, setFormErrors] = useState({});
@@ -64,6 +64,7 @@ const Login = () => {
           />
           {formErrors.email && <span className='error-message'>{formErrors.email}</span>}
           <br />
+          {error && <p>{error}</p>} {/* Exibe a mensagem de erro */}
           <label htmlFor="password">Senha</label>
           <input
             type="password"

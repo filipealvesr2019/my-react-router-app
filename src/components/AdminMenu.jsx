@@ -26,6 +26,7 @@ const UserForm = ({ closeForm }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
+  const [error, setError] = useState(null); // Estado para armazenar a mensagem de erro
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -47,6 +48,7 @@ const UserForm = ({ closeForm }) => {
     });
 
 
+    setError(null);
 
 
 
@@ -72,6 +74,8 @@ const UserForm = ({ closeForm }) => {
         }, 4000);
       }
     } catch (error) {
+      setError(error.response.data.error); // Define a mensagem de erro do backend
+
       console.error('Erro ao criar usuário. Digite um email ou senha validos!', error);
       console.error('Resposta de erro do servidor:', error.response.data);
     
@@ -120,6 +124,8 @@ const UserForm = ({ closeForm }) => {
               onChange={(e) => setEmail(e.target.value)}
               required
             />
+
+
             <label htmlFor="password">Senha</label>
             <input
               type="password"
@@ -128,6 +134,8 @@ const UserForm = ({ closeForm }) => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+            {error && <span className="error-message">{error}</span>}
+
             <label htmlFor="role">Função</label>
             <select
               name="role"
@@ -140,7 +148,7 @@ const UserForm = ({ closeForm }) => {
               <option value="Gerente">Gerente</option>
               <option value="funcionario">Funcionário</option>
             </select>
-            <button type="submit">Adicionar</button>
+            <button >Adicionar</button>
           </form>
         </div>
       </div>
