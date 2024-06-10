@@ -56,6 +56,8 @@ export const AuthProvider = ({ children }) => {
       Cookies.set('role', response.data.user.role);
       
     } catch (error) {
+      setError(error.response.data.error); // Define a mensagem de erro do backend
+
       if (error.response && error.response.status === 401) {
         toast.error('Erro, email ou senha invalidas!', { position: toast.POSITION.TOP_CENTER });
       } else {
