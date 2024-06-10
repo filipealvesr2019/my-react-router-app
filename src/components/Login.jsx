@@ -11,7 +11,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [formErrors, setFormErrors] = useState({});
-
+  const [messageErrorBorder, setMessageErrorBorder] = useState(null);
   const handleLogin = () => {
     if (validateForm()) {
       login(email, password);
@@ -61,6 +61,10 @@ const Login = () => {
               setFormErrors((prevErrors) => ({ ...prevErrors, email: '' }));
             }}
             className={formErrors.email ? 'error' : ''}
+            style={{
+              border: error ? "2px solid red" : ""
+            }}
+            
           />
           {formErrors.email && <span className='error-message'>{formErrors.email}</span>}
           <br />
@@ -75,6 +79,10 @@ const Login = () => {
               setFormErrors((prevErrors) => ({ ...prevErrors, password: '' }));
             }}
             className={formErrors.password ? 'error' : ''}
+            style={{
+              border: error ? "2px solid red" : ""
+            }}
+            
           />
           {formErrors.password && <span className='error-message'>{formErrors.password}</span>}
           <br />
