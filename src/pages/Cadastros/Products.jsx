@@ -32,7 +32,6 @@ const Products = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [newColorName, setNewColorName] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [sizeInStock, setSizeInStock] = useState(true);
 
   const [openModal, setOpenModal] = useState(false);
   const modalRef = useRef(null);
@@ -86,6 +85,7 @@ const Products = () => {
         ],
       },
     ],
+    inStock: ""
   });
 
   const { authToken } = useAuth();
@@ -240,6 +240,7 @@ const Products = () => {
   
   
   const handleEditProduct = (product) => {
+    console.log(product)
     setFormData({
       _id: product._id,
       name: product.name,
@@ -250,7 +251,11 @@ const Products = () => {
         ...variation,
         urls: variation.urls, // Manter as URLs como arrays
       })),
+      inStock: product.inStock
+
     });
+    setInStock(product.inStock); // Certifique-se de atualizar o estado inStock também
+
   };
 
   // Update the handleUpdateProduct function to close the modal after updating
@@ -560,19 +565,19 @@ const Products = () => {
                                       <label htmlFor="">
                                         Produto em Estoque
                                       </label>
+                                      {product.subcategory}
                                       <div>
-                                        <select
-                                          value={inStock ? "true" : "false"}
-                                          onChange={(e) =>
-                                            setInStock(
-                                              e.target.value === "true"
-                                            )
-                                          }
-                                        >
-                                          <option value="true">Sim</option>
-                                          <option value="false">Não</option>
-                                        </select>
-                                      </div>
+  <select
+    value={inStock ? "true" : "false"}
+    onChange={(e) =>
+      setInStock(e.target.value === "true")
+    }
+  >
+    <option value="true">Sim</option>
+    <option value="false">Não</option>
+  </select>
+</div>
+
                                       <button
                                         type="submit"
                                         className={styles.button}
