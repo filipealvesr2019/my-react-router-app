@@ -225,7 +225,7 @@ const Products = () => {
       ) {
         // Verifica se o tamanho está definido e atualiza o campo apenas para esse tamanho
         if (sizeIndex !== null && sizeIndex !== undefined) {
-          updatedVariations[variationIndex].sizes[sizeIndex][field] = 
+          updatedVariations[variationIndex].sizes[sizeIndex][field] =
             field === "inStockSize" ? value === "true" : value; // Trata inStockSize como booleano
         } else {
           updatedVariations[variationIndex][field] = value;
@@ -237,8 +237,8 @@ const Products = () => {
       };
     });
   };
-  
-  
+
+
   const handleEditProduct = (product) => {
     console.log(product)
     setFormData({
@@ -367,11 +367,11 @@ const Products = () => {
         const updatedProducts = products.map((product) =>
           product._id === productId
             ? {
-                ...product,
-                variations: product.variations.filter(
-                  (variation) => variation.color !== color
-                ),
-              }
+              ...product,
+              variations: product.variations.filter(
+                (variation) => variation.color !== color
+              ),
+            }
             : product
         );
 
@@ -392,7 +392,7 @@ const Products = () => {
 
   return (
     <div className={styles.container}>
-    
+
 
       <div className={styles.Model}>
         <ModelProducts />
@@ -403,7 +403,7 @@ const Products = () => {
       <div
         style={{
           display: "flex",
-          flexDirection:"column",
+          flexDirection: "column",
 
           justifyContent: "center",
           alignItems: "center",
@@ -411,63 +411,63 @@ const Products = () => {
 
           width: "100%",
           borderCollapse: "collapse",
-          marginTop:"-20rem"
+          marginTop: "-20rem"
         }}
       >
-   
-    
+
+
         <div className={styles.h1Container}>
-            <h1 style={{ fontSize: "1.5rem", color: "#2A337C", marginLeft:"-22rem" }}>
-              Cadastro de produtos
-            </h1>
-          </div>
-          <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          marginTop: "3rem",
-        }}
-      >
-        <input
-          type="text"
-          placeholder="Pesquisar por produto..."
-          value={searchTerm}
-          onChange={handleSearchChange}
+          <h1 style={{ fontSize: "1.5rem", color: "#2A337C", marginLeft: "-22rem" }}>
+            Cadastro de produtos
+          </h1>
+        </div>
+        <div
           style={{
-            padding: "8px",
-            margin: "8px",
-            borderRadius: "4px",
-            border: "1px solid #ccc",
-            width: "50dvw",
-            marginBottom:"2rem"
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            marginTop: "3rem",
           }}
-        />
-      </div>
+        >
+          <input
+            type="text"
+            placeholder="Pesquisar por produto..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+            style={{
+              padding: "8px",
+              margin: "8px",
+              borderRadius: "4px",
+              border: "1px solid #ccc",
+              width: "50dvw",
+              marginBottom: "2rem"
+            }}
+          />
+        </div>
         <main className="main">
           {error && <div style={{ color: "red" }}>{error}</div>}
-      
+
 
           <div>
-          
+
             <table className={styles.tableContainer}>
               <thead>
                 <tr>
-                  
+
                   <th style={{ width: "90vw" }}>produto</th>
                   <th style={{ width: "25vw" }}>Ações</th>
                 </tr>
               </thead>
-          <tbody>
+              <tbody>
                 {filteredProducts &&
                   filteredProducts.map((product) => (
                     <tr className={styles.td} key={product._id}>
                       <td className={styles.td}>
-                      <div className={styles.imageContainer}>
-                      <img src={product.variations[0].urls[0]} alt="" style={{width:"10vw"}} /> 
-                     
-                      {product.name}
-                      </div>
+                        <div className={styles.imageContainer}>
+                          <img src={product.variations[0].urls[0]} alt="" style={{ width: "10vw" }} />
+
+                          {product.name}
+                        </div>
                       </td>
                       <td>
                         <div className={styles.spanContainer}>
@@ -565,18 +565,18 @@ const Products = () => {
                                       <label htmlFor="">
                                         Produto em Estoque
                                       </label>
-                                      {product.subcategory}
+
                                       <div>
-  <select
-    value={inStock ? "true" : "false"}
-    onChange={(e) =>
-      setInStock(e.target.value === "true")
-    }
-  >
-    <option value="true">Sim</option>
-    <option value="false">Não</option>
-  </select>
-</div>
+                                        <select
+                                          value={inStock ? "true" : "false"}
+                                          onChange={(e) =>
+                                            setInStock(e.target.value === "true")
+                                          }
+                                        >
+                                          <option value="true">Sim</option>
+                                          <option value="false">Não</option>
+                                        </select>
+                                      </div>
 
                                       <button
                                         type="submit"
@@ -771,23 +771,27 @@ const Products = () => {
                                                             }
                                                           />
                                                         </label>
+                                                        <label htmlFor="">
+                                                          Tamanho em Estoque
+                                                        </label>
+
                                                         <div key={sizeIndex}>
-      <select
-        name="inStockSize"
-        value={size.inStockSize.toString()} // Converta o valor do estado para string
-        onChange={(e) => handleVariationChange(variationIndex, sizeIndex, "inStockSize", e.target.value)} // Passe o índice do tamanho
-      >
-        <option value="false">Sim</option>
-        <option value="true">Não</option>
-      </select>
-    </div>
+                                                          <select
+                                                            name="inStockSize"
+                                                            value={size.inStockSize.toString()} // Converta o valor do estado para string
+                                                            onChange={(e) => handleVariationChange(variationIndex, sizeIndex, "inStockSize", e.target.value)} // Passe o índice do tamanho
+                                                          >
+                                                            <option value="false">Sim</option>
+                                                            <option value="true">Não</option>
+                                                          </select>
+                                                        </div>
                                                       </div>
-                                                    
-                
+
+
                                                     </div>
                                                   )
                                                 )}
-  
+
                                               <div
                                                 style={{
                                                   display: "flex",
