@@ -5,7 +5,8 @@ import EmployeePage from '../EmployeePage';
 import LogoutIcon from '@mui/icons-material/Logout';
 import './Login.css';
 import ManagerPage from '../ManagerPage';
-
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 const Login = () => {
   const { loggedIn, isAdmin, isManager, login, logout, error } = useAuth();
   const [email, setEmail] = useState('');
@@ -69,9 +70,12 @@ const Login = () => {
           {formErrors.email && <span className='error-message'>{formErrors.email}</span>}
           <br />
           {error && <p>{error}</p>} {/* Exibe a mensagem de erro */}
+          <div style={{
+              position: "relative"
+            }}>
           <label htmlFor="password">Senha</label>
           <input
-            type="password"
+            type={password ? "text" : "password"}
             placeholder="Digite a senha..."
             value={password}
             onChange={(e) => {
@@ -84,6 +88,22 @@ const Login = () => {
             }}
             
           />
+
+<div 
+                onClick={() => setPassword(!password)}  // Alterna o estado de showPassword
+                style={{
+                  position: "absolute",
+                  right: "30px",
+                  top: "75%",
+                  transform: "translateY(-50%)",
+                  cursor: "pointer"
+                }}
+              >
+                {password ? <VisibilityOffIcon /> : <VisibilityIcon />}
+              </div>
+   
+          </div>
+         
           {formErrors.password && <span className='error-message'>{formErrors.password}</span>}
           <br />
           <button className="loginButton" onClick={handleLogin}>
