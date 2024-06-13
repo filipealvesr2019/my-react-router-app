@@ -12,6 +12,8 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [formErrors, setFormErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false); // Estado para controlar a visibilidade da senha
+
   const [messageErrorBorder, setMessageErrorBorder] = useState(null);
   const handleLogin = () => {
     if (validateForm()) {
@@ -75,7 +77,7 @@ const Login = () => {
             }}>
           <label htmlFor="password">Senha</label>
           <input
-            type={password ? "text" : "password"}
+            type={showPassword ? "text" : "password"}
             placeholder="Digite a senha..."
             value={password}
             onChange={(e) => {
@@ -90,7 +92,7 @@ const Login = () => {
           />
 
 <div 
-                onClick={() => setPassword(!password)}  // Alterna o estado de showPassword
+                onClick={() => setShowPassword(!showPassword)}  // Alterna o estado de showPassword
                 style={{
                   position: "absolute",
                   right: "30px",
@@ -99,7 +101,7 @@ const Login = () => {
                   cursor: "pointer"
                 }}
               >
-                {password ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
               </div>
    
           </div>
