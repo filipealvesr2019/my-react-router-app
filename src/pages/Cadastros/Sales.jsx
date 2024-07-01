@@ -191,6 +191,17 @@ const Sales = () => {
     }
   };
 
+
+  const formatDate = (isoDate) => {
+    const date = new Date(isoDate);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Os meses são baseados em zero
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
+  
+
   return (
     <div
       style={{
@@ -348,7 +359,7 @@ const Sales = () => {
                             <td>
                             
                                 <span className={styles.span}>
-                                  {order.createdAt}
+                                 {formatDate(order.createdAt)}
                                 </span>
                       
                             </td>
@@ -543,8 +554,8 @@ const Sales = () => {
                             </td>
                             <td>
                             <span className={styles.span}>
-                                  {order.createdAt}
-                                </span>
+                            {formatDate(order.createdAt)}
+                            </span>
                       
                             </td>
                            
@@ -722,8 +733,8 @@ const Sales = () => {
                             </td>
                             <td>
                             <span className={styles.span}>
-                                  {order.createdAt}
-                                </span>
+                            {formatDate(order.createdAt)}
+                            </span>
                       
                             </td>
                             <td>
