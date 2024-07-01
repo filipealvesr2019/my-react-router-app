@@ -63,7 +63,7 @@ export default function BasicModal({ orderId, tracking }) {
         onClick={() => setOpen(true)}
         className={styles.button}
       >
-        adicionar codigo
+        adicionar codigo de rastreio
       </Button>
       <Modal
         aria-labelledby="modal-title"

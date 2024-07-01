@@ -296,6 +296,8 @@ const Sales = () => {
                           <th className={styles.th}>Produtos</th>
                           <th className={styles.th}>Status</th>
                           <th className={styles.th}>Cliente</th>
+                          <th className={styles.th}>Data</th>
+
                           <th className={styles.th}>Pagamento</th>
                           <th className={styles.th}>Parcelas</th>
                           <th className={styles.th}>Quantidade</th>
@@ -342,6 +344,13 @@ const Sales = () => {
                                   {order.name}
                                 </span>
                               </Link>
+                            </td>
+                            <td>
+                            
+                                <span className={styles.span}>
+                                  {order.createdAt}
+                                </span>
+                      
                             </td>
                             <td>
                               <p
@@ -482,6 +491,8 @@ const Sales = () => {
                           <th className={styles.th}>Produtos</th>
                           <th className={styles.th}>Status</th>
                           <th className={styles.th}>Cliente</th>
+                          <th className={styles.th}>Data</th>
+
                           <th className={styles.th}>Pagamento</th>
                           <th className={styles.th}>Parcelas</th>
                           <th className={styles.th}>Quantidade</th>
@@ -530,6 +541,13 @@ const Sales = () => {
                                 {console.log("Customer ID:", order.customer)}
                               </Link>
                             </td>
+                            <td>
+                            <span className={styles.span}>
+                                  {order.createdAt}
+                                </span>
+                      
+                            </td>
+                           
                             <td>
                               <p
                                 style={{
@@ -655,6 +673,8 @@ const Sales = () => {
                           <th className={styles.th}>Produtos</th>
                           <th className={styles.th}>Status</th>
                           <th className={styles.th}>Cliente</th>
+                          <th className={styles.th}>Data</th>
+
                           <th className={styles.th}>Pagamento</th>
                           <th className={styles.th}>Parcelas</th>
                           <th className={styles.th}>Quantidade</th>
@@ -699,6 +719,12 @@ const Sales = () => {
                               >
                                 {order.name}
                               </Link>
+                            </td>
+                            <td>
+                            <span className={styles.span}>
+                                  {order.createdAt}
+                                </span>
+                      
                             </td>
                             <td>
                               <p
