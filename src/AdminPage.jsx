@@ -13,23 +13,23 @@ import Financial from "./pages/Financial/Financial";
 import Stock from "./pages/stock/Stock";
 import Fiscal from "./pages/Fiscal/Fiscal";
 import Reports from "./pages/Reports/Reports";
-import PhysicalGoods from "./pages/PhysicalGoods/PhysicalGoods";
+
 
 const Content = ({ currentPage }) => {
   switch (currentPage) {
     case "register":
       return <RegisterPage />;
-    case "physicalGoods":
-      return <PhysicalGoods />;
+    case "User":
+      return <User />;
 
-    case "financial":
-      return <FinancialPage />;
-    case "stock":
-      return <StockPage />;
-    case "fiscal":
-      return <FiscalPage />;
-    case "reports":
-      return <ReportsPage />;
+    case "Products":
+      return  <Products />;;
+    case "categories":
+      return <Categories />;
+    case "Sales":
+      return <Sales />;
+    case "settings":
+      return <Configuration />;
 
     default:
       return <HomePage />;
@@ -358,7 +358,7 @@ const AdminPage = () => {
           >
             Home
           </a>
-          <a
+          {/* <a
             href="#"
             onClick={() => {
               changePage("register");
@@ -368,61 +368,62 @@ const AdminPage = () => {
             className={activeLink === "register" ? "active" : ""}
           >
             Ecommerce
+          </a> */}
+          <a
+            href="#"
+            onClick={() => {
+              changePage("User");
+              handleLinkClick("User");
+              // Adicione mais lógica, se necessário
+            }}
+            className={activeLink === "User" ? "active" : ""}
+          >
+            Usuarios
           </a>
           <a
             href="#"
             onClick={() => {
-              changePage("physicalGoods");
-              handleLinkClick("physicalGoods");
+              changePage("Products");
+              handleLinkClick("Products");
               // Adicione mais lógica, se necessário
             }}
-            className={activeLink === "physicalGoods" ? "active" : ""}
+            className={activeLink === "Products" ? "active" : ""}
           >
-            Cadastros
+            Produtos
           </a>
           <a
             href="#"
             onClick={() => {
-              changePage("financial");
-              handleLinkClick("financial");
+              changePage("categories");
+              handleLinkClick("categories");
               // Adicione mais lógica, se necessário
             }}
-            className={activeLink === "financial" ? "active" : ""}
+            className={activeLink === "categories" ? "active" : ""}
           >
-            Financeiro
+            Categorias
           </a>
           <a
             href="#"
             onClick={() => {
-              changePage("stock");
-              handleLinkClick("stock");
+              changePage("Sales");
+              handleLinkClick("Sales");
               // Adicione mais lógica, se necessário
             }}
-            className={activeLink === "stock" ? "active" : ""}
+            className={activeLink === "Sales" ? "active" : ""}
           >
-            Estoque
+            Vendas
+
           </a>
           <a
             href="#"
             onClick={() => {
-              changePage("fiscal");
-              handleLinkClick("fiscal");
+              changePage("settings");
+              handleLinkClick("settings");
               // Adicione mais lógica, se necessário
             }}
-            className={activeLink === "fiscal" ? "active" : ""}
+            className={activeLink === "settings" ? "active" : ""}
           >
-            Fiscal
-          </a>
-          <a
-            href="#"
-            onClick={() => {
-              changePage("reports");
-              handleLinkClick("reports");
-              // Adicione mais lógica, se necessário
-            }}
-            className={activeLink === "reports" ? "active" : ""}
-          >
-            Relatórios
+            Configurações
           </a>
         </nav>
       </header>

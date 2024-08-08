@@ -27,6 +27,7 @@ const UserForm = ({ closeForm }) => {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
   const [error, setError] = useState(null); // Estado para armazenar a mensagem de erro
+  const [showPassword, setShowPassword] = useState(false); // Estado para controlar a visibilidade da senha
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -34,9 +35,8 @@ const UserForm = ({ closeForm }) => {
 
       const token = Cookies.get('token'); // Obtenha o token do cookie
       const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
-  
       // Send the POST request to the server with the token and credentials in the headers
-    const response = await axios.post('https://serveradmin-whhj.onrender.com/user', {
+    const response = await axios.post('http://localhost:3001/user', {
       email: email,
       password: password,
       role: role,
@@ -128,12 +128,14 @@ const UserForm = ({ closeForm }) => {
 
             <label htmlFor="password">Senha</label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+            <span                 onClick={() => setShowPassword(!showPassword)}  // Alterna o estado de showPassword
+            >ver</span>
             {error && <span className="error-message">{error}</span>}
 
             <label htmlFor="role">Função</label>

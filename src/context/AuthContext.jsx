@@ -6,6 +6,7 @@ import { useAtom } from 'jotai';
 import { isAdminAtom, loggedInAtom } from '../store/store';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 const AuthContext = createContext();
 
 
@@ -20,7 +21,9 @@ export const AuthProvider = ({ children }) => {
   const [isManager, setIsManager] = useState(storedRole === 'Gerente');
   const [error, setError] = useState(null); // Estado para armazenar a mensagem de erro
 
+  const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
 
+      const token = Cookies.get('token'); // Obtenha o token do cookie
 
   useEffect(() => {
 
@@ -34,6 +37,11 @@ export const AuthProvider = ({ children }) => {
       const response = await axios.post('http://localhost:3001/login', {
         email: email,
         password: password
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Credentials: credentials,
+        },
       });
       
       if (response.data.user.role === 'administrador') {

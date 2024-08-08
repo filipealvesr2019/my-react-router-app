@@ -41,7 +41,7 @@ const UserList = () => {
       const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
   
       // Send the DELETE request to the server with the token and credentials in the headers
-      await axios.delete(`https://serveradmin-whhj.onrender.com/user/${userId}`, {
+      await axios.delete(`http://localhost:3001/user/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           Credentials: credentials,
@@ -120,7 +120,7 @@ const UserList = () => {
               <span className="spanName">excluir</span> o usuário?
             </p>
             <div className="buttonDeleteStyle">
-              <button style={{backgroundColor:"red", fontSize:"1rem"}} onClick={() => handleDelete(deleteUserId)}>Sim</button>
+              <button style={{backgroundColor:"red", fontSize:"1rem", zIndex:"2"}} onClick={() => handleDelete(deleteUserId)}>Sim</button>
               <button onClick={handleCancelDelete}>Não</button>
             </div>
           </div>
