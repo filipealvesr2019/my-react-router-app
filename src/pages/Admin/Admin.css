@@ -16,6 +16,8 @@
 
 .AdminContainer {
   display: flex;
+  align-items: center;
+  height: 80vh;
 }
 .AdminMenu {
   margin-top: 1rem;
