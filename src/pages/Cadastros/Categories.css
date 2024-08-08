@@ -1,4 +1,9 @@
 /* styles.css */
+.CategoriesContainer{
+  display: flex;
+  flex-direction: column;
+  margin-top: 8rem;
+}
 .category-table {
     width: 100%;
     border-collapse: collapse;

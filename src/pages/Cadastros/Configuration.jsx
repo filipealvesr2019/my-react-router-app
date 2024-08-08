@@ -2,7 +2,11 @@ import React from 'react'
 
 const Configuration = () => {
   return (
-    <div>Configuration</div>
+    <div style={{
+      display:"flex",
+      alignItems:"center",
+      height:"100vh"
+    }}>Configuration</div>
   )
 }
 

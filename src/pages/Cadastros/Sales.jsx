@@ -210,6 +210,7 @@ const Sales = () => {
         justifyContent: "center", // Centraliza horizontalmente
         alignItems: "center", // Centraliza verticalmente
         gap: "1rem",
+        marginTop:"8rem"
       }}
     >
       <div
