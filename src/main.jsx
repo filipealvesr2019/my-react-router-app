@@ -11,18 +11,16 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ConfigProvider } from "./context/ConfigContext.jsx";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <ConfigProvider>
+    <React.StrictMode>
+      <ErrorBoundary>
+      <ConfigProvider>
 
-  <React.StrictMode>
-    <ErrorBoundary>
-    <AuthProvider>
-    <ToastContainer />
+        <AuthProvider>
+          <ToastContainer />
+          <App />
+        </AuthProvider>
+        </ConfigProvider>
 
-      <App />
-    </AuthProvider>
-    </ErrorBoundary>
-
-  </React.StrictMode>
-
-  </ConfigProvider>
+      </ErrorBoundary>
+    </React.StrictMode>
 );
