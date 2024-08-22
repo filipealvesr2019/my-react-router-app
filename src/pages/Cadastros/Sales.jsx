@@ -7,6 +7,7 @@ import Pagination from "@mui/material/Pagination";
 import CircularIndeterminate from "./CircularIndeterminate";
 import SearchIcon from "@mui/icons-material/Search";
 import Cookies from "js-cookie";
+import { useConfig } from "../../context/ConfigContext";
 
 const Sales = () => {
   const [boletos, setBoletos] = useState([]);
@@ -15,16 +16,18 @@ const Sales = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [page, setPage] = useState(1);
   const [pixSearchTerm, setPixSearchTerm] = useState("");
-  
-  const [loading, setLoading] = useState(true);
-  const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
 
-      const token = Cookies.get('token'); // Obtenha o token do cookie
+  const [loading, setLoading] = useState(true);
+  const credentials = Cookies.get("role"); // Obtenha as credenciais do cookie
+
+  const token = Cookies.get("token"); // Obtenha o token do cookie
+  const { apiUrl } = useConfig();
+
   useEffect(() => {
     setLoading(true); // Define o estado de carregamento como true antes de fazer a chamada à API
 
     axios
-      .get(`http://localhost:3001/api/boletos?page=${page}`, {
+      .get(`${apiUrl}/api/boletos?page=${page}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           Credentials: credentials,
@@ -40,7 +43,7 @@ const Sales = () => {
       });
 
     axios
-      .get(`http://localhost:3001/api/pix?page=${page}&name=${pixSearchTerm}`, {
+      .get(`${apiUrl}/api/pix?page=${page}&name=${pixSearchTerm}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           Credentials: credentials,
@@ -56,7 +59,7 @@ const Sales = () => {
       });
 
     axios
-      .get(`http://localhost:3001/api/creditCard?page=${page}`, {
+      .get(`${apiUrl}/api/creditCard?page=${page}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           Credentials: credentials,
@@ -75,8 +78,6 @@ const Sales = () => {
   const handleSearchChange = (event) => {
     setPixSearchTerm(event.target.value);
   };
-
-
 
   const handleChange = (event, value) => {
     setPage(value);
@@ -101,7 +102,7 @@ const Sales = () => {
   };
 
   const tabStyle = {
-    color: "#2196F3", 
+    color: "#2196F3",
   };
 
   const handlePixSearch = () => {
@@ -109,7 +110,7 @@ const Sales = () => {
 
     // Realiza a pesquisa com base no termo de pesquisa (pixSearchTerm)
     axios
-      .get(`http://localhost:3001/api/pix?page=${page}&name=${pixSearchTerm}`, {
+      .get(`${apiUrl}/api/pix?page=${page}&name=${pixSearchTerm}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           Credentials: credentials,
@@ -133,7 +134,8 @@ const Sales = () => {
     // Realiza a pesquisa com base no termo de pesquisa (pixSearchTerm)
     axios
       .get(
-        `http://localhost:3001/api/boletos?page=${page}&name=${pixSearchTerm}`, {
+        `${apiUrl}/api/boletos?page=${page}&name=${pixSearchTerm}`,
+        {
           headers: {
             Authorization: `Bearer ${token}`,
             Credentials: credentials,
@@ -157,7 +159,8 @@ const Sales = () => {
     // Realiza a pesquisa com base no termo de pesquisa (pixSearchTerm)
     axios
       .get(
-        `http://localhost:3001/api/creditCard?page=${page}&name=${pixSearchTerm}`, {
+        `${apiUrl}/api/creditCard?page=${page}&name=${pixSearchTerm}`,
+        {
           headers: {
             Authorization: `Bearer ${token}`,
             Credentials: credentials,
@@ -191,16 +194,13 @@ const Sales = () => {
     }
   };
 
-
   const formatDate = (isoDate) => {
     const date = new Date(isoDate);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Os meses são baseados em zero
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Os meses são baseados em zero
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
   };
-
-  
 
   return (
     <div
@@ -210,7 +210,7 @@ const Sales = () => {
         justifyContent: "center", // Centraliza horizontalmente
         alignItems: "center", // Centraliza verticalmente
         gap: "1rem",
-        marginTop:"8rem"
+        marginTop: "8rem",
       }}
     >
       <div
@@ -230,8 +230,7 @@ const Sales = () => {
               fontFamily: "poppins",
               margin: "0 auto",
               justifyContent: "center",
-              cursor:"pointer"
-
+              cursor: "pointer",
             }}
           >
             <span
@@ -358,11 +357,9 @@ const Sales = () => {
                               </Link>
                             </td>
                             <td>
-                            
-                                <span className={styles.span}>
-                                 {formatDate(order.createdAt)}
-                                </span>
-                      
+                              <span className={styles.span}>
+                                {formatDate(order.createdAt)}
+                              </span>
                             </td>
                             <td>
                               <p
@@ -478,19 +475,18 @@ const Sales = () => {
                       />
                     </div>
                     {loading ? (
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      marginTop: "10rem",
-                    }}
-                  >
-                    <CircularIndeterminate />;
-                  </div>
-                ) : (<>
-                
-                
-                </>)}
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          marginTop: "10rem",
+                        }}
+                      >
+                        <CircularIndeterminate />;
+                      </div>
+                    ) : (
+                      <></>
+                    )}
                     <table
                       style={{
                         position: "relative",
@@ -554,12 +550,11 @@ const Sales = () => {
                               </Link>
                             </td>
                             <td>
-                            <span className={styles.span}>
-                            {formatDate(order.createdAt)}
-                            </span>
-                      
+                              <span className={styles.span}>
+                                {formatDate(order.createdAt)}
+                              </span>
                             </td>
-                           
+
                             <td>
                               <p
                                 style={{
@@ -733,10 +728,9 @@ const Sales = () => {
                               </Link>
                             </td>
                             <td>
-                            <span className={styles.span}>
-                            {formatDate(order.createdAt)}
-                            </span>
-                      
+                              <span className={styles.span}>
+                                {formatDate(order.createdAt)}
+                              </span>
                             </td>
                             <td>
                               <p

@@ -19,6 +19,7 @@ import Box from "@mui/material/Box";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { Label } from "recharts";
+import { useConfig } from "../context/ConfigContext";
 const CreateProductForm = () => {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
@@ -42,6 +43,8 @@ const CreateProductForm = () => {
     price: "",
     inStock: true || false, // Defina inStock como false por padrão
   });
+  const { apiUrl } = useConfig;
+
   const handleInStockChange = (event) => {
     const value = event.target.value === "true" || event.target.value; // Converte a string recebida para booleano
     setInStock(value);
@@ -54,46 +57,6 @@ const CreateProductForm = () => {
   useEffect(() => {
     checkIfAllFieldsAreFilled();
   }, [productInfo]);
-  // // Função para verificar se há campos obrigatórios não preenchidos
-  // const validateForm = () => {
-  //   const errors = {};
-
-  //   if (!productInfo.name.trim()) {
-  //     errors.name = "O nome do produto é obrigatório.";
-  //   }
-  //   if (productInfo.price <= 0) {
-  //     errors.price = "O preço deve ser maior que zero.";
-  //   }
-  //   if (!productInfo.description.trim()) {
-  //     errors.description = "A descrição do produto é obrigatória.";
-  //   }
-  //   if (!(productInfo.quantity > 0)) {
-  //     errors.quantity = "A quantidade deve ser maior que zero.";
-  //   }
-  //   if (productInfo.sizes.length === 0) {
-  //     errors.size = "Pelo menos um tamanho deve ser selecionado.";
-  //   }
-  //   if (!productInfo.colorPortuguese.trim()) {
-  //     errors.colorPortuguese = "A cor em português é obrigatória.";
-  //   }
-  //   if (productInfo.imageUrl.length === 0) {
-  //     errors.imageUrl = "A URL da imagem é obrigatória.";
-  //   }
-  //   if (productInfo.variations.length === 0) {
-  //     errors.variations = "Pelo menos uma variação deve ser adicionada.";
-  //   }
-  //   if (!productInfo.category) {
-  //     errors.category = "A categoria é obrigatória.";
-  //   }
-  //   if (!productInfo.subcategory) {
-  //     errors.subcategory = "A subcategoria é obrigatória.";
-  //   }
-
-  //   setFormErrors(errors);
-
-  //   // Retorna verdadeiro se não houver erros
-  //   return Object.keys(errors).length === 0;
-  // };
 
   useEffect(() => {
     // Carregar categorias ao montar o componente
@@ -102,7 +65,7 @@ const CreateProductForm = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/api/categories");
+      const response = await axios.get(`${apiUrl}/api/categories`);
       const { success, categories } = response.data;
 
       if (success) {
@@ -132,7 +95,7 @@ const CreateProductForm = () => {
     try {
       // Obter subcategorias com base no nome da categoria selecionada
       const subcategoryResponse = await axios.get(
-        `http://localhost:3001/api/admin/subcategories?categoryName=${encodeURIComponent(
+        `${apiUrl}/api/admin/subcategories?categoryName=${encodeURIComponent(
           categoryName
         )}`
       );
@@ -240,7 +203,7 @@ const CreateProductForm = () => {
   
       // Enviar os dados do produto para o servidor para processamento
       const response = await axios.post(
-        "http://localhost:3001/api/admin/product/new",
+        `${apiUrl}/api/admin/product/new`,
         productData,
         {
           headers: {

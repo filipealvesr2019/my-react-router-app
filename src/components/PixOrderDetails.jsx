@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import Cookies from "js-cookie";
+import { useConfig } from '../context/ConfigContext';
 
 const PixOrderDetails = () => {
     const [pix, setPix] = useState(null);
@@ -9,13 +10,14 @@ const PixOrderDetails = () => {
 
     const token = Cookies.get('token'); // Obtenha o token do cookie
     const { id } = useParams();
+    const { apiUrl } = useConfig;
 
     useEffect(() => {
     
   
       // Requisição para detalhes do pix
       axios
-        .get(`http://localhost:3001/api/pix/${id}`,
+        .get(`${apiUrl}api/pix/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

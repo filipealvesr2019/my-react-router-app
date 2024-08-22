@@ -9,10 +9,7 @@ import Categories from "./pages/Cadastros/Categories";
 import Configuration from "./pages/Cadastros/Configuration";
 import Sales from "./pages/Cadastros/Sales";
 import Home from "./pages/Home/Home";
-import Financial from "./pages/Financial/Financial";
-import Stock from "./pages/stock/Stock";
-import Fiscal from "./pages/Fiscal/Fiscal";
-import Reports from "./pages/Reports/Reports";
+
 
 
 const Content = ({ currentPage }) => {
@@ -121,44 +118,6 @@ const RegisterPage = () => {
         </nav>
         <div className="content-container">{renderPage()}</div>
       </div>
-    </div>
-  );
-};
-
-const FinancialPage = () => {
-  return (
-    <div style={{ marginTop: "5rem" }}>
-      <div className="maintenance-container">
-        <Financial />
-      </div>
-    </div>
-  );
-};
-const StockPage = () => {
-  return (
-    <div style={{ marginTop: "5rem" }}>
-      <div className="maintenance-container">
-        <Stock />
-      </div>
-    </div>
-  );
-};
-
-const FiscalPage = () => {
-  return (
-    <div style={{ marginTop: "5rem" }}>
-      <div className="maintenance-container">
-        <Fiscal />
-      </div>
-    </div>
-  );
-};
-const ReportsPage = () => {
-  return (
-    <div style={{ marginTop: "5rem" }}>
-      <div className="maintenance-container">
-        <Reports />
-      </div>{" "}
     </div>
   );
 };

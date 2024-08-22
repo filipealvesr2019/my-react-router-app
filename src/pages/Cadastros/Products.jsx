@@ -19,6 +19,7 @@ import AddVariationForm from "./AddVariationForm";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Box, FormControl, MenuItem, Select } from "@mui/joy";
 import { InputLabel } from "@mui/material";
+import { useConfig } from "../../context/ConfigContext";
 
 const Products = () => {
   const { isAdmin, isManager } = useAuth();
@@ -32,6 +33,7 @@ const Products = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [newColorName, setNewColorName] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const { apiUrl } = useConfig();
 
   const [openModal, setOpenModal] = useState(false);
   const modalRef = useRef(null);
@@ -120,7 +122,7 @@ const Products = () => {
       console.log("Token:", token);
 
       const response = await axios.delete(
-        `http://localhost:3001/api/admin/product/${productId}`,
+        `${apiUrl}/api/admin/product/${productId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -153,7 +155,7 @@ const Products = () => {
       const token = Cookies.get("token"); // Obtenha o token do cookie
 
       const response = await axios.get(
-        `http://localhost:3001/api/products?page=${currentPage}&keyword=${searchTerm}`,
+        `${apiUrl}/api/products?page=${currentPage}&keyword=${searchTerm}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -277,7 +279,7 @@ const Products = () => {
       console.log("Token:", token);
 
       const response = await axios.put(
-        `http://localhost:3001/api/update/product/${productId}`,
+        `${apiUrl}/api/update/product/${productId}`,
         {
           ...formData,
           newColorName: newColorName, // Adicione o novo nome da cor aos dados do formulário
@@ -294,7 +296,7 @@ const Products = () => {
       if (response.data._id) {
         console.log("Produto atualizado com sucesso");
         const updatedProductsResponse = await axios.get(
-          "http://localhost:3001/api/products",
+         `${apiUrl}/api/products`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

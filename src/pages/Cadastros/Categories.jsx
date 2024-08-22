@@ -12,6 +12,7 @@ import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
+import { useConfig } from "../../context/ConfigContext";
 const Categories = () => {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
@@ -40,6 +41,7 @@ const Categories = () => {
     useState("");
   const [editSubcategoryNameInputError, setEditSubcategoryNameInputError] =
     useState("");
+    const { apiUrl } = useConfig();
 
   const validateForm = () => {
     const errors = {};
@@ -69,7 +71,7 @@ const Categories = () => {
 
   const getCategories = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/api/categories",
+      const response = await axios.get(`${apiUrl}/api/categories`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -85,7 +87,7 @@ const Categories = () => {
   const getSubcategories = async (categoryId) => {
     try {
       const response = await axios.get(
-        `http://localhost:3001/api/admin/subcategories?category=${categoryId}`,
+        `${apiUrl}/api/admin/subcategories?category=${categoryId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -107,7 +109,7 @@ const Categories = () => {
   const loadAvailableSubcategories = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3001/api/admin/subcategories`,
+        `${apiUrl}/api/admin/subcategories`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -124,7 +126,7 @@ const Categories = () => {
   const getAddedSubcategories = async (categoryId) => {
     try {
       const response = await axios.get(
-        `http://localhost:3001/api/admin/subcategories?category=${categoryId}`,
+        `${apiUrl}/api/admin/subcategories?category=${categoryId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -148,7 +150,7 @@ const Categories = () => {
       const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
   
       const response = await axios.post(
-        "http://localhost:3001/api/admin/category/new",
+        `${apiUrl}/api/admin/category/new`,
         {
           name: newCategory,
         },
@@ -185,7 +187,7 @@ const Categories = () => {
     }
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/admin/subcategories/new",
+        `${apiUrl}/api/admin/subcategories/new`,
         {
           name: newSubcategory,
           category: selectedCategoryId, // Adicione a categoria associada à subcategoria
@@ -225,7 +227,7 @@ const Categories = () => {
       const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
 
       const response = await axios.delete(
-        `http://localhost:3001/api/admin/categories/${category._id}`,
+        `${apiUrl}/api/admin/categories/${category._id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -256,7 +258,7 @@ const Categories = () => {
       const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
 
       const response = await axios.delete(
-        `http://localhost:3001/api/admin/subcategories/${sub._id}`,
+        `${apiUrl}/api/admin/subcategories/${sub._id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -296,7 +298,7 @@ const Categories = () => {
       const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
 
       const response = await axios.put(
-        `http://localhost:3001/api/admin/categories/${category._id}`,
+        `${apiUrl}/api/admin/categories/${category._id}`,
         {
           name: editCategoryName,
         },
@@ -336,7 +338,7 @@ const Categories = () => {
         setEditSubcategoryNameInputError("");
       }
       const response = await axios.put(
-        `http://localhost:3001/api/admin/subcategories/${sub._id}`,
+        `${apiUrl}/api/admin/subcategories/${sub._id}`,
         {
           name: editSubcategoryName,
         },

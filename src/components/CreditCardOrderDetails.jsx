@@ -10,11 +10,13 @@ const CreditCardOrderDetails = () => {
     const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
 
     const token = Cookies.get('token'); // Obtenha o token do cookie
+    const { apiUrl } = useConfig();
+
     useEffect(() => {
     
       // Requisição para detalhes do pix
       axios
-        .get(`http://localhost:3001/api/creditCard/${id}`,
+        .get(`${apiUrl}/api/creditCard/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

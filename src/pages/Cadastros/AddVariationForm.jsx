@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import "./AddVariationForm.css"
+import { useConfig } from '../../context/ConfigContext';
 const AddVariationForm = ({ productId }) => {
   const [color, setColor] = useState('');
   const [urls, setUrls] = useState([]);
@@ -13,7 +14,8 @@ const AddVariationForm = ({ productId }) => {
   const [quantityAvailable, setQuantityAvailable] = useState('');
   const [feedback, setFeedback] = useState([]);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  
+  const { apiUrl } = useConfig();
+
   useEffect(() => {
     if(size && price && quantityAvailable){
       setIsButtonDisabled(false)
@@ -37,7 +39,7 @@ const AddVariationForm = ({ productId }) => {
       };
 
       // Faz a requisição POST para adicionar a variação
-      const response = await axios.post(`http://localhost:3001/api/product/${productId}/add-variation`, newVariation);
+      const response = await axios.post(`${apiUrl}/api/product/${productId}/add-variation`, newVariation);
       
       // Verifica se a adição foi bem-sucedida
       if (response.data.success) {

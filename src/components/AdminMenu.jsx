@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './AdminMenu.css';
 import Cookies from 'js-cookie';
+import { useConfig } from '../context/ConfigContext';
 
 
 
@@ -28,6 +29,7 @@ const UserForm = ({ closeForm }) => {
   const [role, setRole] = useState('');
   const [error, setError] = useState(null); // Estado para armazenar a mensagem de erro
   const [showPassword, setShowPassword] = useState(false); // Estado para controlar a visibilidade da senha
+  const { apiUrl } = useConfig();
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -36,7 +38,7 @@ const UserForm = ({ closeForm }) => {
       const token = Cookies.get('token'); // Obtenha o token do cookie
       const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
       // Send the POST request to the server with the token and credentials in the headers
-    const response = await axios.post('http://localhost:3001/user', {
+    const response = await axios.post(`${apiUrl}/user`, {
       email: email,
       password: password,
       role: role,

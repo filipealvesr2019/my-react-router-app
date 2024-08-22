@@ -3,6 +3,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import styles from "./CustomerDetails.module.css";
 import Cookies from "js-cookie";
+import { useConfig } from "../context/ConfigContext";
 
 const CustomerDetails = () => {
   const [customer, setCustomer] = useState(null);
@@ -11,11 +12,11 @@ const CustomerDetails = () => {
   const { customer: customerId } = useParams();
   const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
   const token = Cookies.get('token'); // Obtenha o token do cookie
-
+  const { apiUrl } = useConfig;
   useEffect(() => {
     // Request for customer details
     axios
-      .get(`http://localhost:3001/api/customers/data/${customerId}`, {
+      .get(`${apiUrl}/api/customers/data/${customerId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           Credentials: credentials,

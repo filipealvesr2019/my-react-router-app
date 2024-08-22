@@ -6,8 +6,10 @@ import { useAtom } from 'jotai';
 import { isAdminAtom, loggedInAtom } from '../store/store';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useConfig } from './ConfigContext';
 
 const AuthContext = createContext();
+const { apiUrl } = useConfig();
 
 
 
@@ -31,10 +33,10 @@ export const AuthProvider = ({ children }) => {
     setIsAdmin(storedRole === 'administrador');
   }, [storedToken, storedRole]);
 
-  
+ 
   const login = async (email, password) => {
     try {
-      const response = await axios.post('https://serveradmin-whhj.onrender.com/login', {
+      const response = await axios.post(`${apiUrl}/login`, {
         email: email,
         password: password
       }, {

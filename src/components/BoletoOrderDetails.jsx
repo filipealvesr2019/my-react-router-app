@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import Cookies from "js-cookie";
+import { useConfig } from "../context/ConfigContext";
 
 const BoletoOrderDetails = () => {
   const [boleto, setBoleto] = useState(null);
@@ -10,10 +11,12 @@ const BoletoOrderDetails = () => {
   const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
 
   const token = Cookies.get('token'); // Obtenha o token do cookie
+  const { apiUrl } = useConfig();
+
   useEffect(() => {
     // Requisição para detalhes do boleto
     axios
-      .get(`http://localhost:3001/api/boleto/${id}`,
+      .get(`${apiUrl}/api/boleto/${id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

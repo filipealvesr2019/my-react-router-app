@@ -4,6 +4,7 @@ import "./UserList.css";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CloseIcon from "@mui/icons-material/Close";
 import Cookies from "js-cookie";
+import { useConfig } from "../context/ConfigContext";
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
@@ -11,13 +12,14 @@ const UserList = () => {
   const [error, setError] = useState(null);
   const [deleteUserId, setDeleteUserId] = useState(null); // Estado para armazenar o ID do usuário a ser excluído
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+  const { apiUrl } = useConfig;
 
   const fetchUsers = async () => {
     try {
       const token = Cookies.get('token'); // Obtenha o token do cookie
       const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
   
-      const response = await axios.get("http://localhost:3001/users",   {
+      const response = await axios.get(`${apiUrl}/users`,   {
         headers: {
           Authorization: `Bearer ${token}`,
           Credentials: credentials,
@@ -41,7 +43,7 @@ const UserList = () => {
       const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
   
       // Send the DELETE request to the server with the token and credentials in the headers
-      await axios.delete(`http://localhost:3001/user/${userId}`, {
+      await axios.delete(`${apiUrl}/user/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           Credentials: credentials,

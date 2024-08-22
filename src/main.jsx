@@ -8,8 +8,11 @@ import { AuthProvider } from "./context/AuthContext.jsx";
 import ErrorBoundary from "./ErrorBoundary.jsx";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ConfigProvider } from "./context/ConfigContext.jsx";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
+  <ConfigProvider>
+
   <React.StrictMode>
     <ErrorBoundary>
     <AuthProvider>
@@ -20,4 +23,6 @@ root.render(
     </ErrorBoundary>
 
   </React.StrictMode>
+
+  </ConfigProvider>
 );

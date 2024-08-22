@@ -6,15 +6,17 @@ import Typography from "@mui/joy/Typography";
 import Sheet from "@mui/joy/Sheet";
 import styles from "./Sales.module.css";
 import axios from "axios";
+import { useConfig } from "../../context/ConfigContext";
 
 export default function BasicModal({ orderId, tracking }) {
   const [open, setOpen] = React.useState(false);
   const [trackingCode, setTrackingCode] = React.useState("");
+  const { apiUrl } = useConfig();
 
   const handleTrackingCode = () => {
     if (trackingCode) {
       axios
-        .post(`http://localhost:3001/api/add/traking/creditCard/${orderId}`, { trackingCode })
+        .post(`${apiUrl}/api/add/traking/creditCard/${orderId}`, { trackingCode })
         .then((response) => {
           console.log(response.data.message);
           // Se necessário, atualize o estado ou forneça feedback visual ao usuário
@@ -24,7 +26,7 @@ export default function BasicModal({ orderId, tracking }) {
           // Se necessário, forneça feedback visual ao usuário sobre o erro
         });
         axios
-        .post(`http://localhost:3001/api/add/traking/boleto/${orderId}`, { trackingCode })
+        .post(`${apiUrl}/api/add/traking/boleto/${orderId}`, { trackingCode })
         .then((response) => {
           console.log(response.data.message);
           // Se necessário, atualize o estado ou forneça feedback visual ao usuário
@@ -34,7 +36,7 @@ export default function BasicModal({ orderId, tracking }) {
           // Se necessário, forneça feedback visual ao usuário sobre o erro
         });
         axios
-        .post(`http://localhost:3001/api/add/traking/pix/${orderId}`, { trackingCode })
+        .post(`${apiUrl}/api/add/traking/pix/${orderId}`, { trackingCode })
         .then((response) => {
           console.log(response.data.message);
           // Se necessário, atualize o estado ou forneça feedback visual ao usuário
