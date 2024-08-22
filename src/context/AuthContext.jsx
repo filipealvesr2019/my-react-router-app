@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useConfig } from './ConfigContext';
 
 const AuthContext = createContext();
-const { apiUrl } = useConfig();
+
 
 
 
@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
   const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
 
       const token = Cookies.get('token'); // Obtenha o token do cookie
-
+      const { apiUrl } = useConfig();
   useEffect(() => {
 
     setLoggedIn(Boolean(storedToken));
