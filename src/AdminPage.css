@@ -20,12 +20,13 @@ header{
   position: fixed;
   top: 0;
   width: 100%;
-  background-color: #2196f3;
+  background-color: #05070a;
   padding: 10px 50px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   z-index: 1;
+
 }
 
 header .logo{
@@ -44,7 +45,7 @@ header nav a{
   position: relative;
   text-decoration: none;
   padding: 12px 20px;
-  color:var(--clr);
+  color: #cdcdcd;
   letter-spacing: 0.1em;
   font-weight: 700;
   font-size: .9rem;
