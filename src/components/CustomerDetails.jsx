@@ -12,7 +12,7 @@ const CustomerDetails = () => {
   const { customer: customerId } = useParams();
   const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
   const token = Cookies.get('token'); // Obtenha o token do cookie
-  const { apiUrl } = useConfig;
+  const { apiUrl } = useConfig();
   useEffect(() => {
     // Request for customer details
     axios
