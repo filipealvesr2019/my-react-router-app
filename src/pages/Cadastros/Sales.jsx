@@ -35,7 +35,7 @@ const Sales = () => {
       })
       .then((response) => {
         setBoletos(response.data);
-        console.log(response.data);
+
         setLoading(false); // Configura o estado de carregamento para false após receber os dados
       })
       .catch((error) => {
