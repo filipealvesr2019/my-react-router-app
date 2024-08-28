@@ -10,14 +10,14 @@ const PixOrderDetails = () => {
 
     const token = Cookies.get('token'); // Obtenha o token do cookie
     const { id } = useParams();
-    const { apiUrl } = useConfig;
+    const { apiUrl } = useConfig();
 
     useEffect(() => {
     
   
       // Requisição para detalhes do pix
       axios
-        .get(`${apiUrl}api/pix/${id}`,
+        .get(`${apiUrl}/api/pix/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

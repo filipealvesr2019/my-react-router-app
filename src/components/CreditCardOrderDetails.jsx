@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import Cookies from "js-cookie";
+import { useConfig } from "../context/ConfigContext";
 
 const CreditCardOrderDetails = () => {
     const [creditCard, setCreditCard] = useState(null);
