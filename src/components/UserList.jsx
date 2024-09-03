@@ -12,14 +12,13 @@ const UserList = () => {
   const [error, setError] = useState(null);
   const [deleteUserId, setDeleteUserId] = useState(null); // Estado para armazenar o ID do usuário a ser excluído
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
-  const { apiUrl } = useConfig;
-
+  const { apiUrl } = useConfig();
   const fetchUsers = async () => {
     try {
       const token = Cookies.get('token'); // Obtenha o token do cookie
       const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
   
-      const response = await axios.get(`${apiUrl}/users`,   {
+      const response = await axios.get( `${apiUrl}/users`,   {
         headers: {
           Authorization: `Bearer ${token}`,
           Credentials: credentials,
