@@ -24,6 +24,7 @@ const CreateProductForm = () => {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
   const [inStock, setInStock] = useState(true);
+  const { apiUrl } = useConfig();
 
   const [productInfo, setProductInfo] = useState({
     name: "",
@@ -39,11 +40,11 @@ const CreateProductForm = () => {
     imageUrls: [],
     color: "",
     quantityAvailable: "",
+
     size: "",
     price: "",
     inStock: true || false, // Defina inStock como false por padrão
   });
-  const { apiUrl } = useConfig;
 
   const handleInStockChange = (event) => {
     const value = event.target.value === "true" || event.target.value; // Converte a string recebida para booleano
@@ -57,7 +58,7 @@ const CreateProductForm = () => {
   useEffect(() => {
     checkIfAllFieldsAreFilled();
   }, [productInfo]);
-
+  
   useEffect(() => {
     // Carregar categorias ao montar o componente
     fetchCategories();
@@ -133,13 +134,14 @@ const CreateProductForm = () => {
       setProductInfo((prevProductInfo) => {
         const updatedVariations = [
           ...prevProductInfo.variations,
-          { color, urls: imageUrls, quantityAvailable, sizes, price },
+          { color, urls: imageUrls, quantityAvailable,  sizes, price },
         ];
         return {
           ...prevProductInfo,
           color: "",
           imageUrls: [], // Limpar as URLs da imagem após adicionar a variação
           quantityAvailable: "",
+        
           sizes: [],
           price: "",
           variations: updatedVariations,
@@ -200,7 +202,8 @@ const CreateProductForm = () => {
       const token = Cookies.get("token"); // Obtenha o token do cookie
       const credentials = Cookies.get("role"); // Obtenha as credenciais do cookie
       console.log("Token:", token);
-  
+      
+
       // Enviar os dados do produto para o servidor para processamento
       const response = await axios.post(
         `${apiUrl}/api/admin/product/new`,
@@ -311,6 +314,7 @@ const CreateProductForm = () => {
             size: "",
             price: 0,
             quantityAvailable: 0,
+         
           };
         }
         updatedSizes[index][name] = name === 'size' ? value.trim() : value;
@@ -327,7 +331,7 @@ const CreateProductForm = () => {
 
   const checkIfAllFieldsAreFilled = () => {
     const allFieldsFilled = productInfo.sizes.every(size =>
-      size.size && size.price && size.quantityAvailable
+      size.size && size.price && size.quantityAvailable 
     );
     setIsAddButtonDisabled(!allFieldsFilled);
   };
@@ -600,7 +604,7 @@ const CreateProductForm = () => {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                label="Quantidade por unidade"
+                label="Quantidade maxima"
                 variant="outlined"
                 fullWidth
                 name="quantityAvailable"
@@ -612,6 +616,7 @@ const CreateProductForm = () => {
                 sx={{ width: "15vw" }}
               />
             </Grid>
+       
             <div style={{
               display:"flex",
               alignItems:"center",

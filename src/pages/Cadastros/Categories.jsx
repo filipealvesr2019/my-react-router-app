@@ -24,7 +24,7 @@ const Categories = () => {
   const [editCategoryName, setEditCategoryName] = useState("");
   const [editSubcategoryName, setEditSubcategoryName] = useState("");
   const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
-
+  const { apiUrl } = useConfig();
   const token = Cookies.get('token'); 
   // Adicione esses estados ao início do componente
 
@@ -41,7 +41,7 @@ const Categories = () => {
     useState("");
   const [editSubcategoryNameInputError, setEditSubcategoryNameInputError] =
     useState("");
-    const { apiUrl } = useConfig();
+
 
   const validateForm = () => {
     const errors = {};
@@ -79,6 +79,7 @@ const Categories = () => {
         },
       });
       setCategories(response.data.categories);
+      console.log()
     } catch (error) {
       console.error("Erro ao obter categorias", error);
     }
