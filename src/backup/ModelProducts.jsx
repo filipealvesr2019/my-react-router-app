@@ -624,7 +624,7 @@ const CreateProductForm = () => {
                 }}>
                 <Grid item xs={12}>
                   <TextField
-                    label="Tamanho por unidade"
+                    label="Tamanho"
                     variant="outlined"
                     fullWidth
                     name="size"
