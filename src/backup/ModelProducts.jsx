@@ -208,7 +208,7 @@ const CreateProductForm = () => {
       // Update the state for the color
       setProductInfo((prevProductInfo) => ({
         ...prevProductInfo,
-        color: value,
+        color: value.toLowerCase(),
       }));
     }
   };
