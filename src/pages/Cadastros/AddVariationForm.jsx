@@ -100,7 +100,7 @@ const AddVariationForm = ({ productId }) => {
         type="text"
         id="color"
         value={color}
-        onChange={(e) => setColor(e.target.value.trim())}
+        onChange={(e) => setColor(e.target.value.trim().toLowerCase(),)}
         style={{
           width:"12vw"
         }}
