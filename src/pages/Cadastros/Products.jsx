@@ -277,11 +277,14 @@ const Products = () => {
       const token = Cookies.get("token"); // Obtenha o token do cookie
       const credentials = Cookies.get("role"); // Obtenha as credenciais do cookie
       console.log("Token:", token);
+      const formattedCategory = formData.category.replace(/\s+/g, '-');
 
       const response = await axios.put(
         `${apiUrl}/api/update/product/${productId}`,
         {
           ...formData,
+          category: formattedCategory, // Atualize o campo category com hífens
+
           newColorName: newColorName, // Adicione o novo nome da cor aos dados do formulário
           inStock: inStock, // Atualize o campo inStock
         },
