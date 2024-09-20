@@ -141,6 +141,12 @@ const Categories = () => {
     }
   };
 
+  // Função para formatar a categoria com hífens antes de salvar
+const formatCategoryForDB = (category) => {
+  return category.trim().toLowerCase().replace(/\s+/g, "-");
+};
+const formattedCategory = formatCategoryForDB(newCategory);
+
   const addCategory = async () => {
     if (!newCategory.trim()) {
       setCategoryInputError("Digite o nome da categoria");
@@ -153,7 +159,7 @@ const Categories = () => {
       const response = await axios.post(
         `${apiUrl}/api/admin/category/new`,
         {
-          name: newCategory,
+          name: formattedCategory,
         },
         {
           headers: {
@@ -298,10 +304,13 @@ const Categories = () => {
       const token = Cookies.get('token'); // Obtenha o token do cookie
       const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
 
+    // Formatar a categoria com hífens antes de enviar
+    const formattedCategory = formatCategoryForDB(editCategoryName);
+
       const response = await axios.put(
         `${apiUrl}/api/admin/categories/${category._id}`,
         {
-          name: editCategoryName,
+          name: formattedCategory,
         },
         {
           headers: {
