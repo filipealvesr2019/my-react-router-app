@@ -142,8 +142,14 @@ const Categories = () => {
   };
 
   // Função para formatar a categoria com hífens antes de salvar
+// Função para remover acentos e formatar a categoria com hífens antes de salvar
 const formatCategoryForDB = (category) => {
-  return category.trim().toLowerCase().replace(/\s+/g, "-");
+  return category
+    .trim()
+    .toLowerCase()
+    .normalize("NFD") // Normaliza a string para decompor caracteres acentuados
+    .replace(/[\u0300-\u036f]/g, "") // Remove os diacríticos (acentos)
+    .replace(/\s+/g, "-"); // Substitui espaços por hífens
 };
 const formattedCategory = formatCategoryForDB(newCategory);
 
