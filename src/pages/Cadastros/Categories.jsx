@@ -469,8 +469,7 @@ const formattedCategory = formatCategoryForDB(newCategory);
                   </div>
                 ) : (
                   // Se não estiver editando, exibe o nome da categoria
-                  category.name
-                )}
+                  category.name.replace(/-/g, " ")                 )}
               </td>
               <td>
                 {editingItem !== category._id ? (
