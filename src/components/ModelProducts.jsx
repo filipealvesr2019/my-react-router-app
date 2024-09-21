@@ -430,7 +430,7 @@ const CreateProductForm = () => {
                   </MenuItem>
                   {categories.map((category) => (
                     <MenuItem key={category._id} value={category.name}>
-                      {category.name}
+                      {category.name.replace(/-/g, " ")}
                     </MenuItem>
                   ))}
                 </Select>
