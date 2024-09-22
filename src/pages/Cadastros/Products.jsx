@@ -70,8 +70,7 @@ const Products = () => {
 
     description: "",
 
-    category: "",
-    subcategory: "",
+   
     variations: [
       {
         color: "",
@@ -247,8 +246,7 @@ const Products = () => {
       _id: product._id,
       name: product.name,
       description: product.description,
-      category: product.category,
-      subcategory: product.subcategory,
+      
       variations: product.variations.map((variation) => ({
         ...variation,
         urls: variation.urls, // Manter as URLs como arrays
@@ -277,13 +275,11 @@ const Products = () => {
       const token = Cookies.get("token"); // Obtenha o token do cookie
       const credentials = Cookies.get("role"); // Obtenha as credenciais do cookie
       console.log("Token:", token);
-      const formattedCategory = formData.category.replace(/\s+/g, '-');
 
       const response = await axios.put(
         `${apiUrl}/api/update/product/${productId}`,
         {
           ...formData,
-          category: formattedCategory, // Atualize o campo category com hífens
 
           newColorName: newColorName, // Adicione o novo nome da cor aos dados do formulário
           inStock: inStock, // Atualize o campo inStock
@@ -326,8 +322,7 @@ const Products = () => {
 
         description: "",
 
-        category: "",
-        subcategory: "",
+      
         variations: [
           {
             color: "",
@@ -491,8 +486,7 @@ const Products = () => {
 
                                     description: "",
 
-                                    category: "",
-                                    subcategory: "",
+                                  
                                     variations: [
                                       {
                                         color: "", // Assuming color is a string
@@ -549,24 +543,7 @@ const Products = () => {
                                         />
                                       </label>
 
-                                      <label>
-                                        Categoria:
-                                        <input
-                                          type="text"
-                                          name="category"
-                                          value={formData.category}
-                                          onChange={handleFormChange}
-                                        />
-                                      </label>
-                                      <label>
-                                        Subcategoria:
-                                        <input
-                                          type="text"
-                                          name="subcategory"
-                                          value={formData.subcategory}
-                                          onChange={handleFormChange}
-                                        />
-                                      </label>
+                                      
                                       <label htmlFor="">
                                         Produto em Estoque
                                       </label>
