@@ -46,6 +46,7 @@ import "react-toastify/dist/ReactToastify.css";
               autoClose: 2000,
             });
             getColors(); // Atualize a lista de cores
+            onDeletedColor()
           } else {
             toast.error(response.data.message || "Erro ao excluir a cor", {
               position: toast.POSITION.TOP_CENTER,

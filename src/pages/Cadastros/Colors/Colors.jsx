@@ -20,6 +20,9 @@ const Categories = () => {
   const { apiUrl } = useConfig();
   const token = Cookies.get("token");
 
+  const fetchColors = async () => {
+    await setColors();
+  };
   const validateColorForm = () => {
     const errors = {};
 
@@ -96,36 +99,7 @@ const Categories = () => {
     }
   };
 
-  const handleDeleteColor = async (colorId) => {
-    const token = Cookies.get("token"); // Obtenha o token do cookie
-    const credentials = Cookies.get("role"); // Obtenha as credenciais do cookie
 
-    try {
-      const response = await axios.delete(`${apiUrl}/admin/colors/${colorId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Credentials: credentials,
-        },
-      });
-
-      if (response.data.success) {
-        toast.success("Cor excluída com sucesso!", {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 2000,
-        });
-        getColors(); // Atualize a lista de cores
-      } else {
-        toast.error(response.data.message || "Erro ao excluir a cor", {
-          position: toast.POSITION.TOP_CENTER,
-        });
-      }
-    } catch (error) {
-      console.error("Erro ao excluir a cor:", error);
-      toast.error("Erro inesperado. Tente novamente mais tarde.", {
-        position: toast.POSITION.TOP_CENTER,
-      });
-    }
-  };
 
   return (
     <div className="CategoriesContainer">
@@ -191,7 +165,9 @@ const Categories = () => {
                   setclickDeleteIcon(color._id);
                 }}
               >
-                <ModalColor colorId={clickDeleteIcon} />
+                <ModalColor
+                  colorId={clickDeleteIcon}
+                />
               </td>
             </tr>
           ))}
