@@ -81,9 +81,9 @@ import "react-toastify/dist/ReactToastify.css";
             </ModalBody>
   
             <ModalFooter>
-              <Button colorScheme='blue' mr={3} onClick={handleDeleteColor()}>
-                Salvar
-              </Button>
+            <Button colorScheme="blue" mr={3} onClick={() => handleDeleteColor(colorId)}>
+              Salvar
+            </Button>
               <Button onClick={onClose}>Cancelar</Button>
             </ModalFooter>
           </ModalContent>
