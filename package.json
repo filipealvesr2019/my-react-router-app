@@ -10,13 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.3",
-    "@emotion/styled": "^11.11.0",
+    "@chakra-ui/react": "^2.8.2",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^5.14.16",
     "@mui/joy": "^5.0.0-beta.20",
     "@mui/material": "^5.15.2",
     "axios": "^1.5.1",
     "bcryptjs": "^2.4.3",
+    "framer-motion": "^11.5.6",
     "jotai": "^2.6.0",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",

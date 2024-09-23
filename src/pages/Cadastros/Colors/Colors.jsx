@@ -7,12 +7,14 @@ import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
 import styles from "./Colors.module.css";
 import { useConfig } from "../../../context/ConfigContext";
+import ModalColor from "./ModalColor/ModalColor";
 const Categories = () => {
   const [newColorName, setNewColorName] = useState("");
   const [newColorCode, setNewColorCode] = useState("");
   const [colorInputError, setColorInputError] = useState("");
   const [colorCodeInputError, setColorCodeInputError] = useState("");
   const [colors, setColors] = useState([]);
+  const [clickDeleteIcon, setclickDeleteIcon] = useState(null);
 
   const credentials = Cookies.get("role"); // Obtenha as credenciais do cookie
   const { apiUrl } = useConfig();
@@ -94,6 +96,37 @@ const Categories = () => {
     }
   };
 
+  const handleDeleteColor = async (colorId) => {
+    const token = Cookies.get("token"); // Obtenha o token do cookie
+    const credentials = Cookies.get("role"); // Obtenha as credenciais do cookie
+
+    try {
+      const response = await axios.delete(`${apiUrl}/admin/colors/${colorId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Credentials: credentials,
+        },
+      });
+
+      if (response.data.success) {
+        toast.success("Cor excluída com sucesso!", {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 2000,
+        });
+        getColors(); // Atualize a lista de cores
+      } else {
+        toast.error(response.data.message || "Erro ao excluir a cor", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      }
+    } catch (error) {
+      console.error("Erro ao excluir a cor:", error);
+      toast.error("Erro inesperado. Tente novamente mais tarde.", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
+  };
+
   return (
     <div className="CategoriesContainer">
       <ToastContainer position="top-right" autoClose={5000} />
@@ -131,7 +164,7 @@ const Categories = () => {
           <tr>
             <th className="Categorias">Cores</th>
             <th className="Categorias">Codigo da cor</th>
-            <th style={{ width: "25vw" }}>Ações</th>
+            <th style={{ width: "25vw" }}>Excluir</th>
           </tr>
         </thead>
         <tbody>
@@ -153,7 +186,13 @@ const Categories = () => {
                 {color.name}
               </td>
               <td>{color.color}</td>
-              <td>Editar</td>
+              <td
+                onClick={() => {
+                  setclickDeleteIcon(color._id);
+                }}
+              >
+                <ModalColor colorId={clickDeleteIcon} />
+              </td>
             </tr>
           ))}
         </tbody>
