@@ -11,18 +11,23 @@ import "react-toastify/dist/ReactToastify.css";
 import { ChakraProvider } from "@chakra-ui/react";
 
 import { ConfigProvider } from "./context/ConfigContext.jsx";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 const root = ReactDOM.createRoot(document.getElementById("root"));
+const theme = createTheme();
+
 root.render(
   <React.StrictMode>
-    <ChakraProvider>
-      <ErrorBoundary>
-        <ConfigProvider>
-          <AuthProvider>
-            <ToastContainer />
-            <App />
-          </AuthProvider>
-        </ConfigProvider>
-      </ErrorBoundary>
-    </ChakraProvider>
+    <ThemeProvider theme={theme}>
+      <ChakraProvider>
+        <ErrorBoundary>
+          <ConfigProvider>
+            <AuthProvider>
+              <ToastContainer />
+              <App />
+            </AuthProvider>
+          </ConfigProvider>
+        </ErrorBoundary>
+      </ChakraProvider>
+    </ThemeProvider>
   </React.StrictMode>
 );
