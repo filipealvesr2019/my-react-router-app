@@ -13,6 +13,7 @@ import {
     Input 
   } from '@chakra-ui/react'
   import React, { useState, useEffect } from "react";
+  import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import { useConfig } from '../../../../context/ConfigContext';
 import Cookies from "js-cookie";
@@ -64,6 +65,7 @@ import "react-toastify/dist/ReactToastify.css";
       <>
             <ToastContainer position="top-right" autoClose={5000} />
 
+        <DeleteIcon onClick={onOpen}></DeleteIcon>
      
   
         <Modal

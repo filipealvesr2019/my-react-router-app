@@ -9,6 +9,8 @@ import Categories from "./pages/Cadastros/Categories";
 import Configuration from "./pages/Cadastros/Configuration";
 import Sales from "./pages/Cadastros/Sales";
 import Home from "./pages/Home/Home";
+import Colors from "./pages/Cadastros/Colors/Colors";
+
 
 
 const Content = ({ currentPage }) => {
@@ -24,8 +26,12 @@ const Content = ({ currentPage }) => {
       return <Categories />;
     case "Sales":
       return <Sales />;
+      case "Colors":
+        return <Colors />;
+      
     case "settings":
       return <Configuration />;
+
 
     default:
       return <HomePage />;
@@ -63,6 +69,8 @@ const RegisterPage = () => {
       case 3:
         return <Sales />;
       case 4:
+        return <Colors />;
+        case 5:
         return <Configuration />;
       default:
         return null;
@@ -373,6 +381,18 @@ const AdminPage = () => {
             className={activeLink === "Sales" ? "active" : ""}
           >
             Vendas
+
+          </a>
+          <a
+            href="#"
+            onClick={() => {
+              changePage("Colors");
+              handleLinkClick("Colors");
+              // Adicione mais lógica, se necessário
+            }}
+            className={activeLink === "Colors" ? "active" : ""}
+          >
+            Cores
 
           </a>
           <a
