@@ -60,7 +60,6 @@ const Categories = () => {
       .toLowerCase()
       .normalize("NFD") // Normaliza a string para decompor caracteres acentuados
       .replace(/[\u0300-\u036f]/g, "") // Remove os diacríticos (acentos)
-      .replace(/\s+/g, "-"); // Substitui espaços por hífens
   };
   const formattedCategory = formatCategoryForDB(newColorName);
 
@@ -70,7 +69,7 @@ const Categories = () => {
     try {
       const response = await axios.post(
         `${apiUrl}/api/admin/new/color`,
-        { name: newColorName, color: newColorCode },
+        { name: formattedCategory, color: newColorCode },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -134,7 +133,17 @@ const Categories = () => {
         <tbody>
           {colors.map((color) => (
             <tr key={color._id}>
-              <td>{color.name}</td>
+              <td style={{display:'flex', flexDirection:"row"}}>  <div
+                                style={{
+                                  width: "30px",
+                                  height: "30px",
+                                  borderRadius: "50%",
+                                  backgroundColor: `${color.color}`,
+                                  marginRight: "10px",
+                                
+                                  position: "relative",
+                                }}
+                              ></div>{color.name}</td>
               <td>{color.color}</td>
               <td>Editar</td>
 
