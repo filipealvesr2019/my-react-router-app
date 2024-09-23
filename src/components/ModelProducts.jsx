@@ -354,6 +354,31 @@ const CreateProductForm = () => {
     });
   };
 
+
+  const [colors, setColors] = useState([]);
+
+const getColors = async () => {
+  try {
+    const token = Cookies.get("token"); // Obtenha o token
+    const credentials = Cookies.get("role"); // Obtenha as credenciais
+    const response = await axios.get(`${apiUrl}/api/admin/colors`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Credentials: credentials,
+      },
+    });
+    setColors(response.data.colors);
+    console.log("Cores obtidas:", response.data.colors);
+  } catch (error) {
+    console.error("Erro ao obter cores", error);
+  }
+};
+
+// Chame a função quando o componente carregar
+useEffect(() => {
+  getColors();
+}, []);
+
   // ...
   return (
     <form onSubmit={handleSubmit}>
@@ -504,27 +529,31 @@ const CreateProductForm = () => {
                 border: "2px solid rgb(221, 221, 221)",
               }}
             >
-              <Grid item xs={12} sm={6}>
-                <label>Adicionar cor e foto</label>
-                <TextField
-                  label="Cor em Português"
-                  variant="outlined"
-                  fullWidth
-                  name="colorPortuguese"
-                  value={productInfo.color}
-                  onChange={handleInputChange}
-                  error={formErrors.colorPortuguese !== undefined}
-                  helperText={formErrors.colorPortuguese}
-                  InputProps={{
-                    style: {
-                      marginTop: "10px",
-                    },
-                  }}
-                  sx={{
-                    width: "15vw",
-                  }}
-                />
-              </Grid>
+          <Grid item xs={12} sm={6}>
+  <label>Adicionar cor e foto</label>
+  <select
+    name="colorPortuguese"
+    value={productInfo.color}
+    onChange={handleInputChange}
+    style={{
+      marginTop: "10px",
+      width: "15vw",
+      padding: "10px",
+      fontSize: "16px",
+    }}
+  >
+    <option value="">Selecione uma cor</option>
+    {colors.map((color) => (
+      <option key={color.id} value={color.name.toLowerCase()}>
+        {color.name}
+      </option>
+    ))}
+  </select>
+  {formErrors.colorPortuguese && (
+    <div style={{ color: "red" }}>{formErrors.colorPortuguese}</div>
+  )}
+</Grid>
+
               <Grid item xs={12}>
                 {productInfo.imageUrls &&
                   productInfo.imageUrls.map((url, index) => (
