@@ -10,15 +10,9 @@ import { useAuth } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
-import AddIcon from "@mui/icons-material/Add";
-import Grid from "@mui/material/Grid";
-import Button from "@mui/joy/Button";
-import TextField from "@mui/material/TextField";
-import RemoveIcon from "@mui/icons-material/Remove";
+
 import AddVariationForm from "./AddVariationForm";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Box, FormControl, MenuItem, Select } from "@mui/joy";
-import { InputLabel } from "@mui/material";
 import { useConfig } from "../../context/ConfigContext";
 
 const Products = () => {

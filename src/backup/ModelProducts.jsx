@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Button from "@mui/joy/Button";
+import { Button } from '@mui/joy';
 import Modal from "@mui/joy/Modal";
 import ModalClose from "@mui/joy/ModalClose";
 import Typography from "@mui/joy/Typography";

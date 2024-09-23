@@ -9,7 +9,6 @@ import Categories from "./pages/Cadastros/Categories";
 import Configuration from "./pages/Cadastros/Configuration";
 import Sales from "./pages/Cadastros/Sales";
 import Home from "./pages/Home/Home";
-import Colors from "./pages/Cadastros/Colors/Colors";
 
 
 const Content = ({ currentPage }) => {
@@ -25,9 +24,6 @@ const Content = ({ currentPage }) => {
       return <Categories />;
     case "Sales":
       return <Sales />;
-      case "Colors":
-        return <Colors />;
-
     case "settings":
       return <Configuration />;
 
@@ -68,8 +64,6 @@ const RegisterPage = () => {
         return <Sales />;
       case 4:
         return <Configuration />;
-      case 5:
-        return <Colors />;
       default:
         return null;
     }
@@ -110,14 +104,6 @@ const RegisterPage = () => {
               onClick={() => handleClickOtherNavbar(3)}
             >
               Vendas
-            </li>
-            <li
-              className={`cadastros ${
-                activeNavItem === 5 ? "active-item" : ""
-              }`}
-              onClick={() => handleClickOtherNavbar(5)}
-            >
-              Cores
             </li>
             <li
               className={`cadastros ${
@@ -330,7 +316,18 @@ const AdminPage = () => {
           >
             Home
           </a>
-    
+          {/* <a
+            href="#"
+            onClick={() => {
+              changePage("register");
+              handleLinkClick("register");
+              // Adicione mais lógica, se necessário
+            }}
+            className={activeLink === "register" ? "active" : ""}
+          >
+            Ecommerce
+          </a> */}
+
 
           
           <a
@@ -376,18 +373,6 @@ const AdminPage = () => {
             className={activeLink === "Sales" ? "active" : ""}
           >
             Vendas
-
-          </a>
-          <a
-            href="#"
-            onClick={() => {
-              changePage("Colors");
-              handleLinkClick("Colors");
-              // Adicione mais lógica, se necessário
-            }}
-            className={activeLink === "Colors" ? "active" : ""}
-          >
-            Cores
 
           </a>
           <a
