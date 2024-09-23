@@ -167,6 +167,7 @@ const Categories = () => {
               >
                 <ModalColor
                   colorId={clickDeleteIcon}
+                  getColors={getColors} 
                 />
               </td>
             </tr>

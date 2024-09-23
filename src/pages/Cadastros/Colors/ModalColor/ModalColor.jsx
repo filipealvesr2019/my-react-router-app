@@ -28,7 +28,7 @@ import "react-toastify/dist/ReactToastify.css";
     const { apiUrl } = useConfig();
     const token = Cookies.get("token");
 
-    const handleDeleteColor = async (colorId) => {
+    const handleDeleteColor = async (colorId, getColors ) => {
         const token = Cookies.get("token"); // Obtenha o token do cookie
         const credentials = Cookies.get("role"); // Obtenha as credenciais do cookie
     
@@ -52,6 +52,8 @@ import "react-toastify/dist/ReactToastify.css";
               position: toast.POSITION.TOP_CENTER,
             });
           }
+          getColors(); // Atualizar lista de cores após exclusão
+
         } catch (error) {
           console.error("Erro ao excluir a cor:", error);
        
