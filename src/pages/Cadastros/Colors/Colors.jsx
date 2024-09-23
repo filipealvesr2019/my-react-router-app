@@ -138,7 +138,7 @@ const Categories = () => {
           <tr>
             <th className="Categorias">Cores</th>
             <th className="Categorias">Codigo da cor</th>
-            <th style={{ width: "25vw" }}>Excluir</th>
+            <th>Excluir</th>
           </tr>
         </thead>
         <tbody>
@@ -164,6 +164,7 @@ const Categories = () => {
                 onClick={() => {
                   setclickDeleteIcon(color._id);
                 }}
+                style={{ color:'red'}}
               >
                 <ModalColor
                   colorId={clickDeleteIcon}
