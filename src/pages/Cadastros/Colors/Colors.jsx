@@ -5,7 +5,7 @@ import "./Colors.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
-import styles from './Colors.module.css'
+import styles from "./Colors.module.css";
 import { useConfig } from "../../../context/ConfigContext";
 const Categories = () => {
   const [newColorName, setNewColorName] = useState("");
@@ -14,9 +14,9 @@ const Categories = () => {
   const [colorCodeInputError, setColorCodeInputError] = useState("");
   const [colors, setColors] = useState([]);
 
-  const credentials = Cookies.get('role'); // Obtenha as credenciais do cookie
+  const credentials = Cookies.get("role"); // Obtenha as credenciais do cookie
   const { apiUrl } = useConfig();
-  const token = Cookies.get('token'); 
+  const token = Cookies.get("token");
 
   const validateColorForm = () => {
     const errors = {};
@@ -44,7 +44,7 @@ const Categories = () => {
         },
       });
       setColors(response.data.colors);
-      console.log(response.data)
+      console.log(response.data);
     } catch (error) {
       console.error("Erro ao obter cores", error);
     }
@@ -52,14 +52,14 @@ const Categories = () => {
 
   useEffect(() => {
     getColors();
-  }, [])
+  }, []);
 
   const formatCategoryForDB = (color) => {
     return color
       .trim()
       .toLowerCase()
       .normalize("NFD") // Normaliza a string para decompor caracteres acentuados
-      .replace(/[\u0300-\u036f]/g, "") // Remove os diacríticos (acentos)
+      .replace(/[\u0300-\u036f]/g, ""); // Remove os diacríticos (acentos)
   };
   const formattedCategory = formatCategoryForDB(newColorName);
 
@@ -98,7 +98,11 @@ const Categories = () => {
     <div className="CategoriesContainer">
       <ToastContainer position="top-right" autoClose={5000} />
       <div className={`addContainerColors ${colorInputError ? "error" : ""}`}>
-        <div className={`colorInput ${colorInputError ? "error" : ""} ${styles.inputContainer}`}>
+        <div
+          className={`colorInput ${colorInputError ? "error" : ""} ${
+            styles.inputContainer
+          }`}
+        >
           <input
             type="text"
             value={newColorName}
@@ -115,7 +119,7 @@ const Categories = () => {
         </div>
         <button
           onClick={addColor}
-            className="categoryButtonColors"
+          className="categoryButtonColors"
           style={{ marginLeft: "1rem" }}
         >
           Adicionar Cor
@@ -133,20 +137,23 @@ const Categories = () => {
         <tbody>
           {colors.map((color) => (
             <tr key={color._id}>
-              <td style={{display:'flex', flexDirection:"row"}}>  <div
-                                style={{
-                                  width: "30px",
-                                  height: "30px",
-                                  borderRadius: "50%",
-                                  backgroundColor: `${color.color}`,
-                                  marginRight: "10px",
-                                
-                                  position: "relative",
-                                }}
-                              ></div>{color.name}</td>
+              <td style={{ display: "flex", flexDirection: "row" }}>
+                {" "}
+                <div
+                  style={{
+                    width: "30px",
+                    height: "30px",
+                    borderRadius: "50%",
+                    backgroundColor: `${color.color}`,
+                    marginRight: "10px",
+
+                    position: "relative",
+                  }}
+                ></div>
+                {color.name}
+              </td>
               <td>{color.color}</td>
               <td>Editar</td>
-
             </tr>
           ))}
         </tbody>
