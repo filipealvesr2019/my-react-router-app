@@ -65,7 +65,7 @@ import "react-toastify/dist/ReactToastify.css";
       <>
             <ToastContainer position="top-right" autoClose={5000} />
 
-        <DeleteIcon onClick={onOpen}></DeleteIcon>
+<DeleteIcon onClick={onOpen} style={{ cursor: 'pointer' }} />
      
   
         <Modal
